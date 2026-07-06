@@ -1,0 +1,24 @@
+{
+  "subsystems": [
+    "eagleshield",
+    "osint",
+    "agentmesh",
+    "installer"
+  ],
+  "eagleshield": {
+    "version": "0.1.0-alpha",
+    "path": "C:\\EagleShield"
+  },
+  "osint": {
+    "version": "0.1.0-alpha",
+    "path": "./sovereign-osint"
+  },
+  "agentmesh": {
+    "version": "0.1.0-alpha",
+    "path": "./sovereign-agent-mesh"
+  },
+  "installer": {
+    "version": "0.1.0-alpha",
+    "path": "./sovereign-installer"
+  }
+}

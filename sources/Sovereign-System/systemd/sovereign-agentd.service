@@ -1,0 +1,11 @@
+﻿[Unit]
+Description=SOVEREIGN Agent Daemon
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/sovereign/agentd.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
