@@ -1,4 +1,4 @@
-# AEGENTIX-CYBERNETICS-CORE
+﻿# AEGENTIX-CYBERNETICS-CORE
 
 Consolidated AEGENTIX enterprise repository.
 
