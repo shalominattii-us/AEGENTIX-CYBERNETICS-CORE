@@ -12,3 +12,5 @@ export * from './live-collectors.js';
 export * from './indexing-worker.js';
 export * from './correspondence.js';
 export * from './control-plane.js';
+export * from './engineering-program.js';
+export * from './engineering-postgres.js';
