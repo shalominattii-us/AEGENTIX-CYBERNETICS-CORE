@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "observationId": "docker-00000000000000000000000000000001",
+  "source": "docker",
+  "observedAt": "2026-07-22T18:30:00Z",
+  "host": {
+    "hostname": "aegentix-node",
+    "platform": "Win32NT",
+    "osVersion": "Microsoft Windows NT 10.0.26100.0",
+    "engineVersion": "28.3.2"
+  },
+  "services": [
+    {
+      "runtimeId": "0123456789abcdef",
+      "name": "grove-hedera-orchards-api",
+      "runtime": "docker",
+      "state": "running",
+      "health": "healthy",
+      "image": "52.53.168.177:5000/aegentix/grove-hedera-orchards:latest",
+      "imageDigest": null,
+      "createdAt": "2026-07-06T12:00:00Z",
+      "startedAt": "2026-07-22T17:00:00Z",
+      "ports": [
+        {
+          "privatePort": 8087,
+          "publicPort": 8087,
+          "publicIp": "0.0.0.0",
+          "protocol": "tcp"
+        }
+      ],
+      "labels": {
+        "com.docker.compose.project": "grove-hedera-orchards"
+      },
+      "networks": ["grove-hedera-net"],
+      "restartCount": 0,
+      "exitCode": 0,
+      "error": null
+    }
+  ]
+}
