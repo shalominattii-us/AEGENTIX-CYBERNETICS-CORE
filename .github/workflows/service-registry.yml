@@ -1,0 +1,60 @@
+name: AEGENTIX Service Registry CI
+
+on:
+  push:
+    paths:
+      - 'platform/service-registry/**'
+      - '.github/workflows/service-registry.yml'
+  pull_request:
+    paths:
+      - 'platform/service-registry/**'
+      - '.github/workflows/service-registry.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install schema validator
+        run: python -m pip install --disable-pip-version-check check-jsonschema
+
+      - name: Validate registry schema
+        run: check-jsonschema --schemafile platform/service-registry/schema/registry.schema.json platform/service-registry/registry.json
+
+      - name: Enforce unique service identities and governance fields
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+
+          path = Path('platform/service-registry/registry.json')
+          registry = json.loads(path.read_text(encoding='utf-8'))
+          services = registry['services']
+          ids = [service['serviceId'] for service in services]
+          duplicates = sorted({service_id for service_id in ids if ids.count(service_id) > 1})
+          if duplicates:
+              raise SystemExit(f'Duplicate serviceId values: {duplicates}')
+
+          required_zones = {'OpenClaw', 'Nemotron', 'Hermes', 'Docker', 'Manus'}
+          active_zones = set(registry['activeExecutionZones'])
+          missing = sorted(required_zones - active_zones)
+          if missing:
+              raise SystemExit(f'Missing required active execution zones: {missing}')
+
+          for service in services:
+              governance = service['governance']
+              for key in ('externalActionsBlocked', 'financialActionsBlocked', 'destructiveActionsBlocked'):
+                  if key not in governance:
+                      raise SystemExit(f"{service['serviceId']} is missing governance.{key}")
+
+          print(f'Validated {len(services)} registered services and execution zones.')
