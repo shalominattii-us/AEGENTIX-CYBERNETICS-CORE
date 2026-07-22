@@ -15,3 +15,4 @@ export * from './control-plane.js';
 export * from './engineering-program.js';
 export * from './engineering-postgres.js';
 export * from './artifact-review.js';
+export * from './release-policy.js';
