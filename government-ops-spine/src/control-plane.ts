@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import type { Pool } from 'pg';
-import type { CapabilityRegistry } from './capabilities.js';
+import type { CapabilityRegistry } from './capability-indexer.js';
 import type { CapabilityIndexingWorker } from './indexing-worker.js';
 import type { CorrespondenceDraft, ApprovalReceipt } from './correspondence.js';
 
