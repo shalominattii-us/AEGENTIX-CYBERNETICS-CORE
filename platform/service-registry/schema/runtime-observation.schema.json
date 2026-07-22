@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aegentix.local/schemas/runtime-observation.schema.json",
+  "title": "AEGENTIX Runtime Observation",
+  "type": "object",
+  "required": ["schemaVersion", "observationId", "source", "observedAt", "host", "services"],
+  "properties": {
+    "schemaVersion": { "const": "1.0.0" },
+    "observationId": { "type": "string", "minLength": 8 },
+    "source": { "enum": ["docker", "aws-ecs", "azure", "hermes", "manual"] },
+    "observedAt": { "type": "string", "format": "date-time" },
+    "host": {
+      "type": "object",
+      "required": ["hostname", "platform"],
+      "properties": {
+        "hostname": { "type": "string", "minLength": 1 },
+        "platform": { "type": "string", "minLength": 1 },
+        "osVersion": { "type": ["string", "null"] },
+        "engineVersion": { "type": ["string", "null"] }
+      },
+      "additionalProperties": false
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["runtimeId", "name", "runtime", "state", "health", "image", "ports", "labels", "networks"],
+        "properties": {
+          "runtimeId": { "type": "string", "minLength": 1 },
+          "name": { "type": "string", "minLength": 1 },
+          "runtime": { "enum": ["docker", "aws-ecs", "azure-container-app", "process", "unknown"] },
+          "state": { "type": "string" },
+          "health": { "enum": ["healthy", "degraded", "unhealthy", "starting", "stopped", "unknown"] },
+          "image": { "type": ["string", "null"] },
+          "imageDigest": { "type": ["string", "null"] },
+          "createdAt": { "type": ["string", "null"], "format": "date-time" },
+          "startedAt": { "type": ["string", "null"], "format": "date-time" },
+          "ports": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["privatePort", "protocol"],
+              "properties": {
+                "privatePort": { "type": "integer", "minimum": 1, "maximum": 65535 },
+                "publicPort": { "type": ["integer", "null"], "minimum": 1, "maximum": 65535 },
+                "publicIp": { "type": ["string", "null"] },
+                "protocol": { "enum": ["tcp", "udp", "sctp"] }
+              },
+              "additionalProperties": false
+            }
+          },
+          "labels": { "type": "object", "additionalProperties": { "type": "string" } },
+          "networks": { "type": "array", "items": { "type": "string" } },
+          "restartCount": { "type": ["integer", "null"], "minimum": 0 },
+          "exitCode": { "type": ["integer", "null"] },
+          "error": { "type": ["string", "null"] }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
