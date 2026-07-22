@@ -1,0 +1,58 @@
+name: AEGENTIX Registry Discovery CI
+
+on:
+  push:
+    paths:
+      - 'platform/service-registry/scripts/**'
+      - 'platform/service-registry/schema/runtime-observation.schema.json'
+      - 'platform/service-registry/fixtures/**'
+      - '.github/workflows/service-registry-discovery.yml'
+  pull_request:
+    paths:
+      - 'platform/service-registry/scripts/**'
+      - 'platform/service-registry/schema/runtime-observation.schema.json'
+      - 'platform/service-registry/fixtures/**'
+      - '.github/workflows/service-registry-discovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-discovery-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install validation dependencies
+        run: npm install --no-save ajv-cli ajv-formats
+
+      - name: Validate runtime observation fixture
+        run: npx ajv validate --spec=draft2020 -c ajv-formats -s platform/service-registry/schema/runtime-observation.schema.json -d platform/service-registry/fixtures/docker-runtime.sample.json
+
+      - name: Parse PowerShell discovery adapter
+        shell: pwsh
+        run: |
+          $errors = $null
+          [void][System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path 'platform/service-registry/scripts/discover-docker-services.ps1'),
+            [ref]$null,
+            [ref]$errors
+          )
+          if ($errors.Count -gt 0) {
+            $errors | Format-List | Out-String | Write-Error
+            exit 1
+          }
+          Write-Host 'PowerShell discovery adapter parsed successfully.'
+
+      - name: Verify read-only Docker contract
+        shell: pwsh
+        run: |
+          $content = Get-Content 'platform/service-registry/scripts/discover-docker-services.ps1' -Raw
+          $forbidden = @('docker run', 'docker rm', 'docker stop', 'docker restart', 'docker compose up', 'docker compose down')
+          foreach ($command in $forbidden) {
+            if ($content -match [regex]::Escape($command)) {
+              throw "Forbidden mutating Docker command detected: $command"
+            }
+          }
+          Write-Host 'Read-only Docker discovery contract confirmed.'
