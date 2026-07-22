@@ -1,0 +1,49 @@
+name: AEGENTIX AWS ECS Discovery CI
+
+on:
+  push:
+    paths:
+      - 'platform/service-registry/scripts/discover-aws-ecs.sh'
+      - 'platform/service-registry/schema/aws-ecs-observation.schema.json'
+      - 'platform/service-registry/fixtures/aws-ecs-runtime.sample.json'
+      - '.github/workflows/service-registry-aws-ecs.yml'
+  pull_request:
+    paths:
+      - 'platform/service-registry/scripts/discover-aws-ecs.sh'
+      - 'platform/service-registry/schema/aws-ecs-observation.schema.json'
+      - 'platform/service-registry/fixtures/aws-ecs-runtime.sample.json'
+      - '.github/workflows/service-registry-aws-ecs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-aws-ecs-adapter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install schema validator
+        run: python -m pip install --disable-pip-version-check jsonschema
+      - name: Check shell syntax
+        run: bash -n platform/service-registry/scripts/discover-aws-ecs.sh
+      - name: Validate sample observation
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator, FormatChecker
+          schema = json.loads(Path('platform/service-registry/schema/aws-ecs-observation.schema.json').read_text())
+          sample = json.loads(Path('platform/service-registry/fixtures/aws-ecs-runtime.sample.json').read_text())
+          Draft202012Validator(schema, format_checker=FormatChecker()).validate(sample)
+          print('AWS ECS observation fixture is valid')
+          PY
+      - name: Verify adapter is read-only
+        run: |
+          if grep -Eiq 'aws[[:space:]]+(ecs[[:space:]]+)?(create|update|delete|stop|run-task|deregister|register|put|execute-command)' platform/service-registry/scripts/discover-aws-ecs.sh; then
+            echo 'Potential mutating AWS command detected.' >&2
+            exit 1
+          fi
