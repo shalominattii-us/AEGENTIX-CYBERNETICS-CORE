@@ -1,0 +1,51 @@
+name: Government Operations Spine CI
+
+on:
+  push:
+    paths:
+      - 'government-ops-spine/**'
+      - '.github/workflows/government-ops-spine.yml'
+  pull_request:
+    paths:
+      - 'government-ops-spine/**'
+      - '.github/workflows/government-ops-spine.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: government-ops-spine-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test-validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: government-ops-spine
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: government-ops-spine/package-lock.json
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Run regression tests
+        run: npm test
+
+      - name: Validate Docker Compose
+        run: docker compose config --quiet
+
+      - name: Build service image
+        run: docker build --tag aegentix-government-ops-spine:ci .
