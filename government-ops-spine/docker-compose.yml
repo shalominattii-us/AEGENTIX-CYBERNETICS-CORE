@@ -1,0 +1,54 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: aegentix
+      POSTGRES_USER: aegentix
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes:
+      - government_ops_pgdata:/var/lib/postgresql/data
+      - ./db/001_opportunity_spine.sql:/docker-entrypoint-initdb.d/001_opportunity_spine.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aegentix -d aegentix"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    restart: unless-stopped
+    environment:
+      PORT: 8099
+      DATABASE_URL: postgresql://aegentix:${POSTGRES_PASSWORD:-change-me}@postgres:5432/aegentix
+    ports:
+      - "8099:8099"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8099/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  outbox-worker:
+    build: .
+    restart: unless-stopped
+    command: ["node", "dist/worker.js"]
+    environment:
+      DATABASE_URL: postgresql://aegentix:${POSTGRES_PASSWORD:-change-me}@postgres:5432/aegentix
+      CYBERCORE_EVENT_ENDPOINT: ${CYBERCORE_EVENT_ENDPOINT:-http://host.docker.internal:8000/api/bus}
+      OUTBOX_INTERVAL_MS: 5000
+      OUTBOX_MAX_BACKOFF_MS: 60000
+      OUTBOX_BATCH_SIZE: 50
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      api:
+        condition: service_healthy
+
+volumes:
+  government_ops_pgdata:
