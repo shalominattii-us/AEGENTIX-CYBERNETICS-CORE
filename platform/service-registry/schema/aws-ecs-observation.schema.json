@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AEGENTIX AWS ECS Runtime Observation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "observationId", "source", "observedAt", "region", "accountId", "services"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "observationId": {"type": "string", "pattern": "^aws-ecs-[0-9]{14}$"},
+    "source": {"const": "aws-ecs"},
+    "observedAt": {"type": "string", "format": "date-time"},
+    "region": {"type": "string", "minLength": 1},
+    "accountId": {"type": "string", "pattern": "^[0-9]{12}$"},
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["serviceId", "cluster", "status", "desiredCount", "runningCount", "pendingCount", "containers", "tasks"],
+        "properties": {
+          "serviceId": {"type": "string"},
+          "cluster": {"type": "string"},
+          "clusterArn": {"type": "string"},
+          "serviceArn": {"type": ["string", "null"]},
+          "status": {"type": ["string", "null"]},
+          "launchType": {"type": ["string", "null"]},
+          "desiredCount": {"type": "integer", "minimum": 0},
+          "runningCount": {"type": "integer", "minimum": 0},
+          "pendingCount": {"type": "integer", "minimum": 0},
+          "taskDefinition": {"type": ["string", "null"]},
+          "platformVersion": {"type": ["string", "null"]},
+          "deployments": {"type": "array"},
+          "networkConfiguration": {"type": "object"},
+          "loadBalancers": {"type": "array"},
+          "containers": {"type": "array"},
+          "tasks": {"type": "array"}
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}
