@@ -1,15 +1,25 @@
 # AEGENTIX Government Operations Spine
 
-Initial vertical slice connecting public opportunity intake to Treasury Labs parsing, build-spec generation, Infinite Brain OS task planning, capability matching, and approval-gated external actions.
+Ports authoritative public opportunities through Cybercore into Treasury Labs and the Infinite Brain OS.
 
-## Implemented flow
+## Implemented
 
-1. Normalize an authoritative public opportunity into `PublicOpportunity`.
-2. Parse source text into traceable Treasury Labs requirements.
-3. Generate a draft build specification.
-4. Create an Infinite Brain OS dependency graph across OpenClaw, Nemotron, Docker, Hermes, and Manus.
-5. Match extracted requirements against an AEGENTIX capability registry.
-6. Block bid submission, patent filing, financial commitments, and external representations unless an explicit authorization token is supplied.
+- Canonical opportunity and provenance contracts
+- Deterministic normalization, hashing, deduplication, amendment detection, and status classification
+- Treasury Labs requirement analysis and build-specification generation
+- Infinite Brain task graph across OpenClaw, Nemotron, Docker, Hermes, and Manus
+- PostgreSQL persistence migration and concrete repository adapter
+- Transactional Cybercore outbox with HTTP publisher
+- Framework-neutral runtime handlers for ingest, analyze, and state routes
+- Automatic analysis, specification, and planning after active opportunity ingestion
+- Capability matching boundary
+- Explicit authorization guard for external submissions, filings, commitments, and representations
+
+## Runtime routes
+
+- `POST /api/opportunities/ingest`
+- `POST /api/opportunities/:eventId/analyze`
+- `GET /api/opportunities/:eventId/state`
 
 ## Run locally
 
@@ -19,13 +29,13 @@ npm install
 npm test
 ```
 
-## Next implementation priorities
+## Next
 
-- Persist opportunities, amendments, provenance, analyses, and build state in PostgreSQL.
-- Add adapters for the daily opportunity intake payload.
-- Replace heuristic parsing with a versioned model-assisted parser plus schema validation.
-- Index AEGENTIX repositories, deployments, tests, CAD, and documentation into the capability registry.
-- Add patent-workbench and proposal-factory artifact schemas behind human approval gates.
+- Bind handlers to the deployed Cybercore HTTP framework
+- Schedule and supervise the outbox worker
+- Add GitHub, Docker, deployment, document, CAD, and patent capability indexers
+- Add durable approval records and reviewer identities
+- Add patent and proposal workbenches behind approval gates
 
 ## Safety boundary
 
