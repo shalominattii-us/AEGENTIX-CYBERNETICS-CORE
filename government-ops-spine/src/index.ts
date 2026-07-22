@@ -19,3 +19,4 @@ export * from './release-policy.js';
 export * from './document-rendering.js';
 export * from './execution-receipts.js';
 export * from './gmail-drafts.js';
+export * from './collaboration-flow.js';
