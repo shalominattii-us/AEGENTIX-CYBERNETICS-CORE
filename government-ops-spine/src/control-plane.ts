@@ -3,16 +3,22 @@ import type { Pool } from 'pg';
 import type { CapabilityRegistry } from './capability-indexer.js';
 import type { CapabilityIndexingWorker } from './indexing-worker.js';
 import type { CorrespondenceDraft, ApprovalReceipt } from './correspondence.js';
+import type { PostgresEngineeringProgramService } from './engineering-postgres.js';
 
 export interface ControlRequest { method:string; path:string; body?:unknown; }
 export interface ControlResponse { status:number; body:unknown; }
 
 export class ControlPlaneRuntime {
-  constructor(private readonly pool:Pool,private readonly registry:CapabilityRegistry,private readonly indexer:CapabilityIndexingWorker){}
+  constructor(private readonly pool:Pool,private readonly registry:CapabilityRegistry,private readonly indexer:CapabilityIndexingWorker,private readonly engineeringPrograms:PostgresEngineeringProgramService){}
   async handle(request:ControlRequest):Promise<ControlResponse|undefined>{
     if(request.method==='GET'&&request.path==='/api/capabilities') return {status:200,body:await this.registry.list()};
     if(request.method==='GET'&&request.path==='/api/indexing/health') return {status:200,body:this.indexer.health};
     if(request.method==='POST'&&request.path==='/api/indexing/run') return {status:202,body:{assetCount:await this.indexer.runOnce(),health:this.indexer.health}};
+    const generate=request.path.match(/^\/api\/opportunities\/([^/]+)\/engineering-programs$/);
+    if(request.method==='POST'&&generate) return {status:201,body:await this.engineeringPrograms.generateForOpportunity(decodeURIComponent(generate[1]))};
+    if(request.method==='GET'&&generate) return {status:200,body:await this.engineeringPrograms.listByOpportunity(decodeURIComponent(generate[1]))};
+    const program=request.path.match(/^\/api\/engineering-programs\/([^/]+)$/);
+    if(request.method==='GET'&&program){const found=await this.engineeringPrograms.get(decodeURIComponent(program[1]));return found?{status:200,body:found}:{status:404,body:{error:'Engineering program not found'}};}
     if(request.method==='POST'&&request.path==='/api/correspondence/drafts') return {status:201,body:await this.createDraft(request.body as Omit<CorrespondenceDraft,'id'|'createdAt'|'status'>)};
     const approve=request.path.match(/^\/api\/correspondence\/([^/]+)\/approve$/);
     if(request.method==='POST'&&approve) return {status:200,body:await this.approve(decodeURIComponent(approve[1]),request.body as ApprovalReceipt)};
