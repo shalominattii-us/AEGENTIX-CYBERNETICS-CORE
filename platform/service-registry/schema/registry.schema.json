@@ -1,6 +1,5 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://aegentix.local/schemas/registry.schema.json",
   "title": "AEGENTIX Service Registry",
   "type": "object",
   "additionalProperties": false,
