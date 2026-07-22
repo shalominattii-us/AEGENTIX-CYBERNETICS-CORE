@@ -3,14 +3,29 @@
   "title": "AEGENTIX AWS ECS Runtime Observation",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "observationId", "source", "observedAt", "region", "accountId", "services"],
+  "required": ["schemaVersion", "observationId", "source", "observedAt", "region", "accountId", "partial", "warnings", "services"],
   "properties": {
-    "schemaVersion": {"const": "1.0.0"},
+    "schemaVersion": {"enum": ["1.0.0", "1.1.0"]},
     "observationId": {"type": "string", "pattern": "^aws-ecs-[0-9]{14}$"},
     "source": {"const": "aws-ecs"},
     "observedAt": {"type": "string", "format": "date-time"},
     "region": {"type": "string", "minLength": 1},
     "accountId": {"type": "string", "pattern": "^[0-9]{12}$"},
+    "partial": {"type": "boolean"},
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["operation", "status", "message", "recoverable"],
+        "properties": {
+          "operation": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1},
+          "message": {"type": "string", "minLength": 1},
+          "recoverable": {"type": "boolean"}
+        }
+      }
+    },
     "services": {
       "type": "array",
       "items": {
@@ -27,6 +42,7 @@
           "runningCount": {"type": "integer", "minimum": 0},
           "pendingCount": {"type": "integer", "minimum": 0},
           "taskDefinition": {"type": ["string", "null"]},
+          "taskDefinitionObserved": {"type": "boolean"},
           "platformVersion": {"type": ["string", "null"]},
           "deployments": {"type": "array"},
           "networkConfiguration": {"type": "object"},
