@@ -1,10 +1,12 @@
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "observationId": "aws-ecs-20260722221000",
   "source": "aws-ecs",
   "observedAt": "2026-07-22T22:10:00Z",
   "region": "us-west-1",
   "accountId": "123456789012",
+  "partial": false,
+  "warnings": [],
   "services": [
     {
       "serviceId": "aegentix-govops",
@@ -17,6 +19,7 @@
       "runningCount": 1,
       "pendingCount": 0,
       "taskDefinition": "arn:aws:ecs:us-west-1:123456789012:task-definition/aegentix-govops:1",
+      "taskDefinitionObserved": true,
       "platformVersion": "1.4.0",
       "deployments": [],
       "networkConfiguration": {},
