@@ -6,30 +6,38 @@ import type { CorrespondenceDraft, ApprovalReceipt } from './correspondence.js';
 import type { PostgresEngineeringProgramService } from './engineering-postgres.js';
 import type { ArtifactReviewInput } from './artifact-review.js';
 import { ArtifactReviewService } from './artifact-review.js';
+import { ReleasePolicyService } from './release-policy.js';
 
 export interface ControlRequest { method:string; path:string; body?:unknown; }
 export interface ControlResponse { status:number; body:unknown; }
 
 export class ControlPlaneRuntime {
   private readonly reviews:ArtifactReviewService;
-  constructor(private readonly pool:Pool,private readonly registry:CapabilityRegistry,private readonly indexer:CapabilityIndexingWorker,private readonly engineeringPrograms:PostgresEngineeringProgramService){this.reviews=new ArtifactReviewService(pool);}
+  private readonly releases:ReleasePolicyService;
+  constructor(private readonly pool:Pool,private readonly registry:CapabilityRegistry,private readonly indexer:CapabilityIndexingWorker,private readonly engineeringPrograms:PostgresEngineeringProgramService){this.reviews=new ArtifactReviewService(pool);this.releases=new ReleasePolicyService(pool);}
   async handle(request:ControlRequest):Promise<ControlResponse|undefined>{
-    if(request.method==='GET'&&request.path==='/api/capabilities') return {status:200,body:await this.registry.list()};
-    if(request.method==='GET'&&request.path==='/api/indexing/health') return {status:200,body:this.indexer.health};
-    if(request.method==='POST'&&request.path==='/api/indexing/run') return {status:202,body:{assetCount:await this.indexer.runOnce(),health:this.indexer.health}};
+    if(request.method==='GET'&&request.path==='/api/capabilities')return{status:200,body:await this.registry.list()};
+    if(request.method==='GET'&&request.path==='/api/indexing/health')return{status:200,body:this.indexer.health};
+    if(request.method==='POST'&&request.path==='/api/indexing/run')return{status:202,body:{assetCount:await this.indexer.runOnce(),health:this.indexer.health}};
     const generate=request.path.match(/^\/api\/opportunities\/([^/]+)\/engineering-programs$/);
-    if(request.method==='POST'&&generate) return {status:201,body:await this.engineeringPrograms.generateForOpportunity(decodeURIComponent(generate[1]))};
-    if(request.method==='GET'&&generate) return {status:200,body:await this.engineeringPrograms.listByOpportunity(decodeURIComponent(generate[1]))};
+    if(request.method==='POST'&&generate)return{status:201,body:await this.engineeringPrograms.generateForOpportunity(decodeURIComponent(generate[1]))};
+    if(request.method==='GET'&&generate)return{status:200,body:await this.engineeringPrograms.listByOpportunity(decodeURIComponent(generate[1]))};
     const program=request.path.match(/^\/api\/engineering-programs\/([^/]+)$/);
     if(request.method==='GET'&&program){const found=await this.engineeringPrograms.get(decodeURIComponent(program[1]));return found?{status:200,body:found}:{status:404,body:{error:'Engineering program not found'}};}
+    const manifest=request.path.match(/^\/api\/engineering-programs\/([^/]+)\/export-manifests$/);
+    if(request.method==='POST'&&manifest)return{status:201,body:await this.releases.createProgramManifest(decodeURIComponent(manifest[1]))};
+    const getManifest=request.path.match(/^\/api\/export-manifests\/([^/]+)$/);
+    if(request.method==='GET'&&getManifest){const found=await this.releases.getManifest(decodeURIComponent(getManifest[1]));return found?{status:200,body:found}:{status:404,body:{error:'Export manifest not found'}};}
     const review=request.path.match(/^\/api\/engineering-artifacts\/([^/]+)\/reviews$/);
     if(request.method==='POST'&&review)return{status:201,body:await this.reviews.review(decodeURIComponent(review[1]),request.body as ArtifactReviewInput)};
     if(request.method==='GET'&&review)return{status:200,body:await this.reviews.listReviews(decodeURIComponent(review[1]))};
+    const policy=request.path.match(/^\/api\/engineering-artifacts\/([^/]+)\/release-policy$/);
+    if(request.method==='GET'&&policy)return{status:200,body:await this.releases.evaluateArtifact(decodeURIComponent(policy[1]))};
     const render=request.path.match(/^\/api\/engineering-artifacts\/([^/]+)\/render$/);
     if(request.method==='POST'&&render){const format=(request.body as {format?:'markdown'|'json'}|undefined)?.format??'markdown';return{status:201,body:await this.reviews.render(decodeURIComponent(render[1]),format)};}
-    if(request.method==='POST'&&request.path==='/api/correspondence/drafts') return {status:201,body:await this.createDraft(request.body as Omit<CorrespondenceDraft,'id'|'createdAt'|'status'>)};
+    if(request.method==='POST'&&request.path==='/api/correspondence/drafts')return{status:201,body:await this.createDraft(request.body as Omit<CorrespondenceDraft,'id'|'createdAt'|'status'>)};
     const approve=request.path.match(/^\/api\/correspondence\/([^/]+)\/approve$/);
-    if(request.method==='POST'&&approve) return {status:200,body:await this.approve(decodeURIComponent(approve[1]),request.body as ApprovalReceipt)};
+    if(request.method==='POST'&&approve)return{status:200,body:await this.approve(decodeURIComponent(approve[1]),request.body as ApprovalReceipt)};
     const get=request.path.match(/^\/api\/correspondence\/([^/]+)$/);
     if(request.method==='GET'&&get){const row=await this.pool.query('select * from correspondence_drafts where id=$1',[decodeURIComponent(get[1])]);return row.rowCount?{status:200,body:row.rows[0]}:{status:404,body:{error:'Correspondence draft not found'}};}
     return undefined;
