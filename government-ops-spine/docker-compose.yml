@@ -11,6 +11,7 @@ services:
       - ./db/001_opportunity_spine.sql:/docker-entrypoint-initdb.d/001_opportunity_spine.sql:ro
       - ./db/002_capability_registry.sql:/docker-entrypoint-initdb.d/002_capability_registry.sql:ro
       - ./db/003_correspondence.sql:/docker-entrypoint-initdb.d/003_correspondence.sql:ro
+      - ./db/004_engineering_program.sql:/docker-entrypoint-initdb.d/004_engineering_program.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aegentix -d aegentix"]
       interval: 10s
