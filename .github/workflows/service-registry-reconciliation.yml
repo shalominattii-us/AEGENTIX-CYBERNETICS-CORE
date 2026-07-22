@@ -1,0 +1,64 @@
+name: AEGENTIX Registry Reconciliation CI
+
+on:
+  push:
+    paths:
+      - 'platform/service-registry/**'
+      - '.github/workflows/service-registry-reconciliation.yml'
+  pull_request:
+    paths:
+      - 'platform/service-registry/**'
+      - '.github/workflows/service-registry-reconciliation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: service-registry-reconciliation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install schema validator
+        run: python -m pip install --disable-pip-version-check jsonschema
+
+      - name: Run reconciliation tests
+        run: python -m unittest discover -s platform/service-registry/tests -v
+
+      - name: Generate fixture reconciliation report
+        run: |
+          python platform/service-registry/scripts/reconcile_registry.py \
+            --registry platform/service-registry/registry.json \
+            --observations platform/service-registry/fixtures/docker-runtime.sample.json \
+            --output platform/service-registry/reports/reconciliation.json \
+            --fail-on never
+
+      - name: Validate report schema
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator, FormatChecker
+
+          root = Path('platform/service-registry')
+          schema = json.loads((root / 'schema/reconciliation-report.schema.json').read_text())
+          report = json.loads((root / 'reports/reconciliation.json').read_text())
+          Draft202012Validator(schema, format_checker=FormatChecker()).validate(report)
+          print('Reconciliation report schema is valid.')
+          PY
+
+      - name: Upload reconciliation report
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegentix-reconciliation-report
+          path: platform/service-registry/reports/reconciliation.json
