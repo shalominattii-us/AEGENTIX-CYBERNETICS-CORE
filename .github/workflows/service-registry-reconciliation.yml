@@ -35,12 +35,15 @@ jobs:
       - name: Run reconciliation tests
         run: python -m unittest discover -s platform/service-registry/tests -v
 
-      - name: Generate fixture reconciliation report
+      - name: Generate multi-runtime fixture reconciliation report
         run: |
           python platform/service-registry/scripts/reconcile_registry.py \
             --registry platform/service-registry/registry.json \
-            --observations platform/service-registry/fixtures/docker-runtime.sample.json \
+            --observations \
+              platform/service-registry/fixtures/docker-runtime.sample.json \
+              platform/service-registry/fixtures/aws-ecs-runtime.sample.json \
             --output platform/service-registry/reports/reconciliation.json \
+            --stale-hours 87600 \
             --fail-on never
 
       - name: Validate report schema
