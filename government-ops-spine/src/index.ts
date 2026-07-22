@@ -6,3 +6,5 @@ export * from './api.js';
 export * from './postgres.js';
 export * from './outbox.js';
 export * from './runtime.js';
+export * from './capability-indexer.js';
+export * from './capability-postgres.js';
