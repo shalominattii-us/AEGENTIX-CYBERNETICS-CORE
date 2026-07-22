@@ -7,6 +7,9 @@ import type { PostgresEngineeringProgramService } from './engineering-postgres.j
 import type { ArtifactReviewInput } from './artifact-review.js';
 import { ArtifactReviewService } from './artifact-review.js';
 import { ReleasePolicyService } from './release-policy.js';
+import { ControlledDocumentRenderer, type BinaryDocumentFormat } from './document-rendering.js';
+import { ExecutionReceiptService } from './execution-receipts.js';
+import { DisabledGmailDraftProvider, GmailDraftIntegration, type GmailDraftProvider } from './gmail-drafts.js';
 
 export interface ControlRequest { method:string; path:string; body?:unknown; }
 export interface ControlResponse { status:number; body:unknown; }
@@ -14,11 +17,17 @@ export interface ControlResponse { status:number; body:unknown; }
 export class ControlPlaneRuntime {
   private readonly reviews:ArtifactReviewService;
   private readonly releases:ReleasePolicyService;
-  constructor(private readonly pool:Pool,private readonly registry:CapabilityRegistry,private readonly indexer:CapabilityIndexingWorker,private readonly engineeringPrograms:PostgresEngineeringProgramService){this.reviews=new ArtifactReviewService(pool);this.releases=new ReleasePolicyService(pool);}
+  private readonly documents:ControlledDocumentRenderer;
+  private readonly receipts:ExecutionReceiptService;
+  private readonly gmail:GmailDraftIntegration;
+  constructor(private readonly pool:Pool,private readonly registry:CapabilityRegistry,private readonly indexer:CapabilityIndexingWorker,private readonly engineeringPrograms:PostgresEngineeringProgramService,private readonly gmailProvider:GmailDraftProvider=new DisabledGmailDraftProvider()){
+    this.reviews=new ArtifactReviewService(pool);this.releases=new ReleasePolicyService(pool);this.documents=new ControlledDocumentRenderer(pool);this.receipts=new ExecutionReceiptService(pool);this.gmail=new GmailDraftIntegration(pool);
+  }
   async handle(request:ControlRequest):Promise<ControlResponse|undefined>{
     if(request.method==='GET'&&request.path==='/api/capabilities')return{status:200,body:await this.registry.list()};
     if(request.method==='GET'&&request.path==='/api/indexing/health')return{status:200,body:this.indexer.health};
     if(request.method==='POST'&&request.path==='/api/indexing/run')return{status:202,body:{assetCount:await this.indexer.runOnce(),health:this.indexer.health}};
+    if(request.method==='GET'&&request.path==='/api/execution-receipts/dashboard')return{status:200,body:await this.receipts.dashboard()};
     const generate=request.path.match(/^\/api\/opportunities\/([^/]+)\/engineering-programs$/);
     if(request.method==='POST'&&generate)return{status:201,body:await this.engineeringPrograms.generateForOpportunity(decodeURIComponent(generate[1]))};
     if(request.method==='GET'&&generate)return{status:200,body:await this.engineeringPrograms.listByOpportunity(decodeURIComponent(generate[1]))};
@@ -35,13 +44,17 @@ export class ControlPlaneRuntime {
     if(request.method==='GET'&&policy)return{status:200,body:await this.releases.evaluateArtifact(decodeURIComponent(policy[1]))};
     const render=request.path.match(/^\/api\/engineering-artifacts\/([^/]+)\/render$/);
     if(request.method==='POST'&&render){const format=(request.body as {format?:'markdown'|'json'}|undefined)?.format??'markdown';return{status:201,body:await this.reviews.render(decodeURIComponent(render[1]),format)};}
+    const binary=request.path.match(/^\/api\/engineering-artifacts\/([^/]+)\/render-binary$/);
+    if(request.method==='POST'&&binary){const format=(request.body as {format?:BinaryDocumentFormat}|undefined)?.format??'pdf';return{status:201,body:await this.documents.render(decodeURIComponent(binary[1]),format)};}
     if(request.method==='POST'&&request.path==='/api/correspondence/drafts')return{status:201,body:await this.createDraft(request.body as Omit<CorrespondenceDraft,'id'|'createdAt'|'status'>)};
     const approve=request.path.match(/^\/api\/correspondence\/([^/]+)\/approve$/);
     if(request.method==='POST'&&approve)return{status:200,body:await this.approve(decodeURIComponent(approve[1]),request.body as ApprovalReceipt)};
+    const gmailDraft=request.path.match(/^\/api\/correspondence\/([^/]+)\/gmail-draft$/);
+    if(request.method==='POST'&&gmailDraft)return{status:201,body:await this.gmail.createReviewableDraft(decodeURIComponent(gmailDraft[1]),this.gmailProvider)};
     const get=request.path.match(/^\/api\/correspondence\/([^/]+)$/);
     if(request.method==='GET'&&get){const row=await this.pool.query('select * from correspondence_drafts where id=$1',[decodeURIComponent(get[1])]);return row.rowCount?{status:200,body:row.rows[0]}:{status:404,body:{error:'Correspondence draft not found'}};}
     return undefined;
   }
-  private async createDraft(input:Omit<CorrespondenceDraft,'id'|'createdAt'|'status'>){if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input.mailbox.address))throw new Error('A valid organizational mailbox is required.');const id=`CORR-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,createdAt=new Date().toISOString();await this.pool.query(`insert into correspondence_drafts(id,purpose,mailbox_json,to_json,cc_json,subject,body,attachments_json,opportunity_id,status,created_at) values($1,$2,$3,$4,$5,$6,$7,$8,$9,'draft',$10)`,[id,input.purpose,input.mailbox,input.to,input.cc,input.subject,input.body,input.attachments,input.opportunityId??null,createdAt]);return{id,createdAt,status:'draft',...input};}
-  private async approve(id:string,receipt:ApprovalReceipt){if(!receipt.authorizationToken.startsWith('AEGENTIX-AUTH-'))throw new Error('Explicit AEGENTIX authorization token required.');const hash=createHash('sha256').update(receipt.authorizationToken).digest('hex');const client=await this.pool.connect();try{await client.query('begin');const updated=await client.query(`update correspondence_drafts set status='approved',updated_at=now() where id=$1 and status='draft' returning *`,[id]);if(!updated.rowCount)throw new Error('Draft not found or not approvable.');await client.query(`insert into correspondence_approvals(draft_id,approved_by,approved_at,scope,authorization_token_hash) values($1,$2,$3,'single_message',$4) on conflict(draft_id) do update set approved_by=excluded.approved_by,approved_at=excluded.approved_at,authorization_token_hash=excluded.authorization_token_hash`,[id,receipt.approvedBy,receipt.approvedAt,hash]);await client.query('commit');return updated.rows[0];}catch(error){await client.query('rollback');throw error;}finally{client.release();}}
+  private async createDraft(input:Omit<CorrespondenceDraft,'id'|'createdAt'|'status'>){if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(input.mailbox.address))throw new Error('A valid organizational mailbox is required.');const id=`CORR-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,createdAt=new Date().toISOString();await this.pool.query(`insert into correspondence_drafts(id,purpose,mailbox_json,to_json,cc_json,subject,body,attachments_json,opportunity_id,status,created_at) values($1,$2,$3,$4,$5,$6,$7,$8,$9,'draft',$10)`,[id,input.purpose,input.mailbox,input.to,input.cc,input.subject,input.body,input.attachments,input.opportunityId??null,createdAt]);await this.receipts.record('correspondence.draft.created',id,{purpose:input.purpose,mailbox:input.mailbox.address});return{id,createdAt,status:'draft',...input};}
+  private async approve(id:string,receipt:ApprovalReceipt){if(!receipt.authorizationToken.startsWith('AEGENTIX-AUTH-'))throw new Error('Explicit AEGENTIX authorization token required.');const hash=createHash('sha256').update(receipt.authorizationToken).digest('hex');const client=await this.pool.connect();try{await client.query('begin');const updated=await client.query(`update correspondence_drafts set status='approved',updated_at=now() where id=$1 and status='draft' returning *`,[id]);if(!updated.rowCount)throw new Error('Draft not found or not approvable.');await client.query(`insert into correspondence_approvals(draft_id,approved_by,approved_at,scope,authorization_token_hash) values($1,$2,$3,'single_message',$4) on conflict(draft_id) do update set approved_by=excluded.approved_by,approved_at=excluded.approved_at,authorization_token_hash=excluded.authorization_token_hash`,[id,receipt.approvedBy,receipt.approvedAt,hash]);await client.query('commit');await this.receipts.record('correspondence.approved',id,{approvedBy:receipt.approvedBy,scope:'single_message'});return updated.rows[0];}catch(error){await client.query('rollback');throw error;}finally{client.release();}}
 }
