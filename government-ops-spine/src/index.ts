@@ -8,3 +8,6 @@ export * from './outbox.js';
 export * from './runtime.js';
 export * from './capability-indexer.js';
 export * from './capability-postgres.js';
+export * from './live-collectors.js';
+export * from './indexing-worker.js';
+export * from './correspondence.js';
