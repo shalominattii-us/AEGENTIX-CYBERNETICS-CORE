@@ -13,6 +13,7 @@ services:
       - ./db/003_correspondence.sql:/docker-entrypoint-initdb.d/003_correspondence.sql:ro
       - ./db/004_engineering_program.sql:/docker-entrypoint-initdb.d/004_engineering_program.sql:ro
       - ./db/005_artifact_review.sql:/docker-entrypoint-initdb.d/005_artifact_review.sql:ro
+      - ./db/006_release_policy.sql:/docker-entrypoint-initdb.d/006_release_policy.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U aegentix -d aegentix"]
       interval: 10s
