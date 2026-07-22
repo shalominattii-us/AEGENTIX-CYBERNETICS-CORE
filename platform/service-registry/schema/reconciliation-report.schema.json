@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AEGENTIX Registry Reconciliation Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "generatedAt", "registryVersion", "conclusion", "summary", "findings"],
+  "properties": {
+    "schemaVersion": {"type": "string", "minLength": 1},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "registryVersion": {"type": ["string", "null"]},
+    "conclusion": {"enum": ["clean", "warning", "error"]},
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["findingCount", "info", "warning", "error"],
+      "properties": {
+        "findingCount": {"type": "integer", "minimum": 0},
+        "info": {"type": "integer", "minimum": 0},
+        "warning": {"type": "integer", "minimum": 0},
+        "error": {"type": "integer", "minimum": 0}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "severity", "serviceId", "message", "details"],
+        "properties": {
+          "code": {"type": "string", "pattern": "^[A-Z][A-Z0-9_]+$"},
+          "severity": {"enum": ["info", "warning", "error"]},
+          "serviceId": {"type": ["string", "null"]},
+          "message": {"type": "string", "minLength": 1},
+          "details": {"type": "object"}
+        }
+      }
+    }
+  }
+}
