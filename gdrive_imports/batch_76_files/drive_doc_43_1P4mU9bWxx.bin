@@ -1,0 +1,236 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
+/**
+ * @title EagleShieldCoin
+ * @dev ERC-20 token with governance, staking, and justice market integration
+ * @author HEMPEROR
+ * @notice EagleShieldCoin (ESC) powers the Justice Markets ecosystem
+ */
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+contract EagleShieldCoin is ERC20, ERC20Burnable, ERC20Votes, Ownable, ReentrancyGuard {
+
+    // Token Economics
+    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10**18; // 1 Billion ESC
+    uint256 public constant INITIAL_MINT = 100_000_000 * 10**18;  // 100M initial
+
+    // Staking
+    struct Stake {
+        uint256 amount;
+        uint256 startTime;
+        uint256 lockPeriod;
+        uint256 rewardDebt;
+    }
+    mapping(address => Stake) public stakes;
+    uint256 public totalStaked;
+    uint256 public rewardRate = 100; // Basis points per year
+    uint256 public constant MIN_LOCK = 30 days;
+    uint256 public constant MAX_LOCK = 365 days;
+
+    // Justice Market Integration
+    struct Case {
+        bytes32 caseId;
+        address plaintiff;
+        address defendant;
+        uint256 stakeAmount;
+        uint256 createdAt;
+        uint256 resolvedAt;
+        CaseStatus status;
+        bytes32 evidenceHash;
+        address[] jurors;
+        mapping(address => bytes32) votes;
+        mapping(address => bool) hasVoted;
+    }
+
+    enum CaseStatus { Open, Voting, Resolved, Appealed }
+    mapping(bytes32 => Case) public cases;
+    bytes32[] public activeCases;
+    uint256 public caseCounter;
+    uint256 public minCaseStake = 1000 * 10**18; // 1000 ESC
+    uint256 public jurorReward = 50 * 10**18;     // 50 ESC per juror
+
+    // Events
+    event Staked(address indexed user, uint256 amount, uint256 lockPeriod);
+    event Unstaked(address indexed user, uint256 amount, uint256 reward);
+    event CaseCreated(bytes32 indexed caseId, address plaintiff, uint256 stake);
+    event VoteCast(bytes32 indexed caseId, address juror, bytes32 voteHash);
+    event CaseResolved(bytes32 indexed caseId, bytes32 verdict);
+
+    constructor() ERC20("EagleShieldCoin", "ESC") ERC20Permit("EagleShieldCoin") {
+        _mint(msg.sender, INITIAL_MINT);
+        _transferOwnership(msg.sender);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STAKING FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    function stake(uint256 amount, uint256 lockPeriod) external nonReentrant {
+        require(amount > 0, "Cannot stake 0");
+        require(lockPeriod >= MIN_LOCK && lockPeriod <= MAX_LOCK, "Invalid lock period");
+        require(balanceOf(msg.sender) >= amount, "Insufficient balance");
+        require(stakes[msg.sender].amount == 0, "Already staking");
+
+        _transfer(msg.sender, address(this), amount);
+
+        stakes[msg.sender] = Stake({
+            amount: amount,
+            startTime: block.timestamp,
+            lockPeriod: lockPeriod,
+            rewardDebt: 0
+        });
+
+        totalStaked += amount;
+        emit Staked(msg.sender, amount, lockPeriod);
+    }
+
+    function unstake() external nonReentrant {
+        Stake storage userStake = stakes[msg.sender];
+        require(userStake.amount > 0, "No active stake");
+        require(block.timestamp >= userStake.startTime + userStake.lockPeriod, "Lock period active");
+
+        uint256 reward = calculateReward(msg.sender);
+        uint256 totalReturn = userStake.amount + reward;
+
+        require(totalSupply() + reward <= MAX_SUPPLY, "Max supply exceeded");
+
+        totalStaked -= userStake.amount;
+        delete stakes[msg.sender];
+
+        _mint(address(this), reward);
+        _transfer(address(this), msg.sender, totalReturn);
+
+        emit Unstaked(msg.sender, userStake.amount, reward);
+    }
+
+    function calculateReward(address user) public view returns (uint256) {
+        Stake storage s = stakes[user];
+        if (s.amount == 0) return 0;
+
+        uint256 duration = block.timestamp - s.startTime;
+        uint256 annualReward = (s.amount * rewardRate) / 10000;
+        return (annualReward * duration) / 365 days;
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // JUSTICE MARKET FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    function createCase(
+        address defendant,
+        bytes32 evidenceHash
+    ) external returns (bytes32 caseId) {
+        require(balanceOf(msg.sender) >= minCaseStake, "Insufficient stake for case");
+
+        caseCounter++;
+        caseId = keccak256(abi.encodePacked(msg.sender, caseCounter, block.timestamp));
+
+        Case storage newCase = cases[caseId];
+        newCase.caseId = caseId;
+        newCase.plaintiff = msg.sender;
+        newCase.defendant = defendant;
+        newCase.stakeAmount = minCaseStake;
+        newCase.createdAt = block.timestamp;
+        newCase.status = CaseStatus.Open;
+        newCase.evidenceHash = evidenceHash;
+
+        _transfer(msg.sender, address(this), minCaseStake);
+        activeCases.push(caseId);
+
+        emit CaseCreated(caseId, msg.sender, minCaseStake);
+    }
+
+    function assignJuror(bytes32 caseId) external {
+        Case storage c = cases[caseId];
+        require(c.status == CaseStatus.Open, "Case not open");
+        require(stakes[msg.sender].amount > 0, "Must be staker to be juror");
+        require(!c.hasVoted[msg.sender], "Already assigned");
+        require(c.jurors.length < 7, "Jury full");
+
+        c.jurors.push(msg.sender);
+        if (c.jurors.length == 7) {
+            c.status = CaseStatus.Voting;
+        }
+    }
+
+    function castVote(bytes32 caseId, bytes32 voteHash) external {
+        Case storage c = cases[caseId];
+        require(c.status == CaseStatus.Voting, "Not in voting phase");
+        require(!c.hasVoted[msg.sender], "Already voted");
+
+        bool isJuror = false;
+        for (uint i = 0; i < c.jurors.length; i++) {
+            if (c.jurors[i] == msg.sender) { isJuror = true; break; }
+        }
+        require(isJuror, "Not a juror");
+
+        c.votes[msg.sender] = voteHash;
+        c.hasVoted[msg.sender] = true;
+
+        emit VoteCast(caseId, msg.sender, voteHash);
+    }
+
+    function resolveCase(bytes32 caseId, bytes32 verdict) external onlyOwner {
+        Case storage c = cases[caseId];
+        require(c.status == CaseStatus.Voting, "Not ready for resolution");
+
+        c.status = CaseStatus.Resolved;
+        c.resolvedAt = block.timestamp;
+
+        // Distribute rewards to jurors
+        for (uint i = 0; i < c.jurors.length; i++) {
+            _mint(c.jurors[i], jurorReward);
+        }
+
+        // Return stake to winner (simplified — real implementation would evaluate votes)
+        _transfer(address(this), c.plaintiff, c.stakeAmount);
+
+        emit CaseResolved(caseId, verdict);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // GOVERNANCE
+    // ═══════════════════════════════════════════════════════════════
+
+    function setRewardRate(uint256 newRate) external onlyOwner {
+        require(newRate <= 1000, "Rate too high"); // Max 10%
+        rewardRate = newRate;
+    }
+
+    function setMinCaseStake(uint256 newStake) external onlyOwner {
+        minCaseStake = newStake;
+    }
+
+    function mintRewards(address to, uint256 amount) external onlyOwner {
+        require(totalSupply() + amount <= MAX_SUPPLY, "Max supply exceeded");
+        _mint(to, amount);
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // OVERRIDE FUNCTIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    function _afterTokenTransfer(address from, address to, uint256 amount)
+        internal override(ERC20, ERC20Votes)
+    {
+        super._afterTokenTransfer(from, to, amount);
+    }
+
+    function _mint(address to, uint256 amount)
+        internal override(ERC20, ERC20Votes)
+    {
+        super._mint(to, amount);
+    }
+
+    function _burn(address account, uint256 amount)
+        internal override(ERC20, ERC20Votes)
+    {
+        super._burn(account, amount);
+    }
+}
