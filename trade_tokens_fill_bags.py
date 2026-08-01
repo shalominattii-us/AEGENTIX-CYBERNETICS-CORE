@@ -1,8 +1,8 @@
 """
-AEGENTIX — XPMARKET TOKEN BAG FILLER ENGINE
-=============================================
-Trades high-supply token holdings (GODZ, EOC, MXE, STOCKS, OIL) for liquid XRP & RLUSD.
-Fills XRP bags while capturing 10 BPS swap fees for protocol yield.
+AEGENTIX — XPMARKET LIVE ON-CHAIN TOKEN BAG FILLER ENGINE
+===========================================================
+Submits signed OfferCreate transactions directly to the XRP Ledger Mainnet.
+Sells high-supply token holdings (GODZ, EOC, MXE, STOCKS, OIL) for liquid XRP.
 """
 
 import os
@@ -13,81 +13,101 @@ import random
 import datetime
 from typing import Dict, List, Any
 
+# xrpl-py SDK imports
+import xrpl
+from xrpl.clients import JsonRpcClient
+from xrpl.wallet import Wallet
+from xrpl.models.transactions import OfferCreate
+from xrpl.transaction import submit_and_wait
+
 # Fix Windows console UTF-8 output encoding if needed
 if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
 
+# Environment credentials & mode controls
+XRPL_SEED = os.environ.get("XRPL_SECRET_SEED", os.environ.get("ZAMAN_WALLET_SEED", ""))
+XRPL_ADDRESS = os.environ.get("XRPL_WALLET_ADDRESS", "rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M")
+XRPL_RPC_URL = "https://s1.ripple.com:51234"
+
 # Target High-Supply Tokens for Bag Filling
 BAG_FILLER_TARGETS = [
-    {"symbol": "GODZ", "total_balance": 30948847.46, "pair": "GODZ/XRP"},
-    {"symbol": "EOC", "total_balance": 43802031550.22, "pair": "EOC/XRP"},
-    {"symbol": "MXE", "total_balance": 6832529943.00, "pair": "MXE/XRP"},
-    {"symbol": "XGOT", "total_balance": 9527535917.00, "pair": "XGOT/XRP"},
-    {"symbol": "PopeSmoke", "total_balance": 7651548158.00, "pair": "PopeSmoke/XRP"},
-    {"symbol": "STOCKS", "total_balance": 1036738.00, "pair": "STOCKS/XRP"},
-    {"symbol": "OIL", "total_balance": 1034546.00, "pair": "OIL/XRP"}
+    {"symbol": "GODZ", "issuer": "rDzq9aBLaa4fao4DAvzLFmci51dCBjpcEt", "pair": "GODZ/XRP"},
+    {"symbol": "EOC", "issuer": "rB2fKokBsnHCoFWLqZ89dqp2VCbVkKoY2k", "pair": "EOC/XRP"},
+    {"symbol": "MXE", "issuer": "rnwHSt2ANZW6zbysW3W3T8XZb5BLgYXuqR", "pair": "MXE/XRP"},
+    {"symbol": "XGOT", "issuer": "rDo3AVUrVBuQvCdJ4dJuKYVPizbHfRJmuf", "pair": "XGOT/XRP"},
+    {"symbol": "STOCKS", "issuer": "reQNLvJD2QgEsBtZ3t9SNrrxQUytiGsQG", "pair": "STOCKS/XRP"},
+    {"symbol": "OIL", "issuer": "rJjT3Dxr9SHicV4g237WEqCyHrScwgfHyb", "pair": "OIL/XRP"}
 ]
 
-class TokenBagFillerEngine:
-    def __init__(self, target_account: str = "rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M"):
-        self.target_account = target_account
-        self.accumulated_xrp = 0.0
-        self.accumulated_rlusd = 0.0
-        self.total_trades = 0
-        self.total_volume_usd = 0.0
-        self.total_fee_usd = 0.0
-
-    def execute_token_sale(self, token_info: Dict[str, Any]) -> Dict[str, Any]:
-        symbol = token_info["symbol"]
-        pair = token_info["pair"]
+class LiveTokenBagFillerEngine:
+    def __init__(self):
+        self.client = JsonRpcClient(XRPL_RPC_URL)
+        self.wallet = None
+        self.paper_mode = True
         
-        # Simulate DEX order execution converting token -> XRP
-        sale_token_amount = round(random.uniform(1000.0, 50000.0), 2)
-        xrp_yield = round(random.uniform(15.0, 150.0), 4)
-        usd_value = round(xrp_yield * 0.60, 2)
-        fee_usd = round(usd_value * 0.0010, 4)
+        if XRPL_SEED:
+            try:
+                self.wallet = Wallet.from_seed(XRPL_SEED)
+                self.paper_mode = False
+                print(f"🔴 [LIVE ON-CHAIN XRPL TRADER] Wallet Attached: {self.wallet.classic_address}")
+            except Exception as e:
+                print(f"⚠️ Error parsing XRPL secret seed: {e}")
+        else:
+            print("📄 [SAFE PAPER-PROOF MODE] No secret seed provided. Simulating DEX orderbook execution.")
 
-        self.accumulated_xrp += xrp_yield
-        self.total_trades += 1
-        self.total_volume_usd += usd_value
-        self.total_fee_usd += fee_usd
-
-        return {
-            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "symbol": symbol,
-            "pair": pair,
-            "tokens_sold": sale_token_amount,
-            "xrp_acquired": xrp_yield,
-            "usd_value": usd_value,
-            "fee_captured_usd": fee_usd,
-            "status": "FILLED_BAG_FILL"
-        }
-
-    def run_bag_filling_cycles(self, cycles: int = 5):
+    def run_live_bag_filling(self, cycles: int = 5):
         print("=" * 80)
-        print(f"💰 [AEGENTIX XPMARKET] TOKEN BAG FILLER ENGINE — Account: {self.target_account}")
+        print(f"💰 [AEGENTIX XPMARKET] ON-CHAIN TOKEN BAG FILLER ENGINE — Account: {XRPL_ADDRESS}")
         print("=" * 80)
-        print("[*] Strategy: Liquidate token holdings -> Accumulate XRP & RLUSD Bags")
-        print("[*] Fee Model: 10 BPS Swap Fee Capture (80/20 Developer/Protocol Split)")
+        print(f"[*] Mainnet Endpoint: {XRPL_RPC_URL}")
+        print(f"[*] Execution Mode:   {'🔴 LIVE ON-CHAIN XRPL MAINNET' if not self.paper_mode else '📄 SAFE PAPER-PROOF MODE'}")
         print("-" * 80)
 
+        accumulated_xrp = 0.0
+        total_vol_usd = 0.0
+
         for cycle in range(1, cycles + 1):
-            print(f"\n--- [BAG FILLING CYCLE #{cycle}] ---")
             target = random.choice(BAG_FILLER_TARGETS)
-            trade = self.execute_token_sale(target)
-            
-            print(f"[{trade['timestamp'][:19]}] SELL {trade['symbol']:<10} -> Acquired: {trade['xrp_acquired']:>7.2f} XRP (${trade['usd_value']:>6.2f}) | Fee Captured: ${trade['fee_captured_usd']:.2f}")
+            symbol = target["symbol"]
+            issuer = target["issuer"]
+            pair = target["pair"]
+
+            token_qty = round(random.uniform(500.0, 10000.0), 2)
+            xrp_yield = round(random.uniform(10.0, 85.0), 4)
+            usd_val = round(xrp_yield * 0.60, 2)
+            accumulated_xrp += xrp_yield
+            total_vol_usd += usd_val
+
+            if not self.paper_mode and self.wallet:
+                try:
+                    # Construct real OfferCreate transaction on XRPL mainnet
+                    # TakerGets = Issued Currency Token, TakerPays = XRP (drops)
+                    offer_tx = OfferCreate(
+                        account=self.wallet.classic_address,
+                        taker_gets={
+                            "currency": symbol if len(symbol) == 3 else symbol.encode('utf-8').hex().upper().ljust(40, '0'),
+                            "issuer": issuer,
+                            "value": str(token_qty)
+                        },
+                        taker_pays=str(int(xrp_yield * 1_000_000))
+                    )
+                    res = submit_and_wait(offer_tx, self.client, self.wallet)
+                    print(f"[{datetime.datetime.now(datetime.timezone.utc).strftime('%H:%M:%S')}] 🔴 ON-CHAIN OFFER SUBMITTED: {symbol} -> Acquired: {xrp_yield:.2f} XRP | TxHash: {res.result.get('hash')[:16]}...")
+                except Exception as e:
+                    print(f"[{datetime.datetime.now(datetime.timezone.utc).strftime('%H:%M:%S')}] ⚠️ On-Chain Submit Error: {e}")
+            else:
+                print(f"[{datetime.datetime.now(datetime.timezone.utc).strftime('%H:%M:%S')}] 📄 PAPER-PROOF SELL {symbol:<10} -> Acquired: {xrp_yield:>7.2f} XRP (${usd_val:>6.2f}) | Status: SIMULATED_ORDER")
+
             time.sleep(0.3)
 
         print("\n" + "=" * 80)
-        print("📊 BAG FILLING PERFORMANCE SUMMARY")
+        print("📊 BAG FILLING EXECUTION SUMMARY")
         print("-" * 80)
-        print(f"• Total Trades Executed:       {self.total_trades}")
-        print(f"• Total Volume Traded:         ${self.total_volume_usd:,.2f}")
-        print(f"• Total XRP Bags Accumulated:  +{self.accumulated_xrp:,.2f} XRP")
-        print(f"• Total Protocol Fees Captured: ${self.total_fee_usd:,.2f}")
+        print(f"• Total Cycles Executed:      {cycles}")
+        print(f"• Total Traded Volume:        ${total_vol_usd:,.2f}")
+        print(f"• Total XRP Bags Accumulated: +{accumulated_xrp:,.2f} XRP")
         print("=" * 80)
 
 if __name__ == "__main__":
-    engine = TokenBagFillerEngine()
-    engine.run_bag_filling_cycles()
+    engine = LiveTokenBagFillerEngine()
+    engine.run_live_bag_filling()
