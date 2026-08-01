@@ -1,0 +1,379 @@
+<html lang="en"><head>
+<!-- Playables SDK -->
+<script>// Playables SDK v1.0.0
+// Game lifecycle bridge: rAF-based game-ready detection + event communication
+(function() {
+  'use strict';
+
+  // Idempotency: skip if already initialized (e.g., server-side injection
+  // followed by client-side inject-javascript via the Bloks webview component).
+  if (window.playablesSDK) return;
+
+  var HANDLER_NAME = 'playablesGameEventHandler';
+  var ANDROID_BRIDGE_NAME = '_MetaPlayablesBridge';
+  var RAF_FRAME_THRESHOLD = 3;
+
+  var gameReadySent = false;
+  var firstInteractionSent = false;
+  var errorSent = false;
+  var frameCount = 0;
+  var originalRAF = window.requestAnimationFrame;
+
+  // --- Transport Layer ---
+
+  function hasIOSBridge() {
+    return !!(window.webkit &&
+              window.webkit.messageHandlers &&
+              window.webkit.messageHandlers[HANDLER_NAME]);
+  }
+
+  function hasAndroidBridge() {
+    return !!(window[ANDROID_BRIDGE_NAME] &&
+              typeof window[ANDROID_BRIDGE_NAME].postEvent === 'function');
+  }
+
+  function isInIframe() {
+    return !!(window.parent && window.parent !== window);
+  }
+
+  function sendEvent(eventName, payload) {
+    var message = {
+      type: eventName,
+      payload: payload || {},
+      timestamp: Date.now()
+    };
+
+    if (hasIOSBridge()) {
+      try {
+        window.webkit.messageHandlers[HANDLER_NAME].postMessage(message);
+      } catch (e) { /* ignore */ }
+      return;
+    }
+
+    if (hasAndroidBridge()) {
+    try {
+      var p = payload || {};
+      p.__secureToken = window.__fbAndroidBridgeAuthToken || '';
+      p.timestamp = message.timestamp;
+      window[ANDROID_BRIDGE_NAME].postEvent(
+        eventName,
+        JSON.stringify(p)
+      );
+    } catch (e) { /* ignore */ }
+    return;
+  }
+
+    if (isInIframe()) {
+      try {
+        window.parent.postMessage(message, '*');
+      } catch (e) { /* ignore */ }
+      return;
+    }
+  }
+
+  // --- rAF Game-Ready Detection ---
+
+  function onFrame() {
+    if (gameReadySent) return;
+
+    frameCount++;
+    if (frameCount >= RAF_FRAME_THRESHOLD) {
+      gameReadySent = true;
+      sendEvent('game_ready', {
+        frame_count: frameCount,
+        detected_at: Date.now()
+      });
+      return;
+    }
+
+    originalRAF.call(window, onFrame);
+  }
+
+  if (originalRAF) {
+    window.requestAnimationFrame = function(callback) {
+      if (!gameReadySent) {
+        return originalRAF.call(window, function(timestamp) {
+          frameCount++;
+          if (frameCount >= RAF_FRAME_THRESHOLD && !gameReadySent) {
+            gameReadySent = true;
+            sendEvent('game_ready', {
+              frame_count: frameCount,
+              detected_at: Date.now()
+            });
+          }
+          callback(timestamp);
+        });
+      }
+      return originalRAF.call(window, callback);
+    };
+  }
+
+  // --- First User Interaction Detection ---
+
+  function setupFirstInteractionDetection() {
+    var events = ['touchstart', 'mousedown', 'keydown'];
+
+    function onFirstInteraction() {
+      if (firstInteractionSent) return;
+      firstInteractionSent = true;
+      sendEvent('user_interaction_start', null);
+
+      for (var i = 0; i < events.length; i++) {
+        document.removeEventListener(events[i], onFirstInteraction, true);
+      }
+    }
+
+    for (var i = 0; i < events.length; i++) {
+      document.addEventListener(events[i], onFirstInteraction, true);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupFirstInteractionDetection);
+  } else {
+    setupFirstInteractionDetection();
+  }
+
+  // --- Auto Error Capture ---
+
+  window.addEventListener('error', function(event) {
+    if (errorSent) return;
+    errorSent = true;
+    sendEvent('error', {
+      message: event.message || 'Unknown error',
+      source: event.filename || '',
+      lineno: event.lineno || 0,
+      colno: event.colno || 0,
+      auto_captured: true
+    });
+  });
+
+  window.addEventListener('unhandledrejection', function(event) {
+    if (errorSent) return;
+    errorSent = true;
+    var reason = event.reason;
+    sendEvent('error', {
+      message: (reason instanceof Error) ? reason.message : String(reason),
+      type: 'unhandled_promise_rejection',
+      auto_captured: true
+    });
+  });
+
+  // --- Public API ---
+
+  window.playablesSDK = {
+    complete: function(score) {
+      sendEvent('game_ended', {
+        score: score,
+        completed: true
+      });
+    },
+
+    error: function(message) {
+      if (errorSent) return;
+      errorSent = true;
+      sendEvent('error', {
+        message: message || 'Unknown error',
+        auto_captured: false
+      });
+    },
+
+    sendEvent: function(eventName, payload) {
+      if (!eventName || typeof eventName !== 'string') return;
+      sendEvent(eventName, payload);
+    }
+  };
+
+  // Kick off rAF detection in case no game code calls rAF immediately
+  if (originalRAF) {
+    originalRAF.call(window, onFrame);
+  }
+})();</script>
+<!-- PLAYABLE_TOUCH_PATCH_V1 --><script>
+(function() {
+  if (window.__playableTouchPatchInstalled) return;
+  window.__playableTouchPatchInstalled = true;
+  var origAdd = EventTarget.prototype.addEventListener;
+  var blockedTypes = { touchstart: 1, touchmove: 1, wheel: 1 };
+  EventTarget.prototype.addEventListener = function(type, listener, options) {
+    if (blockedTypes[type]) {
+      if (options === undefined || options === null) {
+        options = { passive: true };
+      } else if (typeof options === 'boolean') {
+        options = { capture: options, passive: true };
+      } else {
+        options = Object.assign({}, options, { passive: true });
+      }
+    }
+    return origAdd.call(this, type, listener, options);
+  };
+})();
+</script><script>window.Intl=window.Intl||{};Intl.t=function(s){return(Intl._locale&&Intl._locale[s])||s;};</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEGENTIS Voice V3 - Invention Disclosure</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin:0; background:#f1f5f9; color:#0f172a; line-height:1.6; }
+.container { max-width:900px; margin:40px auto; background:white; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+header { background:#0f172a; color:white; padding:60px 50px; }
+header h1 { margin:0; font-size:32px; line-height:1.2; }
+header .subtitle { color:#cbd5e1; margin-top:12px; font-size:18px; }
+.badge { display:inline-block; background:#dc2626; color:white; padding:4px 10px; border-radius:4px; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:20px; }
+.meta { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:40px; border-top:1px solid rgba(255,255,255,0.1); padding-top:20px; font-size:13px; color:#94a3b8; }
+section { padding:40px 50px; border-bottom:1px solid #e2e8f0; }
+h2 { font-size:22px; margin:0 0 16px; color:#0f172a; border-left:4px solid #2563eb; padding-left:12px; }
+h3 { font-size:16px; margin:24px 0 8px; color:#1e293b; }
+p { margin:0 0 12px; }
+ul { margin:0 0 12px 20px; }
+code { background:#f1f5f9; padding:2px 6px; border-radius:3px; font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:13px; }
+.arch { display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin:20px 0; }
+.node { background:white; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:13px; box-shadow:0 1px 2px rgba(0,0,0,0.05); text-align:center; min-width:120px; }
+.node.dark { background:#1e293b; color:white; border-color:#334155; }
+.node.blue { background:#2563eb; color:white; border-color:#1d4ed8; }
+.arrow { color:#64748b; font-size:20px; }
+table { width:100%; border-collapse:collapse; margin:16px 0; font-size:14px; }
+th, td { border:1px solid #e2e8f0; padding:8px 10px; text-align:left; }
+th { background:#f8fafc; }
+.footer { padding:30px 50px; font-size:12px; color:#64748b; background:#f8fafc; }
+.disclaimer { background:#fffbeb; border-left:4px solid #f59e0b; padding:12px 16px; margin:20px 0; font-size:13px; }
+@media print { body { background:white; } .container { box-shadow:none; margin:0; } }
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<div class="badge">Patents Pending - Confidential</div>
+<h1>AEGENTIS Voice V3:<br>Intuitive Medically-Aligned Conversational Voice Gateway</h1>
+<div class="subtitle">JWT-secured WebSocket voice fabric with continuous intuitive loop, Amazon Nova Sonic real-time speech, and parallel frontier reasoning</div>
+<div class="meta">
+<div><strong>Classification</strong><br>Confidential - Attorney Work Product</div>
+<div><strong>Date</strong><br>June 12, 2026</div>
+<div><strong>Gateway ID</strong><br>vvk698hjv7</div>
+</div>
+</header>
+
+<section>
+<h2>1. Executive Summary</h2>
+<p>AEGENTIS Voice V3 implements a JWT-secured WebSocket gateway (ID: <code>vvk698hjv7</code>) that establishes a persistent, low-latency bidirectional audio stream. The system hosts a <strong>continuous intuitive voice loop</strong> powered by Amazon Nova Sonic for real-time speech-to-speech interaction, eliminating traditional turn-based prompting.</p>
+<p>Concurrently, parallel frontier models (Nova Premier, Claude Opus 4.5, Claude Sonnet 4.5) perform anticipatory deep reasoning on the evolving conversation context, generating clinical hypotheses and safety checks. All interactions are processed through integrated medical guardrails, encrypted storage, and immutable audit trails to ensure HIPAA-aligned safety and traceability.</p>
+</section>
+
+<section>
+<h2>2. Background</h2>
+<p>Conventional on-demand voice AI systems operate in discrete request-response cycles, requiring explicit wake words, losing conversational context between turns, and introducing latency that breaks clinical flow. In medical settings, this creates cognitive load for clinicians, breaks proactive reasoning, and prevents anticipatory support.</p>
+<p>There is an unmet need for an <em>intuitive, continuous-context voice gateway</em> that maintains persistent state, anticipates clinical intent, and delivers real-time bidirectional speech while simultaneously performing deep medical reasoning in the background—without requiring the user to re-prompt or repeat information.</p>
+</section>
+
+<section>
+<h2>3. System Architecture</h2>
+<p>The architecture implements a secure, containerized voice fabric on AWS:</p>
+<ul>
+<li><strong>API Gateway WebSocket</strong> with Lambda JWT authorizer for $connect, $disconnect, and streamAudio routes</li>
+<li><strong>Application Load Balancer</strong> routing to private ECS Fargate service</li>
+<li><strong>ECS Fargate container</strong> hosting Nova Sonic bidirectional streaming</li>
+<li><strong>Frontier co-processors:</strong> Nova Premier, Claude Opus 4.5, Claude Sonnet 4.5</li>
+<li><strong>DynamoDB</strong> context store with per-session TTL</li>
+<li><strong>AWS KMS encryption</strong> + <strong>CloudTrail</strong> immutable audit</li>
+</ul>
+
+<h3>Architecture Flow</h3>
+<div class="arch">
+<div class="node">Client<br><small>Web / iOS / Android</small></div>
+<div class="arrow">→</div>
+<div class="node dark">API GW<br><small>JWT Authorizer<br>vvk698hjv7</small></div>
+<div class="arrow">→</div>
+<div class="node">ALB<br><small>Private subnet</small></div>
+<div class="arrow">→</div>
+<div class="node blue">ECS Fargate<br><small>Nova Sonic Host</small></div>
+</div>
+<div class="arch">
+<div class="node blue">ECS Container</div>
+<div class="arrow">↓</div>
+<div class="node">Real-Time Loop<br><small>amazon.nova-sonic-v1:0</small></div>
+<div class="arrow">↓</div>
+<div class="node">Background Reasoning<br><small>Nova Premier / Claude 4.5</small></div>
+<div class="arrow">↓</div>
+<div class="node dark">Guardrails<br><small>Medical Safety</small></div>
+<div class="arrow">→</div>
+<div class="node">Storage<br><small>DynamoDB + S3 + KMS</small></div>
+</div>
+</section>
+
+<section>
+<h2>4. Detailed Description</h2>
+<h3>Continuous Intuitive Loop</h3>
+<p>Unlike on-demand ASR-LLM-TTS pipelines, Voice V3 maintains an always-open WebSocket. Nova Sonic retains acoustic and semantic context across turns, enabling interruptions, backchanneling, and prosodic continuity without $connect renegotiation.</p>
+
+<h3>Context Persistence</h3>
+<p>Each session writes incremental conversation state to DynamoDB with vector embeddings. Nova Sonic's streaming context window is hydrated on reconnect, preserving long-form clinical dialogue.</p>
+
+<h3>Background Anticipatory Reasoning</h3>
+<p>While Nova Sonic handles real-time speech, parallel non-blocking invocations to Nova Premier and Claude Opus/Sonnet 4.5 pre-compute differential diagnoses, medication interaction checks, and next-best questions. These hypotheses are streamed back into the ECS container.</p>
+
+<h3>Voice Synthesis Injection</h3>
+<p>Background model outputs are sanitized by medical guardrails, then fed back to Nova Sonic as textInput events for immediate TTS, creating a closed voice-to-reasoning-to-voice loop without client-side re-prompting.</p>
+</section>
+
+<section>
+<h2>5. Novel Aspects (Engineering Claims Scaffold)</h2>
+<ol>
+<li><strong>Edge JWT authorizer for voice streams:</strong> Lambda authorizer validates short-lived JWTs at $connect, binding identity to WebSocket connection ID before audio flows.</li>
+<li><strong>Persistent bidirectional stream handoff:</strong> API Gateway routes binary audio frames to containerized voice engine via ALB without breaking the WebSocket, enabling &lt;300ms turn latency.</li>
+<li><strong>Continuous anticipatory reasoning with parallel frontier models:</strong> Independent co-processors observe live transcript stream and pre-compute clinical hypotheses in parallel to real-time speech.</li>
+<li><strong>Medical-grade audit hashing:</strong> SHA-256 hashing of every prompt/output pair with KMS-signed timestamps written to immutable CloudTrail + DynamoDB ledger.</li>
+<li><strong>Integrated guardrails with human-in-loop flagging:</strong> Real-time policy engine blocks unsafe outputs and escalates low-confidence clinical assertions to human review queue.</li>
+<li><strong>Unified voice-to-reasoning-to-voice loop:</strong> System synthesizes background reasoning as natural speech without requiring client re-prompt or explicit API call.</li>
+</ol>
+</section>
+
+<section>
+<h2>6. Medical Compliance Features</h2>
+<h3>HIPAA-Ready VPC Design</h3>
+<p>Isolated VPC with private subnets, no internet ingress to ECS tasks, VPC endpoints for Bedrock/DynamoDB/S3.</p>
+<h3>Encryption</h3>
+<p>TLS 1.3 in transit, KMS CMK AES-256 at rest for all storage layers, encrypted EBS volumes.</p>
+<h3>Immutable Audit Ledger</h3>
+<p>CloudTrail data events + DynamoDB with point-in-time recovery, WORM-compliant S3 bucket for audio archives.</p>
+<h3>Explainability Logging</h3>
+<p>Full chain-of-thought traces (redacted) stored with model version, temperature, and guardrail decisions.</p>
+<h3>No PHI in Model Training</h3>
+<p>All foundation model invocations use zero-retention Bedrock endpoints; explicit data usage opt-outs enforced via SCPs.</p>
+</section>
+
+<section>
+<h2>7. Implementation Notes</h2>
+<table>
+<tbody><tr><th>Component</th><th>Value</th></tr>
+<tr><td>Gateway ID</td><td><code>vvk698hjv7</code></td></tr>
+<tr><td>Config Path</td><td><code>/tmp/aegentis-security-lockdown</code></td></tr>
+<tr><td>WebSocket Routes</td><td>$connect, $disconnect, streamAudio</td></tr>
+<tr><td>Nova Sonic</td><td><code>amazon.nova-sonic-v1:0</code></td></tr>
+<tr><td>Nova Premier</td><td><code>amazon.nova-premier-v1:0</code></td></tr>
+<tr><td>Claude Opus 4.5</td><td><code>anthropic.claude-opus-4-5-20251101-v1:0</code></td></tr>
+<tr><td>Claude Sonnet 4.5</td><td><code>anthropic.claude-sonnet-4-5-20250929-v1:0</code></td></tr>
+<tr><td>Authorizer</td><td>Lambda JWT (authorizer-v3)</td></tr>
+<tr><td>Compute</td><td>ECS Fargate - Voice Engine</td></tr>
+<tr><td>Audit</td><td>CloudTrail + SHA256</td></tr>
+</tbody></table>
+</section>
+
+<section>
+<h2>8. Appendix</h2>
+<p><strong>Document Timestamp:</strong> 2026-06-12T00:00:00Z<br>
+<strong>Version:</strong> 3.0<br>
+<strong>Classification:</strong> Confidential</p>
+
+<div class="disclaimer">
+<strong>Notice:</strong> This technical description is provided for review by patent counsel and does not constitute legal advice. All concepts, architectures, and implementations described herein are the confidential property of AEGENTIS, Inc. Patents Pending.
+</div>
+</section>
+
+<div class="footer">
+AEGENTIS — Confidential<br>
+AEGENTIS Voice V3 Invention Disclosure • June 12, 2026
+</div>
+
+</div>
+
+
+</body></html>

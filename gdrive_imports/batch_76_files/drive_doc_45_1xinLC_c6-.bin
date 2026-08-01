@@ -1,0 +1,13 @@
+Hi Flipper team — I've been building an autonomous cognitive runtime framework (AEGENTIS) and a sovereign security stack across Windows, embedded Linux, and XR environments. I'm exploring how to contribute to Flipper One and wanted to check appetite before drafting anything formal.
+
+Two specific angles I'm considering:
+
+1. **Testing sub-project**: A self-healing diagnostic framework that auto-detects and resolves hardware subsystem failures, plus a cryptographically-verified success logging protocol for permanent audit trails. Think of it as moving from static test scripts to an autonomous validation layer.
+
+2. **Linux (CPU Software) sub-project**: A lightweight distributed mesh runtime for device-to-device cognitive routing on Rockchip Linux, plus containerized LLM inference tooling (Groq API bridge) and deterministic build-deploy pipelines.
+
+Both are derived from real operational systems already running on my hardware (ROG Ally X, Meta Quest 3, Android automotive). Before I write any code or open issues, I wanted to ask: are there active maintainers in Testing or Linux who'd be open to an architecture discussion? Or should I start somewhere else in the stack?
+
+Happy to share a one-page architecture doc if anyone wants to see scope before I commit to a full PR.
+
+Thanks — ΩV

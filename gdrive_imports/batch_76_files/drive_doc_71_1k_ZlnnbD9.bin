@@ -1,0 +1,511 @@
+#!/usr/bin/env python3
+"""
+aegentis_diagnostics.py
+Cognitive Health Scoring Engine for Flipper One Testing
+
+Autonomous diagnostic framework that scores hardware subsystem health,
+attempts self-healing recovery, and generates structured reports.
+
+Pure Python 3.9+. Zero external dependencies for core runtime.
+Optional Groq API bridge for LLM-assisted anomaly explanation.
+"""
+
+import json
+import hashlib
+import subprocess
+import time
+import os
+import sys
+from dataclasses import dataclass, field, asdict
+from typing import Dict, List, Optional, Callable
+from enum import Enum
+
+
+class HealthLevel(Enum):
+    NOMINAL = (5, "green")
+    LOW = (4, "yellow")
+    MODERATE = (3, "orange")
+    HIGH = (2, "red")
+    CRITICAL = (1, "darkred")
+
+    def __init__(self, rank, color):
+        self.rank = rank
+        self.color = color
+
+
+@dataclass
+class SubsystemResult:
+    name: str
+    score: float  # 0.0 - 100.0
+    status: str
+    details: Dict
+    recovery_attempted: bool = False
+    recovery_success: bool = False
+    latency_ms: float = 0.0
+    timestamp: float = field(default_factory=time.time)
+
+
+@dataclass
+class DiagnosticReport:
+    device_id: str
+    overall_health: str
+    overall_score: float
+    subsystems: List[SubsystemResult]
+    risk_level: str
+    tokens_generated: int = 0
+    execution_time_ms: float = 0.0
+    vault_hash: str = ""
+    timestamp: float = field(default_factory=time.time)
+
+
+class AEGENTISDiagnostics:
+    """
+    Cognitive diagnostic engine for Flipper One hardware subsystems.
+
+    Architecture:
+    - Plugin-based subsystem testers
+    - Weighted risk scoring
+    - Self-healing recovery hooks
+    - Deterministic output (same input = same score)
+    """
+
+    SUBSYSTEM_WEIGHTS = {
+        "power": 0.25,
+        "network": 0.20,
+        "cpu": 0.20,
+        "audio": 0.15,
+        "graphics": 0.20,
+    }
+
+    THRESHOLDS = {
+        "CRITICAL": 30.0,
+        "HIGH": 50.0,
+        "MODERATE": 70.0,
+        "LOW": 85.0,
+    }
+
+    def __init__(self, device_id: str = "flipper-one-dev",
+                 groq_api_key: Optional[str] = None,
+                 enable_recovery: bool = True):
+        self.device_id = device_id
+        self.groq_api_key = groq_api_key
+        self.enable_recovery = enable_recovery
+        self.subsystem_testers: Dict[str, Callable] = {}
+        self.recovery_hooks: Dict[str, Callable] = {}
+        self._register_default_testers()
+        self._register_default_recovery()
+
+    # ───────────────────────────────────────────
+    # Subsystem Testers
+    # ───────────────────────────────────────────
+
+    def _register_default_testers(self):
+        self.subsystem_testers["power"] = self._test_power
+        self.subsystem_testers["network"] = self._test_network
+        self.subsystem_testers["cpu"] = self._test_cpu
+        self.subsystem_testers["audio"] = self._test_audio
+        self.subsystem_testers["graphics"] = self._test_graphics
+
+    def _register_default_recovery(self):
+        self.recovery_hooks["power"] = self._recover_power
+        self.recovery_hooks["network"] = self._recover_network
+        self.recovery_hooks["cpu"] = self._recover_cpu
+        self.recovery_hooks["audio"] = self._recover_audio
+        self.recovery_hooks["graphics"] = self._recover_graphics
+
+    def _test_power(self) -> SubsystemResult:
+        """Test power subsystem: voltage rails, current draw, battery health."""
+        start = time.time()
+        details = {}
+        score = 100.0
+        status = "NOMINAL"
+
+        try:
+            # Simulate power rail readings (replace with actual ADC/SMBus calls)
+            rails = {"3v3": 3.30, "1v8": 1.80, "5v0": 5.00, "vbat": 3.70}
+            for rail, expected in rails.items():
+                # In production: read actual ADC values via /sys/class/hwmon or serial
+                reading = expected + (0.02 if rail != "vbat" else -0.05)
+                deviation = abs(reading - expected) / expected * 100
+                details[f"{rail}_deviation_pct"] = round(deviation, 3)
+                if deviation > 5.0:
+                    score -= 25.0
+                    status = "CRITICAL" if deviation > 10 else "HIGH"
+                elif deviation > 2.0:
+                    score -= 10.0
+                    status = max_status(status, "MODERATE")
+
+            # Battery health simulation
+            details["battery_cycles"] = 42
+            details["battery_health_pct"] = 94
+            if details["battery_health_pct"] < 80:
+                score -= 15.0
+                status = max_status(status, "HIGH")
+
+        except Exception as e:
+            score = 0.0
+            status = "CRITICAL"
+            details["error"] = str(e)
+
+        return SubsystemResult(
+            name="power",
+            score=max(0.0, score),
+            status=status,
+            details=details,
+            latency_ms=round((time.time() - start) * 1000, 2)
+        )
+
+    def _test_network(self) -> SubsystemResult:
+        """Test network: WiFi association, throughput, packet loss."""
+        start = time.time()
+        details = {}
+        score = 100.0
+        status = "NOMINAL"
+
+        try:
+            # WiFi scan simulation (replace with actual iwlist/iw dev calls)
+            details["ssid"] = "FlipperTestNet"
+            details["signal_dbm"] = -42
+            details["link_speed_mbps"] = 65
+
+            if details["signal_dbm"] < -70:
+                score -= 30.0
+                status = "HIGH"
+            elif details["signal_dbm"] < -60:
+                score -= 15.0
+                status = "MODERATE"
+
+            # Packet loss simulation
+            details["packet_loss_pct"] = 0.5
+            if details["packet_loss_pct"] > 5.0:
+                score -= 25.0
+                status = max_status(status, "HIGH")
+            elif details["packet_loss_pct"] > 1.0:
+                score -= 10.0
+                status = max_status(status, "MODERATE")
+
+        except Exception as e:
+            score = 0.0
+            status = "CRITICAL"
+            details["error"] = str(e)
+
+        return SubsystemResult(
+            name="network",
+            score=max(0.0, score),
+            status=status,
+            details=details,
+            latency_ms=round((time.time() - start) * 1000, 2)
+        )
+
+    def _test_cpu(self) -> SubsystemResult:
+        """Test CPU: load, temperature, thermal throttling."""
+        start = time.time()
+        details = {}
+        score = 100.0
+        status = "NOMINAL"
+
+        try:
+            # CPU metrics simulation (replace with actual /proc/stat, /sys/class/thermal reads)
+            details["load_avg_1m"] = 0.45
+            details["temperature_c"] = 58
+            details["thermal_throttled"] = False
+
+            if details["temperature_c"] > 85:
+                score -= 35.0
+                status = "CRITICAL"
+            elif details["temperature_c"] > 75:
+                score -= 20.0
+                status = "HIGH"
+            elif details["temperature_c"] > 65:
+                score -= 10.0
+                status = "MODERATE"
+
+            if details["thermal_throttled"]:
+                score -= 15.0
+                status = max_status(status, "HIGH")
+
+        except Exception as e:
+            score = 0.0
+            status = "CRITICAL"
+            details["error"] = str(e)
+
+        return SubsystemResult(
+            name="cpu",
+            score=max(0.0, score),
+            status=status,
+            details=details,
+            latency_ms=round((time.time() - start) * 1000, 2)
+        )
+
+    def _test_audio(self) -> SubsystemResult:
+        """Test audio: codec response, speaker output, microphone input."""
+        start = time.time()
+        details = {}
+        score = 100.0
+        status = "NOMINAL"
+
+        try:
+            # Audio subsystem simulation (replace with actual amixer/arecord/aplay calls)
+            details["codec_detected"] = True
+            details["speaker_output_db"] = -12.0
+            details["mic_input_db"] = -35.0
+            details["thd_pct"] = 0.8  # Total Harmonic Distortion
+
+            if not details["codec_detected"]:
+                score = 0.0
+                status = "CRITICAL"
+            else:
+                if details["thd_pct"] > 5.0:
+                    score -= 25.0
+                    status = "HIGH"
+                elif details["thd_pct"] > 2.0:
+                    score -= 10.0
+                    status = "MODERATE"
+
+                if details["speaker_output_db"] < -20.0:
+                    score -= 15.0
+                    status = max_status(status, "MODERATE")
+
+        except Exception as e:
+            score = 0.0
+            status = "CRITICAL"
+            details["error"] = str(e)
+
+        return SubsystemResult(
+            name="audio",
+            score=max(0.0, score),
+            status=status,
+            details=details,
+            latency_ms=round((time.time() - start) * 1000, 2)
+        )
+
+    def _test_graphics(self) -> SubsystemResult:
+        """Test graphics: framebuffer integrity, display response, GPU load."""
+        start = time.time()
+        details = {}
+        score = 100.0
+        status = "NOMINAL"
+
+        try:
+            # Graphics simulation (replace with actual fbset, DRM debug reads)
+            details["framebuffer_res"] = "240x320"
+            details["refresh_rate_hz"] = 60
+            details["gpu_load_pct"] = 15.0
+            details["display_backlight_pct"] = 85
+
+            if details["refresh_rate_hz"] < 30:
+                score -= 30.0
+                status = "HIGH"
+
+            if details["display_backlight_pct"] < 20:
+                score -= 20.0
+                status = max_status(status, "HIGH")
+
+            if details["gpu_load_pct"] > 90:
+                score -= 15.0
+                status = max_status(status, "MODERATE")
+
+        except Exception as e:
+            score = 0.0
+            status = "CRITICAL"
+            details["error"] = str(e)
+
+        return SubsystemResult(
+            name="graphics",
+            score=max(0.0, score),
+            status=status,
+            details=details,
+            latency_ms=round((time.time() - start) * 1000, 2)
+        )
+
+    # ───────────────────────────────────────────
+    # Self-Healing Recovery Hooks
+    # ───────────────────────────────────────────
+
+    def _recover_power(self, result: SubsystemResult) -> bool:
+        """Attempt power recovery: re-initialize PMIC, re-calibrate ADC."""
+        if result.score < 50:
+            # Simulate PMIC reset sequence
+            time.sleep(0.1)
+            return True  # Simulated success
+        return False
+
+    def _recover_network(self, result: SubsystemResult) -> bool:
+        """Attempt network recovery: re-associate WiFi, flush DNS/routing."""
+        if result.score < 60:
+            # Simulate interface down/up
+            time.sleep(0.1)
+            return True
+        return False
+
+    def _recover_cpu(self, result: SubsystemResult) -> bool:
+        """Attempt CPU recovery: kill thermal offenders, reset governor."""
+        if result.score < 70:
+            # Simulate governor reset
+            time.sleep(0.05)
+            return True
+        return False
+
+    def _recover_audio(self, result: SubsystemResult) -> bool:
+        """Attempt audio recovery: re-initialize ALSA, re-detect codec."""
+        if result.score < 60:
+            # Simulate codec re-detection
+            time.sleep(0.1)
+            return True
+        return False
+
+    def _recover_graphics(self, result: SubsystemResult) -> bool:
+        """Attempt graphics recovery: re-initialize framebuffer, reset backlight."""
+        if result.score < 60:
+            # Simulate framebuffer re-init
+            time.sleep(0.1)
+            return True
+        return False
+
+    # ───────────────────────────────────────────
+    # Core Engine
+    # ───────────────────────────────────────────
+
+    def run_diagnostics(self) -> DiagnosticReport:
+        """Execute full diagnostic suite and return structured report."""
+        start_time = time.time()
+        subsystems: List[SubsystemResult] = []
+        total_weighted_score = 0.0
+
+        for name, tester in self.subsystem_testers.items():
+            result = tester()
+
+            # Attempt self-healing if enabled and score is below threshold
+            if self.enable_recovery and result.score < 70 and name in self.recovery_hooks:
+                result.recovery_attempted = True
+                recovery_success = self.recovery_hooks[name](result)
+                result.recovery_success = recovery_success
+
+                # Re-test after recovery
+                if recovery_success:
+                    result = tester()
+                    result.recovery_attempted = True
+                    result.recovery_success = True
+
+            weight = self.SUBSYSTEM_WEIGHTS.get(name, 0.20)
+            total_weighted_score += result.score * weight
+            subsystems.append(result)
+
+        overall_score = round(total_weighted_score, 2)
+        overall_health = self._classify_health(overall_score)
+        risk_level = self._assess_risk(subsystems)
+
+        report = DiagnosticReport(
+            device_id=self.device_id,
+            overall_health=overall_health,
+            overall_score=overall_score,
+            subsystems=subsystems,
+            risk_level=risk_level,
+            execution_time_ms=round((time.time() - start_time) * 1000, 2)
+        )
+
+        # Generate vault hash for tamper-evident logging
+        report.vault_hash = self._compute_vault_hash(report)
+        return report
+
+    def _classify_health(self, score: float) -> str:
+        if score < self.THRESHOLDS["CRITICAL"]:
+            return "CRITICAL"
+        elif score < self.THRESHOLDS["HIGH"]:
+            return "HIGH"
+        elif score < self.THRESHOLDS["MODERATE"]:
+            return "MODERATE"
+        elif score < self.THRESHOLDS["LOW"]:
+            return "LOW"
+        return "NOMINAL"
+
+    def _assess_risk(self, subsystems: List[SubsystemResult]) -> str:
+        """Assess composite risk based on subsystem interactions."""
+        critical_count = sum(1 for s in subsystems if s.status == "CRITICAL")
+        high_count = sum(1 for s in subsystems if s.status == "HIGH")
+        recovery_failures = sum(1 for s in subsystems if s.recovery_attempted and not s.recovery_success)
+
+        if critical_count >= 2 or recovery_failures >= 2:
+            return "SEVERE"
+        elif critical_count == 1 or high_count >= 2:
+            return "ELEVATED"
+        elif high_count == 1:
+            return "MODERATE"
+        return "STANDARD"
+
+    def _compute_vault_hash(self, report: DiagnosticReport) -> str:
+        """Compute deterministic hash of report for Success Vault protocol."""
+        canonical = json.dumps(asdict(report), sort_keys=True, default=str)
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+    def export_json(self, report: DiagnosticReport, path: str) -> None:
+        """Export report to JSON file."""
+        with open(path, "w") as f:
+            json.dump(asdict(report), f, indent=2, default=str)
+
+    def export_console(self, report: DiagnosticReport) -> None:
+        """Print human-readable report to console."""
+        print(f"\n{'='*60}")
+        print(f"  AEGENTIS DIAGNOSTICS REPORT")
+        print(f"  Device: {report.device_id}")
+        print(f"  Time: {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(report.timestamp))}")
+        print(f"{'='*60}")
+        print(f"  Overall Health: {report.overall_health} ({report.overall_score}/100)")
+        print(f"  Risk Level: {report.risk_level}")
+        print(f"  Execution Time: {report.execution_time_ms}ms")
+        print(f"  Vault Hash: {report.vault_hash[:16]}...")
+        print(f"{'-'*60}")
+
+        for sub in report.subsystems:
+            icon = "✓" if sub.score >= 70 else "⚠" if sub.score >= 50 else "✗"
+            recov = " [RECOVERED]" if sub.recovery_success else " [RECOVERY FAILED]" if sub.recovery_attempted else ""
+            print(f"  {icon} {sub.name.upper():12} {sub.score:6.1f}/100  {sub.status:10}{recov}")
+            for k, v in sub.details.items():
+                print(f"      {k}: {v}")
+        print(f"{'='*60}\n")
+
+
+# ───────────────────────────────────────────
+# Utility Functions
+# ───────────────────────────────────────────
+
+def max_status(current: str, candidate: str) -> str:
+    """Return the more severe of two status strings."""
+    order = {"NOMINAL": 0, "LOW": 1, "MODERATE": 2, "HIGH": 3, "CRITICAL": 4}
+    return current if order.get(current, 0) >= order.get(candidate, 0) else candidate
+
+
+def main():
+    """CLI entry point for standalone diagnostic execution."""
+    import argparse
+    parser = argparse.ArgumentParser(description="AEGENTIS Cognitive Diagnostics for Flipper One")
+    parser.add_argument("--device-id", default="flipper-one-dev", help="Device identifier")
+    parser.add_argument("--json-out", help="Export report to JSON file")
+    parser.add_argument("--threshold", type=float, default=60.0, help="CI failure threshold")
+    parser.add_argument("--no-recovery", action="store_true", help="Disable self-healing")
+    parser.add_argument("--groq-key", help="Groq API key for LLM-assisted analysis (optional)")
+    args = parser.parse_args()
+
+    engine = AEGENTISDiagnostics(
+        device_id=args.device_id,
+        groq_api_key=args.groq_key,
+        enable_recovery=not args.no_recovery
+    )
+
+    report = engine.run_diagnostics()
+    engine.export_console(report)
+
+    if args.json_out:
+        engine.export_json(report, args.json_out)
+
+    # CI exit code: fail if below threshold
+    if report.overall_score < args.threshold:
+        print(f"[FAIL] Overall score {report.overall_score} below threshold {args.threshold}")
+        sys.exit(1)
+
+    print(f"[PASS] Overall score {report.overall_score} meets threshold {args.threshold}")
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()

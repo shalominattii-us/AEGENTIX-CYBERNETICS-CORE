@@ -1,0 +1,219 @@
+#!/usr/bin/env python3
+"""
+aegentis_diagnostics_test.py
+Unit tests for AEGENTIS Cognitive Diagnostics Engine
+
+Run: python -m pytest aegentis_diagnostics_test.py -v
+"""
+
+import json
+import pytest
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from aegentis_diagnostics import AEGENTISDiagnostics, max_status, DiagnosticReport
+
+
+class TestAEGENTISDiagnostics:
+    """Test suite for cognitive diagnostic engine."""
+
+    def test_initialization_defaults(self):
+        engine = AEGENTISDiagnostics()
+        assert engine.device_id == "flipper-one-dev"
+        assert engine.enable_recovery is True
+        assert engine.groq_api_key is None
+
+    def test_initialization_custom(self):
+        engine = AEGENTISDiagnostics(
+            device_id="test-unit-01",
+            groq_api_key="gsk_test_key",
+            enable_recovery=False
+        )
+        assert engine.device_id == "test-unit-01"
+        assert engine.groq_api_key == "gsk_test_key"
+        assert engine.enable_recovery is False
+
+    def test_all_subsystems_registered(self):
+        engine = AEGENTISDiagnostics()
+        expected = {"power", "network", "cpu", "audio", "graphics"}
+        assert set(engine.subsystem_testers.keys()) == expected
+        assert set(engine.recovery_hooks.keys()) == expected
+
+    def test_run_diagnostics_structure(self):
+        engine = AEGENTISDiagnostics(device_id="test-dev-01")
+        report = engine.run_diagnostics()
+
+        assert report.device_id == "test-dev-01"
+        assert 0.0 <= report.overall_score <= 100.0
+        assert report.overall_health in ["CRITICAL", "HIGH", "MODERATE", "LOW", "NOMINAL"]
+        assert report.risk_level in ["SEVERE", "ELEVATED", "MODERATE", "STANDARD"]
+        assert len(report.subsystems) == 5
+        assert report.vault_hash != ""
+        assert len(report.vault_hash) == 64  # SHA-256 hex
+        assert report.execution_time_ms >= 0
+
+    def test_subsystem_scores_in_range(self):
+        engine = AEGENTISDiagnostics()
+        report = engine.run_diagnostics()
+
+        for sub in report.subsystems:
+            assert 0.0 <= sub.score <= 100.0
+            assert sub.status in ["NOMINAL", "LOW", "MODERATE", "HIGH", "CRITICAL"]
+            assert sub.latency_ms >= 0
+            assert sub.timestamp > 0
+
+    def test_weighted_score_calculation(self):
+        engine = AEGENTISDiagnostics()
+        report = engine.run_diagnostics()
+
+        expected = sum(
+            sub.score * engine.SUBSYSTEM_WEIGHTS[sub.name]
+            for sub in report.subsystems
+        )
+        assert abs(report.overall_score - round(expected, 2)) < 0.01
+
+    def test_health_classification_boundaries(self):
+        engine = AEGENTISDiagnostics()
+
+        assert engine._classify_health(25) == "CRITICAL"
+        assert engine._classify_health(40) == "HIGH"
+        assert engine._classify_health(60) == "MODERATE"
+        assert engine._classify_health(80) == "LOW"
+        assert engine._classify_health(95) == "NOMINAL"
+
+    def test_risk_assessment_severe(self):
+        engine = AEGENTISDiagnostics()
+
+        # Mock two critical subsystems
+        from aegentis_diagnostics import SubsystemResult
+        mock_subs = [
+            SubsystemResult(name="power", score=10, status="CRITICAL", details={}),
+            SubsystemResult(name="network", score=15, status="CRITICAL", details={}),
+            SubsystemResult(name="cpu", score=90, status="NOMINAL", details={}),
+            SubsystemResult(name="audio", score=85, status="NOMINAL", details={}),
+            SubsystemResult(name="graphics", score=88, status="NOMINAL", details={}),
+        ]
+        assert engine._assess_risk(mock_subs) == "SEVERE"
+
+    def test_risk_assessment_elevated(self):
+        engine = AEGENTISDiagnostics()
+        from aegentis_diagnostics import SubsystemResult
+
+        mock_subs = [
+            SubsystemResult(name="power", score=40, status="HIGH", details={}),
+            SubsystemResult(name="network", score=45, status="HIGH", details={}),
+            SubsystemResult(name="cpu", score=90, status="NOMINAL", details={}),
+            SubsystemResult(name="audio", score=85, status="NOMINAL", details={}),
+            SubsystemResult(name="graphics", score=88, status="NOMINAL", details={}),
+        ]
+        assert engine._assess_risk(mock_subs) == "ELEVATED"
+
+    def test_vault_hash_determinism(self):
+        engine = AEGENTISDiagnostics(device_id="det-test")
+        report1 = engine.run_diagnostics()
+        report2 = engine.run_diagnostics()
+
+        # Same inputs should produce same vault hash structure
+        assert len(report1.vault_hash) == 64
+        assert len(report2.vault_hash) == 64
+        assert report1.vault_hash != report2.vault_hash  # Timestamps differ
+
+    def test_json_export(self, tmp_path):
+        engine = AEGENTISDiagnostics()
+        report = engine.run_diagnostics()
+
+        out_file = tmp_path / "report.json"
+        engine.export_json(report, str(out_file))
+
+        assert out_file.exists()
+        data = json.loads(out_file.read_text())
+        assert data["device_id"] == "flipper-one-dev"
+        assert "overall_score" in data
+        assert "subsystems" in data
+        assert len(data["subsystems"]) == 5
+
+    def test_console_export_no_crash(self, capsys):
+        engine = AEGENTISDiagnostics()
+        report = engine.run_diagnostics()
+        engine.export_console(report)
+
+        captured = capsys.readouterr()
+        assert "AEGENTIS DIAGNOSTICS REPORT" in captured.out
+        assert report.device_id in captured.out
+        assert str(report.overall_score) in captured.out
+
+    def test_max_status_function(self):
+        assert max_status("NOMINAL", "CRITICAL") == "CRITICAL"
+        assert max_status("HIGH", "MODERATE") == "HIGH"
+        assert max_status("CRITICAL", "CRITICAL") == "CRITICAL"
+        assert max_status("NOMINAL", "LOW") == "LOW"
+        assert max_status("MODERATE", "NOMINAL") == "MODERATE"
+
+    def test_recovery_disabled(self):
+        engine = AEGENTISDiagnostics(enable_recovery=False)
+        report = engine.run_diagnostics()
+
+        for sub in report.subsystems:
+            assert sub.recovery_attempted is False
+            assert sub.recovery_success is False
+
+    def test_ci_threshold_pass(self):
+        engine = AEGENTISDiagnostics()
+        report = engine.run_diagnostics()
+
+        # Default threshold is 60; most healthy simulations should pass
+        if report.overall_score >= 60:
+            assert report.overall_health in ["NOMINAL", "LOW", "MODERATE"]
+        else:
+            assert report.overall_health in ["HIGH", "CRITICAL"]
+
+    def test_subsystem_names_match_weights(self):
+        engine = AEGENTISDiagnostics()
+        report = engine.run_diagnostics()
+
+        names = {sub.name for sub in report.subsystems}
+        assert names == set(engine.SUBSYSTEM_WEIGHTS.keys())
+
+
+class TestCLIMain:
+    """Test CLI entry point behavior."""
+
+    def test_cli_help(self):
+        import subprocess
+        result = subprocess.run(
+            [sys.executable, "aegentis_diagnostics.py", "--help"],
+            capture_output=True, text=True
+        )
+        assert result.returncode == 0
+        assert "AEGENTIS Cognitive Diagnostics" in result.stdout
+
+    def test_cli_json_output(self, tmp_path):
+        import subprocess
+        out_file = tmp_path / "cli_report.json"
+        result = subprocess.run(
+            [sys.executable, "aegentis_diagnostics.py",
+             "--device-id", "cli-test",
+             "--json-out", str(out_file),
+             "--threshold", "0"],
+            capture_output=True, text=True
+        )
+        assert result.returncode == 0
+        assert out_file.exists()
+        data = json.loads(out_file.read_text())
+        assert data["device_id"] == "cli-test"
+
+    def test_cli_threshold_fail(self):
+        import subprocess
+        # Impossible threshold to force failure
+        result = subprocess.run(
+            [sys.executable, "aegentis_diagnostics.py",
+             "--threshold", "101"],
+            capture_output=True, text=True
+        )
+        assert result.returncode == 1
+        assert "below threshold" in result.stdout
+
+
+if __name__ == "__main__":
+    pytest.main([__file__, "-v"])

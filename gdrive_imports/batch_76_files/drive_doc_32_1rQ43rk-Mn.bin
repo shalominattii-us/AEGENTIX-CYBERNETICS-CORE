@@ -1,0 +1,48 @@
+# === GITHUB REMOTE AUDIT COMMANDS ===
+# Run these in PowerShell 7.6.1 with git in PATH
+# No .ps1 file needed — paste line by line
+
+$Repos = @(
+    "sovereign-installer",
+    "sovereign-osint",
+    "sovereign-recon",
+    "sovereign-dashboard",
+    "sovereign-cbdc",
+    "sovereign-xrpl",
+    "sovereign-agent",
+    "sovereign-blockchain"
+)
+
+$Owner = "shalominattii-us"
+
+foreach ($r in $Repos) {
+    Write-Host "`n[Ω] $Owner/$r" -ForegroundColor Cyan
+    $url = "https://api.github.com/repos/$Owner/$r"
+    try {
+        $data = Invoke-RestMethod -Uri $url -TimeoutSec 10
+        Write-Host "  Size: $($data.size) KB" -ForegroundColor Green
+        Write-Host "  Updated: $($data.updated_at)" -ForegroundColor Green
+        Write-Host "  Has Issues: $($data.has_issues)" -ForegroundColor Green
+        Write-Host "  Default Branch: $($data.default_branch)" -ForegroundColor Green
+        Write-Host "  URL: $($data.html_url)" -ForegroundColor Green
+
+        # Count files in default branch
+        $treeUrl = "https://api.github.com/repos/$Owner/$r/git/trees/$($data.default_branch)?recursive=1"
+        $tree = Invoke-RestMethod -Uri $treeUrl -TimeoutSec 10
+        $fileCount = ($tree.tree | Where-Object { $_.type -eq "blob" }).Count
+        Write-Host "  Files in tree: $fileCount" -ForegroundColor Green
+
+        if ($fileCount -eq 0) { Write-Host "  [!] EMPTY REPO — needs content" -ForegroundColor Red }
+    } catch {
+        Write-Host "  [!] ERROR: $_" -ForegroundColor Red
+    }
+}
+
+# Flipper One repo (different org)
+Write-Host "`n[Ω] eaglecrat/-flipper-one-proposals" -ForegroundColor Cyan
+try {
+    $f = Invoke-RestMethod -Uri "https://api.github.com/repos/eaglecrat/-flipper-one-proposals" -TimeoutSec 10
+    Write-Host "  Size: $($f.size) KB | Files: ??? | Updated: $($f.updated_at)" -ForegroundColor Green
+} catch {
+    Write-Host "  [!] ERROR: $_" -ForegroundColor Red
+}
