@@ -1,0 +1,283 @@
+# Success Vault Protocol
+
+## Tamper-Evident Audit Specification for Flipper One Testing
+
+### Overview
+
+The Success Vault Protocol ensures every successful test operation is logged with cryptographic verification, creating an append-only, tamper-evident audit trail. This is essential for compliance, post-incident analysis, and build reproducibility verification.
+
+**Version**: 1.0  
+**Status**: Draft — open for review  
+**Author**: ΩV (Omega Victor) | AEGENTIS Sovereign Systems  
+**License**: Apache-2.0 with explicit patent grant
+
+---
+
+## 1. Protocol Design
+
+### 1.1 Core Principles
+
+1. **Append-only**: Once written, a vault entry is never modified or deleted
+2. **Cryptographically verifiable**: Every entry is signed and hash-chained
+3. **Deterministic**: Same operation metadata always produces the same hash
+4. **Minimal trust**: Verification requires only the public key and the vault file
+
+### 1.2 Entry Format
+
+Each vault entry is a single-line JSON object with the following fields:
+
+```json
+{
+  "operation": "ci_diagnostic_suite",
+  "timestamp": 1716585600,
+  "run_id": "9876543210",
+  "commit": "a1b2c3d4e5f6...",
+  "actor": "contributor_name",
+  "result": "PASS",
+  "device_id": "flipper-one-dev-01",
+  "firmware_hash": "sha256_of_tested_firmware",
+  "hash": "sha256_of_canonical_json",
+  "signature": "ed25519_signature_of_hash"
+}
+```
+
+**Required fields**: `operation`, `timestamp`, `hash`  
+**Optional fields**: All others are context-dependent
+
+### 1.3 Hash Computation
+
+The entry hash is computed as follows:
+
+1. Serialize the entry to canonical JSON (sorted keys, no whitespace, no `hash` or `signature` fields)
+2. Compute SHA-256 of the UTF-8 encoded canonical JSON
+3. Store the hex-encoded hash in the `hash` field
+
+```python
+import json, hashlib
+
+def compute_entry_hash(entry):
+    canonical = {k: v for k, v in entry.items() if k not in ("hash", "signature")}
+    serialized = json.dumps(canonical, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+```
+
+### 1.4 Signature Scheme
+
+- **Algorithm**: Ed25519
+- **Key generation**: Hardware-backed (YubiKey, TPM, or HSM)
+- **Signing**: Sign the `hash` field with the private key
+- **Verification**: Verify signature against public key and `hash` field
+
+---
+
+## 2. Vault File Format
+
+### 2.1 Physical Structure
+
+The vault is a plain text file with one JSON entry per line:
+
+```
+{"operation":"flash_recovery","timestamp":1716585600,...,"hash":"abc123...","signature":"sig456..."}
+{"operation":"diagnostic_suite","timestamp":1716585601,...,"hash":"def789...","signature":"sig012..."}
+```
+
+**File naming**: `success_vault.log` or `success_vault_{device_id}.log`
+
+### 2.2 Append Semantics
+
+- New entries are always appended to the end of the file
+- Never modify existing lines
+- Never delete the file (archive instead)
+- Use file locking or atomic append operations in concurrent environments
+
+### 2.3 Remote Sync
+
+For distributed environments, the vault should be periodically synced to immutable storage:
+
+| Backend | Method | Immutability Guarantee |
+|---------|--------|----------------------|
+| AWS S3 | S3 Object Lock | WORM (Write Once Read Many) |
+| IPFS | Content-addressed | Cryptographic immutability |
+| Git | Signed commits | Git object model + GPG/SSH signing |
+| Local RAID | ZFS snapshots | Snapshot immutability |
+
+---
+
+## 3. Verification Procedures
+
+### 3.1 Single Entry Verification
+
+```python
+def verify_entry(entry, public_key):
+    # 1. Recompute hash
+    expected_hash = compute_entry_hash(entry)
+    assert entry["hash"] == expected_hash, "Hash mismatch"
+
+    # 2. Verify signature
+    verify_ed25519_signature(public_key, entry["hash"], entry["signature"])
+
+    return True
+```
+
+### 3.2 Full Vault Verification
+
+```python
+def verify_vault(vault_path, public_key):
+    with open(vault_path) as f:
+        entries = [json.loads(line) for line in f if line.strip()]
+
+    # Verify each entry
+    for i, entry in enumerate(entries):
+        verify_entry(entry, public_key)
+
+    # Verify chronological ordering
+    timestamps = [e["timestamp"] for e in entries]
+    assert timestamps == sorted(timestamps), "Chronology violation"
+
+    # Verify no duplicate hashes (collision detection)
+    hashes = [e["hash"] for e in entries]
+    assert len(hashes) == len(set(hashes)), "Duplicate hash detected"
+
+    return True
+```
+
+### 3.3 Chain Verification (Advanced)
+
+For enhanced security, entries can be hash-chained:
+
+```python
+def verify_chain(vault_path):
+    with open(vault_path) as f:
+        entries = [json.loads(line) for line in f if line.strip()]
+
+    prev_hash = "0" * 64
+    for entry in entries:
+        # Include previous hash in canonical form
+        canonical = {k: v for k, v in entry.items() if k not in ("hash", "signature", "prev_hash")}
+        canonical["prev_hash"] = prev_hash
+
+        expected = hashlib.sha256(json.dumps(canonical, sort_keys=True).encode()).hexdigest()
+        assert entry["hash"] == expected, "Chain break detected"
+        prev_hash = entry["hash"]
+
+    return True
+```
+
+---
+
+## 4. Integration with Flipper One Testing
+
+### 4.1 CI/CD Integration
+
+The GitHub Actions workflow (`aegentis-ci.yml`) automatically appends a vault entry on every passing build:
+
+1. Run diagnostic suite
+2. If overall score >= threshold: generate vault entry
+3. Sign entry with CI bot key
+4. Append to `success_vault.log`
+5. Upload vault snapshot as artifact
+
+### 4.2 Manual Testing Integration
+
+For manual hardware tests:
+
+```bash
+# After successful test run
+python aegentis_diagnostics.py --device-id flipper-01 --json-out report.json
+python -m sovereign_dfir_toolkit.vault_append     --operation manual_power_test     --device-id flipper-01     --report report.json     --key /path/to/ed25519_private.key
+```
+
+### 4.3 DFIR Integration
+
+After incident recovery, append a recovery vault entry:
+
+```bash
+./sovereign_dfir_toolkit/flash_recovery.sh flipper-01 ./backups/factory.bin
+# Script automatically appends vault entry on success
+```
+
+---
+
+## 5. Security Considerations
+
+### 5.1 Key Management
+
+- **Private key**: Never stored on disk unencrypted. Use hardware security modules (YubiKey, TPM, smart card)
+- **Public key**: Distributed openly for verification. Store in repository as `vault_public_key.pem`
+- **Key rotation**: Rotate every 90 days. Old public keys remain in `vault_keys/` directory for historical verification
+
+### 5.2 Threat Model
+
+| Threat | Mitigation |
+|--------|------------|
+| Vault tampering | Cryptographic signatures + hash chaining |
+| Key theft | Hardware-backed keys, never exported |
+| Replay attacks | Timestamps + unique operation IDs |
+| Denial of service | Local vault copy + remote sync redundancy |
+| Insider threat | Multi-signature requirement for critical entries (optional) |
+
+### 5.3 Compliance Mapping
+
+| Standard | Requirement | Vault Protocol Coverage |
+|----------|-------------|------------------------|
+| HIPAA | §164.312(b) — Audit controls | Full cryptographic audit trail |
+| SOC 2 | CC7.2 — System operations monitoring | Automated CI + manual entry logging |
+| NIST 800-53 | AU-6 — Audit review | Structured JSON + machine-parseable |
+| ISO 27001 | A.12.4 — Logging and monitoring | Tamper-evident log integrity |
+
+---
+
+## 6. Reference Implementation
+
+### 6.1 Python Vault Module
+
+```python
+# sovereign_dfir_toolkit/vault_append.py
+import json, hashlib, time, os
+from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
+
+def append_vault_entry(vault_path, operation, metadata, private_key_path):
+    # Load key
+    with open(private_key_path, "rb") as f:
+        key = Ed25519PrivateKey.from_private_bytes(f.read())
+
+    # Build entry
+    entry = {
+        "operation": operation,
+        "timestamp": int(time.time()),
+        **metadata
+    }
+
+    # Compute hash
+    canonical = json.dumps({k: v for k, v in entry.items() if k not in ("hash", "signature")},
+                           sort_keys=True, separators=(",", ":"))
+    entry["hash"] = hashlib.sha256(canonical.encode()).hexdigest()
+
+    # Sign
+    signature = key.sign(entry["hash"].encode())
+    entry["signature"] = signature.hex()
+
+    # Append
+    with open(vault_path, "a") as f:
+        f.write(json.dumps(entry) + "\n")
+
+    return entry["hash"]
+```
+
+---
+
+## 7. Future Extensions
+
+- **Multi-signature**: Require M-of-N signatures for critical operations
+- **Zero-knowledge proofs**: Prove vault integrity without revealing contents
+- **Blockchain anchoring**: Anchor vault merkle root to public blockchain for timestamp attestation
+- **Graph visualization**: Timeline visualization of vault entries for forensic review
+
+---
+
+## Contributing
+
+This protocol is a living document. Submit PRs to the Testing sub-project with proposed extensions or security improvements.
+
+**Repository**: `github.com/flipperdevices/flipperone-testing`  
+**Discussion**: Open an issue with label `protocol-review`

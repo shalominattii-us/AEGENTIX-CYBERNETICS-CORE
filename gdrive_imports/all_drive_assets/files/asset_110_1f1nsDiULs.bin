@@ -1,0 +1,158 @@
+#!/usr/bin/env python3
+"""
+═══════════════════════════════════════════════════════════════════════════════
+  WORLDMONITOR BRIDGE — ORB Engine Data Feed
+
+  Pulls cross-exchange price/volume data from worldmonitor/
+  Feeds ORB engine with real-time market data for signal generation
+═══════════════════════════════════════════════════════════════════════════════
+"""
+
+import json
+import asyncio
+from pathlib import Path
+from decimal import Decimal
+from typing import Optional, Dict, List
+import time
+
+class WorldMonitorBridge:
+    """
+    Bridge to worldmonitor/ for cross-exchange market data.
+
+    Expected worldmonitor structure:
+        worldmonitor/
+        ├── src/
+        │   ├── services/
+        │   │   └── price_feed.py      # Price aggregation
+        │   └── config/
+        │       └── finance-geo.ts     # Exchange configs
+        ├── data/
+        │   └── prices/                # Cached price data
+        └── api/
+            └── server.js              # REST API endpoint
+    """
+
+    def __init__(self, wm_path: str = "../../worldmonitor", 
+                 api_endpoint: str = "http://localhost:8080"):
+        self.wm_path = Path(wm_path)
+        self.api_endpoint = api_endpoint
+        self.price_cache = {}
+        self.cache_ttl = 5  # seconds
+
+        # Try to import worldmonitor modules
+        self._init_imports()
+
+    def _init_imports(self):
+        """Attempt to import worldmonitor modules."""
+        import sys
+        wm_src = self.wm_path / "src"
+        if wm_src.exists():
+            sys.path.insert(0, str(wm_src))
+            try:
+                # Try various import paths
+                try:
+                    from services.price_feed import PriceFeed
+                    self.price_feed = PriceFeed()
+                except:
+                    self.price_feed = None
+            finally:
+                sys.path.pop(0)
+        else:
+            self.price_feed = None
+
+    async def get_price(self, symbol: str, source: str = "coinbase") -> Optional[Decimal]:
+        """Get price from worldmonitor or cache."""
+        cache_key = f"{symbol}:{source}"
+        now = time.time()
+
+        if cache_key in self.price_cache:
+            price, timestamp = self.price_cache[cache_key]
+            if now - timestamp < self.cache_ttl:
+                return price
+
+        # Try worldmonitor API
+        try:
+            import requests
+            resp = requests.get(
+                f"{self.api_endpoint}/price/{source}/{symbol}",
+                timeout=3
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                price = Decimal(str(data.get("price", 0)))
+                self.price_cache[cache_key] = (price, now)
+                return price
+        except:
+            pass
+
+        # Try worldmonitor module directly
+        if self.price_feed:
+            try:
+                price = await self.price_feed.get_price(symbol, source)
+                if price:
+                    self.price_cache[cache_key] = (Decimal(str(price)), now)
+                    return Decimal(str(price))
+            except:
+                pass
+
+        return None
+
+    async def get_order_book(self, symbol: str, source: str = "coinbase", 
+                              depth: int = 10) -> Dict:
+        """Get order book from worldmonitor."""
+        try:
+            import requests
+            resp = requests.get(
+                f"{self.api_endpoint}/book/{source}/{symbol}?depth={depth}",
+                timeout=3
+            )
+            if resp.status_code == 200:
+                return resp.json()
+        except:
+            pass
+
+        return {"bids": [], "asks": [], "spread": "0", "spread_pct": "0"}
+
+    async def get_volume(self, symbol: str, source: str = "coinbase", 
+                         period: str = "24h") -> Optional[Decimal]:
+        """Get 24h volume from worldmonitor."""
+        try:
+            import requests
+            resp = requests.get(
+                f"{self.api_endpoint}/volume/{source}/{symbol}?period={period}",
+                timeout=3
+            )
+            if resp.status_code == 200:
+                data = resp.json()
+                return Decimal(str(data.get("volume", 0)))
+        except:
+            pass
+
+        return None
+
+    def get_available_sources(self) -> List[str]:
+        """List available data sources from worldmonitor."""
+        # Read from worldmonitor config
+        config_file = self.wm_path / "src" / "config" / "finance-geo.ts"
+        if config_file.exists():
+            # Parse TypeScript config for exchange list
+            content = config_file.read_text()
+            # Simple extraction — full parser would be more robust
+            sources = []
+            if "coinbase" in content.lower():
+                sources.append("coinbase")
+            if "kraken" in content.lower():
+                sources.append("kraken")
+            if "binance" in content.lower():
+                sources.append("binance")
+            return sources
+
+        return ["coinbase", "kraken", "binance"]  # Default
+
+
+if __name__ == "__main__":
+    bridge = WorldMonitorBridge()
+    print("WorldMonitor Bridge initialized")
+    print(f"WM path: {bridge.wm_path}")
+    print(f"API endpoint: {bridge.api_endpoint}")
+    print(f"Sources: {bridge.get_available_sources()}")

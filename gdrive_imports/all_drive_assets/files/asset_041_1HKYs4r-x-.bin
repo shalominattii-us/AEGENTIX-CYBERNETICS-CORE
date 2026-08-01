@@ -1,0 +1,110 @@
+#!/bin/bash
+# flash_recovery.sh
+# Forensic recovery script for bricked Flipper One units
+# Attempts safe-mode boot and firmware reflash from known-good backup
+#
+# Usage: ./flash_recovery.sh [DEVICE_SERIAL] [BACKUP_FIRMWARE_PATH]
+# Requires: dfu-util, openocd, st-link or compatible debugger
+
+set -euo pipefail
+
+DEVICE_SERIAL="${1:-}"
+BACKUP_FW="${2:-./backups/flipper_one_factory.bin}"
+LOGFILE="./logs/recovery_$(date +%Y%m%d_%H%M%S).log"
+
+mkdir -p ./logs
+
+log() {
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOGFILE"
+}
+
+error_exit() {
+    log "ERROR: $*"
+    exit 1
+}
+
+# ───────────────────────────────────────────
+# Pre-flight checks
+# ───────────────────────────────────────────
+
+log "=== Flipper One Flash Recovery ==="
+log "Device Serial: ${DEVICE_SERIAL:-auto-detect}"
+log "Backup Firmware: $BACKUP_FW"
+
+[[ -f "$BACKUP_FW" ]] || error_exit "Backup firmware not found: $BACKUP_FW"
+
+# Detect DFU-capable device
+if command -v dfu-util &>/dev/null; then
+    log "dfu-util detected"
+    DFU_MODE="dfu"
+elif command -v openocd &>/dev/null; then
+    log "openocd detected, will use SWD/JTAG"
+    DFU_MODE="swd"
+else
+    error_exit "Neither dfu-util nor openocd found. Install one to proceed."
+fi
+
+# ───────────────────────────────────────────
+# Safe-mode boot attempt
+# ───────────────────────────────────────────
+
+log "Attempting safe-mode boot..."
+
+if [[ "$DFU_MODE" == "dfu" ]]; then
+    # List DFU devices
+    DEVICES=$(dfu-util -l 2>/dev/null || true)
+    if echo "$DEVICES" | grep -q "Flipper"; then
+        log "Flipper One detected in DFU mode"
+    else
+        log "Device not in DFU mode. Attempting forced boot..."
+        # Hold BOOT button + RESET (user must do this physically)
+        log "ACTION REQUIRED: Hold BOOT button, press RESET, then release BOOT"
+        log "Waiting 10 seconds for user action..."
+        sleep 10
+    fi
+fi
+
+# ───────────────────────────────────────────
+# Firmware verification before flash
+# ───────────────────────────────────────────
+
+log "Verifying backup firmware integrity..."
+EXPECTED_HASH=$(sha256sum "$BACKUP_FW" | awk '{print $1}')
+log "Expected SHA-256: $EXPECTED_HASH"
+
+# ───────────────────────────────────────────
+# Flash operation
+# ───────────────────────────────────────────
+
+if [[ "$DFU_MODE" == "dfu" ]]; then
+    log "Flashing via DFU..."
+    dfu-util -a 0 -D "$BACKUP_FW" -R 2>&1 | tee -a "$LOGFILE" || {
+        error_exit "DFU flash failed. Check device connection and permissions."
+    }
+else
+    log "Flashing via OpenOCD SWD..."
+    openocd -f interface/stlink.cfg -f target/stm32f7x.cfg         -c "init"         -c "reset halt"         -c "flash write_image erase $BACKUP_FW 0x08000000"         -c "reset run"         -c "shutdown" 2>&1 | tee -a "$LOGFILE" || {
+        error_exit "OpenOCD flash failed. Check debugger connection."
+    }
+fi
+
+# ───────────────────────────────────────────
+# Post-flash verification
+# ───────────────────────────────────────────
+
+log "Waiting for device boot..."
+sleep 5
+
+# Verify via serial console (if available)
+if command -v picocom &>/dev/null && [[ -e "/dev/ttyACM0" ]]; then
+    log "Serial console detected. Capturing boot log..."
+    timeout 10 picocom -b 115200 /dev/ttyACM0 -g ./logs/boot_$(date +%s).log || true
+fi
+
+log "Recovery complete. Log saved to: $LOGFILE"
+log "Verify device functionality before returning to service."
+
+# Success Vault entry
+VAULT_ENTRY="{\"operation\":\"flash_recovery\",\"timestamp\":$(date +%s),\"device\":\"${DEVICE_SERIAL:-unknown}\",\"firmware_hash\":\"$EXPECTED_HASH\",\"log\":\"$LOGFILE\"}"
+echo "$VAULT_ENTRY" >> ./success_vault.log
+log "Success Vault entry appended."

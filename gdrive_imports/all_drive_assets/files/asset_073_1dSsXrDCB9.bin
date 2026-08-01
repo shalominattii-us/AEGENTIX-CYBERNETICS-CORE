@@ -1,0 +1,841 @@
+# SOVEREIGN PATENT PORTFOLIO — PRO SE FILING PACKAGE
+# Classes 3, 4, 5: Prior Art, Pseudocode, Hardware Specs, Provisional Guide
+
+**Date:** 2026-05-26
+**Filing Strategy:** Pro Se (without attorney) — Provisional Patent Applications
+**Target:** USPTO — 3 provisionals for Classes 3, 4, 5
+
+---
+
+# PART 1: PRIOR ART SEARCH RESULTS
+
+## Class 3: DXVR Spatial Synchronization
+
+### What We Found
+
+**Dead reckoning / predictive interpolation is NOT novel.** It has been used in multiplayer games since 1996:
+
+| Technique | First Use | Source |
+|-----------|-----------|--------|
+| Position + velocity extrapolation (dead reckoning) | 1996 | QuakeWorld, DIS IEEE standard |
+| Position + velocity + acceleration extrapolation | 2004+ | Hanawa & Yonekura (Taylor expansion) |
+| Client-side prediction | 1996 | QuakeWorld |
+| Interpolation between states | 2001 | Half-Life, Age of Empires |
+| Incoming delay buffer | 2001 | Half-Life |
+| Time warp | 2001 | Half-Life |
+| Jitter-adaptive interpolation | 2014+ | Savery & Graham toolkit |
+| Machine learning for prediction | 2016+ | Henze et al. (ANN touch prediction) |
+
+**Key ACM Survey (2022):** "A Survey and Taxonomy of Latency Compensation Techniques for Network Computer Games" — catalogs **85+ peer-reviewed papers** on latency compensation, divided into 4 classes (feedback, prediction, time manipulation, world adjustment) and 11 technique types. The most popular categories are extrapolation and incoming delay.
+
+**What IS potentially novel in DXVR:**
+
+The individual techniques are well-known, but the **specific combination** may be novel:
+
+1. **Hierarchical spatial partitioning for progressive delta transmission** — dead reckoning papers use flat position/velocity vectors, not hierarchical room→object→vertex granularity
+2. **Temporal coherence mesh with weighted LWW by device authority** — standard LWW is unweighted; weighting by tracking precision (6DoF vs 3DoF) is not found in surveyed literature
+3. **Network partition recovery via three-way merge with monotonic sequence numbers** — standard systems freeze or disconnect on partition; three-way merge with sequence-number-based replay is not in the 85-paper survey
+4. **Hardware-aware rendering that adjusts quality based on GPU compute, FOV, and refresh rate** — most systems render at fixed quality; adaptive rendering based on full capability profile is less common in multiplayer sync literature
+
+**Verdict after search:** DXVR is **fileable** but claims must be narrowly scoped to the specific combinations above. Broad claims on "predictive interpolation" will be rejected.
+
+---
+
+## Class 4: Sovereign Portal VR Gateway
+
+### What We Found
+
+**No direct patent hits** for "runtime scene assembly from intent descriptors," but the space is crowded:
+
+| System | What It Does | Gap for Portal |
+|--------|-------------|----------------|
+| **Meta Horizon Worlds** | Pre-built world templates, user placement | Portal generates from intent, not templates |
+| **NVIDIA CloudXR** | Cloud rendering, video stream | Portal runs locally, assembles on-device |
+| **Apple Vision Pro** | Room mapping, object placement | Portal generates virtual scenes from intent, not just maps physical rooms |
+| **WebXR** | Standard scene graph, hit testing | No intent parsing or runtime assembly |
+| **Unity Addressables** | Asset bundle loading | No intent-based asset selection |
+
+**What IS potentially novel:**
+
+1. **Multi-modal intent fusion weighted by sensor noise characteristics** — combining voice + gesture + gaze with confidence weighting is not standard
+2. **Hardware capability handshake before scene load** — querying GPU FLOPS, memory, tracking accuracy, then JIT-compiling assets to platform-specific format
+3. **Blockchain attestation for scene access without exposing private key** — cross-domain identity bridging
+
+**Verdict after search:** Portal is **fileable** with moderate confidence. The intent-to-scene pipeline is less crowded than latency compensation.
+
+---
+
+## Class 5: Constellation Mesh Distributed Runtime
+
+### What We Found
+
+**Intent-based networking has prior art in telecom:**
+
+| System | What It Does | Gap for Constellation |
+|--------|-------------|----------------------|
+| **Ericsson Cognitive Intent-Based Networking** | Reasoning engine routes network traffic by intent | Telecom backbone, not peer-to-peer mesh; no distributed state continuity |
+| **Bluetooth Mesh (802.15.4)** | Flooding/relay messaging | No cognitive routing, no intent-based forwarding |
+| **802.11s WiFi Mesh** | Standard mesh networking | No application-layer intent routing |
+| **Apache Kafka** | Distributed streaming with broker | Not mesh topology, no cognitive routing |
+| **NIST State Machine Replication** | Byzantine consensus, hash chains | Academic/theoretical; not applied to heterogeneous IoT/XR mesh |
+| **IPFS** | Content-addressed DHT routing | Routes by content hash, not by intent/capability |
+
+**What IS potentially novel:**
+
+1. **Cognitive routing by intent + capability profile in a peer-to-peer mesh** — Ericsson does intent-based routing in telecom backbones with central controllers; Constellation does it in decentralized mesh with no central controller
+2. **Hash-chain state log for mesh continuity** — NIST papers describe hash chains for distributed ledgers; Constellation applies it to runtime state persistence across node failures in a mesh
+3. **Weighted consensus by trust scores (historical success + hardware attestation)** — standard consensus (Raft, PBFT) uses equal votes or leader election; weighted voting by runtime trust is less common
+4. **Dual-transport auto-switching (802.11s ↔ Bluetooth Mesh) based on bandwidth + power** — most systems use one transport; auto-switching between WiFi and BLE mesh based on application needs is not standard
+
+**Verdict after search:** Constellation is **fileable** with the strongest novelty case among the three. The telecom intent-based networking is the closest prior art but operates in a fundamentally different architecture (centralized vs. mesh).
+
+---
+
+# PART 2: WHAT CODE DO WE ACTUALLY HAVE?
+
+## Honest Assessment of GitHub Repos
+
+From memory of your repositories at `github.com/shalominattii-us`:
+
+| Repo | Contents | Code or Spec? |
+|------|----------|---------------|
+| `sovereign-installer` | PowerShell deployment scripts | Code ✓ |
+| `sovereign-osint` | OSINT tool configurations | Config ✓ |
+| `sovereign-recon` | Reconnaissance scripts | Code ✓ |
+| `sovereign-dashboard` | Dashboard specs | Spec / partial code |
+| `sovereign-agent` | AEGENTIS agent specs | Spec / partial code |
+| `sovereign-cbdc` | CBDC architecture docs | Spec |
+| `sovereign-xrpl` | XRPL integration specs | Spec |
+| `sovereign-mesh` | Constellation protocol spec | Spec |
+| `flipper-one-proposals` | 6 RFC proposals | Spec |
+
+**Reality:** Your repos contain **architectural specifications, deployment scripts, and configuration files**. They do NOT contain complete production implementations of DXVR, Portal, or Constellation runtime engines.
+
+**What this means for patent filing:**
+- **Provisional patents do NOT require working code** — they require a written description that enables a skilled person to make and use the invention
+- **However**, the specification must be detailed enough to support the claims
+- **You CAN file provisionals based on specs + pseudocode + hardware descriptions**
+- **For non-provisionals (12 months later)**, you will need more implementation detail or actual code
+
+**Recommendation:** File provisionals now with detailed specs + pseudocode. Use the 12-month buffer to implement actual code and refine claims.
+
+---
+
+# PART 3: HARDWARE SPECIFICATIONS
+
+## Document these exactly in your specification:
+
+### Primary Node: ROG Ally X
+| Spec | Value | Source |
+|------|-------|--------|
+| Model | ASUS ROG Ally X (2024) | Manufacturer |
+| CPU | AMD Ryzen Z1 Extreme (8C/16T, 5.1 GHz) | Manufacturer |
+| GPU | AMD Radeon 780M (12 CUs, 2.7 GHz) | Manufacturer |
+| RAM | 24GB LPDDR5X-6400 | Manufacturer |
+| Storage | 1TB PCIe 4.0 NVMe SSD | Manufacturer |
+| Display | 7" 1080p 120Hz IPS touchscreen | Manufacturer |
+| OS | Windows 11 Home | Your install |
+| Network | WiFi 6E (802.11ax), Bluetooth 5.2 | Manufacturer |
+| Secure Element | AMD fTPM 2.0 | Manufacturer |
+| Power | 80Wh battery, 65W USB-C PD | Manufacturer |
+
+### XR Node: Meta Quest 3
+| Spec | Value | Source |
+|------|-------|--------|
+| Model | Meta Quest 3 (128GB / 512GB) | Manufacturer |
+| CPU | Qualcomm Snapdragon XR2 Gen 2 (4nm) | Manufacturer |
+| GPU | Adreno 740 | Manufacturer |
+| RAM | 8GB LPDDR5 | Manufacturer |
+| Display | Dual LCD 2064×2208 per eye, 120Hz | Manufacturer |
+| Tracking | 6DoF inside-out, 4 IR cameras + 2 RGB cameras | Manufacturer |
+| Controllers | Touch Plus (3DoF per controller, hand tracking) | Manufacturer |
+| OS | Meta Horizon OS (Android-based) | Manufacturer |
+| Network | WiFi 6E, Bluetooth 5.2 | Manufacturer |
+| Secure Element | Qualcomm SPU230 / TrustZone | Manufacturer |
+
+### Automotive Node: Android Head Unit
+| Spec | Value | Source |
+|------|-------|--------|
+| Model | [SPECIFY YOUR EXACT MODEL] | You need to fill this in |
+| CPU | [SPECIFY] | You need to fill this in |
+| RAM | [SPECIFY] | You need to fill this in |
+| OS | Android Automotive / Android [VERSION] | You need to fill this in |
+| Network | [WiFi / Cellular / Bluetooth] | You need to fill this in |
+| Secure Element | Android Keystore / StrongBox / TEE | You need to fill this in |
+
+### Flipper One Node (Target)
+| Spec | Value | Source |
+|------|-------|--------|
+| Main CPU | Rockchip RK3576 (8C ARM, Mali-G52, NPU) | Flipper Devices |
+| MCU | Raspberry Pi RP2350 (dual Cortex-M33, FreeRTOS) | Flipper Devices |
+| RAM | 8GB LPDDR5 | Flipper Devices |
+| Wireless | MediaTek MT7921 (WiFi 6E + Bluetooth 5.3) | Flipper Devices |
+| Display | 3.5" 720×720 touchscreen | Flipper Devices |
+| OS | Mainline Linux (kernel.org) | Flipper Devices |
+| Secure Element | RP2350 OTP + optional TrustZone | Flipper Devices |
+
+**Action for you:** Fill in the exact Android automotive head unit model and specs. This is required for enablement.
+
+---
+
+# PART 4: PSEUDOCODE FOR CORE ALGORITHMS
+
+## Algorithm 1: DXVR Deterministic Delta Encoding
+
+```python
+# Hierarchical Spatial Delta Encoding
+# Input: previous_state, current_state
+# Output: delta_encoding (compressed spatial change)
+
+function encode_spatial_delta(prev_state, curr_state):
+    delta = curr_state - prev_state
+
+    # Step 1: Determine granularity based on delta magnitude
+    if delta.magnitude > ROOM_THRESHOLD:
+        granularity = ROOM_LEVEL
+        encoding = encode_room_transform(delta)
+    elif delta.magnitude > OBJECT_THRESHOLD:
+        granularity = OBJECT_LEVEL
+        encoding = encode_object_transform(delta)
+    else:
+        granularity = VERTEX_LEVEL
+        encoding = encode_vertex_transform(delta)
+
+    # Step 2: Pack transform components
+    transform = {
+        'translation': pack_vector(delta.position - prev_state.position),
+        'rotation': pack_quaternion(delta.orientation),
+        'scale': pack_scalar(delta.scale / prev_state.scale),
+        'granularity': granularity,
+        'timestamp': curr_state.timestamp,
+        'sequence': curr_state.sequence_num
+    }
+
+    # Step 3: Deterministic serialization
+    return deterministic_serialize(transform)
+
+function pack_vector(v):
+    # Fixed-point encoding: 3 × 16-bit (x, y, z)
+    # Range: ±32.767 meters, precision: 1mm
+    return [int16(v.x * 1000), int16(v.y * 1000), int16(v.z * 1000)]
+
+function pack_quaternion(q):
+    # Smallest three encoding: 3 × 16-bit
+    # Drop largest component, encode signs in header
+    return sm3_encode(q)
+
+function deterministic_serialize(obj):
+    # CBOR with canonical ordering (alphabetical keys)
+    # Ensures identical encoding across platforms
+    return cbor_canonical_encode(obj)
+```
+
+## Algorithm 2: DXVR Predictive Interpolation
+
+```python
+# Predictive Interpolation with Acceleration Vectors
+# Input: last_known_state, latency_ms, jitter_ms
+# Output: predicted_state
+
+function predict_state(last_known, latency_ms, jitter_ms):
+    t = latency_ms / 1000.0  # seconds
+
+    # Step 1: Extract kinematic state
+    p0 = last_known.position
+    v0 = last_known.velocity
+    a0 = last_known.acceleration
+
+    # Step 2: Taylor series expansion to second order
+    # Standard dead reckoning uses: p = p0 + v0 * t
+    # DXVR uses: p = p0 + v0 * t + 0.5 * a0 * t^2
+    predicted_position = p0 + (v0 * t) + (0.5 * a0 * t * t)
+
+    # Step 3: Jitter-adaptive confidence radius
+    # Higher jitter → larger uncertainty radius → more conservative prediction
+    confidence_radius = (jitter_ms / 1000.0) * magnitude(v0) * 2.0
+
+    # Step 4: Clamp prediction to confidence radius
+    # If predicted position exceeds radius from last known, interpolate toward boundary
+    delta = predicted_position - p0
+    if magnitude(delta) > confidence_radius:
+        predicted_position = p0 + normalize(delta) * confidence_radius
+
+    # Step 5: Predict orientation using angular velocity
+    w0 = last_known.angular_velocity
+    predicted_orientation = integrate_quaternion(last_known.orientation, w0, t)
+
+    return {
+        'position': predicted_position,
+        'orientation': predicted_orientation,
+        'velocity': v0 + (a0 * t),  # Extrapolate velocity
+        'acceleration': a0,  # Assume constant acceleration
+        'confidence': 1.0 - (confidence_radius / MAX_CONFIDENCE_RADIUS),
+        'timestamp': now()
+    }
+```
+
+## Algorithm 3: DXVR Temporal Coherence Mesh
+
+```python
+# Temporal Coherence Mesh with Weighted LWW
+# Input: incoming_update, local_state, device_authority_table
+# Output: resolved_state
+
+function resolve_conflict(incoming, local, authority_table):
+    # Step 1: Sequence number check
+    if incoming.sequence <= local.sequence:
+        # Out-of-order or duplicate — reject
+        return local
+
+    # Step 2: Authority weight lookup
+    incoming_weight = authority_table[incoming.device_id].tracking_precision
+    local_weight = authority_table[local.device_id].tracking_precision
+
+    # Authority levels:
+    #   HEADSET_6DOF = 1.0    (full spatial tracking)
+    #   CONTROLLER_6DOF = 0.9 (full spatial tracking)
+    #   CONTROLLER_3DOF = 0.5 (rotation only)
+    #   HAND_TRACKING = 0.7   (camera-based)
+    #   GAZE = 0.3            (direction only)
+
+    # Step 3: Weighted LWW
+    if incoming_weight > local_weight:
+        winner = incoming
+    elif incoming_weight < local_weight:
+        winner = local
+    else:
+        # Equal weight: use timestamp (later wins)
+        winner = incoming if incoming.timestamp > local.timestamp else local
+
+    # Step 4: Merge non-conflicting fields
+    resolved = winner.copy()
+    if winner == incoming:
+        # Preserve local fields that don't conflict
+        for field in ['user_input', 'gesture_state']:
+            if field not in incoming:
+                resolved[field] = local[field]
+
+    # Step 5: Update coherence mesh
+    coherence_mesh.add_node(resolved)
+    coherence_mesh.link(incoming, local, relationship='supersedes')
+
+    return resolved
+```
+
+## Algorithm 4: Portal Intent Parsing → Scene Requirement Graph
+
+```python
+# Multi-Modal Intent Parsing
+# Input: voice_text, gesture_data, gaze_vector, sensor_noise
+# Output: scene_requirement_graph
+
+function parse_intent(voice, gesture, gaze, noise):
+    # Step 1: Individual modality parsing
+    voice_intent = nlp_parse(voice)  # Returns: {action, target, qualifiers}
+    gesture_intent = gesture_parse(gesture)  # Returns: {point_location, selection_box}
+    gaze_intent = gaze_parse(gaze)  # Returns: {focus_point, dwell_time}
+
+    # Step 2: Confidence scoring based on sensor noise
+    voice_conf = 1.0 - noise.microphone_snr_inverse
+    gesture_conf = 1.0 - noise.tracker_jitter_mm
+    gaze_conf = 1.0 - noise.eye_tracker_precision_deg
+
+    # Step 3: Multi-modal fusion
+    fused_intent = {
+        'action': weighted_vote(
+            [voice_intent.action, gesture_intent.action, gaze_intent.action],
+            [voice_conf, gesture_conf, gaze_conf]
+        ),
+        'target_location': weighted_average_3d(
+            [voice_intent.implied_location, gesture_intent.point_location, gaze_intent.focus_point],
+            [voice_conf, gesture_conf, gaze_conf]
+        ),
+        'confidence': max(voice_conf, gesture_conf, gaze_conf)
+    }
+
+    # Step 4: Build scene requirement graph
+    graph = SceneRequirementGraph()
+
+    # Add nodes for required objects
+    objects = resolve_objects(fused_intent.action, fused_intent.target_location)
+    for obj in objects:
+        node = graph.add_node(
+            type=obj.type,
+            position=obj.position,
+            scale=obj.scale,
+            priority=obj.urgency,
+            dependencies=obj.prerequisites
+        )
+
+    # Add edges for spatial relationships
+    for i, obj_a in enumerate(objects):
+        for obj_b in objects[i+1:]:
+            relation = infer_spatial_relation(obj_a, obj_b)
+            graph.add_edge(obj_a.id, obj_b.id, relation=relation)
+
+    # Add temporal constraints (animations, sequences)
+    if fused_intent.action.has_animation:
+        graph.add_temporal_constraint(
+            sequence=fused_intent.action.animation_sequence,
+            duration=fused_intent.action.duration_ms
+        )
+
+    return graph
+```
+
+## Algorithm 5: Portal Hardware-Aware Asset Selection
+
+```python
+# Hardware Capability Handshake + Asset Selection
+# Input: capability_profile, scene_requirement_graph
+# Output: instantiated_scene
+
+function handshake_and_assemble(capabilities, graph):
+    # Step 1: Query hardware capabilities
+    profile = {
+        'gpu_compute_gflops': query_gpu_compute(),
+        'gpu_memory_mb': query_gpu_memory(),
+        'display_resolution': query_display_res(),
+        'display_refresh_hz': query_refresh_rate(),
+        'tracking_precision_mm': query_tracking_accuracy(),
+        'cpu_cores': query_cpu_cores(),
+        'system_memory_mb': query_system_memory(),
+        'network_bandwidth_mbps': query_bandwidth()
+    }
+
+    # Step 2: Capability scoring (0.0 to 1.0)
+    capability_score = compute_capability_score(profile)
+
+    # Step 3: Select asset variants based on capability score
+    scene = Scene()
+    for node in graph.nodes:
+        asset = select_asset_variant(
+            base_asset=node.asset_id,
+            capability_score=capability_score,
+            priority=node.priority
+        )
+
+        # Variant selection rules:
+        #   score > 0.9 → full shader pipeline, dynamic lighting, shadows
+        #   score 0.7-0.9 → baked lighting, reduced shadow quality
+        #   score 0.5-0.7 → vertex lighting, no shadows, reduced polygons
+        #   score < 0.5 → billboard sprites, minimal geometry
+
+        instance = scene.instantiate(
+            asset=asset,
+            position=node.position,
+            scale=node.scale,
+            transform=compute_local_transform(node)
+        )
+
+    # Step 4: JIT compilation from intermediate format
+    for instance in scene.instances:
+        if profile.gpu_vendor == 'AMD':
+            instance.compile_target = 'RDNA3 bytecode'
+        elif profile.gpu_vendor == 'Qualcomm':
+            instance.compile_target = 'Adreno bytecode'
+        elif profile.gpu_vendor == 'ARM':
+            instance.compile_target = 'Mali bytecode'
+
+        jit_compile(instance)
+
+    # Step 5: Validate scene fits within resource budget
+    if scene.total_gpu_memory > profile.gpu_memory_mb * 0.8:
+        scene = degrade_scene_quality(scene, target_memory=profile.gpu_memory_mb * 0.8)
+
+    return scene
+```
+
+## Algorithm 6: Constellation Cognitive Routing
+
+```python
+# Cognitive Routing Table Management
+# Input: intent_descriptor, node_capability_table, network_topology
+# Output: target_node_id
+
+function cognitive_route(intent, capabilities, topology):
+    # Step 1: Parse intent requirements
+    requirements = parse_intent_requirements(intent)
+    # Examples:
+    #   "run neural inference" → {compute: 'NPU', memory: '2GB', latency: '<50ms'}
+    #   "sync RF data" → {network: 'WiFi', bandwidth: '>10Mbps'}
+    #   "render scene" → {compute: 'GPU', memory: '4GB', display: 'present'}
+
+    # Step 2: Score all reachable nodes
+    candidates = []
+    for node_id in topology.reachable_nodes:
+        node = capabilities[node_id]
+        score = 0.0
+
+        # Capability match
+        if requirements.compute and node.has_compute(requirements.compute):
+            score += 0.4
+        if requirements.memory and node.available_memory >= requirements.memory:
+            score += 0.2
+        if requirements.network and node.has_network(requirements.network):
+            score += 0.2
+
+        # Workload factor (prefer less loaded nodes)
+        workload_penalty = node.current_load * 0.1
+        score -= workload_penalty
+
+        # Proximity factor (prefer closer nodes for latency)
+        hop_count = topology.hops(my_node_id, node_id)
+        proximity_bonus = 1.0 / (hop_count + 1) * 0.1
+        score += proximity_bonus
+
+        # Trust score (historical success rate)
+        trust_bonus = node.trust_score * 0.1
+        score += trust_bonus
+
+        candidates.append({'node_id': node_id, 'score': score})
+
+    # Step 3: Select best candidate
+    candidates.sort(key=lambda x: x['score'], reverse=True)
+
+    if candidates[0].score < MIN_ROUTE_THRESHOLD:
+        # No suitable node — queue for later or escalate to user
+        return queue_intent(intent, retry_policy='exponential_backoff')
+
+    return candidates[0].node_id
+
+function update_routing_table(observed_latency, packet_loss, node_availability):
+    # Reinforcement learning update
+    for route in routing_table.routes:
+        reward = compute_reward(
+            latency=observed_latency[route.target],
+            success=(packet_loss[route.target] < 0.05),
+            availability=node_availability[route.target]
+        )
+        route.q_value = route.q_value + LEARNING_RATE * (reward - route.q_value)
+
+    # Re-sort routes by updated Q-values
+    routing_table.routes.sort(key=lambda r: r.q_value, reverse=True)
+```
+
+## Algorithm 7: Constellation Hash-Chain State Log
+
+```python
+# Hash-Chain State Persistence
+# Input: event_descriptor, previous_block
+# Output: new_block
+
+function append_state_block(event, prev_block):
+    block = {
+        'sequence': prev_block.sequence + 1,
+        'timestamp': now(),
+        'event_type': event.type,  # 'key_gen', 'key_rotate', 'device_add', 'state_change'
+        'event_data': event.data,
+        'prev_hash': prev_block.hash,
+        'device_id': event.device_id,
+        'hardware_attestation': event.attestation
+    }
+
+    # Deterministic serialization for hash
+    serialized = canonical_json(block)
+    block.hash = sha256(serialized)
+
+    # Hardware-bound signature
+    block.signature = sign_with_device_key(block.hash, event.device_id)
+
+    # Replicate to quorum
+    replicate_to_quorum(block, quorum_size=3)
+
+    return block
+
+function verify_chain(genesis_block, target_block):
+    current = target_block
+    while current.sequence > genesis_block.sequence:
+        # Verify hash links
+        expected_hash = sha256(canonical_json(current))
+        if current.hash != expected_hash:
+            return False, f"Hash mismatch at block {current.sequence}"
+
+        # Verify signature
+        if not verify_device_signature(current.signature, current.hash, current.device_id):
+            return False, f"Signature invalid at block {current.sequence}"
+
+        # Move to previous
+        current = fetch_block_by_hash(current.prev_hash)
+        if not current:
+            return False, "Broken chain link"
+
+    # Verify genesis
+    if current.hash != genesis_block.hash:
+        return False, "Genesis mismatch"
+
+    return True, "Chain valid"
+```
+
+---
+
+# PART 5: PROVISIONAL PATENT APPLICATIONS — COMPLETE GUIDE
+
+## What Is a Provisional Patent?
+
+A **provisional patent application** is a legal document filed with the USPTO that establishes an early filing date for your invention. It is NOT examined, does NOT become a patent, and does NOT grant any enforceable rights.
+
+**What it DOES do:**
+- Locks in your filing date ("priority date")
+- Allows you to use "Patent Pending" for 12 months
+- Gives you 12 months to refine, implement, and decide whether to file a non-provisional
+- Costs significantly less than a non-provisional
+- Requires no formal claims (just a detailed description)
+
+**What it DOES NOT do:**
+- Grant a patent
+- Get examined by USPTO
+- Provide enforceable rights against infringers
+- Last beyond 12 months (expires if not converted)
+
+---
+
+## The 12-Month Buffer — How It Works
+
+```
+Month 0:    File Provisional Application
+            ↓
+Months 1-11:  Development, testing, market assessment, prior art refinement
+            ↓
+Month 12:   DECISION POINT
+            ├── Option A: File Non-Provisional (converts provisional priority date)
+            ├── Option B: File Another Provisional (extends by 12 months, but LOSES first priority date)
+            └── Option C: Abandon (invention enters public domain if disclosed)
+```
+
+**Critical Rules:**
+1. **You CANNOT extend a provisional.** If you file a second provisional on the same invention, it gets a NEW filing date. The first date is lost.
+2. **You MUST file non-provisional within 12 months.** No extensions, no grace periods.
+3. **Public disclosure before filing = loss of foreign rights.** In most countries (not the US), any public disclosure before filing destroys patentability.
+4. **US has a 1-year grace period.** You can disclose publicly in the US and still file within 1 year. But you lose all foreign patent rights.
+
+**What to do during the 12 months:**
+- Implement actual code and hardware prototypes
+- Conduct thorough prior art searches
+- Refine claims based on what you learn
+- Test market interest and identify licensing targets
+- Gather evidence of technical efficacy (benchmarks, test results)
+- Decide whether to file non-provisional, abandon, or pivot
+
+---
+
+## Pro Se Filing — Step-by-Step
+
+### Step 1: Prepare the Specification
+
+For each class, write a document containing:
+
+**A. Title** (max 500 characters)
+Example: "Method and System for Distributed Spatial State Synchronization with Predictive Interpolation in Extended Reality Environments"
+
+**B. Background**
+- Describe the field (distributed computing, XR, mesh networking)
+- Describe problems with existing systems (bandwidth, latency, partition recovery)
+- Cite the prior art you found (the ACM survey, QuakeWorld dead reckoning, etc.)
+
+**C. Summary**
+- What your invention solves
+- Key advantages (bandwidth reduction, latency compensation, partition recovery)
+
+**D. Detailed Description**
+- **MUST** enable a person skilled in the art to make and use
+- Include the pseudocode above
+- Describe hardware configurations
+- Describe data structures (delta encoding format, scene requirement graph, hash-chain block)
+- Describe algorithms step-by-step
+- Include specific numbers where possible (thresholds, buffer sizes, timing parameters)
+
+**E. Drawings**
+- Figure 1: System architecture (nodes, connections, data flow)
+- Figure 2: Method flowchart (steps in order)
+- Figure 3: Data structures (delta format, graph structure, hash-chain block)
+- Figure 4: Hardware diagram (Quest 3 + ROG Ally X + network)
+
+**F. Claims (Optional for Provisional)**
+- Provisional does NOT require formal claims
+- But including draft claims helps establish scope
+- Use the independent + dependent claims from the assessment document
+
+**G. Abstract** (max 150 words)
+
+### Step 2: Create Drawings
+
+**You can draw these yourself** — they don't need to be professional CAD.
+- Use PowerPoint, Google Drawings, or even hand-drawn scanned images
+- Must be clear, black-and-white, labeled with reference numerals
+- Each figure needs a brief description in the text
+
+**Minimum figures needed:**
+- 1 system architecture diagram per class
+- 1 flowchart per class
+- 1 data structure diagram per class
+
+### Step 3: File Online via USPTO EFS-Web
+
+**Requirements:**
+- USPTO.gov account (free)
+- PDF of specification + drawings
+- Filing fee: $300 per application (small entity — you qualify if you're an individual or small business)
+
+**Process:**
+1. Go to https://efs.uspto.gov/
+2. Log in with your USPTO account
+3. Click "New Application" → "Provisional Application"
+4. Upload PDF files
+5. Pay fee ($300)
+6. Receive filing receipt with application number and filing date
+
+**Timeline:**
+- Filing: Same day (instant online)
+- Filing receipt: 1–3 business days
+- "Patent Pending" status: Immediate upon filing
+
+### Step 4: Mark Your Products
+
+Once filed, you can use "Patent Pending" on:
+- Your GitHub repositories
+- Your Discord communications
+- Your website / documentation
+- Product packaging (if you sell hardware)
+
+**Format:**
+- "Patent Pending — U.S. Provisional Application No. [number]"
+- Or simply: "Patent Pending"
+
+### Step 5: Use the 12-Month Buffer
+
+**Month 1–3:**
+- Implement code based on pseudocode
+- Run benchmarks (DXVR vs Unity Netcode bandwidth comparison)
+- Build Constellation prototype (2-device mesh)
+- Refine Portal intent parsing with actual NLP model
+
+**Month 4–6:**
+- Conduct thorough prior art search (hire search firm or do yourself)
+- Document test results
+- Gather user feedback if you have beta testers
+- Identify licensing targets
+
+**Month 7–9:**
+- Draft non-provisional claims (must be supported by provisional specification)
+- Prepare formal drawings (professional if budget allows)
+- Consider PCT international filing ($2,000+ if you want global protection)
+
+**Month 10–12:**
+- File non-provisional OR abandon
+- Non-provisional filing fee: $1,600 (small entity) + attorney fees (if you hire one)
+- If pro se: you can draft and file yourself, but claims must be properly formatted
+
+---
+
+## Cost Breakdown — Pro Se Provisional Filing
+
+| Item | Cost | Notes |
+|------|------|-------|
+| USPTO filing fee (small entity) | $300 × 3 = $900 | Required |
+| Drawing software | $0–$50 | PowerPoint / Google Drawings free |
+| Prior art search (self) | $0 | Google Patents, IEEE Xplore free |
+| Prior art search (professional) | $2,000–$5,000 per class | Optional but recommended |
+| Specification writing | $0 (your time) | You write it |
+| **Total for 3 provisionals (pro se)** | **$900–$16,900** | Depending on search choice |
+
+**Compare to attorney-filed:**
+- Attorney drafting: $5,000–$15,000 per class
+- Attorney-filed total: $15,900–$45,900 for 3 classes
+
+**Pro se saves $15,000–$45,000** but requires significant time investment and legal risk.
+
+---
+
+## Risks of Pro Se Filing
+
+| Risk | Mitigation |
+|------|-----------|
+| **Specification not enabling** → USPTO rejects non-provisional | Write extremely detailed specs. Include pseudocode, hardware configs, specific numbers. Have a technical reviewer read it. |
+| **Claims not supported by provisional** → lose priority date | Ensure every claim element is described in the provisional. When in doubt, include MORE detail. |
+| **Missing prior art** → patent invalidated later | Conduct thorough search. Include all known prior art in the background section (shows good faith). |
+| **Alice Corp rejection** → claims deemed abstract | Frame everything as technical improvement to computer functionality. Avoid "cognitive," "reasoning," "brain." |
+| **Foreign filing deadline missed** → lose international rights | File PCT within 12 months if you want global protection. Cost: ~$2,000–$4,000. |
+| **Prosecution errors** → patent narrowed or rejected | For non-provisional, consider hiring attorney just for prosecution (cheaper than full drafting). |
+
+---
+
+## Critical Filing Checklist
+
+Before hitting "submit" on EFS-Web:
+
+- [ ] Specification is 10+ pages per class (minimum)
+- [ ] Every claim element is described in the spec
+- [ ] Pseudocode is included for all core algorithms
+- [ ] Hardware configurations are specific (model numbers, specs)
+- [ ] Drawings are clear, labeled, referenced in text
+- [ ] Abstract is under 150 words
+- [ ] Title is under 500 characters
+- [ ] Prior art is acknowledged in background
+- [ ] "Best mode" is described (your preferred implementation)
+- [ ] PDF is text-searchable (not scanned images only)
+- [ ] Filing fee payment method is ready
+- [ ] You have a backup copy of all files
+
+---
+
+## Timeline Summary
+
+| Date | Action |
+|------|--------|
+| **Week 1** | Write specifications for Classes 3, 4, 5 |
+| **Week 2** | Create drawings, write pseudocode, document hardware |
+| **Week 3** | Review, revise, have technical reviewer read |
+| **Week 4** | File 3 provisionals on USPTO EFS-Web |
+| **Month 3** | Implement prototypes, run benchmarks |
+| **Month 6** | Complete prior art search, document results |
+| **Month 9** | Draft non-provisional claims |
+| **Month 11** | Decide: convert to non-provisional, abandon, or pivot |
+| **Month 12** | File non-provisional (or lose priority date) |
+
+---
+
+# PART 6: IMMEDIATE ACTION ITEMS FOR YOU
+
+## This Week (Before Filing)
+
+1. **Fill in missing hardware specs**
+   - Exact Android automotive head unit model
+   - Quest 3 firmware version (Settings → System → About)
+   - ROG Ally X BIOS version
+
+2. **Create system architecture diagrams**
+   - Use PowerPoint or Google Drawings
+   - Show: nodes, connections, data flow, modules
+   - Label with reference numerals (10, 20, 30...)
+
+3. **Write the 3 specifications**
+   - Use the pseudocode above
+   - Use the hardware specs above
+   - Use the claim language from the assessment document
+   - Target 15–20 pages per specification
+
+4. **Test one algorithm**
+   - Run DXVR delta encoding on actual Quest 3 + ROG Ally X
+   - Measure bandwidth vs. raw position updates
+   - Document results in the specification
+
+## Next Week (Filing Week)
+
+5. **Convert to PDF**
+   - Ensure text is searchable
+   - Ensure drawings are high resolution (300 DPI minimum)
+
+6. **File on EFS-Web**
+   - Create USPTO account if you don't have one
+   - Upload 3 separate applications
+   - Pay $300 each
+
+7. **Mark everything "Patent Pending"**
+   - Update GitHub repos
+   - Update Discord status
+   - Update any public documentation
+
+---
+
+ΩV — AEGENTIS Intellectual Property Command
