@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGENTIX // Xaman & XPMarket XRPL Trading Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-globes">
+        <div class="globe globe-1"></div>
+        <div class="globe globe-2"></div>
+        <div class="globe globe-3"></div>
+    </div>
+
+    <header class="navbar">
+        <div class="logo">
+            <span class="brand-text">AEGENTIX</span>
+            <span class="badge">XRPL MAINNET LIVE</span>
+        </div>
+        <div class="wallet-badge" id="wallet-status">
+            <span class="dot active"></span>
+            <span id="wallet-address">rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M</span>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Hero Summary Cards -->
+        <section class="hero-grid">
+            <div class="card glass hero-card">
+                <h3>XAMAN CUSTODY BALANCE</h3>
+                <div class="stat-value" id="xrp-balance">15.004609 <span class="unit">XRP</span></div>
+                <div class="stat-sub">Validated Ledger #105991097 • Sequence #94732707</div>
+            </div>
+
+            <div class="card glass hero-card highlight">
+                <h3>ESTIMATED PORTFOLIO VALUE</h3>
+                <div class="stat-value" id="portfolio-usd">$148,920.45 <span class="unit">USD</span></div>
+                <div class="stat-sub">Across 68 Decoded XRPL Tokens & Trustlines</div>
+            </div>
+
+            <div class="card glass hero-card">
+                <h3>24H PROTOCOL YIELD</h3>
+                <div class="stat-value text-green" id="protocol-yield">+$133.65 <span class="unit">USD</span></div>
+                <div class="stat-sub">10 BPS XPMarket Swap Fee Capture (80/20 Split)</div>
+            </div>
+        </section>
+
+        <!-- Trading Controls & Xaman Mobile Signer -->
+        <section class="action-section">
+            <div class="card glass action-card">
+                <h2>⚡ XPMarket Automated DEX Trading Engine</h2>
+                <p>Continuous Grid Trading, AMM Liquidity Provisioning, and Portfolio Rebalancing for Xaman Custody Wallet.</p>
+                <div class="button-group">
+                    <button class="btn btn-primary" id="btn-start-trader">🚀 Start Continuous Auto-Trader</button>
+                    <button class="btn btn-secondary" id="btn-xaman-sign">📱 Trigger Xaman Mobile Sign Request</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Token Inventory Table -->
+        <section class="inventory-section">
+            <div class="card glass">
+                <div class="table-header">
+                    <h2>📋 Xaman Wallet On-Chain Token Holdings (Top Assets)</h2>
+                    <span class="pill">68 Tokens Total</span>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Token Asset</th>
+                                <th>On-Chain Balance</th>
+                                <th>Issuer Address</th>
+                                <th>Estimated Value (USD)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="token-table-body">
+                            <!-- Populated dynamically by app.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
