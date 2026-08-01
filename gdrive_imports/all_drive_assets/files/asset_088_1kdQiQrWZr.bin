@@ -1,0 +1,81 @@
+
+Ω SOVEREIGN ARCHITECTURE — ROG ALLY X + CLOUDSHELL + PIXEL 10
+Compiled: 2026-06-23 18:05
+
+=== NODE MAP ===
+| Node | Device | OS | Role |
+| ROG Ally X | Handheld | Windows 11 | Primary — AE_HUB, DXVR, Unity builds |
+| Google Pixel 10 | Phone | Android | AWS CloudShell access |
+| AWS CloudShell | Cloud | Linux | sovereign-stack, Terraform, horizon |
+
+=== ROG ALLY X — C:\AEGENTIS_WORKSPACE ===
+Directories (21): AEGX_ENGINE, AE_HUB, build, certs, daemon, dist, EagleShield_PS7_Suite, eagle_shield_unity, ESS7-Installer_files, kernel, logs, medical-recruiting-platform, nexus-registry, node_modules, observability, patent_treasury, skills, SOVEREIGN, sovereign-prime, tools, VR_DESKTOP_ONECLICK
+
+Key Files:
+- AEGENTIS_SOVEREIGN_CHAIN.exe (8.1MB) — Compiled binary
+- AEGENTIS_CHAIN.ps1 (5.8MB) — Orchestration script
+- OMEGA_WINGS.ico (5.6MB) — Suspicious size
+- AEGENTIS.PRIME.skill.json (3.17MB) — Skill manifest
+- load-prime.ps1 (3.3MB), install-prime.ps1 (3.25MB), install-prime-kernel.ps1 (1.8MB)
+- docker-compose.sovereign.yml, Dockerfile.aegx
+- dashboard.html, deploy-sovereign.ps1
+- challenge.sig, proof.txt, cloud_status.json
+- telemetry_config.json, telemetry_response.json, guardian.json
+- task_queue.txt, sovereign.log, last_result.txt
+- .env, Modelfile.agent, OneClick-PrimeWebhook.ps1, service-wrapper.js
+- package.json, package-lock.json, full-tree.csv (11.3MB)
+
+AE_HUB:
+- index.js (Express, port 62600, endpoints: /hub/register, /hub/skills, /hub/execute)
+- node_listener.py (Flask, port 5005, Kimi sync bridge to ~/Desktop/Kimi_Sync, modified 6/23 TODAY)
+- registry.json = { "skills": {} } (empty)
+- package.json: express ^5.2.1, js-yaml ^4.2.0
+- Skill: government-grant-matrix-skill.json (validator: opencsg, engine: nemoclaw, target_port: 43118, directives: DARPA, OMB, 2-CFR-200)
+- Node listener PID 13008 active
+- AE_HUB started manually 6/23/2026
+
+=== ROG — C:\Sovereign ===
+DXVR runtime: agents, bundles, config, docs, EAGLESHIELD (empty), HYPERX_FEDERATION_EXPORT_V1 (skeleton), Instances, runtime with healer snapshots, workers
+
+=== ROG — C:se ===
+6se-loader.ps1, 6se.ps1, 6se.yml, bin, config, identity.json, node-agent, orchestrator, scripts
+
+=== ROG — Other Directories ===
+C:\AEGENTIS, C:\AEGENTIS_INSTALL, C:\AEHub, C:egentix, C:gent-project, C:\SovereignInstaller, C:\SovereignOS, C:\SOVEREIGN_CORP
+
+=== CLOUDSHELL — /home/cloudshell-user ===
+- aegentis-voice-stack.yaml (AWS CloudFormation — WebSocket API, Lambda, Polly TTS)
+- sovereign-stack/ (hub: sov_ae_command.js, logs/sov_ae_directives.jsonl, package.json)
+- sovereign-stack/index.js, main.tf (Terraform), LICENSE.txt
+- horizon-v0.6/sovereign-stack/hub/ (multimodal_processor.js, logs/esc_spine.jsonl, package.json)
+- .local/bin/terraform (Terraform v1.8.5)
+
+=== TERRAFORM INFRASTRUCTURE (main.tf) ===
+- AWS Lambda: nodejs18.x, timeout 15s
+- SOVEREIGN_POLICY_HASH pinned
+- ACTIVE_EPOCH_ID = "EPOCH-2026-06-06-01"
+- DynamoDB global table: aegentis-sov-ae-ledger (multi-region us-west-2 + us-east-1)
+- WAF Web ACL: rate limiting 300 req/IP
+- S3 immutable audit vault: 7-year WORM compliance
+- IAM: hub-execution-role, ledger-restricted-policy
+
+=== SOV_AE_DIRECTIVES LOG ===
+Cyclic 4-command loop:
+1. CMD_SOV_AE_INIT_ENCLAVE (scope: LOCAL_ENCLAVE_C)
+2. CMD_SOV_AE_HARDEN_AWS_SECURITY (scope: SECURITY_ORCHESTRATION)
+3. CMD_SOV_AE_EMIT_EOC_TELEMETRY (scope: EOC_LEDGER_ANCHOR)
+4. CMD_SOV_AE_RUN_GHOST_PROCESS_DETECTION (scope: AWS_ORCHESTRATION_HUB)
+All directives VERIFIED with SHA-256 origin attestation.
+
+=== MULTIMODAL PROCESSOR (horizon-v0.6) ===
+- Reads esc_spine.jsonl ledger
+- Processes text messages + system metrics
+- Assigns directives based on hash byte
+- 3-second polling interval
+- Directives: GHOST_PROCESS_DETECTION, EMIT_EOC_TELEMETRY, HARDEN_SYSTEM_SECURITY_POLICY
+
+=== VOICE STACK (aegentis-voice-stack.yaml) ===
+- AWS API Gateway WebSocket
+- Lambda: python3.12, 30s timeout, 1024MB
+- Polly neural TTS (VoiceId: Matthew)
+- Core API endpoint: https://w0oedrbaqg.execute-api.us-west-1.amazonaws.com/prod/command

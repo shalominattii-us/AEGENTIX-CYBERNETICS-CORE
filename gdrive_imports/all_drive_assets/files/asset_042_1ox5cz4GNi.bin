@@ -1,0 +1,268 @@
+# Flipper One — 6 Architecture Proposal Issues
+
+Ready for copy-paste into github.com/flipperdevices/flipperzero-firmware issues.
+Each issue is scoped, labeled, and includes a link to full spec.
+
+---
+
+## Issue 1: Testing — Self-Healing Diagnostics Framework
+
+**Title:** `[RFC] Self-Healing Diagnostics Framework for Flipper One Testing Pipeline`
+
+**Labels:** `enhancement`, `testing`, `discussion`, `architecture`
+
+**Body:**
+
+```
+## Summary
+Proposal to introduce a self-healing diagnostics layer into the Flipper One testing pipeline. This framework would enable automated fault detection, root-cause tagging, and autonomous recovery loops — reducing manual debugging overhead for firmware validation.
+
+## Background
+I operate a sovereign systems lab (AEGENTIS) across ROG Ally X, Meta Quest 3, and Android automotive nodes. A core principle is zero-maintenance automation: systems must self-detect, self-diagnose, and self-resolve without manual intervention. I want to port this philosophy into Flipper One's testing infrastructure.
+
+## Proposed Scope
+- **Fault Detection Engine:** Hook into existing test runners to capture failures in real-time
+- **Root-Cause Classifier:** Tag failures by category (timing, memory, peripheral, protocol)
+- **Recovery Loop:** Auto-retry with adjusted parameters, escalate to human only after N failures
+- **Telemetry Sink:** Structured JSON output for CI/CD dashboards
+
+## Architecture
+Full specification (design doc + reference implementation):  
+→ https://github.com/shalominattii-us/flipper-one-proposals/blob/main/testing-self-healing-diagnostics.md
+
+## Questions for Maintainers
+1. Is the Testing team open to architectural changes in the test runner?
+2. Should this start as a standalone module or integrated into `furi_test`?
+3. Preferred language: C (firmware-side) or Python (host-side tooling)?
+
+## Risk Assessment
+- **Zero device risk** — this runs on the host/CI pipeline, not on-device
+- Backward compatible with existing test suites
+- Can be gated behind a feature flag for gradual adoption
+
+---
+ΩV
+```
+
+---
+
+## Issue 2: Constellation — Mesh Networking Layer
+
+**Title:** `[RFC] Constellation: Decentralized Mesh Networking for Multi-Flipper Coordination`
+
+**Labels:** `enhancement`, `networking`, `discussion`, `architecture`
+
+**Body:**
+
+```
+## Summary
+Proposal for a lightweight mesh networking protocol ("Constellation") enabling multiple Flipper One devices to coordinate without infrastructure dependency. Use cases: swarm diagnostics, distributed RF mapping, collaborative badge emulation.
+
+## Background
+My AEGENTIS framework operates across disconnected nodes (ROG Ally X, Quest 3, automotive Android) using a self-healing mesh topology. Extending this to Flipper One would enable field teams to deploy multiple units that auto-organize and share state.
+
+## Proposed Scope
+- **Mesh Bootstrap:** Devices discover peers via BLE/Sub-GHz broadcast
+- **State Sync:** Minimal gossip protocol for shared telemetry and task distribution
+- **Role Election:** Dynamic leader/follower assignment without central coordinator
+- **Security:** Per-session ephemeral keys, no persistent pairing required
+
+## Architecture
+Full specification (protocol doc + wire format):  
+→ https://github.com/shalominattii-us/flipper-one-proposals/blob/main/constellation-mesh-protocol.md
+
+## Questions for Maintainers
+1. Is there existing mesh/BLE mesh work in the roadmap I should align with?
+2. Preferred transport: Sub-GHz (longer range) or BLE (lower power)?
+3. Would this live in firmware or as an external application?
+
+## Risk Assessment
+- **Low device risk** — transport layer only, no core firmware changes
+- Can be developed as an external app for initial validation
+- Protocol is stateless and ephemeral, no persistent storage impact
+
+---
+ΩV
+```
+
+---
+
+## Issue 3: MCU — Secure Boot & Trust Chain
+
+**Title:** `[RFC] MCU Secure Boot & Immutable Trust Chain for Flipper One`
+
+**Labels:** `enhancement`, `security`, `hardware`, `discussion`, `architecture`
+
+**Body:**
+
+```
+## Summary
+Proposal to harden the Flipper One boot process with a verified trust chain: immutable bootloader → signed firmware → runtime integrity checks. This protects against firmware tampering and enables attestation for enterprise/security-conscious users.
+
+## Background
+My Golden Dome security arsenal operates on a zero-trust principle: every layer verifies the layer below it before execution. Applying this to Flipper One would raise the bar for physical security and supply-chain integrity.
+
+## Proposed Scope
+- **Bootloader Verification:** RSA/ECDSA signature check before loading main firmware
+- **Firmware Signing:** CI/CD pipeline signs release binaries with project key
+- **Runtime Attestation:** Periodic hash verification of critical code segments
+- **Rollback Protection:** Monotonic counter prevents downgrading to vulnerable versions
+
+## Architecture
+Full specification (threat model + implementation guide):  
+→ https:///github.com/shalominattii-us/flipper-one-proposals/blob/main/mcu-secure-boot-trust-chain.md
+
+## Questions for Maintainers
+1. Is secure boot on the hardware roadmap for Flipper One?
+2. STM32U5 has TrustZone — is this the target for implementation?
+3. How should key management work for open-source firmware (dev keys vs. release keys)?
+
+## Risk Assessment
+- **High impact, high care required** — touches bootloader, brick risk if misimplemented
+- Propose starting with a QEMU/simulator target for validation
+- Can be opt-in (dev builds unsigned, release builds verified)
+
+---
+ΩV
+```
+
+---
+
+## Issue 4: UI — Scene Gateway & Immersive Navigation
+
+**Title:** `[RFC] Scene Gateway: Immersive UI Navigation Framework for Flipper One`
+
+**Labels:** `enhancement`, `ui`, `discussion`, `architecture`
+
+**Body:**
+
+```
+## Summary
+Proposal for a "Scene Gateway" UI framework that enables context-aware, immersive navigation between Flipper One applications. Instead of flat menus, apps declare scenes with entry/exit transitions, state persistence, and ambient context (RF environment, battery, connected peers).
+
+## Background
+My Sovereign Portal project builds immersive VR/AR interfaces where the environment forms around the user in real-time. Porting this concept to Flipper One would transform the device from a "list of apps" into a "contextual command deck."
+
+## Proposed Scope
+- **Scene Registry:** Apps register scenes with metadata (icon, priority, context triggers)
+- **Transition Engine:** Hardware-accelerated slide/fade/depth transitions between scenes
+- **Context Layer:** Ambient data (signal strength, mesh peers, alerts) surfaces as persistent HUD elements
+- **Gesture Navigation:** Long-press, directional swipe, and rotary encoder as first-class inputs
+
+## Architecture
+Full specification (scene API + transition spec):  
+→ https://github.com/shalominattii-us/flipper-one-proposals/blob/main/ui-scene-gateway.md
+
+## Questions for Maintainers
+1. Is there a UI refactor planned that this should align with?
+2. Current scene system in `applications/services/gui` — extend or replace?
+3. Memory budget: transitions require frame buffers. Is 256KB SRAM sufficient for target quality?
+
+## Risk Assessment
+- **Medium device risk** — UI layer only, but frame buffers consume RAM
+- Can be developed as an overlay library first, integrated later
+- Graceful degradation: low-memory targets fall back to instant transitions
+
+---
+ΩV
+```
+
+---
+
+## Issue 5: Docs — Golden Dome Hardening Guide
+
+**Title:** `[RFC] Golden Dome: Comprehensive Security Hardening & DFIR Documentation`
+
+**Labels:** `documentation`, `security`, `discussion`
+
+**Body:**
+
+```
+## Summary
+Proposal to add a "Golden Dome" security hardening guide to Flipper One documentation — covering supply-chain verification, firmware integrity checks, incident response playbooks, and DFIR (Digital Forensics and Incident Response) procedures for compromised devices.
+
+## Background
+I maintain a sovereign security arsenal with government-grade hardening standards. The goal is to make Flipper One documentation enterprise-ready: not just "how to flash" but "how to verify, harden, and recover."
+
+## Proposed Scope
+- **Supply Chain Verification:** Step-by-step guide to verify firmware authenticity from GitHub → device
+- **Runtime Hardening:** Disable debug interfaces, lock JTAG/SWD, enable read-out protection
+- **Incident Response Playbook:** "My Flipper was lost/stolen/compromised — what now?"
+- **DFIR Procedures:** Memory dump analysis, timeline reconstruction, artifact extraction
+
+## Architecture
+Full specification (doc outline + sample procedures):  
+→ https://github.com/shalominattii-us/flipper-one-proposals/blob/main/docs-golden-dome-hardening.md
+
+## Questions for Maintainers
+1. Is there a docs revamp in progress this should slot into?
+2. Should this live in the main docs repo or a separate security-focused repo?
+3. Target audience: end users, developers, or enterprise security teams?
+
+## Risk Assessment
+- **Zero device risk** — documentation only
+- No code changes required
+- Can be submitted as a single large docs PR or split by chapter
+
+---
+ΩV
+```
+
+---
+
+## Issue 6: Hardware — Blockchain Identity & Attestation
+
+**Title:** `[RFC] Hardware-Anchored Blockchain Identity & Attestation for Flipper One`
+
+**Labels:** `enhancement`, `hardware`, `security`, `discussion`, `architecture`
+
+**Body:**
+
+```
+## Summary
+Proposal to integrate hardware-anchored blockchain identity into Flipper One — enabling cryptographic attestation of device provenance, firmware integrity, and transaction signing using on-device secure elements or derived keys.
+
+## Background
+My sovereign framework includes ESC/EOC tokens on XRPL and Solana, with a focus on self-custody and hardware-backed key protection. Extending this to Flipper One would enable the device to function as a hardware wallet, attestation oracle, and sovereign identity token.
+
+## Proposed Scope
+- **Device Identity:** Unique device keypair generated in secure storage (STM32U5 TrustZone or external SE)
+- **Firmware Attestation:** Signed statement that "this device runs verified firmware vX.Y.Z"
+- **Transaction Signing:** Ed25519/Secp256k1 signing for XRPL/Solana transactions via user confirmation
+- **Identity Recovery:** Shamir secret sharing for key recovery across multiple trusted devices
+
+## Architecture
+Full specification (key derivation + attestation protocol):  
+→ https://github.com/shalominattii-us/flipper-one-proposals/blob/main/hardware-blockchain-identity.md
+
+## Questions for Maintainers
+1. Is hardware wallet functionality in scope for Flipper One, or out of scope?
+2. STM32U5 TrustZone vs. external secure element — hardware team preference?
+3. Should this be a core firmware feature or an external application (like the existing crypto apps)?
+
+## Risk Assessment
+- **Medium device risk** — key generation must be cryptographically sound
+- Propose starting with a simulator/testnet implementation
+- All signing operations require explicit user confirmation (button press)
+
+---
+ΩV
+```
+
+---
+
+## Posting Instructions
+
+1. Open each issue at: `https://github.com/flipperdevices/flipperzero-firmware/issues/new`
+2. Paste title and body exactly as written above
+3. Apply labels as listed (if you have label permissions; otherwise mention them in the body)
+4. Cross-reference: In each issue, link to the other 5 issues with:  
+   `Related: #XXX, #YYY, #ZZZ...`
+5. Wait for maintainer response before forking/branching
+
+## Sovereign Portfolio Index
+
+All 6 proposals, architecture docs, and reference implementations live here:  
+→ https://github.com/shalominattii-us/flipper-one-proposals
+
+Ω — Pre complete. ΩΩ — Set for posting.

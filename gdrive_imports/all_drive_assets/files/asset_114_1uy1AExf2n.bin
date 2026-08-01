@@ -1,0 +1,170 @@
+#!/usr/bin/env python3
+"""
+═══════════════════════════════════════════════════════════════════════════════
+  XRP_BOT BRIDGE — ORB Engine Integration Layer
+
+  Connects ORB Breakout Engine to xrp_bot/ for on-chain execution.
+  xrp_bot handles: wallet management, transaction signing, submission
+  This bridge: translates ORB signals → xrp_bot commands
+═══════════════════════════════════════════════════════════════════════════════
+"""
+
+import json
+import asyncio
+from pathlib import Path
+from decimal import Decimal
+
+class XRPBotBridge:
+    """
+    Bridge between ORB engine and xrp_bot/ execution layer.
+
+    Expected xrp_bot structure:
+        xrp_bot/
+        ├── wallet.py      # Wallet management
+        ├── dex.py         # DEX order submission
+        ├── monitor.py     # Transaction monitoring
+        └── config.json    # Bot configuration
+    """
+
+    def __init__(self, xrp_bot_path: str = "../../xrp_bot"):
+        self.bot_path = Path(xrp_bot_path)
+        self.config = self._load_config()
+
+    def _load_config(self) -> dict:
+        config_file = self.bot_path / "config.json"
+        if config_file.exists():
+            with open(config_file) as f:
+                return json.load(f)
+        return {}
+
+    async def submit_order(self, side: str, symbol: str, amount: Decimal, 
+                           price: Decimal, order_type: str = "ioc") -> dict:
+        """
+        Submit order via xrp_bot.
+
+        Args:
+            side: "buy" or "sell"
+            symbol: e.g. "EOC/XRP"
+            amount: Amount of token to trade
+            price: Limit price in XRP per token
+            order_type: "ioc", "fok", or "limit"
+
+        Returns:
+            dict with tx_hash, status, error
+        """
+        # Check if xrp_bot has dex.py
+        dex_module = self.bot_path / "dex.py"
+
+        if dex_module.exists():
+            # Import and use xrp_bot's DEX module
+            import sys
+            sys.path.insert(0, str(self.bot_path))
+            try:
+                from dex import submit_offer
+                result = submit_offer(
+                    side=side,
+                    currency=symbol.split("/")[0],
+                    amount=str(amount),
+                    price=str(price),
+                    order_type=order_type
+                )
+                return result
+            except Exception as e:
+                return {"success": False, "error": f"xrp_bot dex error: {e}"}
+            finally:
+                sys.path.pop(0)
+
+        # Fallback: direct xrpl-py execution
+        return await self._direct_xrpl_submit(side, symbol, amount, price, order_type)
+
+    async def _direct_xrpl_submit(self, side, symbol, amount, price, order_type):
+        """Direct XRPL submission if xrp_bot unavailable."""
+        try:
+            from xrpl.clients import JsonRpcClient
+            from xrpl.models.transactions import OfferCreate
+            from xrpl.models.amounts import IssuedCurrencyAmount
+            from xrpl.transaction import autofill_and_sign, submit_and_wait
+            from xrpl.wallet import Wallet
+            from xrpl.utils import xrp_to_drops
+
+            # Load wallet from vault
+            import os
+            seed = os.environ.get("XRPL_MAINNET_SEED") or os.environ.get("XRPL_TESTNET_SEED")
+            if not seed:
+                return {"success": False, "error": "No wallet seed in environment"}
+
+            wallet = Wallet.from_seed(seed)
+            client = JsonRpcClient("https://s1.ripple.com:51234")
+
+            # Build transaction
+            parts = symbol.split("/")
+            quote = parts[0]
+
+            if side == "buy":
+                taker_pays = IssuedCurrencyAmount(
+                    currency=quote, issuer="rB2fKokBsnHCoFWLqZ89dqp2VCbVkKoY2k",
+                    value=str(amount)
+                )
+                xrp_cost = amount * price
+                taker_gets = str(xrp_to_drops(str(xrp_cost)))
+            else:
+                xrp_proceeds = amount * price
+                taker_pays = str(xrp_to_drops(str(xrp_proceeds)))
+                taker_gets = IssuedCurrencyAmount(
+                    currency=quote, issuer="rB2fKokBsnHCoFWLqZ89dqp2VCbVkKoY2k",
+                    value=str(amount)
+                )
+
+            flags = 0
+            if order_type == "ioc":
+                flags |= 131072
+            elif order_type == "fok":
+                flags |= 262144
+
+            offer = OfferCreate(
+                account=wallet.address,
+                taker_gets=taker_gets,
+                taker_pays=taker_pays,
+                flags=flags
+            )
+
+            signed = autofill_and_sign(offer, client, wallet)
+            result = submit_and_wait(signed, client)
+
+            tx_hash = result.result.get("hash", "unknown")
+            meta = result.result.get("meta", {})
+            tx_result = meta.get("TransactionResult", "unknown")
+
+            return {
+                "success": tx_result == "tesSUCCESS",
+                "tx_hash": tx_hash,
+                "result": tx_result
+            }
+
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+    async def get_balance(self, asset: str = "XRP") -> Decimal:
+        """Get balance via xrp_bot or direct."""
+        wallet_module = self.bot_path / "wallet.py"
+
+        if wallet_module.exists():
+            import sys
+            sys.path.insert(0, str(self.bot_path))
+            try:
+                from wallet import get_balance
+                return Decimal(str(get_balance(asset)))
+            except:
+                pass
+            finally:
+                sys.path.pop(0)
+
+        # Fallback
+        return Decimal("0")
+
+
+if __name__ == "__main__":
+    bridge = XRPBotBridge()
+    print("XRP Bot Bridge initialized")
+    print(f"Bot path: {bridge.bot_path}")
+    print(f"Config: {bridge.config}")
