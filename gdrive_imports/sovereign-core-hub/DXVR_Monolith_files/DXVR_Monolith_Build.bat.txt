@@ -1,0 +1,35 @@
+@echo off
+setlocal
+
+echo.
+echo ============================================
+echo        DXVR MONOLITH AUTO-BUILDER
+echo ============================================
+echo.
+
+where cl >nul 2>nul
+if %errorlevel% neq 0 (
+    echo ERROR: MSVC compiler not found.
+    echo Open: "x64 Native Tools Command Prompt for VS 2022"
+    pause
+    exit /b 1
+)
+
+if exist DXVR_Monolith.obj del DXVR_Monolith.obj
+if exist DXVR_Monolith.exe del DXVR_Monolith.exe
+
+echo [1/2] Compiling DXVR_Monolith.cpp...
+cl DXVR_Monolith.cpp /EHsc /DUNICODE /D_UNICODE d3d11.lib dxgi.lib dxguid.lib d3dcompiler.lib
+if %errorlevel% neq 0 (
+    echo Build FAILED.
+    pause
+    exit /b 1
+)
+
+echo.
+echo [2/2] Build complete!
+echo DXVR_Monolith.exe is ready.
+echo.
+
+DXVR_Monolith.exe
+pause

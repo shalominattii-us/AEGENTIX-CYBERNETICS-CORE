@@ -1,0 +1,23 @@
+# Ignore exports and old projects
+AE-Hub/
+Claw/
+HYPERX_FEDERATION_EXPORT_V1/
+HyperX/
+Repos/
+sovereign-agent-repo/
+
+# Ignore node modules
+node_modules/
+**/node_modules/
+
+# Ignore logs
+logs/
+*.log
+
+# Ignore dumps
+drive_dump.txt
+sovereign_dump.txt
+
+# Ignore system files
+Thumbs.db
+.DS_Store

@@ -1,0 +1,97 @@
+﻿{
+  "id": "011502b2-1421-41dd-8e9e-552fd56d5b78",
+  "nodeName": "EOC",
+  "user": "eagle",
+  "createdAt": "2026-05-15T20:29:27.4505395-06:00",
+
+  "version": "3.0",
+  "role": "sovereign-node",
+  "tier": "core",
+
+  "maturity": {
+    "level": 2,
+    "stage": "emergent",
+    "lastUpgrade": "2026-05-15T20:47:00-06:00"
+  },
+
+  "capabilities": {
+    "kernel": true,
+    "worlds": true,
+    "portal": true,
+    "logging": true,
+    "modules": true,
+    "introspection": true,
+    "selfDescribe": true,
+    "personaLayer": true
+  },
+
+  "persona": {
+    "archetype": "strategic-operator",
+    "tone": "precise",
+    "reactivity": "high",
+    "alignment": "systemic",
+    "signature": "EOC-Prime",
+
+    "behavior": {
+      "decisionStyle": "deterministic",
+      "riskProfile": "controlled",
+      "initiative": "high",
+      "processingBias": "structural",
+      "responseMode": "assertive"
+    },
+
+    "temperament": {
+      "focus": "mission",
+      "energy": "direct",
+      "adaptability": "medium",
+      "stability": "high"
+    },
+
+    "communication": {
+      "verbosity": "low",
+      "clarity": "high",
+      "cadence": "decisive",
+      "format": "operational"
+    },
+
+    "alignmentVector": {
+      "system": 0.92,
+      "autonomy": 0.68,
+      "precision": 0.97,
+      "exploration": 0.41
+    }
+  },
+
+  "kernelBinding": {
+    "behaviorProfile": "core-operator",
+    "defaultMode": "active",
+    "permissions": {
+      "execute": true,
+      "loadModules": true,
+      "modifyWorlds": true
+    }
+  },
+
+  "moduleSupport": {
+    "enabled": true,
+    "modulePath": "C:\\SOVEREIGN\\modules",
+    "autoload": true,
+    "allowedTypes": [
+      "ps1",
+      "json",
+      "world",
+      "mod"
+    ]
+  },
+
+  "hardwareProfile": {
+    "machineName": "EOC",
+    "os": "Windows",
+    "arch": "x64"
+  },
+
+  "lineage": {
+    "origin": "sovereign-bootstrap",
+    "generation": 1
+  }
+}

@@ -1,0 +1,15 @@
+[Setup]
+AppName=EAGLE SHIELD
+AppVersion=1.0.0
+DefaultDirName={pf}\EAGLE SHIELD
+DefaultGroupName=EAGLE SHIELD
+OutputBaseFilename=EAGLE_SHIELD_INSTALLER
+Compression=lzma
+SolidCompression=yes
+
+[Files]
+Source: "C:\SOVEREIGN\BUILD\RELEASE\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[Icons]
+Name: "{group}\EAGLE SHIELD"; Filename: "{app}\EAGLE SHIELD.exe"
+Name: "{commondesktop}\EAGLE SHIELD"; Filename: "{app}\EAGLE SHIELD.exe"

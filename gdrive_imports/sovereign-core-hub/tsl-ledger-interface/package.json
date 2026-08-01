@@ -1,0 +1,1 @@
+{"name":"tsl-ledger-interface","version":"9.0.0","description":"Treasury Sovereign Ledger Interface","main":"index.js","scripts":{"start":"node index.js"},"dependencies":{"express":"^4.18.2"}}

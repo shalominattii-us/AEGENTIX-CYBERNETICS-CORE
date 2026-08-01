@@ -1,0 +1,116 @@
+﻿{
+    "manifest_id":  "ENGINE-STACK-1.0.0",
+    "stack_name":  "Sovereign One-Click Engine Suite",
+    "timestamp":  "2026-05-16T17:52:55Z",
+    "engines":  [
+                    {
+                        "name":  "HardenedEngine",
+                        "purpose":  "Maximum safety, idempotence, and deterministic rebuilds.",
+                        "modes":  [
+
+                                  ],
+                        "flow":  [
+                                     "Init-EnvCore",
+                                     "Clean-StateCore",
+                                     "CORE-BuildBackend",
+                                     "CORE-BuildUnity",
+                                     "CORE-BringUpSovereign",
+                                     "CORE-ShortcutsAndVersion"
+                                 ],
+                        "postSteps":  null
+                    },
+                    {
+                        "name":  "ModularEngine",
+                        "purpose":  "Function-driven orchestration with selectable modes.",
+                        "modes":  [
+                                      {
+                                          "name":  "clean",
+                                          "steps":  [
+                                                        "Clean-StateCore"
+                                                    ]
+                                      },
+                                      {
+                                          "name":  "backend",
+                                          "steps":  [
+                                                        "Clean-StateCore",
+                                                        "CORE-BuildBackend",
+                                                        "CORE-BringUpSovereign",
+                                                        "CORE-ShortcutsAndVersion"
+                                                    ]
+                                      },
+                                      {
+                                          "name":  "unity",
+                                          "steps":  [
+                                                        "Clean-StateCore",
+                                                        "CORE-BuildUnity",
+                                                        "CORE-ShortcutsAndVersion"
+                                                    ]
+                                      },
+                                      {
+                                          "name":  "full",
+                                          "steps":  [
+                                                        "Clean-StateCore",
+                                                        "CORE-BuildBackend",
+                                                        "CORE-BuildUnity",
+                                                        "CORE-BringUpSovereign",
+                                                        "CORE-ShortcutsAndVersion"
+                                                    ]
+                                      }
+                                  ],
+                        "flow":  null,
+                        "postSteps":  null
+                    },
+                    {
+                        "name":  "Fusion2ScalExeEngine",
+                        "purpose":  "EXE-friendly, argument-driven, scalable installer logic.",
+                        "modes":  [
+                                      {
+                                          "name":  "clean",
+                                          "steps":  [
+                                                        "Clean-StateCore"
+                                                    ]
+                                      },
+                                      {
+                                          "name":  "backend",
+                                          "steps":  [
+                                                        "Clean-StateCore",
+                                                        "CORE-BuildBackend",
+                                                        "CORE-BringUpSovereign"
+                                                    ]
+                                      },
+                                      {
+                                          "name":  "unity",
+                                          "steps":  [
+                                                        "Clean-StateCore",
+                                                        "CORE-BuildUnity"
+                                                    ]
+                                      },
+                                      {
+                                          "name":  "full",
+                                          "steps":  [
+                                                        "Clean-StateCore",
+                                                        "CORE-BuildBackend",
+                                                        "CORE-BuildUnity",
+                                                        "CORE-BringUpSovereign"
+                                                    ]
+                                      }
+                                  ],
+                        "flow":  null,
+                        "postSteps":  [
+                                          "CORE-ShortcutsAndVersion"
+                                      ]
+                    }
+                ],
+    "guarantees":  {
+                       "atomicity":  true,
+                       "idempotence":  true,
+                       "deterministic_outputs":  true,
+                       "engine_interchangeability":  true
+                   },
+    "versions":  {
+                     "stack_version":  "1.0.0",
+                     "core_version":  "1.0.0",
+                     "engine_api":  "v1",
+                     "compatibility":  "All engines require Sovereign-Core.ps1"
+                 }
+}

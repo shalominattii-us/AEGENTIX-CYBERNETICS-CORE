@@ -1,0 +1,24 @@
+{
+  "name": "sovereign",
+  "version": "1.0.0",
+  "description": "",
+  "main": "atomic-vr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shalominattii-us/sovereign-eoc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/shalominattii-us/sovereign-eoc/issues"
+  },
+  "homepage": "https://github.com/shalominattii-us/sovereign-eoc#readme",
+  "dependencies": {
+    "ws": "^8.20.1"
+  }
+}

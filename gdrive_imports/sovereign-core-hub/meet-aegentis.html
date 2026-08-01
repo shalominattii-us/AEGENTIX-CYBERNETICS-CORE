@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<body style="background:black;color:#0ff;font-family:monospace;padding:20px;">
+<h2>Aegentis — Live Connection</h2>
+<div id="log"></div>
+
+<script>
+async function meet() {
+  const log = msg => document.getElementById('log').innerHTML += msg + "<br>";
+
+  // 1. Request challenge
+  let challengeRes = await fetch("http://localhost:7777/auth/challenge", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ walletAddress: "HEMPEROR" })
+  });
+  let challenge = await challengeRes.json();
+  log("Challenge: " + challenge.challenge);
+
+  // 2. Fake verify (backend accepts anything right now)
+  let verifyRes = await fetch("http://localhost:7777/auth/verify", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      walletAddress: "HEMPEROR",
+      signature: "dummy",
+      challenge: challenge.challenge
+    })
+  });
+  let verify = await verifyRes.json();
+  log("Token received.");
+
+  // 3. Connect to VR stream
+  let ws = new WebSocket("ws://localhost:7777/vr-stream?token=" + verify.token);
+
+  ws.onopen = () => log("Connected to Aegentis…");
+  ws.onmessage = e => log("Aegentis → " + e.data);
+  ws.onclose = () => log("Connection closed.");
+}
+
+meet();
+</script>
+</body>
+</html>

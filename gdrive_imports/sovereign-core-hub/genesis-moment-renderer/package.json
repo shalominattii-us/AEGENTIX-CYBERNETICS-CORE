@@ -1,0 +1,1 @@
+{"name":"genesis-moment-renderer","version":"9.0.0","description":"Genesis Moment immersive transition","main":"src/GenesisMoment.jsx","scripts":{"build":"echo Build placeholder"},"dependencies":{"react":"^18.2.0"}}
