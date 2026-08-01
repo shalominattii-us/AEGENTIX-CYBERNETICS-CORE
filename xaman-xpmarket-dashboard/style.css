@@ -1,7 +1,7 @@
 :root {
     --bg-dark: #080c14;
-    --card-bg: rgba(16, 24, 40, 0.7);
-    --card-border: rgba(255, 255, 255, 0.08);
+    --card-bg: rgba(16, 24, 40, 0.85);
+    --card-border: rgba(255, 255, 255, 0.12);
     --accent-blue: #00f2fe;
     --accent-purple: #4facfe;
     --accent-gold: #f6d365;
@@ -215,6 +215,8 @@ body {
     border: none;
     transition: all 0.3s ease;
     font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
 }
 
 .btn-primary {
@@ -236,6 +238,103 @@ body {
 
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.15);
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(4, 8, 16, 0.85);
+    backdrop-filter: blur(12px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-card {
+    width: 90%;
+    max-width: 480px;
+    padding: 2rem;
+    position: relative;
+    border: 1px solid rgba(0, 242, 254, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.modal-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.btn-close:hover {
+    color: var(--text-main);
+}
+
+.qr-container {
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 220px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed var(--card-border);
+    border-radius: 12px;
+}
+
+#qr-image {
+    max-width: 200px;
+    border-radius: 8px;
+    display: none;
+}
+
+.payload-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.88rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.badge-status {
+    background: rgba(246, 211, 101, 0.15);
+    color: var(--accent-gold);
+    border: 1px solid rgba(246, 211, 101, 0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.modal-actions {
+    text-align: center;
 }
 
 /* Inventory Table */
