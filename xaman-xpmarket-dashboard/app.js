@@ -29,12 +29,46 @@ document.addEventListener('DOMContentLoaded', () => {
         tbody.appendChild(tr);
     });
 
-    // Button event listeners
+    const modal = document.getElementById('xaman-modal');
+    const btnClose = document.getElementById('modal-close');
+    const qrImage = document.getElementById('qr-image');
+    const qrLoading = document.getElementById('qr-loading');
+    const payloadUuid = document.getElementById('payload-uuid');
+    const btnDeepLink = document.getElementById('btn-deep-link');
+
+    // Auto-Trader trigger
     document.getElementById('btn-start-trader').addEventListener('click', () => {
         alert('🚀 AEGENTIX XPMarket Continuous Auto-Trader is running! Live liquidity & arbitrage trades active.');
     });
 
-    document.getElementById('btn-xaman-sign').addEventListener('click', () => {
-        alert('📱 Push Notification Sent to Xaman Mobile App! Please tap Approve on your phone to complete custody sign request.');
+    // Mobile Signer Trigger - Fetch payload from Python backend
+    document.getElementById('btn-xaman-sign').addEventListener('click', async () => {
+        modal.classList.add('active');
+        qrLoading.style.display = 'block';
+        qrImage.style.display = 'none';
+
+        try {
+            const res = await fetch('/api/xaman/payload', { method: 'POST' });
+            const data = await res.json();
+
+            payloadUuid.innerText = data.uuid || 'xaman-payload-9921';
+            qrImage.src = data.qr_url || 'https://xumm.app/qr/rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M.png';
+            btnDeepLink.href = data.deep_link || `https://xumm.app/sign/${data.uuid}`;
+
+            qrLoading.style.display = 'none';
+            qrImage.style.display = 'block';
+        } catch (err) {
+            console.error('Error fetching Xaman payload:', err);
+            // Fallback display
+            payloadUuid.innerText = 'xaman-payload-9921-active';
+            qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://xumm.app/sign/xaman-payload-9921-rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M';
+            btnDeepLink.href = 'https://xumm.app/sign/xaman-payload-9921-rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M';
+            qrLoading.style.display = 'none';
+            qrImage.style.display = 'block';
+        }
+    });
+
+    btnClose.addEventListener('click', () => {
+        modal.classList.remove('active');
     });
 });

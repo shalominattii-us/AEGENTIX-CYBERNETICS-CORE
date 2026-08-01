@@ -89,6 +89,35 @@
         </section>
     </main>
 
+    <!-- Xaman Mobile Signer Modal -->
+    <div class="modal-overlay" id="xaman-modal">
+        <div class="card glass modal-card">
+            <div class="modal-header">
+                <h2>📱 Xaman Mobile Custody Sign Request</h2>
+                <button class="btn-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Scan the QR code below using your Xaman (Xumm) app or click the deep link button to sign the custody transaction:</p>
+                
+                <div class="qr-container">
+                    <img id="qr-image" src="" alt="Xaman QR Code">
+                    <div class="qr-spinner" id="qr-loading">Generating Xaman Payload...</div>
+                </div>
+
+                <div class="payload-details">
+                    <div class="detail-item"><strong>Target Wallet:</strong> <span id="modal-address">rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M</span></div>
+                    <div class="detail-item"><strong>Transaction:</strong> OfferCreate (XPMarket DEX Rebalance)</div>
+                    <div class="detail-item"><strong>Payload UUID:</strong> <span id="payload-uuid">Generating...</span></div>
+                    <div class="detail-item"><strong>Status:</strong> <span class="badge-status" id="payload-status">AWAITING_MOBILE_SIGN</span></div>
+                </div>
+
+                <div class="modal-actions">
+                    <a href="#" target="_blank" class="btn btn-primary" id="btn-deep-link">🔗 Open in Xaman Mobile App</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
