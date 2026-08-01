@@ -1,0 +1,12 @@
+﻿{
+  "sovereign_manifest": "ENGINE-STACK-1.0.0",
+  "identity": {
+    "stack_name": "Sovereign One-Click Engine Suite",
+    "core_module": "Sovereign-Core.ps1",
+    "engines": [
+      "Sovereign-HardenedEngine.ps1",
+      "Sovereign-ModularEngine.ps1",
+      "Sovereign-2ScalExeFusionEngine.ps1"
+    ]
+  }
+}

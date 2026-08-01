@@ -1,0 +1,1 @@
+{"name":"agentic-ai-orchestrator","version":"9.0.0","description":"Agentic AI Orchestrator","main":"main.py","scripts":{"start":"python main.py"},"dependencies":{}}

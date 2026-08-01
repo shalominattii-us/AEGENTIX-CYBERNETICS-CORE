@@ -1,0 +1,12 @@
+{
+    "default_runtime":  "rsn_core",
+    "runtimes":  [
+                     {
+                         "args":  [
+
+                                  ],
+                         "path":  "C:\\Sovereign\\Runtimes\\rsn_core.exe",
+                         "id":  "rsn_core"
+                     }
+                 ]
+}

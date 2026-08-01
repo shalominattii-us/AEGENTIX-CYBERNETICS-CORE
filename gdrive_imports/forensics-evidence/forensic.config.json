@@ -1,0 +1,11 @@
+{
+  "name": "ESS7 Full System",
+  "version": "3.0.0-complete",
+  "evidenceRoot": "C:\\Forensic\\Evidence",
+  "outputRoot": "C:\\Forensic\\Output",
+  "tempRoot": "C:\\Forensic\\Temp",
+  "policies": {
+    "mode": "log-only",
+    "allowWriteOutsideForensic": false
+  }
+}

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sovereign-portal
+    ports:
+      - "8080:8080"
+    environment:
+      - LOG_LEVEL=info
+    networks:
+      - sovereign-prime
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+networks:
+  sovereign-prime:
+    driver: bridge
+    name: sovereign-prime

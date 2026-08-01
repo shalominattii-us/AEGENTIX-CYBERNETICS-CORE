@@ -1,0 +1,123 @@
+version: "3.9"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  sc0:
+    image: sovereign-prime-sc0:latest
+    container_name: sc0-prime
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  aegentis:
+    image: sovereign-prime-aegentis:latest
+    container_name: aegentis-prime
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - SC0_URL=http://sc0:8000
+      - OLLAMA_URL=http://ollama:11434
+    depends_on:
+      sc0:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  fabric:
+    image: sovereign-prime-fabric:latest
+    container_name: fabric-prime
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+    environment:
+      - AEGENTIS_URL=http://aegentis:8001
+    depends_on:
+      aegentis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  ledger:
+    image: sovereign-prime-ledger:latest
+    container_name: ledger-prime
+    restart: unless-stopped
+    ports:
+      - "8003:8003"
+    environment:
+      - FABRIC_URL=http://fabric:8002
+    depends_on:
+      fabric:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  runtime:
+    image: sovereign-prime-runtime:latest
+    container_name: runtime-prime
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+    environment:
+      - SC0_URL=http://sc0:8000
+      - AEGENTIS_URL=http://aegentis:8001
+      - FABRIC_URL=http://fabric:8002
+      - LEDGER_URL=http://ledger:8003
+      - OLLAMA_URL=http://ollama:11434
+      - WS_PORT=8088
+    depends_on:
+      sc0:
+        condition: service_healthy
+      aegentis:
+        condition: service_healthy
+      fabric:
+        condition: service_healthy
+      ledger:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  portal:
+    image: sovereign-prime-portal:latest
+    container_name: portal-prime
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - RUNTIME_HTTP_URL=http://runtime:8088
+      - RUNTIME_WS_URL=ws://runtime:8088/ws/command
+    depends_on:
+      runtime:
+        condition: service_healthy

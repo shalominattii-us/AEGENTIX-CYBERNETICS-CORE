@@ -1,0 +1,17 @@
+﻿SOVEREIGN_META_ARTIFACT {
+  stack: "Sovereign Engine Stack"
+  orchestrator: "LRV"
+  core: "Sovereign-Core.ps1"
+  manifest: "Sovereign-EngineManifest.json"
+  engines: [
+    "HardenedEngine"
+    "ModularEngine"
+    "Fusion2ScalExeEngine"
+  ]
+  chronicle_last_2_hours {
+    00:00  installer: Sovereign-Installer.ps1
+    00:01  stack: initialized
+    00:02  backend: scaffolded at C:\sovereign-prime
+    00:03  unity: scaffolded at C:\EagleShieldUnity
+  }
+}

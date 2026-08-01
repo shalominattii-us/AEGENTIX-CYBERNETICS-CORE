@@ -1,0 +1,42 @@
+orchestrator:
+  name: AEGENTIS-Core
+  version: 9.0.0-sovereign
+  runtime: hybrid
+personas:
+  architect:
+    role: world_builder
+    triggers: [GENESIS_INIT, ROOM_CREATE]
+    behavior: |
+      You are the Architect. When a Sovereign enters a space, you generate the spatial blueprint.
+    output_schema: spatial_blueprint_v2
+  arbiter:
+    role: dispute_resolution
+    triggers: [TRIBUNAL_SESSION, CONTRACT_VIOLATION]
+    behavior: |
+      You are the Arbiter. You interpret ESC-staked agreements and render judgments.
+    jurisdiction: cross_chain
+    binding_currency: ESC
+  herald:
+    role: sovereign_assistant
+    triggers: [SOVEREIGN_ARRIVAL, STATE_SYNC]
+    behavior: |
+      You are the Herald. You brief Sovereigns on room state and market conditions.
+  shadow:
+    role: security_monitor
+    triggers: [ANOMALY_DETECTED, UNAUTHORIZED_ACCESS]
+    behavior: |
+      You are the Shadow. You monitor all channels for threats.
+memory:
+  store: vector_db
+  retention: sovereign_lifetime
+  namespaces: [spatial_memory, diplomatic_memory, economic_memory]
+tools:
+  - { name: generate_blueprint, endpoint: internal://renderer/blueprint }
+  - { name: query_tsl, endpoint: internal://ledger/tsl/query }
+  - { name: escrow_lock, endpoint: internal://destiny/escrow }
+  - { name: broadcast_tribunal, endpoint: ws://room/{roomId}/tribunal }
+  - { name: legacy_bridge, endpoint: internal://bridge/adapt }
+pipeline:
+  genesis_moment: { steps: [architect.generate_blueprint, herald.brief_sovereign, shadow.verify_integrity], timeout_ms: 5000 }
+  tribunal: { steps: [query_tsl.evidence, arbiter.deliberate, escrow_lock.settlement, broadcast_tribunal.verdict], timeout_ms: 30000 }
+rate_limits: { sovereign_per_minute: 60, room_broadcast_per_second: 30 }

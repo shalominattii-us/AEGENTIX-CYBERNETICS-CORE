@@ -1,0 +1,30 @@
+﻿<Window
+    x:Class="SovereignPortal.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SovereignPortal"
+    Title="Sovereign Portal"
+    Width="1280"
+    Height="800">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Background="#111111" Padding="20">
+            <TextBlock Text="Ω Sovereign Portal" 
+                       Foreground="White" 
+                       FontSize="20"
+                       Margin="0 0 0 20"/>
+
+            <Button Content="Dialogue" Tag="DialogueView" Margin="0 5"/>
+            <Button Content="Commander Console" Tag="CommanderConsoleView" Margin="0 5"/>
+            <Button Content="Federation Mesh" Tag="FederationView" Margin="0 5"/>
+            <Button Content="Memory Ledger" Tag="MemoryLedgerView" Margin="0 5"/>
+        </StackPanel>
+
+        <Frame x:Name="MainFrame" Grid.Column="1" Background="#0D0D0D"/>
+    </Grid>
+</Window>
