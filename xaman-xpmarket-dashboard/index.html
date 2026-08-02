@@ -32,8 +32,8 @@
         <section class="hero-grid">
             <div class="card glass hero-card">
                 <h3>XAMAN CUSTODY BALANCE</h3>
-                <div class="stat-value" id="xrp-balance">15.004609 <span class="unit">XRP</span></div>
-                <div class="stat-sub">Validated Ledger #105991097 • Sequence #94732707</div>
+                <div class="stat-value" id="xrp-balance">15.556847 <span class="unit">XRP</span></div>
+                <div class="stat-sub">Validated Ledger #94732711 • Owner Objects: 70</div>
             </div>
 
             <div class="card glass hero-card highlight">
@@ -59,7 +59,7 @@
                 <div class="button-group">
                     <button class="btn btn-primary" id="btn-start-trader">🚀 Start Continuous Auto-Trader</button>
                     <button class="btn btn-secondary" id="btn-cancel-nft">🧹 Cancel NFT Offer (Release 2 XRP)</button>
-                    <button class="btn btn-secondary" id="btn-xaman-sign">📱 Mobile Sign Request</button>
+                    <button class="btn btn-secondary" id="btn-xaman-sign">📱 Mobile Sign Request (GODZ)</button>
                 </div>
             </div>
         </section>
@@ -109,12 +109,17 @@
 
                 <div class="payload-details">
                     <div class="detail-item"><strong>Target Wallet:</strong> <span id="modal-address">rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M</span></div>
-                    <div class="detail-item"><strong>Transaction:</strong> <span id="modal-txtype">NFTokenCancelOffer</span></div>
-                    <div class="detail-item"><strong>Payload UUID:</strong> <span id="payload-uuid">Generating...</span></div>
+                    <div class="detail-item"><strong>Transaction:</strong> <span id="modal-txtype">OfferCreate (GODZ/XRP)</span></div>
+                    <div class="detail-item"><strong>Payload UUID:</strong> <span id="payload-uuid">xpmarket-godz-xrp</span></div>
                     <div class="detail-item"><strong>Status:</strong> <span class="badge-status" id="payload-status">AWAITING_MOBILE_SIGN</span></div>
                 </div>
 
-                <div class="modal-actions">
+                <div class="payload-json-box" style="margin-top: 1rem; background: rgba(0,0,0,0.4); padding: 0.8rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+                    <strong style="color: #60a5fa; font-size: 0.85rem; display: block; margin-bottom: 0.4rem;">JSON Payload structure (OfferCreate GODZ -> XRP):</strong>
+                    <pre id="modal-json" style="font-family: monospace; font-size: 0.75rem; color: #a7f3d0; margin: 0; overflow-x: auto; white-space: pre-wrap;"></pre>
+                </div>
+
+                <div class="modal-actions" style="margin-top: 1rem;">
                     <a href="#" target="_blank" class="btn btn-primary" id="btn-deep-link">🔗 Open in Xaman Mobile App</a>
                 </div>
             </div>

@@ -31,6 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const payloadUuid = document.getElementById('payload-uuid');
     const btnDeepLink = document.getElementById('btn-deep-link');
     const modalTxtype = document.getElementById('modal-txtype');
+    const modalJson = document.getElementById('modal-json');
+
+    const godzPayloadTx = {
+        "TransactionType": "OfferCreate",
+        "Account": "rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M",
+        "TakerGets": {
+            "currency": "474F445A00000000000000000000000000000000",
+            "issuer": "rDzq9aBLaa4fao4DAvzLFmci51dCBjpcEt",
+            "value": "10000"
+        },
+        "TakerPays": "50000000"
+    };
 
     // Auto-Trader trigger
     document.getElementById('btn-start-trader').addEventListener('click', () => {
@@ -44,17 +56,23 @@ document.addEventListener('DOMContentLoaded', () => {
         payloadUuid.innerText = 'xapp:xumm.dex';
         qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://xumm.app/detect/xapp:xumm.dex';
         btnDeepLink.href = 'https://xumm.app/detect/xapp:xumm.dex';
+        modalJson.innerText = JSON.stringify({
+            "TransactionType": "NFTokenCancelOffer",
+            "Account": "rwB7JKKc5gJ47pPnWCFvQuhVW85mejYF1M",
+            "NFTokenOffers": ["56D90A8CB10C38D26142A6D1BE53CD038609791CE2DBC37D2E27C59279003318"]
+        }, null, 2);
         qrLoading.style.display = 'none';
         qrImage.style.display = 'block';
     });
 
-    // Mobile Signer Trigger - Official XPMarket DEX Link
+    // Mobile Signer Trigger - Official XPMarket DEX Link & GODZ Payload
     document.getElementById('btn-xaman-sign').addEventListener('click', () => {
         modal.classList.add('active');
-        modalTxtype.innerText = 'XPMarket DEX (Sell GODZ for XRP)';
+        modalTxtype.innerText = 'OfferCreate (Sell GODZ for XRP)';
         payloadUuid.innerText = 'xpmarket-godz-xrp';
         qrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://xpmarket.com/dex/GODZ-rDzq9aBLaa4fao4DAvzLFmci51dCBjpcEt/XRP';
         btnDeepLink.href = 'https://xpmarket.com/dex/GODZ-rDzq9aBLaa4fao4DAvzLFmci51dCBjpcEt/XRP';
+        modalJson.innerText = JSON.stringify(godzPayloadTx, null, 2);
         qrLoading.style.display = 'none';
         qrImage.style.display = 'block';
     });
