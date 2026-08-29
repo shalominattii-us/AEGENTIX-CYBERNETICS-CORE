@@ -1,0 +1,46 @@
+name: CyberDAW Integrity
+
+on:
+  push:
+    paths:
+      - 'cyberdaw/**'
+      - 'maxforlive/**'
+      - 'tests/cyberdaw/**'
+      - 'config/cyberdaw/**'
+      - 'docs/cyberdaw/**'
+      - 'pyproject.toml'
+      - '.github/workflows/cyberdaw-integrity.yml'
+  pull_request:
+    paths:
+      - 'cyberdaw/**'
+      - 'maxforlive/**'
+      - 'tests/cyberdaw/**'
+      - 'config/cyberdaw/**'
+      - 'docs/cyberdaw/**'
+      - 'pyproject.toml'
+      - '.github/workflows/cyberdaw-integrity.yml'
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install test runner
+        run: python -m pip install --upgrade pytest
+      - name: Run offline CyberDAW acceptance tests
+        run: python -m pytest tests/cyberdaw -q
+      - name: Verify fail-closed CLI
+        run: |
+          python -m cyberdaw verify --json > report.json
+          python - <<'PY'
+          import json
+          r = json.load(open('report.json', encoding='utf-8'))
+          assert r['state'] == 'PRODUCTION_BLOCKED'
+          assert r['production_ready'] is False
+          assert 'ableton_production' in r['blockers']
+          assert 'maxforlive_bridge' in r['blockers']
+          print('Fail-closed production gate verified.')
+          PY

@@ -1,0 +1,11 @@
+[project]
+name = "aegentix-cyberdaw"
+version = "0.1.0"
+description = "AEGENTIX CyberDAW production gate and integration contracts"
+requires-python = ">=3.10"
+
+[project.scripts]
+cyberdaw = "cyberdaw.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests/cyberdaw"]
