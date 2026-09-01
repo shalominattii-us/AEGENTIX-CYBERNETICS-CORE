@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "environment": "development",
+  "production_policy": {
+    "fail_closed": true,
+    "trial_counts_as_production": false,
+    "required": [
+      "orbital",
+      "ableton_production",
+      "maxforlive_bridge",
+      "obs",
+      "audio_interface",
+      "pa_routing",
+      "recording",
+      "stream",
+      "swarm_cue",
+      "emergency_stop",
+      "watchdog",
+      "resource_headroom",
+      "offline_operation"
+    ]
+  }
+}
