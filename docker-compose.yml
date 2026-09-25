@@ -1,0 +1,119 @@
+﻿services:
+
+  aegentix-runtime:
+    build:
+      context: ./services/runtime
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-gaia:
+    build:
+      context: ./services/gaia
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8090/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-directive:
+    build:
+      context: ./services/directive
+    ports:
+      - "7070:7070"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7070/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-hud:
+    build:
+      context: ./services/hud
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-mcp-fs:
+    build:
+      context: ./services/mcp-fs
+    ports:
+      - "7071:7071"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7071/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-mcp-http:
+    build:
+      context: ./services/mcp-http
+    ports:
+      - "7072:7072"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7072/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-mcp-system:
+    build:
+      context: ./services/mcp-system
+    ports:
+      - "7073:7073"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7073/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-cybercore-llm:
+    build:
+      context: ./services/cybercore-llm
+    ports:
+      - "7100:7100"
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7100/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  aegentix-net:
+    driver: bridge

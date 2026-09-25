@@ -1,0 +1,9 @@
+{
+  "node_path": "C:/Aegentix/GaiaNode",
+  "agent_path": "C:/Aegentix/GaiaAgent",
+  "sync_interval_ms": 5000,
+  "domains": [
+    "https://gaia.domains",
+    "https://www.gaianet.ai"
+  ]
+}

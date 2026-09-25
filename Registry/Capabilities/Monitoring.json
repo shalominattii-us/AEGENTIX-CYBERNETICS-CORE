@@ -1,0 +1,10 @@
+{
+    "version":  "1.0",
+    "name":  "Monitoring",
+    "config":  {
+                   "enabled":  true
+               },
+    "provider":  "Telemetry",
+    "registered":  "2026-09-07T07:24:37.253Z",
+    "status":  "active"
+}

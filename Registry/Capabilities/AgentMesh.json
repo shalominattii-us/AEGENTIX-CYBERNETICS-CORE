@@ -1,0 +1,10 @@
+{
+    "version":  "1.0",
+    "name":  "AgentMesh",
+    "config":  {
+                   "enabled":  true
+               },
+    "provider":  "AgentLoop",
+    "registered":  "2026-09-07T07:24:37.287Z",
+    "status":  "active"
+}

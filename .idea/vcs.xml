@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/AEGENTIX-CYBERNETICS-CORE" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Modules/CyberGym" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/aegentix-omnichain-solver" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/anything-llm" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/cybergym" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lemonade" vcs="Git" />
+  </component>
+</project>

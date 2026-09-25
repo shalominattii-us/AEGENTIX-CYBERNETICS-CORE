@@ -1,0 +1,55 @@
+{
+    "ollama": {
+        "enabled": true,
+        "url": "http://localhost:11434",
+        "status": "pending_local_deployment",
+        "models": []
+    },
+    "llamacpp": null,
+    "vllm": null,
+    "openaiKeys": [
+        {
+            "masked": "sk-or-v...229f",
+            "path": "C:\\Aegentix\\ai-inventory.json"
+        }
+    ],
+    "configs": [
+        {
+            "name": "openrouter-ori-harness",
+            "provider": "openrouter",
+            "api_key_env": "OPENROUTER_API_KEY",
+            "base_url": "https://openrouter.ai/api/v1",
+            "status": "registered_as_primary_orchestrator"
+        }
+    ],
+    "envVars": [
+        {
+            "masked": "sk-o...229f",
+            "name": "OPENROUTER_API_KEY"
+        }
+    ],
+    "otherKeys": [],
+    "lmstudio": null,
+    "localPorts": [
+        {
+            "port": 11434,
+            "service": "ollama",
+            "status": "pending_local_deployment",
+            "description": "Lightweight local inference server for open-source models"
+        }
+    ],
+    "codex": null,
+    "anthropicKeys": [],
+    "hermes": [
+        "C:\\Users\\eagle\\worldmonitor\\node_modules\\babel-plugin-syntax-hermes-parser",
+        "C:\\Users\\eagle\\worldmonitor\\node_modules\\hermes-compiler",
+        "C:\\Users\\eagle\\worldmonitor\\node_modules\\hermes-estree",
+        "C:\\Users\\eagle\\worldmonitor\\node_modules\\hermes-parser",
+        "C:\\Users\\eagle\\AppData\\Local\\hermes",
+        "C:\\Users\\eagle\\AppData\\Local\\hermes\\hermes-agent",
+        "C:\\Users\\eagle\\AppData\\Local\\hermes\\hermes-agent\\.hermes-runtime",
+        "C:\\Users\\eagle\\AppData\\Local\\hermes\\hermes-agent\\hermes_agent.egg-info",
+        "C:\\Users\\eagle\\AppData\\Local\\hermes\\hermes-agent\\hermes_cli",
+        "C:\\Users\\eagle\\AppData\\Roaming\\hermes"
+    ]
+}

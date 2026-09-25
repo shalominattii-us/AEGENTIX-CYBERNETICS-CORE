@@ -1,0 +1,16 @@
+FROM python:3.11-slim
+
+RUN pip install --no-cache-dir requests
+
+RUN useradd -m -u 1000 aegentix
+
+COPY agent_security_engine.py /app/agent_security_engine.py
+
+RUN chmod 555 /app/agent_security_engine.py && \
+    chown aegentix:aegentix /app
+
+WORKDIR /app
+
+USER aegentix
+
+ENTRYPOINT ["python", "agent_security_engine.py"]

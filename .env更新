@@ -1,0 +1,99 @@
+# AEGENTIX Unified Environment — Auto-generated from C drive inventory
+# Generated: 2026-09-24 | Assimilation complete
+
+# ═══════════════════════════════════════════════════════════════
+# CRITICAL: PRIME LOCK for CyberDAW End-of-Channel telemetry
+# This key is used by HMAC-SHA256 to sign all telemetry events
+# flowing into brain/telemetry_stream.jsonl
+# ═══════════════════════════════════════════════════════════════
+AEGENTIX_EOC_PRIME_LOCK=ASSIMILATED_20260924_CDRIVE_FULL_INVENTORY
+
+# ═══════════════════════════════════════════════════════════════
+# WORKSPACE UNIFIED PATHS — Canonical ground-truth cluster
+# These paths are the absolute truth. No external workspace hooks.
+# ═══════════════════════════════════════════════════════════════
+AEGENTIX_ROOT=C:/Aegentix
+AEGENTIX_USER_PROFILE=C:/Users/eagle
+AEGENTIS_WORKSPACE=C:/AEGENTIS_WORKSPACE
+AEGENTIX_STAGING=C:/AEGENTIX_STAGING_20260907
+AEGENTIX_WORKSPACE_GITHUB=C:/AEGENTIX-WORKSPACE
+BLOCKCHAIN_DATA=C:/BlockchainData
+SOVEREIGN_CORE=C:/Sovereign
+SOVEREIGN_OS=C:/SovereignOS
+SOVEREIGN_SYSTEM=C:/SovereignSystem
+
+# ═══════════════════════════════════════════════════════════════
+# MAPPINGS — External productization tokens → local ground truth
+# ═══════════════════════════════════════════════════════════════
+AEGENTIS_TOTE_ENGINE_V2=C:/Aegentix/brain/cognitive_bus.py
+AEGENTIX_MCP_SERVER=C:/Users/eagle/aegentix_swarm/agents/*/manifest.json
+LOCAL_CONNECTOR_BOOTSTRAP=C:/Aegentix/cyberdaw/adapters/run_combined.py
+
+# ═══════════════════════════════════════════════════════════════
+# TELEMETRY STREAM — CyberDAW production gate evidence target
+# ═══════════════════════════════════════════════════════════════
+TELEMETRY_STREAM=C:/Aegentix/brain/telemetry_stream.jsonl
+TELEMETRY_ALGORITHM=HMAC-SHA256
+COMPLIANCE_ENGINE=C:/Aegentix/nanotransaction_compliance_engine.py
+ANOMALY_THRESHOLD=0.7
+
+# ═══════════════════════════════════════════════════════════════
+# LLM RUNTIME — Local-first, tiered fallback
+# ═══════════════════════════════════════════════════════════════
+LLM_ENDPOINT=http://localhost:11434/api/generate
+LLM_API_KEY=***
+OLLAMA_URL=http://localhost:11434
+GROQ_API_KEY=
+OPENROUTER_API_KEY=
+SOVEREIGN_OLLAMA_URL=http://localhost:11434
+SOVEREIGN_PARETO_ENABLE=0
+SOVEREIGN_PARETO_MONTHLY_CAP=5.00
+
+# ═══════════════════════════════════════════════════════════════
+# SERVICES — Hermes orchestration, runtime agent, HUD, GAIA
+# ═══════════════════════════════════════════════════════════════
+RUNTIME_AGENT_URL=http://aegentix-runtime:8080
+PORT=8080
+HUD_PORT=3000
+GAIA_PEERS=
+GAIA_TOOLS=
+GAIANET_API_URL=http://localhost:8080/v1
+GAIANET_API_KEY=your-g...here
+MCP_REGISTRY_URL=http://mcp-registry:7071/tools
+
+# ═══════════════════════════════════════════════════════════════
+# PORT WHITELIST (from .hermes.md policy)
+# 80, 443, 9090, 3001, 9093, 8080, 7070-7073
+# Any delegate proposing a new listening port must go through Guardian.
+# ═══════════════════════════════════════════════════════════════
+ALLOWED_PORTS=80,443,9090,3001,9093,8080,7070,7071,7072,7073
+
+# ═══════════════════════════════════════════════════════════════
+# SECURITY BOUNDARIES
+# ═══════════════════════════════════════════════════════════════
+FALCO_RULES=C:/Aegentix/security/falco-aegentix-rules.yaml
+AGENT_SECURITY_ENGINE=C:/Aegentix/security/agent_security_engine.py
+SWARM_STATE=C:/Aegentix/swarm_state.json
+ACTIVE_SWARM_MANIFEST=C:/Aegentix/active_swarm_manifest.json
+RUNTIME_REGISTRY=C:/AEGENTIS_WORKSPACE/assr/config/runtime_registry.json
+
+# ═══════════════════════════════════════════════════════════════
+# PRODUCTION GATE STATE
+# ═══════════════════════════════════════════════════════════════
+PRODUCTION_GATE=C:/Aegentix/cyberdaw/gate.py
+GATE_STATUS=PRODUCTION_BLOCKED
+GATE_CHECKPOINTS_PASSED=3
+GATE_TOTAL_CHECKPOINTS=13
+CLEARED_CHECKPOINTS=AUDIO_INTERFACE_LOCKED,PA_ROUTING_VERIFIED,MAX_BRIDGE_CONNECTED
+
+# ═══════════════════════════════════════════════════════════════
+# ASSR TRUST (C:\AEGENTIS_WORKSPACE\assr\) — Sovereign trust spine
+# ═══════════════════════════════════════════════════════════════
+ASSR_ROOT=C:/AEGENTIS_WORKSPACE/assr
+ASSR_TRUST_POLICY=C:/AEGENTIS_WORKSPACE/assr/policy/trust/trust-policy.json
+ASSR_TRUST_GATE=C:/AEGENTIS_WORKSPACE/assr/policy/sovereign/ASSR-TrustGate.ps1
+ASSR_CONFIG=C:/AEGENTIS_WORKSPACE/assr/assr.config.json
+ASSR_MANIFEST=C:/AEGENTIS_WORKSPACE/assr/manifests/ASSR-MANIFEST.json
+TRUST_JURISDICTION=USA
+FOREIGN_TRUST=NONE
+PROMOTION_POLICY=DENY_BY_DEFAULT

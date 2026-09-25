@@ -1,0 +1,16 @@
+﻿{
+    "name":  "kirk_jarvis_voice",
+    "voice_profile_id":  "jarvis_kirkprime",
+    "type":  "voice_synthesis",
+    "engine":  "local_cyberdaw",
+    "source_timbre":  "charlie_kirk",
+    "parameters":  {
+                       "pitch":  1,
+                       "tone":  "formal",
+                       "speed":  1,
+                       "warmth":  0.2,
+                       "emphasis":  "authoritative"
+                   },
+    "source_cadence":  "captain_kirk",
+    "persona":  "jarvis"
+}

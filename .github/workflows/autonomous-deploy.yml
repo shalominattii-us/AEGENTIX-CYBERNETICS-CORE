@@ -1,0 +1,222 @@
+name: Deploy Autonomous Operations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'agents/infrastructure/**'
+      - '.github/workflows/autonomous-deploy.yml'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  REGISTRY: registry.aegentix.io
+  NAMESPACE: aegentix-autonomous
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    strategy:
+      matrix:
+        agent:
+          - monitoring
+          - incident-response
+          - autoscaling
+          - healing
+          - deployment
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to registry
+      uses: docker/login-action@v2
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+
+    - name: Extract metadata
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        images: ${{ env.REGISTRY }}/aegentix/${{ matrix.agent }}-agent
+        tags: |
+          type=ref,event=branch
+          type=semver,pattern={{version}}
+          type=semver,pattern={{major}}.{{minor}}
+          type=sha,prefix={{branch}}-
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v4
+      with:
+        context: ./agents/infrastructure
+        file: ./agents/infrastructure/Dockerfile.${{ matrix.agent }}
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+
+  deploy-staging:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event.inputs.environment == 'staging'
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Set kubeconfig
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_STAGING }}
+      run: |
+        mkdir -p $HOME/.kube
+        echo $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+
+    - name: Deploy to staging
+      run: |
+        kubectl apply -f production/kubernetes/autonomous-agents.yaml -n aegentix-autonomous
+        kubectl rollout status deployment/monitoring-agent -n aegentix-autonomous --timeout=5m
+        kubectl rollout status deployment/incident-response-agent -n aegentix-autonomous --timeout=5m
+
+    - name: Verify deployment
+      run: |
+        echo "Monitoring Agents:"
+        kubectl get pods -n aegentix-autonomous -l component=autonomous
+        echo ""
+        echo "Agent Status:"
+        kubectl get deployment -n aegentix-autonomous
+
+    - name: Run smoke tests
+      run: |
+        echo "Testing agent connectivity..."
+        kubectl run test-pod --image=curlimages/curl --rm -it --restart=Never -n aegentix-autonomous \
+          -- curl -f http://monitoring-agent:8080/health || true
+
+  deploy-production:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'production' && github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://ops.aegentix.io
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Configure kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Set kubeconfig
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_PRODUCTION }}
+      run: |
+        mkdir -p $HOME/.kube
+        echo $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+
+    - name: Backup current deployment
+      run: |
+        kubectl get all -n aegentix-autonomous -o yaml > autonomous-backup-$(date +%s).yaml
+
+    - name: Deploy to production
+      run: |
+        kubectl apply -f production/kubernetes/autonomous-agents.yaml -n aegentix-autonomous
+        
+        # Progressive rollout with health checks
+        for agent in monitoring-agent incident-response-agent autoscaling-agent healing-agent deployment-agent; do
+          echo "Rolling out $agent..."
+          kubectl rollout status deployment/$agent -n aegentix-autonomous --timeout=10m
+        done
+
+    - name: Verify production deployment
+      run: |
+        echo "Production Agents:"
+        kubectl get pods -n aegentix-autonomous -l component=autonomous
+        
+        echo ""
+        echo "Agent Metrics:"
+        kubectl top pods -n aegentix-autonomous
+        
+        echo ""
+        echo "Recent Events:"
+        kubectl get events -n aegentix-autonomous --sort-by='.lastTimestamp' | tail -20
+
+    - name: Health check
+      run: |
+        echo "Running health checks..."
+        
+        # Check monitoring agent
+        echo "Monitoring Agent:"
+        kubectl logs -n aegentix-autonomous -l app=monitoring-agent --tail=10
+        
+        # Check incident response
+        echo "Incident Response Agent:"
+        kubectl logs -n aegentix-autonomous -l app=incident-response-agent --tail=10
+        
+        echo "All agents deployed successfully"
+
+    - name: Notify on deployment
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        text: 'Autonomous Operations deployed to production'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+        fields: repo,message,commit,author
+
+  rollback:
+    runs-on: ubuntu-latest
+    if: failure()
+    needs: [deploy-production]
+
+    steps:
+    - name: Configure kubectl
+      uses: azure/setup-kubectl@v3
+      with:
+        version: 'latest'
+
+    - name: Set kubeconfig
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG_PRODUCTION }}
+      run: |
+        mkdir -p $HOME/.kube
+        echo $KUBE_CONFIG | base64 -d > $HOME/.kube/config
+
+    - name: Rollback deployment
+      run: |
+        echo "Rolling back autonomous agents..."
+        kubectl rollout undo deployment/monitoring-agent -n aegentix-autonomous
+        kubectl rollout undo deployment/incident-response-agent -n aegentix-autonomous
+        kubectl rollout undo deployment/autoscaling-agent -n aegentix-autonomous
+        kubectl rollout undo deployment/healing-agent -n aegentix-autonomous
+        kubectl rollout undo deployment/deployment-agent -n aegentix-autonomous
+
+    - name: Verify rollback
+      run: |
+        echo "Rollback Status:"
+        kubectl get deployment -n aegentix-autonomous

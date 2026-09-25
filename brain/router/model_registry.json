@@ -1,0 +1,56 @@
+{
+    "version": "2.0",
+    "models": [
+        {
+            "name": "openrouter-ori-harness",
+            "provider": "openrouter",
+            "api_key_env": "OPENROUTER_API_KEY",
+            "base_url": "https://openrouter.ai/api/v1",
+            "status": "registered_as_primary_orchestrator",
+            "verification_required": true,
+            "models": [
+                {"id": "openai/gpt-4o", "name": "GPT-4o", "context": 128000},
+                {"id": "anthropic/claude-opus-5", "name": "Claude Opus 5", "context": 200000},
+                {"id": "anthropic/claude-opus-5.5", "name": "Claude Opus 5.5", "context": 200000},
+                {"id": "google/gemini-2.0-flash", "name": "Gemini 2.0 Flash", "context": 1000000},
+                {"id": "mistralai/mistral-large-latest", "name": "Mistral Large", "context": 128000},
+                {"id": "meta-llama/llama-3.1-70b-instruct", "name": "Llama 3.1 70B", "context": 131072}
+            ]
+        }
+    ],
+    "routing_policy": {
+        "prefer_local": true,
+        "fallback_enabled": true,
+        "verification_required": true,
+        "parallel_baselines": true,
+        "primary_orchestrator": "openrouter-ori-harness",
+        "local_fallback": "ollama"
+    },
+    "local_backends": {
+        "ollama": {
+            "enabled": false,
+            "url": "http://localhost:11434",
+            "status": "pending_local_deployment",
+            "models": []
+        }
+    },
+    "model_catalog_snapshot": {
+        "queried_at": "2026-09-24",
+        "source": "https://openrouter.ai/api/v1/models (OPENROUTER_API_KEY authenticated)",
+        "anthropic_models": [
+            "anthropic/claude-opus-5",
+            "anthropic/claude-opus-5.5",
+            "anthropic/claude-opus-5:batch",
+            "anthropic/claude-fable-5.1"
+        ],
+        "openai_models": [
+            "openai/gpt-4o",
+            "openai/gpt-6-luna-pro",
+            "openai/gpt-6-sol"
+        ],
+        "notes": [
+            "Claude 3.5 Sonnet (anthropic/claude-3.5-sonnet) no longer listed in live catalog",
+            "Router updated to use anthropic/claude-opus-5 as reasoning tier"
+        ]
+    }
+}

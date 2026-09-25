@@ -1,0 +1,102 @@
+version: '3.8'
+
+networks:
+  aegentix-unified:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+services:
+  # Legacy Aegentis Services (Network Bridge)
+  aegentis-router:
+    image: aegentis/router:latest
+    container_name: aegentis-router-unified
+    ports:
+      - "8080:8080"
+    networks:
+      - aegentix-unified
+    environment:
+      - NATS_URL=nats://nats:4222
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  nats:
+    image: nats:latest
+    container_name: nats-unified
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    networks:
+      - aegentix-unified
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8222/varz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  aegentis-twin:
+    image: aegentis/twin:latest
+    container_name: aegentis-twin-unified
+    environment:
+      - ROUTER_URL=ws://aegentis-router-unified:8080/api/trpc
+      - NATS_URL=nats://nats-unified:4222
+    networks:
+      - aegentix-unified
+    depends_on:
+      - aegentis-router
+      - nats
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  skill-registry:
+    image: aegentis/skill-registry:latest
+    container_name: skill-registry-unified
+    environment:
+      - ROUTER_URL=ws://aegentis-router-unified:8080/api/trpc
+      - NATS_URL=nats://nats-unified:4222
+    networks:
+      - aegentix-unified
+    depends_on:
+      - aegentis-router
+      - nats
+    restart: on-failure
+    command: python main.py
+    healthcheck:
+      test: ["CMD", "python", "-c", "import socket; s=socket.socket(); s.connect(('localhost',5000)); s.close()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  operator-console:
+    image: aegentis/operator-console:latest
+    container_name: operator-console-unified
+    ports:
+      - "3001:3000"
+    environment:
+      - ROUTER_URL=ws://aegentis-router-unified:8080/api/trpc
+      - NATS_URL=nats://nats-unified:4222
+    networks:
+      - aegentix-unified
+    depends_on:
+      - aegentis-router
+      - skill-registry
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

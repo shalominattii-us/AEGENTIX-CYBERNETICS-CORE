@@ -1,0 +1,10 @@
+{
+  "capabilities": {
+    "analysis": ["hydra"],
+    "filesystem": ["filesystem"],
+    "networking": ["network"],
+    "gaia_sync": ["gaia"],
+    "cybercore": ["RCE", "DI"],
+    "hud": ["HUD"]
+  }
+}

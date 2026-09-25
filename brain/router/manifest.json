@@ -1,0 +1,16 @@
+{
+  "name": "MODEL_ROUTER",
+  "role": "capability_and_model_routing",
+  "authority": "non_authoritative",
+  "responsibilities": [
+    "model_selection",
+    "capability_matching",
+    "parallel_baseline_selection",
+    "fallback_selection"
+  ],
+  "prohibited": [
+    "direct_state_mutation",
+    "governance_bypass",
+    "unverified_fact_creation"
+  ]
+}

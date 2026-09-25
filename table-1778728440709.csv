@@ -1,0 +1,6 @@
+﻿DIRECTIVE,FUNCTION,STATUS
+Shell Context Detector,"Auto-detects environment (admin, ISE, remote, etc.)",ΩΩΩ ACTIVE
+Process Lifecycle Manager,"Spawn/kill/monitor any process with timeout, elevation, capture",ΩΩΩ ACTIVE
+Pipeline Orchestrator,Sequential or parallel stage execution with JSON manifest,ΩΩΩ ACTIVE
+Shell Ops Controller,Unified `claw` command — all operations from one entry,ΩΩΩ ACTIVE
+Auto-Heal Loop,"Self-repair every 5 min — paths, Governor, services",ΩΩΩ ACTIVE

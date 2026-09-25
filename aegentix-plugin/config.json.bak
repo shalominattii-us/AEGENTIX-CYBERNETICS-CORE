@@ -1,0 +1,19 @@
+{
+    "llm": {
+        "endpoint": "http://localhost:7100",
+        "model": "cybercore-core",
+        "backend": "auto",
+        "temperature": 0.3,
+        "max_tokens": 4096
+    },
+    "gym": {
+        "endpoint": "http://localhost:3001/api/v1"
+    },
+    "aegentix": {
+        "root": "C:\Aegentix"
+    },
+    "hardware": {
+        "cpu": "AMD Z2 Extreme",
+        "npu_tops": 50
+    }
+}

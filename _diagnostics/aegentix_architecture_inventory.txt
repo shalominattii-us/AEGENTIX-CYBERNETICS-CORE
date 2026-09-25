@@ -1,0 +1,330 @@
+
+========================================================================
+1. TOP-LEVEL TREE
+========================================================================
+[DIR ] AgentLoop
+[DIR ] agents
+[DIR ] brain
+[DIR ] governance
+[DIR ] Kernel
+[DIR ] Registry
+[DIR ] runtime
+[DIR ] tools
+[DIR ] _diagnostics
+[FILE] start-services.ps1
+
+========================================================================
+2. ALL SOURCE FILES
+========================================================================
+        AgentLoop
+        agents
+        brain
+        governance
+        Kernel
+        Registry
+        runtime
+        tools
+        _diagnostics
+.ps1    start-services.ps1
+        AgentLoop\Cache
+        AgentLoop\Logs
+        AgentLoop\Ops
+        AgentLoop\State
+.ps1    AgentLoop\agent-loop.ps1
+.json   AgentLoop\agent.config.json
+.ps1    AgentLoop\start-agent.ps1
+        agents\coding
+        agents\infrastructure
+        agents\research
+        agents\security
+        agents\testing
+.json   agents\coding\manifest.json
+.json   agents\infrastructure\manifest.json
+.json   agents\research\manifest.json
+.json   agents\security\manifest.json
+.json   agents\testing\manifest.json
+        brain\infinite
+        brain\jarvis
+        brain\router
+.py     brain\cognitive_bus.py
+.md     brain\COGNITIVE_CONTRACT.md
+.ps1    brain\Start-JarvisMission.ps1
+.json   brain\infinite\manifest.json
+.json   brain\jarvis\manifest.json
+.py     brain\jarvis\planner.py
+.json   brain\router\manifest.json
+.json   brain\router\model_registry.json
+.py     brain\router\model_router.py
+        governance\approvals
+        governance\audit
+        governance\policies
+.json   governance\policies\default.json
+        Kernel\Heartbeat
+        Kernel\Logs
+        Kernel\Recovery
+        Kernel\State
+        Kernel\Watchdogs
+.json   Kernel\kernel.config.json
+.ps1    Kernel\start-kernel.ps1
+.ps1    Kernel\Heartbeat\heartbeat.ps1
+.ps1    Kernel\Recovery\recovery.ps1
+.ps1    Kernel\State\state-core.ps1
+.ps1    Kernel\State\state-health.ps1
+.ps1    Kernel\State\state-ops.ps1
+.ps1    Kernel\State\state-runtime.ps1
+.ps1    Kernel\Watchdogs\watchdog.ps1
+        Registry\Capabilities
+        Registry\Gaia
+        Registry\HUD
+        Registry\Tools
+.json   Registry\Capabilities\capabilities.json
+.ps1    Registry\Gaia\gaia-sync.ps1
+.json   Registry\Gaia\gaia.config.json
+.ps1    Registry\HUD\hud-refresh.ps1
+.json   Registry\HUD\hud.config.json
+.json   Registry\Tools\tools.json
+        runtime\events
+        runtime\evidence
+        runtime\missions
+.json   runtime\state.json
+.jsonl  runtime\events\1788256605051.jsonl
+.jsonl  runtime\events\1788256951855.jsonl
+        tools\ableton
+        tools\docker
+        tools\filesystem
+        tools\github
+        tools\powershell
+.txt    _diagnostics\aegentix_architecture_inventory.txt
+
+TOTAL FILES: 79
+
+========================================================================
+3. PYTHON MODULES AND CLASSES
+========================================================================
+
+FILE: brain\cognitive_bus.py
+  IMPORTS:
+    json
+    hashlib
+    time
+    sys
+  FUNCTIONS:
+    sha256
+    append_event
+    load_state
+    record_intent
+
+FILE: brain\jarvis\planner.py
+  IMPORTS:
+    json
+    sys
+  FUNCTIONS:
+    load_governance
+    create_plan
+
+FILE: brain\router\model_router.py
+  IMPORTS:
+    json
+    sys
+  FUNCTIONS:
+    load_registry
+    route
+
+========================================================================
+4. TYPESCRIPT / JAVASCRIPT MODULES
+========================================================================
+
+========================================================================
+6. JSON / YAML CONFIGURATION
+========================================================================
+
+CONFIG: AgentLoop\agent.config.json
+  JSON: VALID
+  KEYS:
+    agent_name
+    runtime
+    mcp_servers
+    cybercore
+    hud
+    loop_interval_ms
+    logging
+    state_path
+    cache_path
+
+CONFIG: agents\coding\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    execution
+    requires_evidence
+    requires_verification
+
+CONFIG: agents\infrastructure\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    execution
+    requires_evidence
+    requires_verification
+
+CONFIG: agents\research\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    execution
+    requires_evidence
+    requires_verification
+
+CONFIG: agents\security\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    execution
+    requires_evidence
+    requires_verification
+
+CONFIG: agents\testing\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    execution
+    requires_evidence
+    requires_verification
+
+CONFIG: brain\infinite\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    responsibilities
+    rule
+
+CONFIG: brain\jarvis\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    responsibilities
+    prohibited
+
+CONFIG: brain\router\manifest.json
+  JSON: VALID
+  KEYS:
+    name
+    role
+    authority
+    responsibilities
+    prohibited
+
+CONFIG: brain\router\model_registry.json
+  JSON: VALID
+  KEYS:
+    version
+    models
+    routing_policy
+
+CONFIG: governance\policies\default.json
+  JSON: VALID
+  KEYS:
+    version
+    mode
+    external_actions
+    deployments
+    contracts
+    financial_operations
+    live_trading
+    withdrawals
+    require_verification
+    require_evidence
+    allow_autonomous_planning
+    allow_autonomous_execution
+
+CONFIG: Kernel\kernel.config.json
+  JSON: VALID
+  KEYS:
+    agent_loop
+    gaia_sync
+    hud_refresh
+    heartbeat_interval_ms
+    restart_on_failure
+    log_path
+
+CONFIG: Registry\Capabilities\capabilities.json
+  JSON: VALID
+  KEYS:
+    capabilities
+
+CONFIG: Registry\Gaia\gaia.config.json
+  JSON: VALID
+  KEYS:
+    node_path
+    agent_path
+    sync_interval_ms
+    domains
+
+CONFIG: Registry\HUD\hud.config.json
+  JSON: VALID
+  KEYS:
+    hud_path
+    agent_loop
+    display_mode
+    refresh_ms
+
+CONFIG: Registry\Tools\tools.json
+  JSON: VALID
+  KEYS:
+    tools
+
+CONFIG: runtime\state.json
+  JSON: VALID
+  KEYS:
+    schema
+    mission_id
+    objective
+    state_version
+    active_plan
+    agents
+    tasks
+    evidence
+    pending_approvals
+    failures
+    artifacts
+    last_verified_event
+    governance
+
+========================================================================
+9. EXISTING COGNITIVE FILES
+========================================================================
+AgentLoop
+agents
+brain
+AgentLoop\agent-loop.ps1
+AgentLoop\agent.config.json
+AgentLoop\start-agent.ps1
+brain\jarvis
+brain\router
+brain\cognitive_bus.py
+brain\COGNITIVE_CONTRACT.md
+brain\Start-JarvisMission.ps1
+brain\jarvis\planner.py
+brain\router\model_registry.json
+brain\router\model_router.py
+
+========================================================================
+10. IMPORTANT RESULT
+========================================================================
+This inventory is READ-ONLY.
+No AEGENTIX source files were modified.
+The next integration step must be derived from this inventory.

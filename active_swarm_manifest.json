@@ -1,0 +1,6 @@
+{
+  "target_cluster": "aegentis-local_default",
+  "active_nodes": 6,
+  "total_indexed_playbooks": 136,
+  "status": "AUTONOMY_ACTIVE"
+}

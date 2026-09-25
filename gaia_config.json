@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-09-08T03:49:36.946983",
+  "gaia_connected": 0,
+  "total_endpoints": 4,
+  "master_endpoint": {
+    "host": "localhost",
+    "port": 8188,
+    "protocol": "http",
+    "path": "/api/v1"
+  },
+  "master_status": "OFFLINE",
+  "services": [
+    "cyberdeck",
+    "swarm",
+    "inference",
+    "node",
+    "daemon",
+    "gaia_net"
+  ],
+  "status": "partial"
+}

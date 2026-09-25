@@ -1,0 +1,25 @@
+{
+  "product": "AEGENTIX",
+  "node": {
+    "clean_install": true,
+    "hostname": "DESKTOP-HRUBG2T",
+    "role": "production"
+  },
+  "installed": {
+    "winget": true,
+    "obs": true,
+    "ableton": true,
+    "git": true,
+    "lemonade": false,
+    "python": true
+  },
+  "production_assets": {
+    "obs": "INSTALLED",
+    "ableton": "INSTALLED",
+    "cyberdaw": "RUNTIME_INSTALLED",
+    "max_for_live": "BUNDLED_WITH_LIVE_12",
+    "starship_models": "NOT_YET_LOADED"
+  },
+  "next_stage": "MODEL_AND_ASSET_PROVISIONING",
+  "timestamp": "2026-09-06T12:45:22.5488152Z"
+}

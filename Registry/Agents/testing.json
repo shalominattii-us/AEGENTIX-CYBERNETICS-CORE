@@ -1,0 +1,13 @@
+{
+    "name":  "testing",
+    "capabilities":  {
+                         "skills":  null
+                     },
+    "metadata":  {
+
+                 },
+    "registered":  "2026-09-07T07:24:36.896Z",
+    "path":  "C:\\Aegentix\\agents\\testing",
+    "type":  "",
+    "status":  "active"
+}

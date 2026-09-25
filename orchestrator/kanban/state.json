@@ -1,0 +1,57 @@
+{
+  "columns": {
+    "inbox": [
+      {
+        "id": "937d0613-9d35-49b7-9f0a-34de9855e834",
+        "title": "Falco rules ground-truth missing",
+        "description": "security/falco-aegentix-rules.yaml is the ground truth for container-level security events but is not yet populated. Guardian must approve any new rules before they take effect.",
+        "column": "inbox",
+        "owner": "Guardian",
+        "evidence": "security/falco-aegentix-rules.yaml",
+        "verification": false,
+        "created_at": "2026-09-11T00:11:37.171340+00:00",
+        "moved_at": "2026-09-11T00:11:37.171340+00:00"
+      },
+      {
+        "id": "3ab588f1-6a52-40c9-93c3-fedcef4e4285",
+        "title": "Infra agent Dockerfiles missing",
+        "description": "Infrastructure agent Dockerfiles are absent from the repo. Builder is responsible for authoring and the Guardian must approve port assignments and network egress before build.",
+        "column": "inbox",
+        "owner": "Builder",
+        "evidence": "agents/infra/Dockerfile",
+        "verification": false,
+        "created_at": "2026-09-11T00:11:37.174521+00:00",
+        "moved_at": "2026-09-11T00:11:37.174521+00:00"
+      },
+      {
+        "id": "3ed6ac5b-8c3b-4aa1-9706-9430232d2a42",
+        "title": "Observability stack not running",
+        "description": "Prometheus, Grafana, and Alertmanager are not running or not scraping agent metrics. Executor must bring the stack up; metrics should expose on port 9090 or push to the Prometheus pushgateway.",
+        "column": "inbox",
+        "owner": "Executor",
+        "evidence": null,
+        "verification": false,
+        "created_at": "2026-09-11T00:11:37.199208+00:00",
+        "moved_at": "2026-09-11T00:11:37.199208+00:00"
+      }
+    ],
+    "swarm_consensus": [],
+    "execution": [],
+    "verification": [],
+    "security": [],
+    "observability": [],
+    "done": []
+  },
+  "meta": {
+    "version": "1.0-hermes",
+    "swappable_columns": [
+      "inbox",
+      "swarm_consensus",
+      "execution",
+      "verification",
+      "security",
+      "observability",
+      "done"
+    ]
+  }
+}

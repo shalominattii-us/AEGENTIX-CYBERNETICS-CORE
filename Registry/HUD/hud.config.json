@@ -1,0 +1,6 @@
+{
+  "hud_path": "C:/Aegentix/Agents/HUD",
+  "agent_loop": "C:/Aegentix/AgentLoop/agent-loop.ps1",
+  "display_mode": "tactical",
+  "refresh_ms": 1000
+}

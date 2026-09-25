@@ -1,0 +1,30 @@
+CONTAINER ID   NAME                        CPU %     MEM USAGE / LIMIT     MEM %     NET I/O           BLOCK I/O        PIDS
+8a91506824e1   aegentix-elasticsearch      49.66%    4.164MiB / 7.756GiB   0.05%     998B / 84B        0B / 139kB       6
+2e538cd6529f   aegentix-agent-deployment   0.00%     0B / 0B               0.00%     0B / 0B           0B / 0B          0
+63318475317e   operator-console            0.00%     26.86MiB / 7.756GiB   0.34%     6.73kB / 126B     10.2MB / 4.1kB   18
+4bd2a412a8a8   aegentis-router             0.23%     36.33MiB / 7.756GiB   0.46%     6.35kB / 126B     40.2MB / 0B      5
+eb640a53888f   aegentix-kibana             76.50%    170MiB / 7.756GiB     2.14%     6.61kB / 126B     145MB / 0B       12
+31183b8bd2ce   aegentix-filebeat           0.08%     55.81MiB / 7.756GiB   0.70%     6.56kB / 126B     140MB / 0B       11
+4c053bc2b87d   aegentix-alertmanager       0.22%     12.85MiB / 7.756GiB   0.16%     6.44kB / 126B     40.6MB / 0B      9
+6bf4545e1df8   aegentix-cybercore-llm      0.09%     14.79MiB / 7.756GiB   0.19%     6.95kB / 126B     92.1MB / 0B      7
+61934856fef4   nats                        0.09%     3.82MiB / 7.756GiB    0.05%     6.95kB / 126B     18.1MB / 0B      9
+cc4594148e2a   aegentix-telemetry-engine   0.00%     0B / 0B               0.00%     0B / 0B           0B / 0B          0
+92efac99653e   aegentix-grafana            2.02%     391.4MiB / 7.756GiB   4.93%     32.2kB / 8.21kB   892MB / 102kB    119
+c375ad9291a6   aegentix-prometheus         1.57%     46.54MiB / 7.756GiB   0.59%     6.14kB / 126B     113MB / 1.96MB   10
+NAME                               IMAGE                                                                     COMMAND                  SERVICE                     CREATED        STATUS                             PORTS
+aegentis-router                    aegentis/router:latest                                                    "python main.py"         aegentis-router             46 hours ago   Up 52 seconds (health: starting)   0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp
+aegentix-agent-autoscaling         sha256:0fa0bd7b785a3724da1cec6c9ad51f1f84fb4c0144c0807922ea0f7cff3cdfcc   "/usr/bin/tini -- pyΓÇª"   agent-autoscaling           46 hours ago   Restarting (1) 5 seconds ago       
+aegentix-agent-deployment          sha256:4cf5f19552a5e1f36add62bdf4470c1bb23c680063ed452753e1638664083a90   "/usr/bin/tini -- pyΓÇª"   agent-deployment            46 hours ago   Restarting (1) 7 seconds ago       
+aegentix-agent-healing             sha256:32ab8fc5e2f9f9245b8caf13573fcd70cb1de422f9f188542377d97cf9543efd   "/usr/bin/tini -- pyΓÇª"   agent-healing               46 hours ago   Restarting (1) 6 seconds ago       
+aegentix-agent-incident-response   sha256:b1f94a18fadc786a6e9e0fe2f5dcb5942e1e36b0e1617ba768164fd9859a4633   "/usr/bin/tini -- pyΓÇª"   agent-incident-response     46 hours ago   Restarting (1) 6 seconds ago       
+aegentix-agent-monitoring          sha256:d63071dd4156c53330565bbbdf11fe705047e95f3892c0a1800d9c084c2383fc   "/usr/bin/tini -- pyΓÇª"   agent-monitoring            46 hours ago   Restarting (1) 6 seconds ago       
+aegentix-alertmanager              prom/alertmanager:latest                                                  "/bin/alertmanager -ΓÇª"   alertmanager                46 hours ago   Up 52 seconds (healthy)            0.0.0.0:9093->9093/tcp, [::]:9093->9093/tcp
+aegentix-cybercore-llm             aegentix-cybercore-llm                                                    "docker-entrypoint.sΓÇª"   aegentix-cybercore-llm      46 hours ago   Up 52 seconds (healthy)            0.0.0.0:7100->7100/tcp, [::]:7100->7100/tcp
+aegentix-elasticsearch             docker.elastic.co/elasticsearch/elasticsearch:7.17.0                      "/bin/tini -- /usr/lΓÇª"   elasticsearch               46 hours ago   Up 1 second (health: starting)     0.0.0.0:9200->9200/tcp, [::]:9200->9200/tcp
+aegentix-filebeat                  docker.elastic.co/beats/filebeat:7.17.0                                   "/usr/bin/tini -- /uΓÇª"   filebeat                    46 hours ago   Up 52 seconds (health: starting)   
+aegentix-grafana                   grafana/grafana:latest                                                    "/run.sh"                grafana                     46 hours ago   Up 52 seconds (health: starting)   0.0.0.0:3001->3000/tcp, [::]:3001->3000/tcp
+aegentix-kibana                    docker.elastic.co/kibana/kibana:7.17.0                                    "/bin/tini -- /usr/lΓÇª"   kibana                      46 hours ago   Up 52 seconds (health: starting)   0.0.0.0:5601->5601/tcp, [::]:5601->5601/tcp
+aegentix-prometheus                prom/prometheus:latest                                                    "/bin/prometheus --cΓÇª"   prometheus                  46 hours ago   Up 52 seconds (healthy)            0.0.0.0:9090->9090/tcp, [::]:9090->9090/tcp
+aegentix-telemetry-engine          aegentix-telemetry-engine                                                 "python agent_securiΓÇª"   aegentix-telemetry-engine   46 hours ago   Restarting (0) 10 seconds ago      
+nats                               nats:latest                                                               "/nats-server --confΓÇª"   nats                        46 hours ago   Up 52 seconds (health: starting)   0.0.0.0:4222->4222/tcp, [::]:4222->4222/tcp, 0.0.0.0:8222->8222/tcp, [::]:8222->8222/tcp
+operator-console                   aegentis/operator-console:latest                                          "docker-entrypoint.sΓÇª"   operator-console            46 hours ago   Up 52 seconds (healthy)            0.0.0.0:3000->3000/tcp, [::]:3000->3000/tcp

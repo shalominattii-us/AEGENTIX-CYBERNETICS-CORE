@@ -1,0 +1,107 @@
+groups:
+  - name: aegentix_zero_day_heuristics
+    interval: 30s
+    rules:
+      - alert: AegentixCPUAnomalousSpike
+        expr: rate(process_cpu_seconds_total{job="aegentix-agents"}[1m]) > 0.85
+        for: 20s
+        labels:
+          severity: critical
+          component: aegentix
+        annotations:
+          summary: "CPU Utilization Anomaly on {{ $labels.instance }}"
+          description: "Sustained execution spike detected on {{ $labels.instance }}. Inspect process tree for rogue threads or infinite loops."
+          runbook_url: "https://aegentix.local/docs/runbooks/cpu-anomaly"
+
+      - alert: AegentixMemoryAllocationLimitExceeded
+        expr: process_resident_memory_bytes{job="aegentix-agents"} > 1073741824
+        for: 45s
+        labels:
+          severity: warning
+          component: aegentix
+        annotations:
+          summary: "Memory Footprint Breach on {{ $labels.instance }}"
+          description: "Agent memory allocation exceeded 1GB threshold (current: {{ humanize $value }}). Possible memory leak detected."
+
+      - alert: AegentixAgentNodeDropped
+        expr: up{job="aegentix-agents"} == 0
+        for: 10s
+        labels:
+          severity: critical
+          component: aegentix
+        annotations:
+          summary: "Agent Instance Offline: {{ $labels.instance }}"
+          description: "Agent {{ $labels.instance }} stopped transmitting telemetry metrics. Likely crashed or Docker container stopped."
+
+      - alert: AegentixHighErrorRate
+        expr: increase(aegentix_errors_total{job="aegentix-agents"}[5m]) > 10
+        for: 30s
+        labels:
+          severity: warning
+          component: aegentix
+        annotations:
+          summary: "Elevated Error Rate on {{ $labels.instance }}"
+          description: "Agent {{ $labels.instance }} is generating {{ $value }} errors in the last 5 minutes."
+
+      - alert: AegentixFileDescriptorExhaustion
+        expr: process_open_fds{job="aegentix-agents"} / process_max_fds{job="aegentix-agents"} > 0.8
+        for: 60s
+        labels:
+          severity: warning
+          component: aegentix
+        annotations:
+          summary: "File Descriptor Exhaustion on {{ $labels.instance }}"
+          description: "Agent {{ $labels.instance }} has {{ $value | humanizePercentage }} of file descriptors in use."
+
+      - alert: AegentixGracefulShutdown
+        expr: aegentix_shutdown_initiated == 1
+        for: 5s
+        labels:
+          severity: info
+          component: aegentix
+        annotations:
+          summary: "Graceful Shutdown Initiated on {{ $labels.instance }}"
+          description: "Agent {{ $labels.instance }} is performing graceful shutdown. Expected."
+
+      - alert: AegentixSecurityEventDetected
+        expr: increase(falco_events_total{severity=~"CRITICAL|HIGH"}[5m]) > 0
+        for: 0s
+        labels:
+          severity: critical
+          component: security
+        annotations:
+          summary: "Security Event Detected by Falco"
+          description: "Falco detected {{ $value }} security events with CRITICAL/HIGH severity in the last 5 minutes. Immediate investigation required."
+
+      - alert: AegentixDiskSpaceWarning
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.1
+        for: 120s
+        labels:
+          severity: warning
+          component: infrastructure
+        annotations:
+          summary: "Low Disk Space on Host"
+          description: "Host filesystem has less than 10% free space. May impact container operations."
+
+  - name: aegentix_availability
+    interval: 60s
+    rules:
+      - alert: AegentixClusterDegraded
+        expr: count(up{job="aegentix-agents"} == 1) < 4
+        for: 60s
+        labels:
+          severity: critical
+          component: aegentix
+        annotations:
+          summary: "Aegentix Cluster Operating in Degraded Mode"
+          description: "Only {{ $value }} out of 5 agents are healthy. Cluster availability compromised."
+
+      - alert: AegentixMonitoringStackDown
+        expr: up{instance=~"prometheus|grafana|alertmanager"} == 0
+        for: 30s
+        labels:
+          severity: critical
+          component: observability
+        annotations:
+          summary: "Critical Observability Component Down: {{ $labels.instance }}"
+          description: "{{ $labels.instance }} is offline. Metrics ingestion/visualization is impaired."

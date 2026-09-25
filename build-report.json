@@ -1,0 +1,53 @@
+{
+  "timestamp": "2026-09-07T04:34:54.001Z",
+  "system": "AEGENTIX Complete System Build",
+  "version": "8.1.0",
+  "services": [
+    {
+      "name": "runtime",
+      "port": 8080,
+      "status": "built"
+    },
+    {
+      "name": "gaia",
+      "port": 8090,
+      "status": "built"
+    },
+    {
+      "name": "directive",
+      "port": 7070,
+      "status": "built"
+    },
+    {
+      "name": "hud",
+      "port": 3000,
+      "status": "built"
+    },
+    {
+      "name": "mcp-fs",
+      "port": 7071,
+      "status": "built"
+    },
+    {
+      "name": "mcp-http",
+      "port": 7072,
+      "status": "built"
+    },
+    {
+      "name": "mcp-system",
+      "port": 7073,
+      "status": "built"
+    }
+  ],
+  "infrastructure": {
+    "dockerCompose": true,
+    "startScript": true,
+    "stopScript": true,
+    "statusScript": true,
+    "infiniteBrain": true
+  },
+  "stats": {
+    "servicesBuilt": 7,
+    "buildTime": 64
+  }
+}

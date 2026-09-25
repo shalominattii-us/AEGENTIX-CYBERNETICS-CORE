@@ -1,0 +1,10 @@
+{
+    "name":  "gaia",
+    "config":  {
+
+               },
+    "registered":  "2026-09-07T07:24:37.090Z",
+    "type":  "dashboard",
+    "endpoint":  "http://localhost:5174",
+    "status":  "active"
+}

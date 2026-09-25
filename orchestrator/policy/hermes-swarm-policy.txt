@@ -1,0 +1,68 @@
+HERMES-SWARM POLICY - Decision Authority Matrix
+================================================
+
+Human-readable counterpart to swarm_adapter.py. Reflects security boundaries from .hermes.md.
+
+AGENT ROLES & PRIMARY DOMAINS
+------------------------------
+Visionary   - Strategic direction, goal framing, priority setting, long-term planning.
+
+Guardian    - Security, safety, compliance. Owns security configs, Falco rules
+             (security/falco-aegentix-rules.yaml), anomaly detection
+             (security/agent_security_engine.py), port assignments, process
+             spawning, and network egress.
+
+Builder     - Infrastructure, code, services, deployment. Owns runtime agent
+             (port 8080), HUD (port 3000), GAIA (port 8090), and their configs.
+
+Wise        - Analysis, guidance, trade-off evaluation. Non-binding advice.
+
+Executor    - Carrying out approved actions. Does NOT originate security, port,
+             or egress changes.
+
+PORT WHITELIST (from .hermes.md)
+---------------------------------
+Allowed listening ports: 80, 443, 9090, 3001, 9093, 8080, 7070-7073.
+Any delegate proposing a new listening port MUST route through the Guardian.
+
+DECISION AUTHORITY MATRIX
+-------------------------
+1. SINGLE-AGENT AUTHORITY (no consensus, no Guardian approval):
+   - Visionary: reframing goals, reprioritizing Kanban Inbox items.
+   - Builder: routine infra changes touching no security boundary, no new port,
+     no process spawn, no egress change.
+   - Wise: advice and analysis output (non-binding).
+   - Executor: executing an already-approved action within existing authority.
+
+2. GUARDIAN APPROVAL REQUIRED (Guardian must approve before execution):
+   - Any change to security configs, Falco rules, or anomaly detection.
+   - Any new listening port outside the whitelist (80, 443, 9090, 3001, 9093,
+     8080, 7070-7073).
+   - Any process spawning not already accounted for.
+   - Any network egress change.
+   - Killing a running process.
+   - Anything altering the swarm's integrity scoring logic.
+
+3. SWARM CONSENSUS REQUIRED (SwarmManager.swarm_think() is authority):
+   - Any decision touching more than one agent's domain.
+   - Any decision where the appropriate single-agent authority is unclear.
+   - Any decision with cross-agent impact.
+   - Hermes delegates MUST read swarm_state.json and active_swarm_manifest.json
+     before initiating or acting on a swarm-level decision.
+
+INTEGRITY-SCORE FLOOR (50)
+---------------------------
+Every agent carries an integrity_score. Any delegate whose score drops below 50
+MUST stop executing and report to the Visionary. The Visionary decides whether
+the agent is reactivated, re-tasked, or retired. No agent below 50 may
+participate in swarm_think() or execute actions.
+
+SECRETS BOUNDARY
+----------------
+Secrets live in .env. No delegate may read .env into context or modify it.
+This is absolute and overrides all other rules.
+
+Hermes coordinates the five swarm agents (Visionary, Guardian, Builder, Wise,
+Executor) via delegate_task, cronjob, and Kanban. It does not replace their
+think()/act() loops or integrity scoring. Swarm consensus via
+SwarmManager.swarm_think() is the authority for cross-agent decisions.

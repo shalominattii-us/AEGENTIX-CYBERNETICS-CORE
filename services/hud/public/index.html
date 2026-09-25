@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aegentix HUD</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Courier New', monospace;
+      background: #0a0e27;
+      color: #00ff00;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 0 0 10px #00ff00;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .panel {
+      border: 2px solid #00ff00;
+      padding: 20px;
+      background: #1a1f3a;
+      border-radius: 5px;
+    }
+
+    .panel h2 {
+      margin-bottom: 15px;
+      font-size: 14px;
+      text-transform: uppercase;
+      border-bottom: 1px solid #00ff00;
+      padding-bottom: 10px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-size: 12px;
+      margin: 5px 0;
+    }
+
+    .status-badge.healthy {
+      background: #00ff00;
+      color: #0a0e27;
+    }
+
+    .status-badge.active {
+      background: #ffaa00;
+      color: #0a0e27;
+    }
+
+    .status-badge.error {
+      background: #ff0000;
+      color: white;
+    }
+
+    .log-entry {
+      font-size: 11px;
+      padding: 5px;
+      border-left: 2px solid #00ff00;
+      margin: 5px 0;
+      background: #0a0e27;
+    }
+
+    .log-entry .timestamp {
+      color: #00aaff;
+    }
+
+    .log-entry .action {
+      color: #ffaa00;
+      font-weight: bold;
+    }
+
+    .input-group {
+      margin: 15px 0;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background: #0a0e27;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 5px #00ff00;
+    }
+
+    button {
+      background: #00ff00;
+      color: #0a0e27;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-weight: bold;
+      font-family: 'Courier New', monospace;
+    }
+
+    button:hover {
+      background: #00aaff;
+      text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    }
+
+    .task-item {
+      background: #0a0e27;
+      border-left: 3px solid #00ff00;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+
+    .task-item .id {
+      color: #00aaff;
+    }
+
+    .task-item .status {
+      color: #ffaa00;
+      font-weight: bold;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .loading {
+      animation: pulse 1s infinite;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>⚙️ AEGENTIX HUD</h1>
+
+    <div class="grid">
+      <!-- Status Panel -->
+      <div class="panel">
+        <h2>Agent Status</h2>
+        <div id="agent-status">
+          <p class="loading">Loading...</p>
+        </div>
+      </div>
+
+      <!-- GAIA Status Panel -->
+      <div class="panel">
+        <h2>GAIA Network</h2>
+        <div id="gaia-status">
+          <p class="loading">Loading...</p>
+        </div>
+      </div>
+
+      <!-- Directive Input Panel -->
+      <div class="panel">
+        <h2>Send Directive</h2>
+        <div class="input-group">
+          <textarea id="directive-input" placeholder="Enter directive (e.g., 'read the config file')" rows="3"></textarea>
+          <input type="text" id="goal-input" placeholder="Goal (optional)">
+          <button onclick="sendDirective()">Execute</button>
+        </div>
+        <div id="directive-result"></div>
+      </div>
+
+      <!-- Active Tasks Panel -->
+      <div class="panel">
+        <h2>Active Tasks</h2>
+        <div id="active-tasks">
+          <p style="color: #888;">No active tasks</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logs Panel (Full Width) -->
+    <div class="panel">
+      <h2>Recent Activity</h2>
+      <div id="logs" style="height: 300px; overflow-y: auto;">
+        <p class="loading">Loading logs...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ws = new WebSocket(`ws://${window.location.host}/ws/updates`);
+
+    ws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'status') {
+        updateAgentStatus(message.data);
+      }
+    };
+
+    async function updateAgentStatus() {
+      try {
+        const status = await fetch('/api/status').then(r => r.json());
+        const gaia = await fetch('/api/gaia/status').then(r => r.json());
+        const logs = await fetch('/api/logs').then(r => r.json());
+
+        // Update agent status
+        document.getElementById('agent-status').innerHTML = `
+          <div class="status-badge healthy">● Healthy</div>
+          <p>ID: <span style="color: #00aaff;">${status.agentId.slice(0, 8)}</span></p>
+          <p>Status: <span style="color: #ffaa00;">${status.status}</span></p>
+          <p>Tasks: <span style="color: #00ff00;">${status.activeTasks.length}</span></p>
+          <p>MCP Servers: <span style="color: #00ff00;">${status.mcpServersCount}</span></p>
+        `;
+
+        // Update GAIA status
+        document.getElementById('gaia-status').innerHTML = `
+          <div class="status-badge ${gaia.status === 'healthy' ? 'healthy' : 'error'}">● ${gaia.status}</div>
+          <p>Node ID: <span style="color: #00aaff;">${gaia.nodeId ? gaia.nodeId.slice(0, 8) : 'N/A'}</span></p>
+          <p>Agents: <span style="color: #00ff00;">${gaia.agents || 0}</span></p>
+          <p>Tools: <span style="color: #00ff00;">${gaia.tools || 0}</span></p>
+        `;
+
+        // Update logs
+        let logsHtml = '';
+        logs.slice(-20).forEach(log => {
+          logsHtml += `
+            <div class="log-entry">
+              <span class="timestamp">${new Date(log.timestamp).toLocaleTimeString()}</span>
+              <span class="action">${log.action}</span>
+              <span>${log.details}</span>
+            </div>
+          `;
+        });
+        document.getElementById('logs').innerHTML = logsHtml || '<p style="color: #888;">No logs yet</p>';
+
+        // Update active tasks
+        if (status.activeTasks && status.activeTasks.length > 0) {
+          let tasksHtml = '';
+          status.activeTasks.forEach(task => {
+            tasksHtml += `
+              <div class="task-item">
+                <span class="id">Task: ${task.id.slice(0, 8)}</span>
+                <br><span class="status">${task.status}</span>
+                <br><span style="color: #888;">${task.directive}</span>
+              </div>
+            `;
+          });
+          document.getElementById('active-tasks').innerHTML = tasksHtml;
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function sendDirective() {
+      const directive = document.getElementById('directive-input').value;
+      const goal = document.getElementById('goal-input').value;
+
+      if (!directive.trim()) {
+        alert('Please enter a directive');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/directive', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ directive, goal })
+        }).then(r => r.json());
+
+        document.getElementById('directive-result').innerHTML = `
+          <div class="status-badge active">Task Accepted</div>
+          <p>Task ID: <span style="color: #00aaff;">${response.taskId.slice(0, 8)}</span></p>
+          <p style="margin-top: 10px; color: #888; font-size: 11px;">Check logs for progress...</p>
+        `;
+
+        document.getElementById('directive-input').value = '';
+        document.getElementById('goal-input').value = '';
+      } catch (err) {
+        document.getElementById('directive-result').innerHTML = `<p style="color: #ff0000;">Error: ${err.message}</p>`;
+      }
+    }
+
+    // Update every 2 seconds
+    setInterval(updateAgentStatus, 2000);
+    updateAgentStatus();
+  </script>
+</body>
+</html>

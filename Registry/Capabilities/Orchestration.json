@@ -1,0 +1,10 @@
+{
+    "version":  "1.0",
+    "name":  "Orchestration",
+    "config":  {
+                   "enabled":  true
+               },
+    "provider":  "WorkflowEngine",
+    "registered":  "2026-09-07T07:24:37.223Z",
+    "status":  "active"
+}

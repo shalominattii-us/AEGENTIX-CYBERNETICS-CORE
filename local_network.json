@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-09-08T03:50:28.096263",
+  "network": "local",
+  "ports": {
+    "Master Endpoint": 8188,
+    "Node": 8545,
+    "Daemon": 9229,
+    "Inference": 11434
+  },
+  "services": {
+    "master_endpoint": false,
+    "node": false,
+    "daemon": false,
+    "inference": false
+  },
+  "status": "operational"
+}

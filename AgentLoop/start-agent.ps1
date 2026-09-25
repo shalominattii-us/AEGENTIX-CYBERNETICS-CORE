@@ -1,0 +1,1 @@
+powershell -ExecutionPolicy Bypass -File C:/Aegentix/AgentLoop/agent-loop.ps1

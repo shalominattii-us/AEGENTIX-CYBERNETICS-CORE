@@ -1,0 +1,219 @@
+{
+    "Policies":  {
+
+                 },
+    "Agents":  {
+                   "testing":  {
+                                   "name":  "testing",
+                                   "capabilities":  {
+                                                        "skills":  null
+                                                    },
+                                   "metadata":  {
+
+                                                },
+                                   "registered":  "2026-09-07T07:24:36.896Z",
+                                   "path":  "C:\\Aegentix\\agents\\testing",
+                                   "type":  "",
+                                   "status":  "active"
+                               },
+                   "security":  {
+                                    "name":  "security",
+                                    "capabilities":  {
+                                                         "skills":  null
+                                                     },
+                                    "metadata":  {
+
+                                                 },
+                                    "registered":  "2026-09-07T07:24:36.889Z",
+                                    "path":  "C:\\Aegentix\\agents\\security",
+                                    "type":  "",
+                                    "status":  "active"
+                                },
+                   "infrastructure":  {
+                                          "name":  "infrastructure",
+                                          "capabilities":  {
+                                                               "skills":  null
+                                                           },
+                                          "metadata":  {
+
+                                                       },
+                                          "registered":  "2026-09-07T07:24:36.869Z",
+                                          "path":  "C:\\Aegentix\\agents\\infrastructure",
+                                          "type":  "",
+                                          "status":  "active"
+                                      },
+                   "coding":  {
+                                  "name":  "coding",
+                                  "capabilities":  {
+                                                       "skills":  null
+                                                   },
+                                  "metadata":  {
+
+                                               },
+                                  "registered":  "2026-09-07T07:24:36.869Z",
+                                  "path":  "C:\\Aegentix\\agents\\coding",
+                                  "type":  "",
+                                  "status":  "active"
+                              },
+                   "research":  {
+                                    "name":  "research",
+                                    "capabilities":  {
+                                                         "skills":  null
+                                                     },
+                                    "metadata":  {
+
+                                                 },
+                                    "registered":  "2026-09-07T07:24:36.869Z",
+                                    "path":  "C:\\Aegentix\\agents\\research",
+                                    "type":  "",
+                                    "status":  "active"
+                                }
+               },
+    "State":  {
+
+              },
+    "Services":  {
+                     "runtime-agent":  {
+                                           "name":  "runtime-agent",
+                                           "config":  {
+
+                                                      },
+                                           "registered":  "2026-09-07T07:24:37.094Z",
+                                           "type":  "agent-service",
+                                           "endpoint":  "http://localhost:3001",
+                                           "status":  "active"
+                                       },
+                     "hud":  {
+                                 "name":  "hud",
+                                 "config":  {
+
+                                            },
+                                 "registered":  "2026-09-07T07:24:37.078Z",
+                                 "type":  "interface",
+                                 "endpoint":  "http://localhost:5173",
+                                 "status":  "active"
+                             },
+                     "directive":  {
+                                       "name":  "directive",
+                                       "config":  {
+
+                                                  },
+                                       "registered":  "2026-09-07T07:24:37.127Z",
+                                       "type":  "orchestrator",
+                                       "endpoint":  "http://localhost:3002",
+                                       "status":  "active"
+                                   },
+                     "mcp-fs":  {
+                                    "name":  "mcp-fs",
+                                    "config":  {
+
+                                               },
+                                    "registered":  "2026-09-07T07:24:37.127Z",
+                                    "type":  "filesystem",
+                                    "endpoint":  "http://localhost:3003",
+                                    "status":  "active"
+                                },
+                     "mcp-system":  {
+                                        "name":  "mcp-system",
+                                        "config":  {
+
+                                                   },
+                                        "registered":  "2026-09-07T07:24:37.144Z",
+                                        "type":  "system",
+                                        "endpoint":  "http://localhost:3005",
+                                        "status":  "active"
+                                    },
+                     "gaia":  {
+                                  "name":  "gaia",
+                                  "config":  {
+
+                                             },
+                                  "registered":  "2026-09-07T07:24:37.090Z",
+                                  "type":  "dashboard",
+                                  "endpoint":  "http://localhost:5174",
+                                  "status":  "active"
+                              },
+                     "runtime":  {
+                                     "name":  "runtime",
+                                     "config":  {
+
+                                                },
+                                     "registered":  "2026-09-07T07:24:37.094Z",
+                                     "type":  "backend",
+                                     "endpoint":  "http://localhost:3000",
+                                     "status":  "active"
+                                 },
+                     "mcp-http":  {
+                                      "name":  "mcp-http",
+                                      "config":  {
+
+                                                 },
+                                      "registered":  "2026-09-07T07:24:37.127Z",
+                                      "type":  "http",
+                                      "endpoint":  "http://localhost:3004",
+                                      "status":  "active"
+                                  }
+                 },
+    "Capabilities":  {
+                         "AgentMesh":  {
+                                           "version":  "1.0",
+                                           "name":  "AgentMesh",
+                                           "config":  {
+                                                          "enabled":  true
+                                                      },
+                                           "provider":  "AgentLoop",
+                                           "registered":  "2026-09-07T07:24:37.287Z",
+                                           "status":  "active"
+                                       },
+                         "Blockchain":  {
+                                            "version":  "1.0",
+                                            "name":  "Blockchain",
+                                            "config":  {
+                                                           "enabled":  true
+                                                       },
+                                            "provider":  "Validators",
+                                            "registered":  "2026-09-07T07:24:37.338Z",
+                                            "status":  "active"
+                                        },
+                         "Monitoring":  {
+                                            "version":  "1.0",
+                                            "name":  "Monitoring",
+                                            "config":  {
+                                                           "enabled":  true
+                                                       },
+                                            "provider":  "Telemetry",
+                                            "registered":  "2026-09-07T07:24:37.253Z",
+                                            "status":  "active"
+                                        },
+                         "CyberDAW":  {
+                                          "version":  "1.0",
+                                          "name":  "CyberDAW",
+                                          "config":  {
+                                                         "enabled":  true
+                                                     },
+                                          "provider":  "Ableton",
+                                          "registered":  "2026-09-07T07:24:37.319Z",
+                                          "status":  "active"
+                                      },
+                         "Orchestration":  {
+                                               "version":  "1.0",
+                                               "name":  "Orchestration",
+                                               "config":  {
+                                                              "enabled":  true
+                                                          },
+                                               "provider":  "WorkflowEngine",
+                                               "registered":  "2026-09-07T07:24:37.223Z",
+                                               "status":  "active"
+                                           },
+                         "Governance":  {
+                                            "version":  "1.0",
+                                            "name":  "Governance",
+                                            "config":  {
+                                                           "enabled":  true
+                                                       },
+                                            "provider":  "PolicyEngine",
+                                            "registered":  "2026-09-07T07:24:37.239Z",
+                                            "status":  "active"
+                                        }
+                     }
+}

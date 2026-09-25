@@ -1,0 +1,13 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/containers/*
+
+output.elasticsearch:
+  hosts: ["${ELASTICSEARCH_HOST:-elasticsearch}:9200"]
+# When elasticsearch is not available in the stack (e.g. skipped in
+# docker-compose.hermes.yml), switch to file output instead:
+# output.log:
+#   path: /var/log/filebeat/containers.log
+#   level: info

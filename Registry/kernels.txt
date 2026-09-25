@@ -1,0 +1,4 @@
+heretic-pew=kernel-heretic-pew.ps1
+phoenix-heretic=phoenix-heretic.ps1
+sovereign=kernel-sovereign.ps1
+phoenix-sovereign=phoenix-sovereign.ps1

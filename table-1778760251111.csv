@@ -1,0 +1,7 @@
+﻿STEP,ACTION,RESULT
+1,Creates all directories,`C:\Sovereign\Claw\` structure exists
+2,Saves v2.0 to `claw-v2.0.ps1`,"**Survives reboots, survives session close**"
+3,Loads from disk into memory,Functions `ClawBoot` and `claw-boot` available
+4,Executes `claw-boot`,6 watcher jobs spawn immediately
+5,Registers scheduled task,Auto-starts on every Windows boot
+6,Verifies,Shows you jobs running + logs writing

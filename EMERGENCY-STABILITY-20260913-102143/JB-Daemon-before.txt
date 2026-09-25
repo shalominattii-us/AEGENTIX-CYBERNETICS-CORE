@@ -1,0 +1,23 @@
+
+UserName            : NT AUTHORITY\NetworkService
+Description         : 
+DelayedAutoStart    : False
+BinaryPathName      : C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -ExecutionPolicy Bypass -NoProfile -File C:\Aegentix\jetpackbrains\jb-daemon.ps1
+StartupType         : Automatic
+Name                : JB-Daemon
+RequiredServices    : {}
+CanPauseAndContinue : False
+CanShutdown         : False
+CanStop             : False
+DisplayName         : JetpackBrains Sovereign Daemon
+DependentServices   : {}
+MachineName         : .
+ServiceName         : JB-Daemon
+ServicesDependedOn  : {}
+StartType           : Automatic
+ServiceHandle       : Microsoft.Win32.SafeHandles.SafeServiceHandle
+Status              : Stopped
+ServiceType         : Win32OwnProcess
+Site                : 
+Container           : 
+

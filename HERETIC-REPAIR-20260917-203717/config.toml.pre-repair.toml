@@ -1,0 +1,8 @@
+[general]
+model = "C:/Users/eagle/AppData/Local/LM Studio/models/llama-3-8b-instruct"
+
+[models.lmstudio]
+type = "openai"
+api_base = "http://localhost:1234/v1"
+api_key = "lm-studio"
+model = "lmstudio"

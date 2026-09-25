@@ -1,0 +1,72 @@
+# ── Container registry ─────────────────────────────────────────────────────────
+
+registry:
+  url: registry.aegentix.internal
+  username_env: REGISTRY_USERNAME
+  password_env: REGISTRY_PASSWORD
+  insecure: false
+  image_pull_policy: if-not-present
+  default_namespace: aegentix
+
+# ── Canary rollout configuration ───────────────────────────────────────────────
+
+canary:
+  enabled: true
+  initial_weight_percent: 10
+  step_weight_percent: 10
+  max_weight_percent: 100
+  evaluation_interval_seconds: 30
+  promote_threshold_seconds: 300
+  auto_promote_after_evaluation: true
+  min_evaluation_periods: 5
+
+# ── Rollback trigger thresholds ────────────────────────────────────────────────
+
+rollback_triggers:
+  error_rate_percent_threshold: 5.0
+  latency_p99_ms_threshold: 2000
+  cpu_throttle_percent_threshold: 30.0
+  memory_error_rate_percent_threshold: 1.0
+  container_exit_code_threshold: 0
+  evaluation_window_seconds: 120
+  require_minimum_evaluation_periods: 3
+  auto_rollback: true
+
+# ── Rollout policy ─────────────────────────────────────────────────────────────
+
+rollout:
+  max_concurrent_deployments: 1
+  deployment_timeout_minutes: 30
+  grace_period_seconds: 60
+  notify_on_start: true
+  notify_on_complete: true
+  notify_on_rollback: true
+
+# ── Deployment targets ─────────────────────────────────────────────────────────
+
+deployment_targets:
+  - name: aegentix-api
+    image: registry.aegentix.internal/aegentix/api
+    tag_env: API_IMAGE_TAG
+    default_tag: latest
+    canary_weight: 10
+    rollback_monitored: true
+
+  - name: aegentix-workers
+    image: registry.aegentix.internal/aegentix/workers
+    tag_env: WORKERS_IMAGE_TAG
+    default_tag: latest
+    canary_weight: 10
+    rollback_monitored: true
+
+  - name: aegentix-monitor-dashboard
+    image: registry.aegentix.internal/aegentix/dashboard
+    tag_env: DASHBOARD_IMAGE_TAG
+    default_tag: latest
+    canary_weight: 10
+    rollback_monitored: false
+
+# ── Reporting ──────────────────────────────────────────────────────────────────
+
+reporting:
+  event_log_path: orchestrator/events/deployment.jsonl

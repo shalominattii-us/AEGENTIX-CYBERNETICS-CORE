@@ -1,0 +1,33 @@
+﻿{
+    "ts":  "2026-09-12T20:49:41.4103629-06:00",
+    "host":  "DESKTOP-HRUBG2T",
+    "components":  {
+                       "docker":  {
+                                      "state":  "up",
+                                      "detail":  "engine responding"
+                                  },
+                       "lemonade":  {
+                                        "state":  "down",
+                                        "detail":  "no response on :9000"
+                                    },
+                       "cybercore":  {
+                                         "state":  "up",
+                                         "detail":  "{\"status\":\"healthy\",\"service\":\"cybercore-llm\",\"version\":\"1.0.0\",\"ollama\":\"http://host.docker.internal:11434\",\"models\":[\"cybercore-tiny\",\"cybercore-core\"],\"guard",
+                                         "inference":  "FAILED: The operation has timed out"
+                                     },
+                       "cyberdeck":  {
+                                         "state":  "up",
+                                         "detail":  "jb-daemon PID 23256"
+                                     },
+                       "antigravity":  {
+                                           "state":  "up",
+                                           "detail":  "language_server PID 12564"
+                                       }
+                   },
+    "actions":  [
+                    "started Docker Desktop",
+                    "Docker engine came up",
+                    "started Cyberdeck daemon (jb-daemon.ps1)"
+                ],
+    "ok":  false
+}

@@ -1,0 +1,19 @@
+{
+  "project": {
+    "name": "ROG",
+    "version": "1.0.0",
+    "status": "OPERATIONAL"
+  },
+  "swarm": {
+    "pods": [
+      { "name": "pod-bt-sentinel", "vector": "Bluetooth", "action": "Monitor btmon, kill rogue pairings" },
+      { "name": "pod-net-guardian", "vector": "Network Adapter", "action": "Enforce MAC whitelist, block promiscuous mode" },
+      { "name": "pod-sd-watcher", "vector": "systemd-run Abuse", "action": "Detect transient units via journalctl" },
+      { "name": "pod-proc-exorcist", "vector": "Process Ghosting", "action": "Compare ps tree vs systemctl status" }
+    ]
+  },
+  "trading": {
+    "strategy": "Buy $1.08, Sell $1.10",
+    "assets": ["XRP-USD", "SOL-USD", "ADA-USD"]
+  }
+}

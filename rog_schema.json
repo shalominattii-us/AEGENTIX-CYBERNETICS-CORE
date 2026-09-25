@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ROG Configuration Schema",
+  "type": "object",
+  "required": ["project", "swarm", "trading"],
+  "properties": {
+    "project": {
+      "type": "object",
+      "required": ["name", "version", "status"],
+      "properties": {
+        "name": { "type": "string" },
+        "version": { "type": "string" },
+        "status": { "type": "string", "enum": ["OPERATIONAL", "DEGRADED", "OFFLINE"] }
+      }
+    },
+    "swarm": {
+      "type": "object",
+      "required": ["pods"],
+      "properties": {
+        "pods": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "vector", "action"],
+            "properties": {
+              "name": { "type": "string" },
+              "vector": { "type": "string" },
+              "action": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "trading": {
+      "type": "object",
+      "required": ["strategy", "assets"],
+      "properties": {
+        "strategy": { "type": "string" },
+        "assets": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+# ── Restart policy ─────────────────────────────────────────────────────────────
+
+restart_policy:
+  max_retries: 3
+  retry_backoff_base_seconds: 5
+  retry_backoff_multiplier: 2.0
+  max_backoff_seconds: 300
+  restart_window_seconds: 3600
+  cool_down_after_retries_seconds: 600
+  auto_restart: true
+  require_guardian_approval: false
+
+# ── Health check configuration ─────────────────────────────────────────────────
+
+health_checks:
+  interval_seconds: 15
+  timeout_seconds: 5
+  retries_before_unhealthy: 3
+  check_type: http
+  http_endpoint: /health
+  expected_status: 200
+  check_timeout_seconds: 10
+
+# ── Drain behavior ─────────────────────────────────────────────────────────────
+
+drain_behavior:
+  enabled: true
+  drain_timeout_seconds: 120
+  drain_message: "Service entering drain mode for healing — traffic will be redirected."
+  graceful_shutdown_seconds: 30
+  rebalance_after_drain: true
+
+# ── Service-specific healing overrides ─────────────────────────────────────────
+
+services:
+  - name: aegentix-prometheus
+    health_check_url: http://prometheus:9090/health
+    drain_protected: true
+    restart_priority: 1
+
+  - name: aegentix-grafana
+    health_check_url: http://grafana:3000/health
+    drain_protected: true
+    restart_priority: 2
+
+  - name: aegentix-alertmanager
+    health_check_url: http://alertmanager:9093/health
+    drain_protected: false
+    restart_priority: 3
+
+  - name: aegentix-elasticsearch
+    health_check_url: http://elasticsearch:9200
+    drain_protected: true
+    restart_priority: 1
+
+  - name: aegentix-kibana
+    health_check_url: http://kibana:5601
+    drain_protected: false
+    restart_priority: 4
+
+# ── Reporting ──────────────────────────────────────────────────────────────────
+
+reporting:
+  event_log_path: orchestrator/events/healing.jsonl

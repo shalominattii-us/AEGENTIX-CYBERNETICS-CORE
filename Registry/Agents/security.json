@@ -1,0 +1,13 @@
+{
+    "name":  "security",
+    "capabilities":  {
+                         "skills":  null
+                     },
+    "metadata":  {
+
+                 },
+    "registered":  "2026-09-07T07:24:36.889Z",
+    "path":  "C:\\Aegentix\\agents\\security",
+    "type":  "",
+    "status":  "active"
+}

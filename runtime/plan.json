@@ -1,0 +1,45 @@
+{
+    "objective":  "C:\\Aegentix\\runtime\\intent.json",
+    "status":  "PROPOSED",
+    "steps":  [
+                  {
+                      "id":  "discover",
+                      "action":  "DISCOVER",
+                      "status":  "PENDING"
+                  },
+                  {
+                      "id":  "plan",
+                      "action":  "PLAN",
+                      "status":  "PENDING"
+                  },
+                  {
+                      "id":  "execute",
+                      "action":  "EXECUTE",
+                      "status":  "BLOCKED"
+                  },
+                  {
+                      "id":  "verify",
+                      "action":  "VERIFY",
+                      "status":  "PENDING"
+                  },
+                  {
+                      "id":  "report",
+                      "action":  "REPORT",
+                      "status":  "PENDING"
+                  }
+              ],
+    "governance":  {
+                       "version":  "1.0.0",
+                       "mode":  "development",
+                       "external_actions":  false,
+                       "deployments":  false,
+                       "contracts":  false,
+                       "financial_operations":  false,
+                       "live_trading":  false,
+                       "withdrawals":  false,
+                       "require_verification":  true,
+                       "require_evidence":  true,
+                       "allow_autonomous_planning":  true,
+                       "allow_autonomous_execution":  false
+                   }
+}

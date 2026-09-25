@@ -1,0 +1,36 @@
+﻿chain:
+  name: aptos
+  id: mainnet
+
+region:
+  active: us-west
+  standby: eu-central
+  quarantine: ap-southeast
+
+hardware:
+  cpu: 16
+  ram: 64GB
+  storage:
+    primary: 2TB NVMe
+    archive: 1TB NVMe
+
+networking:
+  p2p_port: 6180
+  rpc_port: 8080
+  metrics_port: 9105
+
+sovereign:
+  runtime: enabled
+  jb_daemon_routing: enabled
+  health_checks: deep
+  failover: autonomous
+
+commission:
+  base: 0.05
+  intro: 0
+  performance_bonus: 0.02
+  sovereign_fee: 0.01
+
+delegation:
+  mode: closed-beta
+  open_after_days: 30

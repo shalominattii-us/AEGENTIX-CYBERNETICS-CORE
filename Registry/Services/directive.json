@@ -1,0 +1,10 @@
+{
+    "name":  "directive",
+    "config":  {
+
+               },
+    "registered":  "2026-09-07T07:24:37.127Z",
+    "type":  "orchestrator",
+    "endpoint":  "http://localhost:3002",
+    "status":  "active"
+}

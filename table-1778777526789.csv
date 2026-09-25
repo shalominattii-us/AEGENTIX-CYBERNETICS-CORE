@@ -1,0 +1,12 @@
+﻿REPO,FUNCTION
+`primordium-core`,Event schema + primordium engine
+`sovereign-control-plane`,Sovereign commands + Rego policies
+`omega-orchestrator`,Universe orchestrator
+`hyperx-ledger`,DAG block engine
+`hyperx-security-fabric`,"OIDC, mTLS, crypto, access control"
+`hyperx-telemetry`,"Prometheus, OTLP, Loki"
+`hyperx-osint-pentagi`,OSINT collectors + reputation
+`hyperx-dfir-mantis`,Anomaly detection + incident response
+`hyperx-eventbus`,Event topology + flows
+`hyperx-mobile-edge`,Device agent + sync
+`hyperx-deployment`,K8s manifests + environments

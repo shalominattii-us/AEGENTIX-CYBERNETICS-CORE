@@ -1,0 +1,24 @@
+{
+    "schema":  "aegentix.organism-state.v1",
+    "generated_at":  "2026-09-08T00:29:46.5266608Z",
+    "identity":  {
+                     "organism_root":  "C:\\aegentix\\organism",
+                     "root":  "C:\\aegentix",
+                     "platform":  "Microsoft Windows 11 Home",
+                     "hostname":  "DESKTOP-HRUBG2T"
+                 },
+    "runtime":  {
+                    "truth":  "PROCESS_RUNNING_AND_STATE_ONLINE",
+                    "processes":  [
+
+                                  ],
+                    "process_count":  0
+                },
+    "health":  "HEALTHY",
+    "counters":  {
+                     "opportunities":  0,
+                     "completed":  0,
+                     "dna":  0,
+                     "failed":  0
+                 }
+}

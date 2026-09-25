@@ -1,0 +1,229 @@
+# Standard Falco macros (required since we use -r to replace default rules)
+# Sourced from Falco 0.44.1 default rules. evt.dir removed per deprecation notice.
+
+- macro: spawned_process
+  condition: evt.type in (execve, execveat)
+
+- macro: open_read
+  condition: >
+    fd.typechar = 'f' and fd.num >= 0 and
+    evt.type in (open, openat, openat2) and evt.is_open_read=true
+
+- macro: open_write
+  condition: >
+    fd.typechar = 'f' and fd.num >= 0 and
+    evt.type in (open, openat, openat2) and evt.is_open_write=true
+
+# Falco rules for Aegentix container-level security events
+# Ground truth for docker-compose.hermes.yml -> aegentix-falco-monitor
+# Priority levels: CRITICAL, ERROR, WARNING, NOTICE (Falco 0.44.1 syslog enums)
+
+- rule: Shell Spawned in Container
+  desc: "A shell process was spawned inside a container. This is often a precursor to container breakout or lateral movement."
+  condition: >
+    spawned_process and container.id != host and
+    proc.name in (bash, sh, ash, zsh, csh, tcsh, ksh, dash, /bin/sh, /bin/bash, /bin/ash) and
+    not (container.image.repository in (falcosecurity/falco, aegentix/core, aegentix/monitoring-agent))
+  output: "Shell spawned in container (user=%user.name container=%container.id image=%container.image.repository command=%proc.cmdline)"
+  priority: WARNING
+  tags: [host, container, shell, process]
+
+- rule: Interactive Shell Inside Container
+  desc: "A TTY/PTY shell was started inside a container, indicating interactive access."
+  condition: >
+    spawned_process and container.id != host and
+    proc.name in (bash, sh, ash, zsh) and proc.tty != 0 and
+    not (container.image.repository in (falcosecurity/falco, aegentix/core, aegentix/monitoring-agent))
+  output: "Interactive TTY shell inside container (user=%user.name container=%container.id image=%container.image.repository tty=%proc.tty command=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, shell, tty, interactive]
+
+- rule: Sensitive Host Path Mounted into Container
+  desc: "A sensitive host path was bind-mounted into a container (e.g. /etc, /var/run/docker.sock, /proc, /root)."
+  condition: >
+    container.mount.dest in (/etc, /etc/shadow, /etc/passwd, /etc/group, /etc/sudoers, /root, /home,
+      /var/run/docker.sock, /var/lib/docker, /proc, /sys, /dev, /usr/bin, /usr/sbin, /boot, /opt) and
+    container.id != host
+  output: "Sensitive mount detected in container (container=%container.id mount_dest=%container.mount.dest mount_source=%container.mount.source image=%container.image.repository)"
+  priority: ERROR
+  tags: [host, container, mount, sensitive_path]
+
+- rule: Access to /etc/shadow or /etc/passwd Inside Container
+  desc: "A process inside a container accessed /etc/shadow, /etc/passwd, or equivalent credential files."
+  condition: >
+    open_read and container.id != host and
+    fd.name in (/etc/shadow, /etc/passwd, /etc/group, /etc/sudoers, /etc/security/opasswd) and
+    not (proc.name in (cron, systemd, init))
+  output: "Access to /etc/shadow/passwd inside container (user=%user.name container=%container.id image=%container.image.repository file=%fd.name command=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, file_access, credentials]
+
+- rule: SSH Key / TLS Certificate / Key Material Access Inside Container
+  desc: "A process inside a container accessed SSH keys, TLS certificates, or other sensitive key material."
+  condition: >
+    open_read and container.id != host and
+    (fd.name glob '/.ssh/*' or fd.name glob '*.pem' or fd.name glob '*.key' or
+     fd.name glob '*.crt' or fd.name glob '*.cer' or fd.name glob '/etc/ssl/*' or fd.name glob '/etc/pki/*') and
+    not (proc.name in (cron, systemd, init, nginx, apache2, haproxy))
+  output: "Key material file access inside container (user=%user.name container=%container.id image=%container.image.repository file=%fd.name command=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, file_access, key_material]
+
+- rule: Reverse Shell Pattern Detected
+  desc: "Detects reverse shell patterns such as nc, netcat, socat, or bash with /dev/tcp redirections."
+  condition: >
+    spawned_process and container.id != host and
+    (proc.name in (nc, netcat, ncat, socat) or
+     (proc.name = bash and
+      (proc.cmdline contains '-i >&' or proc.cmdline contains '/dev/tcp' or
+       proc.cmdline contains '>& /dev/tcp' or proc.cmdline contains '0<&196;' or
+       proc.cmdline contains 'exec 5<>/dev/tcp'))) and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "Reverse shell pattern detected (user=%user.name container=%container.id image=%container.image.repository command=%proc.cmdline line=%proc.cmdline pid=%proc.pid)"
+  priority: CRITICAL
+  tags: [host, container, shell, reverse_shell, ioc]
+
+- rule: Network Connection to Non-Whitelisted Port
+  desc: "A container attempted to connect to a port outside the Aegentix port whitelist (80, 443, 9090, 3001, 9093, 8080, 7070-7073)."
+  condition: >
+    connect and container.id != host and
+    fd.sport != 80 and fd.sport != 443 and fd.sport != 9090 and fd.sport != 3001 and
+    fd.sport != 9093 and fd.sport != 8080 and
+    not (fd.sport in (7070, 7071, 7072, 7073)) and fd.sport != 0 and
+    fd.l4protocol in (tcp, udp)
+  output: "Non-whitelisted port network connection (user=%user.name container=%container.id image=%container.image.repository dest_port=%fd.sport protocol=%fd.l4protocol dest_ip=%fd.sip output_chain=%fd.clusterid)"
+  priority: ERROR
+  tags: [host, container, network, port_whitelist, egress]
+
+- rule: Network Connection to External (Non-RFC1918) IP
+  desc: "A container initiated a network connection to a non-RFC1918 address on a whitelisted port."
+  condition: >
+    connect and container.id != host and
+    not (fd.sip in (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16)) and
+    fd.l4protocol in (tcp, udp) and
+    fd.sport in (80, 443, 9090, 3001, 9093, 8080, 7070, 7071, 7072, 7073)
+  output: "Network connection to external IP (user=%user.name container=%container.id image=%container.image.repository dest_ip=%fd.sip dest_port=%fd.sport protocol=%fd.l4protocol)"
+  priority: WARNING
+  tags: [host, container, network, egress, external]
+
+- rule: Excessive Process Birth Rate in Container
+  desc: "A container is spawning processes at an abnormally high rate, which may indicate a fork bomb or compromise."
+  condition: >
+    spawned_process and container.id != host and
+    proc.pname in (bash, sh, ash) and container.num_procs > 50 and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "Excessive process creation in container (user=%user.name container=%container.id image=%container.image.repository pid=%proc.pid command=%proc.cmdline num_procs=%container.num_procs)"
+  priority: ERROR
+  tags: [host, container, process, dos]
+
+- rule: Container Running with Dangerous Capabilities
+  desc: "A container was started with CAP_SYS_ADMIN, CAP_SYS_PTRACE, CAP_SYS_MODULE, or other high-risk Linux capabilities."
+  condition: >
+    container.id != host and
+    container.cap_effective in (CAP_SYS_ADMIN, CAP_SYS_PTRACE, CAP_SYS_MODULE, CAP_SYS_RAWIO,
+      CAP_SYS_BOOT, CAP_NET_ADMIN, CAP_NET_RAW) and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "Container running with dangerous capabilities (container=%container.id image=%container.image.repository capabilities=%container.cap_effective)"
+  priority: ERROR
+  tags: [host, container, privileged, capabilities, escape]
+
+- rule: Privileged Container Accessing Host Resources
+  desc: "A privileged container is accessing /proc/*/mem, /sys/*, or /dev/*, which are classic container-escape vectors."
+  condition: >
+    container.id != host and container.privileged=true and
+    (open_read and fd.name glob '/proc/*/mem' or fd.name glob '/proc/*/maps' or
+     fd.name glob '/sys/*' or fd.name glob '/dev/*') and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "Privileged container accessing host resources (user=%user.name container=%container.id image=%container.image.repository file=%fd.name command=%proc.cmdline)"
+  priority: CRITICAL
+  tags: [host, container, privileged, host_resource, escape]
+
+- rule: Process Signal Sent to Another Container's Process
+  desc: "A process inside one container sent a signal to a process belonging to a different container, a cross-container injection/termination attempt."
+  condition: >
+    signal and container.id != host and container.id != proc.vpid and
+    container.id != fd.cgroup and proc.name != kernel and
+    not (proc.name in (docker, containerd, cri-dockerd, containerd-shim))
+  output: "Process signal sent to another container (sender_user=%user.name sender_container=%container.id target_pid=%proc.pid signal=%proc.signal command=%proc.cmdline)"
+  priority: CRITICAL
+  tags: [host, container, process_injection, signal, container_escape]
+
+- rule: ptrace / Debugger / Process Injection Tool Inside Container
+  desc: "A debugger or ptrace-based tool was executed inside a non-Falco container, a common container-escape and process-injection primitive."
+  condition: >
+    spawned_process and container.id != host and
+    proc.name in (ptrace, gdb, strace, ltrace) and
+    not (container.image.repository in (falcosecurity/falco, aegentix/core))
+  output: "Process injection/debugging tool executed in container (user=%user.name container=%container.id image=%container.image.repository command=%proc.cmdline line=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, process_injection, debugging, ptrace]
+
+- rule: Docker Socket Access from Container
+  desc: "A process inside a container (other than the designated monitoring agent) opened /var/run/docker.sock, the classic container-escape vector."
+  condition: >
+    open_read and container.id != host and fd.name = '/var/run/docker.sock' and
+    not (container.image.repository in (aegentix/agent-monitoring, aegentix/monitoring-agent))
+  output: "Docker socket access from container (user=%user.name container=%container.id image=%container.image.repository command=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, docker_socket, container_management, escape]
+
+- rule: Cryptocurrency Mining Pool Connection Attempt
+  desc: "A container initiated a connection to a known mining pool port (Stratum, port 3333)."
+  condition: >
+    connect and container.id != host and fd.sport = 3333 and
+    not (proc.name in (monerod, bitcoind)) and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "Crypto mining pool connection attempt (user=%user.name container=%container.id image=%container.image.repository dest_ip=%fd.sip dest_port=%fd.sport command=%proc.cmdline)"
+  priority: CRITICAL
+  tags: [host, container, network, mining, ioc]
+
+- rule: Write Attempt to Read-Only Root Filesystem
+  desc: "A write syscall targeted the filesystem of a container that was started with read_only: true."
+  condition: >
+    container.id != host and container.read_only=true and
+    (open_write and fd.name glob '/tmp/*' or fd.name glob '/run/*' or
+     fd.name glob '/var/*' or fd.name glob '/etc/*' or fd.name glob '/root/*')
+  output: "Write attempt on read-only container filesystem (user=%user.name container=%container.id image=%container.image.repository file=%fd.name command=%proc.cmdline)"
+  priority: WARNING
+  tags: [host, container, file_write, read_only]
+
+- rule: Access to Container Secrets / Sensitive Environment Files
+  desc: "A process inside a container accessed /run/secrets/*, /etc/environment, /etc/profile, or other sensitive environment/secret files."
+  condition: >
+    open_read and container.id != host and
+    (fd.name glob '/run/secrets/*' or fd.name = '/etc/environment' or
+     fd.name = '/etc/profile' or fd.name = '/etc/bash.bashrc' or fd.name = '/etc/zsh/zshrc') and
+    not (proc.name in (cron, systemd, init))
+  output: "Access to container secrets/sensitive environment files (user=%user.name container=%container.id image=%container.image.repository file=%fd.name command=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, file_access, secrets, environment]
+
+- rule: SUID/SGID Binary Execution Inside Container
+  desc: "A SUID or SGID binary was executed inside a container, which can be abused for privilege escalation."
+  condition: >
+    spawned_process and container.id != host and
+    proc.exepath exists and (proc.exepath suid or proc.exepath sgid) and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "SUID/SGID binary execution inside container (user=%user.name container=%container.id image=%container.image.repository binary=%proc.exepath command=%proc.cmdline)"
+  priority: WARNING
+  tags: [host, container, suid, sgid, privilege_escalation]
+
+- rule: Privilege Escalation Attempt Inside Container
+  desc: "A process inside a container attempted privilege escalation via chmod/chown/setpriv/su/sudo/pkexec/doas."
+  condition: >
+    spawned_process and container.id != host and
+    proc.name in (chmod, chown, setpriv, su, sudo, pkexec, doas) and
+    not (container.image.repository in (aegentix/core, aegentix/monitoring-agent))
+  output: "Privilege escalation attempt inside container (user=%user.name container=%container.id image=%container.image.repository command=%proc.cmdline line=%proc.cmdline)"
+  priority: ERROR
+  tags: [host, container, privilege_escalation, setuid, setgid]
+
+- rule: Unexpected Kernel Module Load Inside Container
+  desc: "A process inside a container attempted to load a kernel module (insmod/modprobe), a strong container-escape indicator."
+  condition: >
+    spawned_process and container.id != host and
+    proc.name in (insmod, modprobe, kmod) and
+    not (container.image.repository in (falcosecurity/falco))
+  output: "Kernel module load attempt from container (user=%user.name container=%container.id image=%container.image.repository command=%proc.cmdline)"
+  priority: CRITICAL
+  tags: [host, container, kernel_module, escape]

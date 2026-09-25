@@ -1,0 +1,7 @@
+auto_repair: true
+auto_reload_voice: true
+auto_restart: true
+monitor_interval: 5
+modules:
+  - jarvis
+  - voice_kirkprime

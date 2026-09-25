@@ -1,0 +1,422 @@
+# =============================================================================
+# docker-compose.hermes.yml — Unified Aegentix Stack (Hermes Orchestration)
+# =============================================================================
+# Layers:
+#   (A) 7 runtime services   — from docker-compose.yml
+#        runtime:8080, gaia:8090, directive:7070, hud:3000,
+#        mcp-fs:7071, mcp-http:7072, mcp-system:7073
+#
+#   (B) 5 infra agents       — from docker-compose.autonomous.yml
+#        agent-monitoring, agent-incident-response, agent-autoscaling,
+#        agent-healing, agent-deployment
+#        NOTE: each requires a Dockerfile under ./agents/infrastructure/
+#        (Dockerfile.monitoring, Dockerfile.incident, Dockerfile.autoscaling,
+#         Dockerfile.healing, Dockerfile.deployment).  These are NOT yet
+#        built — the build contexts below will fail until those files exist.
+#
+#   (C) Monitoring stack     — from docker-compose.autonomous.yml (partial)
+#        prometheus:9090, grafana:3001, alertmanager:9093, filebeat
+#        SKIPPED: elasticsearch (port 9200 not whitelisted, heavy), kibana
+#                 (port 5601 not whitelisted, heavy).  filebeat can ship to a
+#                 remote ES endpoint or a lightweight alternative can be added
+#                 later without changing this file.
+#
+#   (D) Security services    — from docker-compose.security.yml (partial)
+#        aegentix-falco-monitor (aegentix-internal network, no published ports)
+#        aegentix-telemetry-engine (runs agent_security_engine.py, aegentix-internal)
+#        SKIPPED: aegentix-core (hardcoded image "aegentix/core:latest" does not
+#                 exist as a built image; the runtime service on port 8080 already
+#                 covers the core HTTP control-plane function)
+#        SKIPPED: aegentix-agent-monitoring (hardcoded image
+#                 "aegentix/monitoring-agent:latest" does not exist; the
+#                 monitoring agent from layer (B) covers this role on the shared
+#                 network instead)
+#
+# Port whitelist (from .hermes.md): 80, 443, 9090, 3001, 9093, 8080, 7070-7073
+# Only whitelisted ports are published below.
+#
+# Networks:
+#   aegentix-net       — shared bridge, everything that needs to talk
+#   aegentix-internal  — isolated bridge, Falco + telemetry only (no ports)
+# =============================================================================
+
+services:
+
+  # ------------------------------------------------------------------
+  # (A) Runtime Services  (docker-compose.yml)
+  # ------------------------------------------------------------------
+
+  aegentix-runtime:
+    build:
+      context: ./services/runtime
+    ports:
+      - "8080:8080"            # whitelisted
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8080/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-gaia:
+    build:
+      context: ./services/gaia
+    ports:
+      - "8090:8090"            # whitelisted
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:8090/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-directive:
+    build:
+      context: ./services/directive
+    ports:
+      - "7070:7070"            # whitelisted
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7070/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-hud:
+    build:
+      context: ./services/hud
+    ports:
+      - "3000:3000"            # whitelisted  (NOT 3001 — that's Grafana's external port)
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-mcp-fs:
+    build:
+      context: ./services/mcp-fs
+    ports:
+      - "7071:7071"            # whitelisted
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7071/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-mcp-http:
+    build:
+      context: ./services/mcp-http
+    ports:
+      - "7072:7072"            # whitelisted
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7072/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  aegentix-mcp-system:
+    build:
+      context: ./services/mcp-system
+    ports:
+      - "7073:7073"            # whitelisted
+    restart: unless-stopped
+    networks:
+      - aegentix-net
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7073/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ------------------------------------------------------------------
+  # (B) Infra Agents  (docker-compose.autonomous.yml)
+  # ------------------------------------------------------------------
+  # TODO: each service below requires a Dockerfile in ./agents/infrastructure/
+  #       matching the dockerfile: line.  Create them before bringing up the stack.
+  #       - Dockerfile.monitoring
+  #       - Dockerfile.incident
+  #       - Dockerfile.autoscaling
+  #       - Dockerfile.healing
+  #       - Dockerfile.deployment
+
+  agent-monitoring:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.monitoring   # TODO: file must exist
+    container_name: aegentix-agent-monitoring
+    environment:
+      AGENT_ROLE: monitoring
+      LOG_LEVEL: info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./autonomous_swarm.py:/app/autonomous_swarm.py:ro
+      - ./swarm_state.json:/c/Aegentix/swarm_state.json:ro
+      - ./active_swarm_manifest.json:/c/Aegentix/active_swarm_manifest.json:ro
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  agent-incident-response:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.incident     # TODO: file must exist
+    container_name: aegentix-agent-incident-response
+    environment:
+      AGENT_ROLE: incident-response
+      LOG_LEVEL: info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./autonomous_swarm.py:/app/autonomous_swarm.py:ro
+      - ./swarm_state.json:/c/Aegentix/swarm_state.json:ro
+      - ./active_swarm_manifest.json:/c/Aegentix/active_swarm_manifest.json:ro
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  agent-autoscaling:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.autoscaling   # TODO: file must exist
+    container_name: aegentix-agent-autoscaling
+    environment:
+      AGENT_ROLE: autoscaling
+      LOG_LEVEL: info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./autonomous_swarm.py:/app/autonomous_swarm.py:ro
+      - ./swarm_state.json:/c/Aegentix/swarm_state.json:ro
+      - ./active_swarm_manifest.json:/c/Aegentix/active_swarm_manifest.json:ro
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  agent-healing:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.healing       # TODO: file must exist
+    container_name: aegentix-agent-healing
+    environment:
+      AGENT_ROLE: healing
+      LOG_LEVEL: info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./autonomous_swarm.py:/app/autonomous_swarm.py:ro
+      - ./swarm_state.json:/c/Aegentix/swarm_state.json:ro
+      - ./active_swarm_manifest.json:/c/Aegentix/active_swarm_manifest.json:ro
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  agent-deployment:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.deployment    # TODO: file must exist
+    container_name: aegentix-agent-deployment
+    environment:
+      AGENT_ROLE: deployment
+      LOG_LEVEL: info
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./autonomous_swarm.py:/app/autonomous_swarm.py:ro
+      - ./swarm_state.json:/c/Aegentix/swarm_state.json:ro
+      - ./active_swarm_manifest.json:/c/Aegentix/active_swarm_manifest.json:ro
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # (C) Monitoring & Observability  (docker-compose.autonomous.yml)
+  # ------------------------------------------------------------------
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: aegentix-prometheus
+    ports:
+      - "9090:9090"            # whitelisted
+    volumes:
+      - ./monitoring/prometheus.yml/config.yml:/etc/prometheus/prometheus.yml
+      - ./monitoring/prometheus-rules.yml:/etc/prometheus/rules.yml
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: aegentix-grafana
+    ports:
+      - "3001:3000"            # whitelisted  (external port 3001 → container 3000)
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana-datasources.yml/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - ./monitoring/grafana-dashboards.yml/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml
+      - ./monitoring/grafana-dashboard-aegentix-agents.json:/etc/grafana/provisioning/dashboards/aegentix/aegentix-agents-fleet.json
+    depends_on:
+      - prometheus
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: aegentix-alertmanager
+    ports:
+      - "9093:9093"            # whitelisted
+    volumes:
+      - ./monitoring/alertmanager.yml/config.yml:/etc/alertmanager/config.yml
+      - alertmanager-data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - aegentix-net
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # (C) SKIPPED: elasticsearch
+  #   - Image: docker.elastic.co/elasticsearch/elasticsearch:7.17.0
+  #   - Port 9200 is NOT in the whitelist (80, 443, 9090, 3001, 9093, 8080, 7070-7073)
+  #   - Heavy (1G memory limit), not needed for initial bring-up
+  #   - filebeat can ship to a remote ES instance or we add a lightweight
+  #     alternative (e.g. Loki, OpenSearch minimal) later
+  # ------------------------------------------------------------------
+
+  # ------------------------------------------------------------------
+  # (C) SKIPPED: kibana
+  #   - Image: docker.elastic.co/kibana/kibana:7.17.0
+  #   - Port 5601 is NOT in the whitelist
+  #   - Depends on elasticsearch (also skipped)
+  #   - Heavy; can be added when ES is available
+  # ------------------------------------------------------------------
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.0
+    container_name: aegentix-filebeat
+    user: root
+    volumes:
+      - ./monitoring/filebeat.yml/filebeat.yml:/usr/share/filebeat/filebeat.yml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command: filebeat -e --strict.perms=false
+    networks:
+      - aegentix-net
+    # NOTE: depends_on elasticsearch removed — ES is skipped.
+    # filebeat will attempt to ship to the remote ES endpoint configured in
+    # ./monitoring/filebeat.yml/filebeat.yml, or fail gracefully until an
+    # ES/Loki replacement is provisioned.
+    restart: unless-stopped
+
+  # ------------------------------------------------------------------
+  # (D) Security Services  (docker-compose.security.yml — partial)
+  # ------------------------------------------------------------------
+
+  aegentix-falco-monitor:
+    image: falcosecurity/falco:latest
+    container_name: aegentix-falco-monitor
+    privileged: true
+    security_opt:
+      - apparmor=unconfined
+    volumes:
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /dev:/dev
+      - /proc:/proc:ro
+      - /sys/kernel/debug:/sys/kernel/debug
+      - ./security/falco-aegentix-rules.yaml:/etc/falco/falco-aegentix-rules.yaml:ro
+    environment:
+      - FALCO_K8S_AUDIT_ENDPOINT=
+    command: >
+      falco
+      -o json_output=true
+      -o file_output.enabled=true
+      -o file_output.filename=/tmp/falco.log
+      -o log_output=true
+      -r /etc/falco/falco-aegentix-rules.yaml
+      -o rate=50
+    networks:
+      - aegentix-internal          # internal network only — NO published ports
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  aegentix-telemetry-engine:
+    image: python:3.11-slim
+    container_name: aegentix-telemetry-engine
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=32m
+    volumes:
+      - ./security/agent_security_engine.py:/app/agent_security_engine.py:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    working_dir: /app
+    command: python agent_security_engine.py
+    environment:
+      - PYTHONUNBUFFERED=1
+      - NODE_ENV=production
+    networks:
+      - aegentix-internal          # internal network only — NO published ports
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ------------------------------------------------------------------
+  # (D) SKIPPED: aegentix-core
+  #   - Hardcoded image "aegentix/core:latest" does not exist as a built image
+  #   - The aegentix-runtime service (port 8080, layer A) already provides the
+  #     core HTTP control-plane functionality
+  #   - Once a real aegentix/core image is built and published, re-add here
+  #     on aegentix-internal with the security hardening from security.yml
+  # ------------------------------------------------------------------
+
+  # ------------------------------------------------------------------
+  # (D) SKIPPED: aegentix-agent-monitoring (hardened)
+  #   - Hardcoded image "aegentix/monitoring-agent:latest" does not exist
+  #   - The agent-monitoring infra agent (layer B) on aegentix-net covers this
+  #     role with build-from-source, which is the intended delivery path
+  #   - Once a real aegentix/monitoring-agent image is built, re-add here on
+  #     aegentix-internal with the security hardening from security.yml
+  # ------------------------------------------------------------------
+
+networks:
+  aegentix-net:
+    driver: bridge
+  aegentix-internal:
+    driver: bridge
+    internal: false
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  alertmanager-data:

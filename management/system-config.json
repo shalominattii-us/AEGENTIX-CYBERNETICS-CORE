@@ -1,0 +1,42 @@
+{
+    "orchestrator":  {
+                         "scheduling_interval":  60,
+                         "workflow_enabled":  true
+                     },
+    "control":  {
+                    "recovery_enabled":  true,
+                    "health_interval":  30
+                },
+    "agents":  {
+                   "testing":  {
+                                   "max_workers":  2,
+                                   "enabled":  true
+                               },
+                   "security":  {
+                                    "max_workers":  2,
+                                    "enabled":  true
+                                },
+                   "coding":  {
+                                  "max_workers":  4,
+                                  "enabled":  true
+                              },
+                   "infrastructure":  {
+                                          "max_workers":  2,
+                                          "enabled":  true
+                                      },
+                   "research":  {
+                                    "max_workers":  2,
+                                    "enabled":  true
+                                }
+               },
+    "governance":  {
+                       "policy_enforced":  true,
+                       "compliance_check":  true,
+                       "audit_enabled":  true
+                   },
+    "system":  {
+                   "name":  "Aegentix Cyberdeck",
+                   "version":  "1.0.0",
+                   "last_updated":  "2026-09-07T06:32:46.484Z"
+               }
+}

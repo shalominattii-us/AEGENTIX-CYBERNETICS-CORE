@@ -1,0 +1,8 @@
+{
+  "agent_loop": "C:/Aegentix/AgentLoop/agent-loop.ps1",
+  "gaia_sync": "C:/Aegentix/Registry/Gaia/gaia-sync.ps1",
+  "hud_refresh": "C:/Aegentix/Registry/HUD/hud-refresh.ps1",
+  "heartbeat_interval_ms": 2000,
+  "restart_on_failure": true,
+  "log_path": "C:/Aegentix/Kernel/Logs"
+}

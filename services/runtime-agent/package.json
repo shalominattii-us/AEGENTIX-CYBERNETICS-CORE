@@ -1,0 +1,24 @@
+{
+  "name": "aegentix-runtime-agent",
+  "version": "1.0.0",
+  "description": "Aegentix Runtime Agent - Core brain for autonomous agent orchestration",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-ws": "^5.0.2",
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
+    "uuid": "^9.0.0",
+    "pino": "^8.16.1",
+    "pino-http": "^8.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

@@ -1,0 +1,100 @@
+
+------------------------------------------------------------
+1. SYSTEM / HARDWARE
+------------------------------------------------------------
+Computer        : ASUSTeK COMPUTER INC. ROG Xbox Ally X RC73XA_RC73XA
+OS              : Microsoft Windows 11 Home
+OS Build        : 26200
+CPU             : AMD Ryzen AI Z2 Extreme                        
+Logical CPUs    : 16
+RAM             : 15.62 GB
+
+GPU             : AMD Radeon(TM) 890M Graphics
+GPU RAM         : 4 GB
+Driver          : 32.0.31019.2002
+
+------------------------------------------------------------
+2. PYTHON
+------------------------------------------------------------
+FOUND           : C:\Program Files\Python312\python.exe
+VERSION         : Python 3.12.5
+PATH PYTHON     : C:\Program Files\Python312\python.exe
+PATH VERSION    : Python 3.12.5
+
+------------------------------------------------------------
+3. HERETIC
+------------------------------------------------------------
+HERETIC EXE     : C:\Users\eagle\AppData\Roaming\Python\Python312\Scripts\heretic.exe
+HERETIC VERSION : W0919 15:08:29.429000 14504 torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels +--------------------- Traceback (most recent call last) ---------------------+ | in _run_module_as_main:198                                                  | | in _run_code:88                                                             | |                                                                             | | in <module>:5                                                               | |                                                                             | |   2 from heretic.main import main                                           | |   3 if __name__ == '__main__':                                              | |   4     sys.argv[0] = sys.argv[0].removesuffix('.exe')                      | | > 5     sys.exit(main())                                                    | |   6                                                                         | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\heretic\main. | | py:1307 in main                                                             | |                                                                             | |   1304     install()                                                        | |   1305                                                                      | |   1306     try:                                                             | | > 1307         run()                                                        | |   1308     except BaseException as error:                                   | |   1309         # Transformers appears to handle KeyboardInterrupt (or BaseE | |   1310         # internally in some places, which can re-raise a different  | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\heretic\main. | | py:181 in run                                                               | |                                                                             | |    178         os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True | |    179                                                                      | |    180     # Modified "Pagga" font from https://budavariam.github.io/asciia | | >  181     print(f"[cyan]\u2588\u2591\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2588\u2580\u2580\u2591\u2580\u2588\u2580\u2591\u2588\u2591\u2588\u2580\u2580[/]  v{version('heretic-l | |    182     print(                                                           | |    183         "[cyan]\u2588\u2580\u2588\u2591\u2588\u2580\u2580\u2591\u2588\u2580\u2584\u2591\u2588\u2580\u2580\u2591\u2591\u2588\u2591\u2591\u2588\u2591\u2588\u2591\u2591[/]  [blue underline]https:/ | |    184     )                                                                | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\console. | | py:1700 in print                                                            | |                                                                             | |   1697                 overflow = "ignore"                                  | |   1698             crop = False                                             | |   1699         render_hooks = self._render_hooks[:]                         | | > 1700         with self:                                                   | |   1701             renderables = self._collect_renderables(                 | |   1702                 objects,                                             | |   1703                 sep,                                                 | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\console. | | py:863 in __exit__                                                          | |                                                                             | |    860                                                                      | |    861     def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any | |    862         """Exit buffer context."""                                   | | >  863         self._exit_buffer()                                          | |    864                                                                      | |    865     def begin_capture(self) -> None:                                 | |    866         """Begin capturing console output. Call :meth:`end_capture`  | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\console. | | py:819 in _exit_buffer                                                      | |                                                                             | |    816     def _exit_buffer(self) -> None:                                  | |    817         """Leave buffer context, and render content if required."""  | |    818         self._buffer_index -= 1                                      | | >  819         self._check_buffer()                                         | |    820                                                                      | |    821     def set_live(self, live: "Live") -> bool:                        | |    822         """Set Live instance. Used by Live context manager (no need  | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\console. | | py:2051 in _check_buffer                                                    | |                                                                             | |   2048             return                                                   | |   2049                                                                      | |   2050         try:                                                         | | > 2051             self._write_buffer()                                     | |   2052         except BrokenPipeError:                                      | |   2053             self.on_broken_pipe()                                    | |   2054                                                                      | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\console. | | py:2087 in _write_buffer                                                    | |                                                                             | |   2084                             if self.no_color and self._color_system: | |   2085                                 buffer = list(Segment.remove_color(b | |   2086                                                                      | | > 2087                             legacy_windows_render(buffer, LegacyWind | |   2088                         else:                                        | |   2089                             # Either a non-std stream on legacy Wind | |   2090                             text = self._render_buffer(self._buffer[ | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\_windows | | _renderer.py:17 in legacy_windows_render                                    | |                                                                             | |   14     for text, style, control in buffer:                                | |   15         if not control:                                                | |   16             if style:                                                  | | > 17                 term.write_styled(text, style)                         | |   18             else:                                                      | |   19                 term.write_text(text)                                  | |   20         else:                                                          | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\_win32_c | | onsole.py:441 in write_styled                                               | |                                                                             | |   438         SetConsoleTextAttribute(                                      | |   439             self._handle, attributes=ctypes.c_ushort(fore | (back <<  | |   440         )                                                             | | > 441         self.write_text(text)                                         | |   442         SetConsoleTextAttribute(self._handle, attributes=self._defaul | |   443                                                                       | |   444     def move_cursor_to(self, new_position: WindowsCoordinates) -> Non | |                                                                             | | C:\Users\eagle\AppData\Roaming\Python\Python312\site-packages\rich\_win32_c | | onsole.py:402 in write_text                                                 | |                                                                             | |   399         Args:                                                         | |   400             text (str): The text to write to the console              | |   401         """                                                           | | > 402         self.write(text)                                              | |   403         self.flush()                                                  | |   404                                                                       | |   405     def write_styled(self, text: str, style: Style) -> None:          | |                                                                             | | C:\Program Files\Python312\Lib\encodings\cp1252.py:19 in encode             | |                                                                             | |    16                                                                       | |    17 class IncrementalEncoder(codecs.IncrementalEncoder):                  | |    18     def encode(self, input, final=False):                             | | >  19         return codecs.charmap_encode(input,self.errors,encoding_table | |    20                                                                       | |    21 class IncrementalDecoder(codecs.IncrementalDecoder):                  | |    22     def decode(self, input, final=False):                             | +-----------------------------------------------------------------------------+ UnicodeEncodeError: 'charmap' codec can't encode characters in position 0-24:  character maps to <undefined>
+
+HERETIC HELP:
+usage: heretic.exe [-h] [--model str] [--model-commit {str,null}]
+                   [--reproduce {str,null}] [--dtypes list[str]]
+                   [--quantization {NONE,BNB_4BIT}]
+                   [--device-map {str,Dict[str,{int,str}]}]
+                   [--max-memory {Dict[str,str],null}]
+                   [--batch-size int] [--max-batch-size int]
+  --model str           Hugging Face model ID, or path to model on disk.
+  --model-commit {str,null}
+  --dtypes list[str]    List of PyTorch dtypes to try when loading model
+  --quantization {NONE,BNB_4BIT}
+  --device-map {str,Dict[str,{int,str}]}
+  --max-memory {Dict[str,str],null}
+  --batch-size int      Number of input sequences to process in parallel (0 =
+
+------------------------------------------------------------
+4. PYTORCH / CUDA
+------------------------------------------------------------
+PYTHON          : C:\Program Files\Python312\python.exe
+TORCH           : 2.13.0a0+rocm7.14.0a20260612
+TORCH           : True
+TORCH           : 1
+TORCH           : AMD Radeon(TM) 890M Graphics
+
+------------------------------------------------------------
+5. EXISTING LARGE GGUF MODELS
+------------------------------------------------------------
+  14.258 GB  C:\Users\eagle\.lmstudio\models\DavidAU\Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF\Qwen3.8-27B-TurboFCFusion-735-882-Here-Uncen-NEO-CODER-MAX-LOW-MTP-IQ4_XS.gguf
+  14.187 GB  C:\Users\eagle\.lmstudio\models\GianniDPC\Qwen3.6-27B-IQ4_NL-with-MTP-GGUF\qwen3.6-27b-IQ4_NL-with-MTP.gguf
+  11.278 GB  C:\Users\eagle\.lmstudio\models\lmstudio-community\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf
+   4.969 GB  C:\Users\eagle\.lmstudio\models\lmstudio-community\gemma-4-E4B-it-GGUF\gemma-4-E4B-it-Q4_K_M.gguf
+   1.716 GB  C:\Users\eagle\.lmstudio\models\DavidAU\Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF\mmproj-F32.gguf
+   0.923 GB  C:\Users\eagle\.lmstudio\models\lmstudio-community\gemma-4-E4B-it-GGUF\mmproj-gemma-4-E4B-it-BF16.gguf
+   0.356 GB  C:\Users\eagle\.cache\huggingface\hub\models--unsloth--Qwen3-0.6B-GGUF\snapshots\50968a4468ef4233ed78cd7c3de230dd1d61a56b\Qwen3-0.6B-Q4_0.gguf
+
+------------------------------------------------------------
+6. TRANSFORMERS MODEL DIRECTORIES
+------------------------------------------------------------
+NO COMPLETE TRANSFORMERS MODELS FOUND.
+
+------------------------------------------------------------
+7. QWEN3.5-4B SNAPSHOT CHECK
+------------------------------------------------------------
+SNAPSHOT        : C:\Users\eagle\.cache\huggingface\hub\models--Qwen--Qwen3.5-4B\snapshots\851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a
+FILES           : 11
+TOTAL BYTES     : 0
+STATUS          : HOLLOW / UNUSABLE
+
+------------------------------------------------------------
+8. DISK SPACE
+------------------------------------------------------------
+C: FREE 469.45 GB / USED 482.68 GB
+G: FREE 2.55 GB / USED 12.45 GB
+
+------------------------------------------------------------
+9. HERETIC DECISION
+------------------------------------------------------------
+NO COMPLETE LOCAL TRANSFORMERS MODEL IS AVAILABLE.
+
+Existing large GGUF models can be used by LM Studio/llama.cpp,
+but they are NOT a direct Heretic input target.
+
+NEXT TARGET SHOULD BE A SMALL TRANSFORMERS MODEL.
+Do NOT start a 27B/50GB download on this machine yet.
+
+Candidate class to investigate:
+  Qwen3 4B / similar 4B Transformers model
+
+Heretic supports 4-bit loading, so a small Transformers model
+is the sensible hardware-validation target before attempting
+larger models.

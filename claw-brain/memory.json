@@ -1,0 +1,222 @@
+{
+  "agent": "CLAW",
+  "designation": "AEGIS-7 Deployment Agent",
+  "principal": "shalominattii-us",
+  "clearance": "Sovereign Tier",
+  "version": "7.0.1-ENTERPRISE",
+  "build": "AEGIS-7-001",
+  "status": "ACTIVE",
+  "deployment_suite": {
+    "name": "AEGIS-7",
+    "profiles": [
+      "Full",
+      "Development",
+      "Security",
+      "Operations",
+      "Minimal"
+    ],
+    "default_profile": "Full",
+    "zone": "C:\\Sovereign",
+    "log_path": "%TEMP%\\AEGIS7-Deploy-*.log"
+  },
+  "toolchains": {
+    "git": {
+      "version": "2.45.1",
+      "status": "ready",
+      "purpose": "Version control, GitNexus"
+    },
+    "node": {
+      "version": "20.13.1",
+      "status": "ready",
+      "purpose": "R3F, LANIAKEA, mesh"
+    },
+    "docker": {
+      "version": "latest",
+      "status": "ready",
+      "purpose": "Containers, WireGuard"
+    },
+    "python": {
+      "version": "3.12.3",
+      "status": "ready",
+      "purpose": "XRPL, forensics, AI"
+    },
+    "vscode": {
+      "version": "latest",
+      "status": "ready",
+      "purpose": "IDE"
+    },
+    "wsl": {
+      "version": "Ubuntu-22.04",
+      "status": "ready",
+      "purpose": "Linux builds"
+    }
+  },
+  "fleet": [
+    {
+      "name": "SOVEREIGN",
+      "priority": 1,
+      "url": "https://github.com/shalominattii-us/SOVEREIGN"
+    },
+    {
+      "name": "UNIVERSAL-LIFE-LIBERATION-TOOL",
+      "priority": 2,
+      "url": "https://github.com/shalominattii-us/UNIVERSAL-LIFE-LIBERATION-TOOL"
+    },
+    {
+      "name": "APOSTLE-AGENTIC-AGRICULTURE",
+      "priority": 3,
+      "url": "https://github.com/shalominattii-us/APOSTLE-AGENTIC-AGRICULTURE"
+    },
+    {
+      "name": "AEGIS-X-SECURITY-SUITE",
+      "priority": 4,
+      "url": "https://github.com/shalominattii-us/AEGIS-X-SECURITY-SUITE"
+    },
+    {
+      "name": "EAGLE-SHIELD-GOLDEN-DOME",
+      "priority": 5,
+      "url": "https://github.com/shalominattii-us/EAGLE-SHIELD-GOLDEN-DOME"
+    },
+    {
+      "name": "PENTAGI-OSINT-ARMADA",
+      "priority": 6,
+      "url": "https://github.com/shalominattii-us/PENTAGI-OSINT-ARMADA"
+    },
+    {
+      "name": "SOVEREIGN-CROSS-CHAIN-CUSTODY",
+      "priority": 7,
+      "url": "https://github.com/shalominattii-us/SOVEREIGN-CROSS-CHAIN-CUSTODY"
+    },
+    {
+      "name": "CBDC-MANTIS-PROTOCOL",
+      "priority": 8,
+      "url": "https://github.com/shalominattii-us/CBDC-MANTIS-PROTOCOL"
+    }
+  ],
+  "security": {
+    "esc_issuer": "rB2fKokBsnHCoFWLqZ89dqp2VCbVkKoY2k",
+    "treasury_type": "TSL",
+    "custody_term": "Destiny",
+    "firewall_ports": [
+      3000,
+      8080,
+      51820,
+      51821,
+      11434
+    ],
+    "geofence": {
+      "lat": 39.7392,
+      "lng": -104.9903,
+      "radius_km": 50
+    },
+    "null_timelock_hours": 72
+  },
+  "cabinet": [
+    {
+      "id": "LUMINA-001",
+      "name": "Lumina",
+      "title": "Chief of Protocol",
+      "axis": 0
+    },
+    {
+      "id": "MERCATOR-001",
+      "name": "Mercator",
+      "title": "Secretary of Commerce",
+      "axis": 12
+    },
+    {
+      "id": "CUSTOS-001",
+      "name": "Custos",
+      "title": "Secretary of Treasury",
+      "axis": 24
+    },
+    {
+      "id": "FORGE-001",
+      "name": "Forge",
+      "title": "Secretary of Innovation",
+      "axis": 36
+    },
+    {
+      "id": "IUSTITIA-001",
+      "name": "Iustitia",
+      "title": "Attorney General",
+      "axis": 48
+    },
+    {
+      "id": "VIGIL-001",
+      "name": "Vigil",
+      "title": "Director of Intelligence",
+      "axis": 60
+    },
+    {
+      "id": "REGENT-001",
+      "name": "Regent",
+      "title": "Secretary of State",
+      "axis": 72
+    },
+    {
+      "id": "NULL-001",
+      "name": "Null",
+      "title": "National Security Advisor",
+      "axis": 84
+    }
+  ],
+  "venues": [
+    {
+      "id": "salon-prime",
+      "name": "Salon Prime",
+      "axis": 0,
+      "gate_esc": 0
+    },
+    {
+      "id": "bazaar-terms",
+      "name": "Bazaar of Terms",
+      "axis": 12,
+      "gate_esc": 100
+    },
+    {
+      "id": "vault-trust",
+      "name": "Vault of Trust",
+      "axis": 24,
+      "gate_esc": 1000
+    },
+    {
+      "id": "foundry-agents",
+      "name": "Foundry of Agents",
+      "axis": 36,
+      "gate_esc": 5000
+    },
+    {
+      "id": "tribunal-chains",
+      "name": "Tribunal of Chains",
+      "axis": 48,
+      "gate_esc": 10000
+    },
+    {
+      "id": "observatory-flows",
+      "name": "Observatory of Flows",
+      "axis": 60,
+      "gate_esc": 50000
+    },
+    {
+      "id": "throne-accords",
+      "name": "Throne of Accords",
+      "axis": 72,
+      "gate_esc": 100000
+    },
+    {
+      "id": "the-fold",
+      "name": "The Fold",
+      "axis": 84,
+      "gate_esc": 1000000
+    }
+  ],
+  "hardware": {
+    "current_device": "ROG Ally X",
+    "status": "DEGRADED",
+    "mouse": "NON-FUNCTIONAL",
+    "touchscreen": "UNKNOWN",
+    "armoury_crate": "FAILED",
+    "last_stable": "2026-05-13T18:00:00Z"
+  }
+}

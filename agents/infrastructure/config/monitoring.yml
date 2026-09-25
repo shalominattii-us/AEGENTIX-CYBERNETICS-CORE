@@ -1,0 +1,30 @@
+scrape:
+  interval_seconds: 15
+  targets:
+    - localhost:9090
+    - localhost:3001
+    - localhost:9200
+  timeout_seconds: 10
+
+alert_thresholds:
+  cpu_percent: 85.0
+  memory_percent: 90.0
+  disk_percent: 80.0
+  response_latency_ms: 5000
+  error_rate_percent: 5.0
+  container_restart_count: 3
+
+grafana:
+  dashboard_url: http://grafana:3000/d/aegentix-fleet/agents
+  refresh_seconds: 30
+  panels:
+    - aegentix_agent_uptime
+    - aegentix_agent_integrity
+    - aegentix_agent_operations_total
+    - aegentix_agent_scrape_duration_seconds
+    - aegentix_agent_health_check_status
+
+reporting:
+  event_log_path: orchestrator/events/monitoring.jsonl
+  max_events_per_file: 10000
+  rotate_daily: true

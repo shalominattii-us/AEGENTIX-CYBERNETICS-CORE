@@ -1,0 +1,28 @@
+{
+  "tools": [
+    {
+      "name": "hydra",
+      "path": "C:/Aegentix/MCP-Tools/hydra/index.js",
+      "type": "mcp",
+      "enabled": true
+    },
+    {
+      "name": "filesystem",
+      "path": "C:/Aegentix/MCP-Tools/filesystem/index.js",
+      "type": "mcp",
+      "enabled": true
+    },
+    {
+      "name": "network",
+      "path": "C:/Aegentix/MCP-Tools/network/index.js",
+      "type": "mcp",
+      "enabled": true
+    },
+    {
+      "name": "gaia",
+      "path": "C:/Aegentix/GaiaCLI/gaia.js",
+      "type": "gaia",
+      "enabled": true
+    }
+  ]
+}

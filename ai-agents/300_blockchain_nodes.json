@@ -1,0 +1,1710 @@
+[
+  {
+    "chain": "bitcoin",
+    "rpc": "https://bitcoin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ethereum",
+    "rpc": "https://ethereum.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "solana",
+    "rpc": "https://solana.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cardano",
+    "rpc": "https://cardano.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ripple",
+    "rpc": "https://ripple.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "polkadot",
+    "rpc": "https://polkadot.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "avalanche",
+    "rpc": "https://avalanche.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cosmos",
+    "rpc": "https://cosmos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "near",
+    "rpc": "https://near.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "algorand",
+    "rpc": "https://algorand.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "tezos",
+    "rpc": "https://tezos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "vechain",
+    "rpc": "https://vechain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "icp",
+    "rpc": "https://icp.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "filecoin",
+    "rpc": "https://filecoin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "stellar",
+    "rpc": "https://stellar.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "hedera",
+    "rpc": "https://hedera.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "elrond",
+    "rpc": "https://elrond.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "multiversx",
+    "rpc": "https://multiversx.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "internet-computer",
+    "rpc": "https://internet-computer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "aptos",
+    "rpc": "https://aptos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "sui",
+    "rpc": "https://sui.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "sei",
+    "rpc": "https://sei.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "injective",
+    "rpc": "https://injective.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "celestia",
+    "rpc": "https://celestia.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "dymension",
+    "rpc": "https://dymension.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "osmosis",
+    "rpc": "https://osmosis.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "kujira",
+    "rpc": "https://kujira.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "terra",
+    "rpc": "https://terra.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "thorchain",
+    "rpc": "https://thorchain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "bitcoin-cash",
+    "rpc": "https://bitcoin-cash.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "litecoin",
+    "rpc": "https://litecoin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "dogecoin",
+    "rpc": "https://dogecoin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "monero",
+    "rpc": "https://monero.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "zcash",
+    "rpc": "https://zcash.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "dash",
+    "rpc": "https://dash.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ethereum-classic",
+    "rpc": "https://ethereum-classic.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "neo",
+    "rpc": "https://neo.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ontology",
+    "rpc": "https://ontology.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "qtum",
+    "rpc": "https://qtum.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "waves",
+    "rpc": "https://waves.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "zilliqa",
+    "rpc": "https://zilliqa.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "iota",
+    "rpc": "https://iota.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "harmony",
+    "rpc": "https://harmony.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "fantom",
+    "rpc": "https://fantom.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "celo",
+    "rpc": "https://celo.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cronos",
+    "rpc": "https://cronos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "kava",
+    "rpc": "https://kava.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "band",
+    "rpc": "https://band.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "uma",
+    "rpc": "https://uma.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "nervos",
+    "rpc": "https://nervos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "conflux",
+    "rpc": "https://conflux.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "kadena",
+    "rpc": "https://kadena.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "flow",
+    "rpc": "https://flow.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "arbitrum",
+    "rpc": "https://arbitrum.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "optimism",
+    "rpc": "https://optimism.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "base",
+    "rpc": "https://base.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "linea",
+    "rpc": "https://linea.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "zksync",
+    "rpc": "https://zksync.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "scroll",
+    "rpc": "https://scroll.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mantle",
+    "rpc": "https://mantle.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "blast",
+    "rpc": "https://blast.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mode",
+    "rpc": "https://mode.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ancient",
+    "rpc": "https://ancient.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "polygon-zkevm",
+    "rpc": "https://polygon-zkevm.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "loopring",
+    "rpc": "https://loopring.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "zksync-era",
+    "rpc": "https://zksync-era.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "metis",
+    "rpc": "https://metis.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "boba",
+    "rpc": "https://boba.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "skale",
+    "rpc": "https://skale.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "immutable-x",
+    "rpc": "https://immutable-x.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "redstone",
+    "rpc": "https://redstone.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "eclipse",
+    "rpc": "https://eclipse.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "fuel",
+    "rpc": "https://fuel.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "celestia-l2",
+    "rpc": "https://celestia-l2.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "dymension-l2",
+    "rpc": "https://dymension-l2.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "saga",
+    "rpc": "https://saga.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "berachain",
+    "rpc": "https://berachain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "monad",
+    "rpc": "https://monad.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "viction",
+    "rpc": "https://viction.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "manta",
+    "rpc": "https://manta.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "moonbeam",
+    "rpc": "https://moonbeam.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "moonriver",
+    "rpc": "https://moonriver.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "astar",
+    "rpc": "https://astar.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "shiden",
+    "rpc": "https://shiden.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cult",
+    "rpc": "https://cult.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "canto",
+    "rpc": "https://canto.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "evmos",
+    "rpc": "https://evmos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "kava-l2",
+    "rpc": "https://kava-l2.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "telos",
+    "rpc": "https://telos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "eos",
+    "rpc": "https://eos.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "wax",
+    "rpc": "https://wax.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "uxd",
+    "rpc": "https://uxd.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "pulsechain",
+    "rpc": "https://pulsechain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "shibarium",
+    "rpc": "https://shibarium.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "base-sepolia",
+    "rpc": "https://base-sepolia.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "arbitrum-sepolia",
+    "rpc": "https://arbitrum-sepolia.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "optimism-sepolia",
+    "rpc": "https://optimism-sepolia.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "polygon-mumbai",
+    "rpc": "https://polygon-mumbai.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "linea-testnet",
+    "rpc": "https://linea-testnet.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "zksync-testnet",
+    "rpc": "https://zksync-testnet.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "scroll-testnet",
+    "rpc": "https://scroll-testnet.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "blast-testnet",
+    "rpc": "https://blast-testnet.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "uniswap",
+    "rpc": "https://uniswap.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "aave",
+    "rpc": "https://aave.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "compound",
+    "rpc": "https://compound.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "maker",
+    "rpc": "https://maker.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "curve",
+    "rpc": "https://curve.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "balancer",
+    "rpc": "https://balancer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "pancakeswap",
+    "rpc": "https://pancakeswap.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "sushiswap",
+    "rpc": "https://sushiswap.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "traderjoe",
+    "rpc": "https://traderjoe.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "camelot",
+    "rpc": "https://camelot.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "velodrome",
+    "rpc": "https://velodrome.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "aerodrome",
+    "rpc": "https://aerodrome.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "stargate",
+    "rpc": "https://stargate.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "synapse",
+    "rpc": "https://synapse.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "across",
+    "rpc": "https://across.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "hop",
+    "rpc": "https://hop.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "connext",
+    "rpc": "https://connext.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "celer",
+    "rpc": "https://celer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "multichain",
+    "rpc": "https://multichain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "wormhole",
+    "rpc": "https://wormhole.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "axelar",
+    "rpc": "https://axelar.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "layerzero",
+    "rpc": "https://layerzero.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "hyperlane",
+    "rpc": "https://hyperlane.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "skate",
+    "rpc": "https://skate.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mayan",
+    "rpc": "https://mayan.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "debridge",
+    "rpc": "https://debridge.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "socket",
+    "rpc": "https://socket.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "li-fi",
+    "rpc": "https://li-fi.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "rainbow",
+    "rpc": "https://rainbow.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "swaplab",
+    "rpc": "https://swaplab.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "oneinch",
+    "rpc": "https://oneinch.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "paraswap",
+    "rpc": "https://paraswap.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "matcha",
+    "rpc": "https://matcha.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cowswap",
+    "rpc": "https://cowswap.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "dodo",
+    "rpc": "https://dodo.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "kyber",
+    "rpc": "https://kyber.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mdex",
+    "rpc": "https://mdex.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "venus",
+    "rpc": "https://venus.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "justlend",
+    "rpc": "https://justlend.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "solar",
+    "rpc": "https://solar.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "magic",
+    "rpc": "https://magic.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "beefy",
+    "rpc": "https://beefy.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "yearn",
+    "rpc": "https://yearn.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "harvest",
+    "rpc": "https://harvest.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "convex",
+    "rpc": "https://convex.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "stakewise",
+    "rpc": "https://stakewise.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "rocketpool",
+    "rpc": "https://rocketpool.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "lido",
+    "rpc": "https://lido.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "eigenlayer",
+    "rpc": "https://eigenlayer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "fetch",
+    "rpc": "https://fetch.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "singularity",
+    "rpc": "https://singularity.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ocean",
+    "rpc": "https://ocean.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "render",
+    "rpc": "https://render.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "akash",
+    "rpc": "https://akash.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "golem",
+    "rpc": "https://golem.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "livepeer",
+    "rpc": "https://livepeer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "the-graph",
+    "rpc": "https://the-graph.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "arweave",
+    "rpc": "https://arweave.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "bluzelle",
+    "rpc": "https://bluzelle.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "covalent",
+    "rpc": "https://covalent.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "animoca",
+    "rpc": "https://animoca.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "theta",
+    "rpc": "https://theta.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "chiliz",
+    "rpc": "https://chiliz.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "flow",
+    "rpc": "https://flow.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "audius",
+    "rpc": "https://audius.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "siacoin",
+    "rpc": "https://siacoin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "storj",
+    "rpc": "https://storj.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "filecoin",
+    "rpc": "https://filecoin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "internet-computer",
+    "rpc": "https://internet-computer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "bittensor",
+    "rpc": "https://bittensor.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "oraichain",
+    "rpc": "https://oraichain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "numeraire",
+    "rpc": "https://numeraire.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "fetch-ai",
+    "rpc": "https://fetch-ai.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "agix",
+    "rpc": "https://agix.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ocean-protocol",
+    "rpc": "https://ocean-protocol.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "singularitynet",
+    "rpc": "https://singularitynet.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "synesis",
+    "rpc": "https://synesis.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cortex",
+    "rpc": "https://cortex.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "deepbrain",
+    "rpc": "https://deepbrain.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "aleph",
+    "rpc": "https://aleph.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "giza",
+    "rpc": "https://giza.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "modulus",
+    "rpc": "https://modulus.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ora",
+    "rpc": "https://ora.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "ritual",
+    "rpc": "https://ritual.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "fractal",
+    "rpc": "https://fractal.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "proxima",
+    "rpc": "https://proxima.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "spec",
+    "rpc": "https://spec.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "sahara",
+    "rpc": "https://sahara.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "kaito",
+    "rpc": "https://kaito.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "nillion",
+    "rpc": "https://nillion.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "akash",
+    "rpc": "https://akash.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "render",
+    "rpc": "https://render.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "livepeer",
+    "rpc": "https://livepeer.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "the-graph",
+    "rpc": "https://the-graph.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "arweave",
+    "rpc": "https://arweave.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "bluzelle",
+    "rpc": "https://bluzelle.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "covalent",
+    "rpc": "https://covalent.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "decentraland",
+    "rpc": "https://decentraland.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "sandbox",
+    "rpc": "https://sandbox.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "axie",
+    "rpc": "https://axie.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "gala",
+    "rpc": "https://gala.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "enjin",
+    "rpc": "https://enjin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "illuvium",
+    "rpc": "https://illuvium.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mythical",
+    "rpc": "https://mythical.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "immutable",
+    "rpc": "https://immutable.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "godz",
+    "rpc": "https://godz.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "tower",
+    "rpc": "https://tower.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "wemix",
+    "rpc": "https://wemix.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "play",
+    "rpc": "https://play.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "animoca",
+    "rpc": "https://animoca.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "yuga",
+    "rpc": "https://yuga.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "meebits",
+    "rpc": "https://meebits.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "azuki",
+    "rpc": "https://azuki.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "clonex",
+    "rpc": "https://clonex.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "doodles",
+    "rpc": "https://doodles.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "punk",
+    "rpc": "https://punk.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "bayc",
+    "rpc": "https://bayc.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mayc",
+    "rpc": "https://mayc.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "coolcats",
+    "rpc": "https://coolcats.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "pudgy",
+    "rpc": "https://pudgy.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "qntm",
+    "rpc": "https://qntm.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "rplan",
+    "rpc": "https://rplan.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "vox",
+    "rpc": "https://vox.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "cryptovoxels",
+    "rpc": "https://cryptovoxels.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "somnium",
+    "rpc": "https://somnium.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "vrgineers",
+    "rpc": "https://vrgineers.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "spatial",
+    "rpc": "https://spatial.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mozilla",
+    "rpc": "https://mozilla.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "sandbox",
+    "rpc": "https://sandbox.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "decentraland",
+    "rpc": "https://decentraland.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "axie",
+    "rpc": "https://axie.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "gala",
+    "rpc": "https://gala.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "enjin",
+    "rpc": "https://enjin.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "illuvium",
+    "rpc": "https://illuvium.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "mythical",
+    "rpc": "https://mythical.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "immutable",
+    "rpc": "https://immutable.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "godz",
+    "rpc": "https://godz.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "tower",
+    "rpc": "https://tower.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "wemix",
+    "rpc": "https://wemix.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "play",
+    "rpc": "https://play.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "animoca",
+    "rpc": "https://animoca.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  },
+  {
+    "chain": "yuga",
+    "rpc": "https://yuga.publicnode.com",
+    "status": "pending",
+    "type": "minimal",
+    "rewards": 0.0
+  }
+]

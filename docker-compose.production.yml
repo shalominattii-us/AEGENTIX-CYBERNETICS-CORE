@@ -1,0 +1,378 @@
+
+networks:
+  aegentis-local_default:
+    driver: bridge
+    name: aegentis-local_default
+    external: true
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  elasticsearch_data:
+
+services:
+  # =========================================================================
+  # 1. CORE ROUTING & MESSAGING INFRASTRUCTURE
+  # =========================================================================
+  nats:
+    image: nats:latest
+    container_name: nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8222/varz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  aegentis-router:
+    image: aegentis/router:latest
+    container_name: aegentis-router
+    ports:
+      - "8080:8080"
+    depends_on:
+      - nats
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # =========================================================================
+  # 2. AUTONOMOUS SECURITY & DEFENSE MATRIX (5 AGENTS)
+  # =========================================================================
+  agent-monitoring:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.monitoring
+    image: aegentix-agent-monitoring
+    container_name: aegentix-agent-monitoring
+    environment:
+      AGENT_ROLE: monitoring
+      LOG_LEVEL: info
+    depends_on:
+      - prometheus
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  agent-incident-response:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.incident
+    image: aegentix-agent-incident-response
+    container_name: aegentix-agent-incident-response
+    environment:
+      AGENT_ROLE: incident-response
+      LOG_LEVEL: info
+    depends_on:
+      - alertmanager
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  agent-healing:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.healing
+    image: aegentix-agent-healing
+    container_name: aegentix-agent-healing
+    environment:
+      AGENT_ROLE: healing
+      LOG_LEVEL: info
+    depends_on:
+      - agent-monitoring
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  agent-autoscaling:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.autoscaling
+    image: aegentix-agent-autoscaling
+    container_name: aegentix-agent-autoscaling
+    environment:
+      AGENT_ROLE: autoscaling
+      LOG_LEVEL: info
+    depends_on:
+      - prometheus
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  agent-deployment:
+    build:
+      context: ./agents/infrastructure
+      dockerfile: Dockerfile.deployment
+    image: aegentix-agent-deployment
+    container_name: aegentix-agent-deployment
+    environment:
+      AGENT_ROLE: deployment
+      LOG_LEVEL: info
+    depends_on:
+      - aegentis-router
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # =========================================================================
+  # 3. SECURITY & THREAT DETECTION LAYER
+  # =========================================================================
+  aegentix-telemetry-engine:
+    build:
+      context: ./security
+      dockerfile: Dockerfile.telemetry
+    image: aegentix-telemetry-engine
+    container_name: aegentix-telemetry-engine
+    environment:
+      PYTHONUNBUFFERED: 1
+      CISA_FEED_SYNC_INTERVAL: 3600
+      LOG_LEVEL: info
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import os, sys; sys.exit(0 if os.path.exists('/proc/1/cmdline') else 1)"]
+      interval: 60s
+      timeout: 10s
+      retries: 2
+      start_period: 15s
+
+  # =========================================================================
+  # 4. OBSERVABILITY & TELEMETRY ENGINE
+  # =========================================================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: aegentix-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml/config.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/prometheus-rules.yml:/etc/prometheus/rules.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.enable-lifecycle'
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: aegentix-alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./monitoring/alertmanager.yml/config.yml:/etc/alertmanager/config.yml:ro
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:9093/-/healthy"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: aegentix-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana-datasources.yml/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+      - ./monitoring/grafana-dashboards.yml/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - ./monitoring/grafana-dashboard-aegentix-agents.json:/etc/grafana/provisioning/dashboards/aegentix/aegentix-agents-fleet.json:ro
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
+    container_name: aegentix-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - bootstrap.memory_lock=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.0
+    container_name: aegentix-kibana
+    ports:
+      - "5601:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5601/api/status"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.17.0
+    container_name: aegentix-filebeat
+    user: root
+    command: filebeat -e --strict.perms=false
+    volumes:
+      - ./monitoring/filebeat.yml/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - elasticsearch
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5066"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  # =========================================================================
+  # 5. LEGACY INTERFACE & ONE-SHOT UTILITIES
+  # =========================================================================
+  operator-console:
+    image: aegentis/operator-console:latest
+    container_name: operator-console
+    ports:
+      - "3000:3000"
+    environment:
+      ROUTER_URL: ws://aegentis-router:8080/api/trpc
+      NATS_URL: nats://nats:4222
+    depends_on:
+      - aegentis-router
+      - nats
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  skill-registry:
+    image: aegentis/skill-registry:latest
+    container_name: skill-registry
+    restart: "no"
+    environment:
+      ROUTER_URL: ws://aegentis-router:8080/api/trpc
+      NATS_URL: nats://nats:4222
+      PYTHONUNBUFFERED: 1
+    depends_on:
+      - aegentis-router
+      - nats
+    networks:
+      - aegentis-local_default
+
+  aegentis-twin:
+    image: aegentis/twin:latest
+    container_name: aegentis-twin
+    restart: "no"
+    environment:
+      ROUTER_URL: ws://aegentis-router:8080/api/trpc
+      NATS_URL: nats://nats:4222
+      PYTHONUNBUFFERED: 1
+    depends_on:
+      - aegentis-router
+      - nats
+    networks:
+      - aegentis-local_default
+
+  # =========================================================================
+  # 6. SOVEREIGN INTELLIGENCE LAYER (CYBERCORE LLM)
+  # =========================================================================
+  aegentix-cybercore-llm:
+    build:
+      context: ./services/cybercore-llm
+    image: aegentix-cybercore-llm
+    container_name: aegentix-cybercore-llm
+    ports:
+      - "7100:7100"
+    environment:
+      OLLAMA_HOST: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - aegentis-local_default
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:7100/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+
+

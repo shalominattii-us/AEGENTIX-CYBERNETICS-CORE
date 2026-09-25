@@ -1,0 +1,1 @@
+(Get-Content C:\Aegentis\engine\run_engine.py) -replace '"model": "gemma4"', '"model": "phi4-mini:latest"' | Set-Content C:\Aegentis\engine\run_engine.py

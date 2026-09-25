@@ -1,0 +1,15 @@
+while (True) {
+    # Jarvis module check
+    if (!(Test-Path 'C:\Aegentix\jarvis\jarvis.ps1')) {
+        Write-Host '[HEAL] Jarvis core missing — restoring...' -ForegroundColor Yellow
+        Copy-Item 'C:\Aegentix\voice_kirkprime\init.ps1' 'C:\Aegentix\jarvis\jarvis.ps1' -Force
+    }
+
+    # Voice module check
+    if (!(Test-Path 'C:\Aegentix\voice_kirkprime\voice.yml')) {
+        Write-Host '[HEAL] KirkPrime voice missing — restoring...' -ForegroundColor Yellow
+        @"
+timbre: charlie_kirk
+cadence: captain_kirk
+persona: jarvis
+blend_mode: hybrid

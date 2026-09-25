@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "models": [],
+  "routing_policy": {
+    "prefer_local": true,
+    "fallback_enabled": true,
+    "verification_required": true,
+    "parallel_baselines": true
+  }
+}

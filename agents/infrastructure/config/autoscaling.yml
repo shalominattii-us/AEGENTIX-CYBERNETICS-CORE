@@ -1,0 +1,46 @@
+# ── Global autoscaling settings ───────────────────────────────────────────────
+
+global:
+  max_scale_up_rate_per_minute: 5
+  prefer_scale_down_at_night: true
+  night_start_hour: 22
+  night_end_hour: 6
+
+# ── Per-service scaling policies ───────────────────────────────────────────────
+
+services:
+  - name: aegentix-api
+    metric_source: kubernetes
+    cpu_threshold_percent: 70.0
+    memory_threshold_percent: 80.0
+    min_instances: 2
+    max_instances: 10
+    initial_replicas: 2
+    cooldown_seconds: 120
+    scale_up_increment: 1
+    scale_down_increment: 1
+    evaluation_interval_seconds: 30
+
+  - name: aegentix-workers
+    metric_source: kubernetes
+    cpu_threshold_percent: 75.0
+    memory_threshold_percent: 85.0
+    min_instances: 1
+    max_instances: 20
+    initial_replicas: 3
+    cooldown_seconds: 90
+    scale_up_increment: 2
+    scale_down_increment: 1
+    evaluation_interval_seconds: 30
+
+  - name: aegentix-monitor-stack
+    metric_source: kubernetes
+    cpu_threshold_percent: 80.0
+    memory_threshold_percent: 85.0
+    min_instances: 1
+    max_instances: 5
+    initial_replicas: 1
+    cooldown_seconds: 180
+    scale_up_increment: 1
+    scale_down_increment: 1
+    evaluation_interval_seconds: 45

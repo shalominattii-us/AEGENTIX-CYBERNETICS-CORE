@@ -1,0 +1,22 @@
+{
+  "schema": "aegentix.cognitive.state.v1",
+  "mission_id": null,
+  "objective": null,
+  "state_version": 0,
+  "active_plan": null,
+  "agents": [],
+  "tasks": [],
+  "evidence": [],
+  "pending_approvals": [],
+  "failures": [],
+  "artifacts": [],
+  "last_verified_event": null,
+  "governance": {
+    "external_actions": false,
+    "deployments": false,
+    "contracts": false,
+    "financial_operations": false,
+    "live_trading": false,
+    "withdrawals": false
+  }
+}

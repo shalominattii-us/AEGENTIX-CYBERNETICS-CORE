@@ -1,0 +1,8 @@
+{
+    "schema":  "aegentix.organism-service.v1",
+    "generated_at":  "2026-09-08T00:29:46.5266608Z",
+    "runtime":  {
+                    "working_dir":  "C:\\aegentix\\organism",
+                    "command":  "\"C:\\Program Files\\Python312\\python.exe\" C:\\aegentix\\organism\\self-awareness\\self-awareness.py"
+                }
+}

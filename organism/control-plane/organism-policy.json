@@ -1,0 +1,11 @@
+{
+    "schema":  "aegentix.organism-policy.v1",
+    "generated_at":  "2026-09-08T00:29:46.5266608Z",
+    "governance":  {
+                       "external_actions":  "DISABLED",
+                       "operator_approval":  "REQUIRED",
+                       "deletion":  "REQUIRES_OPERATOR_APPROVAL",
+                       "publishing":  "DISABLED",
+                       "purchases":  "DISABLED"
+                   }
+}

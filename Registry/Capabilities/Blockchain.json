@@ -1,0 +1,10 @@
+{
+    "version":  "1.0",
+    "name":  "Blockchain",
+    "config":  {
+                   "enabled":  true
+               },
+    "provider":  "Validators",
+    "registered":  "2026-09-07T07:24:37.338Z",
+    "status":  "active"
+}

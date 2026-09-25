@@ -1,0 +1,17 @@
+{
+  "agent_name": "AegentixCyberOperator",
+  "runtime": "GAIA",
+  "mcp_servers": [
+    "C:/Aegentix/MCP-Servers",
+    "C:/Aegentix/MCP-Tools"
+  ],
+  "cybercore": "C:/Aegentix/Cybercore",
+  "hud": "C:/Aegentix/Agents/HUD",
+  "loop_interval_ms": 1500,
+  "logging": {
+    "level": "debug",
+    "path": "C:/Aegentix/AgentLoop/Logs"
+  },
+  "state_path": "C:/Aegentix/AgentLoop/State",
+  "cache_path": "C:/Aegentix/AgentLoop/Cache"
+}

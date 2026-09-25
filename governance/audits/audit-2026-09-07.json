@@ -1,0 +1,16 @@
+{
+    "action":  "test",
+    "host":  "DESKTOP-HRUBG2T",
+    "timestamp":  "2026-09-07T06:33:34.577Z",
+    "resource":  "system",
+    "ip":  "DESKTOP-HRUBG2T",
+    "user":  "admin"
+}
+{
+    "action":  "deploy",
+    "host":  "DESKTOP-HRUBG2T",
+    "timestamp":  "2026-09-07T06:33:58.707Z",
+    "resource":  "system",
+    "ip":  "DESKTOP-HRUBG2T",
+    "user":  "admin"
+}

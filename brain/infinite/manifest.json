@@ -1,0 +1,13 @@
+{
+  "name": "INFINITE_BRAIN",
+  "role": "memory_and_knowledge_substrate",
+  "authority": "context_only",
+  "responsibilities": [
+    "memory",
+    "retrieval",
+    "knowledge",
+    "historical_context",
+    "experience"
+  ],
+  "rule": "MEMORY_IS_NOT_AUTHORITY"
+}

@@ -1,0 +1,8 @@
+{
+  "name": "security",
+  "role": "security_analysis",
+  "authority": "delegated",
+  "execution": "governed",
+  "requires_evidence": true,
+  "requires_verification": true
+}

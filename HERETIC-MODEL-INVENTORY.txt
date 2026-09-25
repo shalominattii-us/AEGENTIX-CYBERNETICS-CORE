@@ -1,0 +1,227 @@
+
+============================================================
+AEGENTIX HERETIC MODEL INVENTORY
+Generated: 2026-09-19T15:04:01
+============================================================
+.gguf	14.258 GB	C:\Users\eagle\.lmstudio\models\DavidAU\Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF\Qwen3.8-27B-TurboFCFusion-735-882-Here-Uncen-NEO-CODER-MAX-LOW-MTP-IQ4_XS.gguf
+.gguf	14.187 GB	C:\Users\eagle\.lmstudio\models\GianniDPC\Qwen3.6-27B-IQ4_NL-with-MTP-GGUF\qwen3.6-27b-IQ4_NL-with-MTP.gguf
+.gguf	11.278 GB	C:\Users\eagle\.lmstudio\models\lmstudio-community\gpt-oss-20b-GGUF\gpt-oss-20b-MXFP4.gguf
+.gguf	4.969 GB	C:\Users\eagle\.lmstudio\models\lmstudio-community\gemma-4-E4B-it-GGUF\gemma-4-E4B-it-Q4_K_M.gguf
+.bin	1.956 GB	C:\Users\eagle\Archives\Installers\ableton_live_trial_12.4.5_64\Ableton Live 12 Trial Installer-2.bin
+.bin	1.956 GB	C:\Users\eagle\Archives\Installers\ableton_live_trial_12.4.5_64\Ableton Live 12 Trial Installer-3.bin
+.bin	1.95 GB	C:\Users\eagle\Archives\Installers\ableton_live_trial_12.4.5_64\Ableton Live 12 Trial Installer-1.bin
+.gguf	1.716 GB	C:\Users\eagle\.lmstudio\models\DavidAU\Qwen3.8-27B-TURBO-Fable-Cold-Fusion-735-882-Heretic-Uncensored-NEO-CODER-MAX-MTP-GGUF\mmproj-F32.gguf
+.gguf	0.923 GB	C:\Users\eagle\.lmstudio\models\lmstudio-community\gemma-4-E4B-it-GGUF\mmproj-gemma-4-E4B-it-BF16.gguf
+.gguf	0.356 GB	C:\Users\eagle\.cache\huggingface\hub\models--unsloth--Qwen3-0.6B-GGUF\snapshots\50968a4468ef4233ed78cd7c3de230dd1d61a56b\Qwen3-0.6B-Q4_0.gguf
+.safetensors	0.225 GB	C:\Users\eagle\checkpoints\needle3.safetensors
+.bin	0.169 GB	C:\Users\eagle\Archives\Installers\ableton_live_trial_12.4.5_64\Ableton Live 12 Trial Installer-4.bin
+.bin	0.083 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_57_1SRcvd5HZ5.bin
+.gguf	0.078 GB	C:\Users\eagle\.lmstudio\.internal\bundled-models\nomic-ai\nomic-embed-text-v1.5-GGUF\nomic-embed-text-v1.5.Q4_K_M.gguf
+.gguf	0.078 GB	C:\Users\eagle\.lmstudio\apps\bionic\.internal\bundled-models\nomic-ai\nomic-embed-text-v1.5-GGUF\nomic-embed-text-v1.5.Q4_K_M.gguf
+.bin	0.055 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_63_1Bem9MVT0x.bin
+.bin	0.048 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_25_1yo3Qo1HDQ.bin
+.bin	0.043 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_42_19UqvUG9_0.bin
+.bin	0.007 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_12_1B394kyeBU.bin
+.bin	0.007 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_10_1i87tqfW_b.bin
+.bin	0.006 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_24_1poEAJktb1.bin
+.bin	0.004 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\DefaultHrtfs.bin
+.bin	0.004 GB	G:\My Drive\FULL_BACKUP\Windows\System32\DefaultHrtfs.bin
+.bin	0.004 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\DefaultHrtfs.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\DynamicLong.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_19_13IrvvDu_6.bin
+.bin	0.001 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\esp32-csi-node-4mb.bin
+.bin	0.001 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\release_bins\esp32-csi-node.bin
+.bin	0.001 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\release_bins\esp32-csi-node-4mb.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Program Files\Unity Hub\v8_context_snapshot.bin
+.bin	0.001 GB	G:\My Drive\FULL_BACKUP\Windows\System32\DynamicLong.bin
+.bin	0.001 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\esp32-csi-node-4mb.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\DynamicLong.bin
+.bin	0.001 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\esp32-csi-node.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\ProgramData\Packer\catcache4.bin
+.bin	0.001 GB	G:\My Drive\FULL_BACKUP\ProgramData\Packer\catcache4.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Program Files\Unity Hub\v8_context_snapshot.bin
+.bin	0.001 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\ProgramData\Packer\catcache4.bin
+.bin	0.001 GB	G:\My Drive\FULL_BACKUP\Program Files\Unity Hub\v8_context_snapshot.bin
+.bin	0.001 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\esp32-csi-node.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_normal.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_large.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\test\corpus\seed_normal.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\test\corpus\seed_nvs.bin
+.pth	0 GB	C:\Users\eagle\osint-engine\venv\Lib\site-packages\distutils-precedence.pth
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_empty.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_edge_overflow.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\bootloader.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_edge_normal.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\partition-table.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\ota_data_initial.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\partition-table-4mb.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_nvs.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\test\corpus\seed_empty.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\bootloader.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\ota_data_initial.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\partition-table-4mb.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\release_bins\partition-table.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_edge_normal.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_edge_overflow.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_empty.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_large.bin
+.bin	0 GB	C:\Users\eagle\github\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_normal.bin
+.pth	0 GB	C:\Users\eagle\github\cybergennet-gym\.venv-win\Lib\site-packages\__editable__.cybergennet-0.1.0.pth
+.pth	0 GB	C:\Users\eagle\github\cybergennet-gym\.venv-win\Lib\site-packages\a1_coverage.pth
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\release_bins\bootloader.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\release_bins\ota_data_initial.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\release_bins\partition-table-4mb.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\release_bins\partition-table.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\test\corpus\seed_edge_normal.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\test\corpus\seed_edge_overflow.bin
+.bin	0 GB	C:\Users\eagle\github\RuView\firmware\esp32-csi-node\test\corpus\seed_large.bin
+.bin	0 GB	C:\Users\eagle\Projects\AEGENTIX-XR-SPATIAL\sources\RuView\firmware\esp32-csi-node\test\corpus\seed_nvs.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\fi.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\@trickfilm400\rollup-plugin-off-main-thread\tests\fixtures\assets-in-worker\build\assets\my-asset-8db90352.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\sk.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\sv.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\th.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\tr.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\uk.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\vi.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\zh-Hans.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\zh-Hant-HK.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\zh-Hant.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\zu.lproj\fbt_language_pack.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Program Files\Unity Hub\snapshot_blob.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\ProgramData\Packer\bhcache.3671a65787c06f0a.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\bcastdvr\KnownGameList.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\en-US\bootfix.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\mib.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\AverageRoom.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\DynamicMedium.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\DynamicShort.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\LargeRoom.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\MediumRoom.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\OutdoorAudioEnvironment.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\ru.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\ro.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\pt.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\pt-PT.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\@trickfilm400\rollup-plugin-off-main-thread\tests\fixtures\assets-in-worker\build\assets\my-asset-C4yNwep_.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\ar.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\cs.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\da.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\de.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\el.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\en-GB.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\es-ES.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\es.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\fr.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\@trickfilm400\rollup-plugin-off-main-thread\tests\fixtures\assets-in-worker\build\assets\my-asset-620b911b.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\he.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\hr.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\hu.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\id.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\it.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\ja.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\ko.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\ms.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\nb.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\nl.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\pl.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Users\eagle\worldmonitor\node_modules\react-native\React\I18n\strings\hi.lproj\fbt_language_pack.bin
+.bin	0 GB	C:\Aegentix\apk-extracted\DebugProbesKt.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\bcastdvr\KnownGameList.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\OutdoorAudioEnvironment.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_11_1Y9FI92Xh9.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_13_10eBzgFxiu.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_14_1GFCu_DdyM.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_15_1azRFBB-wQ.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_16_1TiVMbCPvd.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_17_1g1KvMUanv.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_18_1YX5ACRmmW.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_20_1_OgmIMF5Z.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_21_1VA2Q4pmdg.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_09_1qTseZmO3g.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_22_1ovTrgNNaO.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_26_1bKF_SLtB6.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_27_1nzk0G6njI.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_28_1A5TWCZugu.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_29_1frYjS-L3U.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_30_1D4Rkpx9qX.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_31_13w468q7Ah.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_32_1rQ43rk-Mn.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_33_1q3JW2k08w.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_34_1qGgIdWfgm.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_23_1P_YdjmBXa.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_08_1yr74yHu6S.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_07_1kP3OatRIB.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_06_1QcBeKrXJ9.bin
+.safetensors	0 GB	C:\Users\eagle\.cache\huggingface\hub\models--Cactus-Compute--needle3\snapshots\c1fc4d4cb32993156a880ceb8ff171b03b1f166a\checkpoints\needle3.safetensors
+.safetensors	0 GB	C:\Users\eagle\.cache\huggingface\hub\models--Qwen--Qwen3.5-4B\.no_exist\851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a\model.safetensors
+.safetensors	0 GB	C:\Users\eagle\.cache\huggingface\hub\models--Qwen--Qwen3.5-4B\snapshots\851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a\model.safetensors-00001-of-00002.safetensors
+.safetensors	0 GB	C:\Users\eagle\.cache\huggingface\hub\models--Qwen--Qwen3.5-4B\snapshots\851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a\model.safetensors-00002-of-00002.safetensors
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Program Files\Unity Hub\snapshot_blob.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\ProgramData\Packer\bhcache.3671a65787c06f0a.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\bcastdvr\KnownGameList.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\en-US\bootfix.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\mib.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\AverageRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\DynamicMedium.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\DynamicShort.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\LargeRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\MediumRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\OutdoorAudioEnvironment.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\FULL_BACKUP\Windows\System32\SmallRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_01_1dOb7qFBVQ.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_02_10MRVUSB8Z.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_03_1QCy8NAw-Y.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_04_1dSsXrDCB9.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_05_1FkzNp3RDM.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_35_1ox5cz4GNi.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\SmallRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_36_1RDuQyqkfT.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_38_1LVJOgWcRY.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_67_1SLbQZujGm.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_68_1zQdsHSLVu.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_69_1geH3byW1T.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_70_1kblBwcXlV.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_71_1k_ZlnnbD9.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_72_1KJQuTILYQ.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_73_1cyS_WodWl.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_74_1jv6lhlgUO.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_75_1_OKHpBsEW.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_66_1Sc2BtpWAC.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_76_17FYo0Gnit.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\ProgramData\Packer\bhcache.3671a65787c06f0a.bin
+.bin	0 GB	G:\My Drive\FULL_BACKUP\Windows\System32\SmallRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\en-US\bootfix.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\mib.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\AverageRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\DynamicMedium.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\DynamicShort.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\LargeRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Windows\System32\MediumRoom.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\My Drive\FULL_BACKUP\Program Files\Unity Hub\snapshot_blob.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_65_1TMLdFOdZ5.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_64_1ERMhJVZIr.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_62_1Bj_g6ujmN.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_39_1bj3teU1il.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_40_12i7Xj2kF6.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_41_16MIYkQDkb.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_43_1P4mU9bWxx.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_44_11ywNqO1MD.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_45_1xinLC_c6-.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_46_1FYv9TwtC2.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_47_1iywGm0Sqk.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_48_1p8sWQGOs7.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_49_1EhmUrc5vn.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_50_14Asg2Xga3.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_51_1xLIOvKUAz.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_52_1R9XSObScw.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_53_1B1mxhQx0S.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_54_1B274durIg.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_55_1swendp65Q.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_56_1uzViALLhj.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_58_16ESb_GXzx.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_59_19XOJT9_2s.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_60_1sVDZlbZ-m.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_61_1gt8ZkrPaJ.bin
+.bin	0 GB	C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE\gdrive_imports\batch_76_files\drive_doc_37_1HKYs4r-x-.bin
+.bin	0 GB	G:\Other computers\My PC\Downloads\apk-extracted\DebugProbesKt.bin

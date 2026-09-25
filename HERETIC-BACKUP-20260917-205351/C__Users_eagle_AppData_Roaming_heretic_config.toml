@@ -1,0 +1,11 @@
+# AEGENTIX Heretic canonical configuration
+# Generated: 20260917-203717
+# Original configs backed up under:
+# C:\Aegentix\HERETIC-REPAIR-20260917-203717
+
+model = "C:/Users/eagle/.cache/huggingface/hub/models--Qwen--Qwen3.5-4B/snapshots/851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
+device_map = "auto"
+quantization = "none"
+offload_outputs_to_cpu = true
+batch_size = 1
+max_batch_size = 1

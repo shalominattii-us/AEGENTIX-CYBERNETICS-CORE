@@ -1,0 +1,46 @@
+{
+    "default":  {
+                    "control":  {
+                                    "write":  false,
+                                    "read":  true,
+                                    "execute":  false
+                                },
+                    "agents":  {
+                                   "write":  true,
+                                   "read":  true,
+                                   "execute":  true
+                               },
+                    "governance":  {
+                                       "write":  false,
+                                       "read":  true,
+                                       "execute":  false
+                                   },
+                    "orchestrator":  {
+                                         "write":  false,
+                                         "read":  true,
+                                         "execute":  true
+                                     }
+                },
+    "admins":  {
+                   "control":  {
+                                   "write":  true,
+                                   "read":  true,
+                                   "execute":  true
+                               },
+                   "agents":  {
+                                  "write":  true,
+                                  "read":  true,
+                                  "execute":  true
+                              },
+                   "governance":  {
+                                      "write":  true,
+                                      "read":  true,
+                                      "execute":  true
+                                  },
+                   "orchestrator":  {
+                                        "write":  true,
+                                        "read":  true,
+                                        "execute":  true
+                                    }
+               }
+}

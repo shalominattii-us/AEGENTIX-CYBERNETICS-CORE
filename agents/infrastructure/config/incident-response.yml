@@ -1,0 +1,75 @@
+severity_escalation_matrix:
+  info:
+    auto_escalate_to: null
+    notification_channels:
+      - log
+    response_timeout_minutes: 60
+    require_acknowledgement: false
+  warning:
+    auto_escalate_to: critical
+    notification_channels:
+      - log
+      - slack
+    response_timeout_minutes: 30
+    require_acknowledgement: true
+  critical:
+    auto_escalate_to: disaster
+    notification_channels:
+      - log
+      - slack
+      - pagerduty
+    response_timeout_minutes: 10
+    require_acknowledgement: true
+    auto_runbook: true
+  disaster:
+    auto_escalate_to: null
+    notification_channels:
+      - log
+      - slack
+      - pagerduty
+      - phone
+    response_timeout_minutes: 5
+    require_acknowledgement: true
+    auto_runbook: true
+    activate_countermeasures: true
+
+slack:
+  webhook_url_env: SLACK_WEBHOOK_URL
+  default_channel: "#aegentix-incidents"
+  username: "aegentix-ir-bot"
+  icon_emoji: ":warning:"
+  message_template: >
+    🚨 *{severity_upper}* incident on *{target}*
+    ```{message}```
+    Runbook: {runbook_url}
+    Escalating to: {escalates_to}
+
+runbooks:
+  base_url: https://runbooks.aegentix.internal/incidents
+  catalog:
+    cpu_spike: https://runbooks.aegentix.internal/incidents/cpu-spike
+    memory_pressure: https://runbooks.aegentix.internal/incidents/memory-pressure
+    disk_full: https://runbooks.aegentix.internal/incidents/disk-full
+    target_unreachable: https://runbooks.aegentix.internal/incidents/target-unreachable
+    container_restart_loop: https://runbooks.aegentix.internal/incidents/container-restart-loop
+    certificate_expiry: https://runbooks.aegentix.internal/incidents/cert-expiry
+    certificate_revoked: https://runbooks.aegentix.internal/incidents/cert-revoked
+    database_connection_pool_exhausted: https://runbooks.aegentix.internal/incidents/db-pool-exhausted
+  fallback_runbook: https://runbooks.aegentix.internal/incidents/generic
+
+deduplication:
+  window_seconds: 300
+  hash_fields:
+    - metric
+    - target
+    - message
+
+acknowledgement:
+  required_for:
+    - warning
+    - critical
+    - disaster
+  timeout_seconds: 600
+
+reporting:
+  event_log_path: orchestrator/events/incident_response.jsonl

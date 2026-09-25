@@ -1,0 +1,1509 @@
+============================================================
+ AEGENTIX COMPUTER FREEZE / REPEATED NOTEPAD LAUNCH DIAGNOSTIC
+ 2026-09-13 10:19:47
+============================================================
+
+[1] WINDOWS / COMPUTER
+
+WindowsProductName    : Windows 10 Home
+WindowsVersion        : 2009
+OsBuildNumber         : 26200
+OsArchitecture        : 64-bit
+CsName                : DESKTOP-HRUBG2T
+CsTotalPhysicalMemory : 16770772992
+
+
+
+[2] CURRENT NOTEPAD PROCESSES + PARENT PROCESS
+No Notepad process is running at diagnostic time.
+
+[3] TOP CPU PROCESSES
+
+Name                                Id    CPU        PM        WS
+----                                --    ---        --        --
+MsMpEng                           6648 156.84 445751296 392339456
+System                               4 124.72     53248   5001216
+dwm                               2208 103.30 175452160 136101888
+msedgewebview2                   19532  87.44  77492224 119685120
+msedgewebview2                    4460  83.30 108462080 102969344
+Cursor                           24024  71.30 335278080 211369984
+brave                            21768  48.27 342106112 427286528
+Cursor                           24432  47.56 247083008 312229888
+explorer                         12804  47.38 138051584 333959168
+brave                            15212  35.64 392830976 280657920
+TextInputHost                    18300  26.22 434372608 523788288
+AMDRSServ                        17748  23.59   7147520  30498816
+brave                             3520  17.48 124022784 261337088
+GoogleDriveFS                    19396  15.91  50872320  90902528
+SearchIndexer                    10892  15.34  21626880  45322240
+RadeonSoftware                   16440  14.39 240709632  97058816
+ArmouryCrateSE.UserSessionHelper 12360  13.64  64081920 117760000
+svchost                           2068  13.44   9867264  20598784
+svchost                           4180  12.77  23146496  35590144
+Cursor                           24648  11.25 249946112 282148864
+
+
+
+[4] TOP MEMORY PROCESSES
+
+Name                       Id  RAM_MB
+----                       --  ------
+WorkloadsSessionHost    18824 2914.60
+TextInputHost           18300  499.50
+brave                   21768  404.40
+MsMpEng                  6648  375.10
+explorer                12804  318.50
+WorkloadsSessionHost    11180  318.50
+Cursor                  24432  297.80
+Cursor                  24648  269.10
+brave                   15212  267.70
+brave                    8700  266.60
+brave                    3420  255.60
+brave                    3520  249.20
+brave                    4236  218.60
+Cursor                  24024  201.60
+Cursor                  21988  194.90
+pwsh                    22080  180.50
+StartMenuExperienceHost 17388  171.90
+brave                   14156  156.50
+ShellHost               12876  146.70
+audiodg                  5288  142.60
+
+
+
+[5] STARTUP RUN KEYS
+
+HKCU:\Software\Microsoft\Windows\CurrentVersion\Run
+
+OneDrive                                                    : "C:\Program Files\Microsoft OneDrive\OneDrive.exe" /background
+Steam                                                       : "C:\Program Files (x86)\Steam\steam.exe" -silent
+GoogleDriveFS                                               : "C:\Program Files\Google\Drive File Stream\130.0.2.0\GoogleDriveFS.exe" --startup_mode
+Mozilla-Firefox-308046B0AF4A39CB                            : "C:\Program Files\Mozilla Firefox\firefox.exe" -os-autostart
+MicrosoftCopilotAutoLaunch_AA18750ED2B7E8A18971F7CE62CE8BC7 : "C:\Program Files (x86)\Microsoft\Copilot\Application\mscopilot.exe" --no-startup-window --win-session-start
+Docker Desktop                                              : C:\Program Files\Docker\Docker\Docker Desktop.exe
+MicrosoftEdgeAutoLaunch_F0E3489966E8BAA41B2EB41772D734C0    : "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" --no-startup-window --win-session-start
+
+
+
+HKCU:\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+
+HKLM:\Software\Microsoft\Windows\CurrentVersion\Run
+
+SecurityHealth : C:\Windows\system32\SecurityHealthSystray.exe
+
+
+
+HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce
+
+
+[6] SCHEDULED TASKS THAT CAN LAUNCH SCRIPTS / NOTEPAD / SHELLS
+TASK: \AegentixStudioDeploy STATE=Ready
+
+Id                    : 
+Arguments             : -NoProfile -ExecutionPolicy Bypass -File C:\Aegentix\deploy_v2.ps1
+Execute               : powershell.exe
+WorkingDirectory      : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_TaskExecAction
+CimInstanceProperties : {Id, Arguments, Execute, WorkingDirectory}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+LastRunTime    : 9/12/2026 8:36:45 PM
+LastTaskResult : 1
+NextRunTime    : 
+
+
+------------------------------------------------------------
+TASK: \AutoSystem STATE=Ready
+
+Id                    : 
+Arguments             : -command "cd C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE; node scripts\autonomous-system.js full >> auto-log.txt"
+Execute               : powershell
+WorkingDirectory      : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_TaskExecAction
+CimInstanceProperties : {Id, Arguments, Execute, WorkingDirectory}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+LastRunTime    : 9/13/2026 7:25:11 AM
+LastTaskResult : 3221225786
+NextRunTime    : 9/13/2026 10:25:00 AM
+
+
+------------------------------------------------------------
+TASK: \cua-driver-serve STATE=Ready
+
+Id                    : 
+Arguments             : -NoProfile -WindowStyle Hidden -NonInteractive -Command "Start-Process -FilePath 'C:\Users\eagle\AppData\Local\Programs\Cua\cua-driver\bin\cua-driver.exe' -ArgumentList 'serve' -WindowStyle Hidden -WorkingDirectory 'C:\Users\eagle'"
+Execute               : powershell.exe
+WorkingDirectory      : C:\Users\eagle
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_TaskExecAction
+CimInstanceProperties : {Id, Arguments, Execute, WorkingDirectory}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+LastRunTime    : 9/13/2026 10:12:22 AM
+LastTaskResult : 0
+NextRunTime    : 
+
+
+------------------------------------------------------------
+TASK: \Hermes_Gateway STATE=Ready
+
+Id                    : 
+Arguments             : //B //Nologo "C:\Users\eagle\AppData\Local\hermes\gateway-service\Hermes_Gateway.vbs"
+Execute               : wscript.exe
+WorkingDirectory      : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_TaskExecAction
+CimInstanceProperties : {Id, Arguments, Execute, WorkingDirectory}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+LastRunTime    : 9/13/2026 10:12:53 AM
+LastTaskResult : 0
+NextRunTime    : 
+
+
+------------------------------------------------------------
+TASK: \SovereignAuto STATE=Ready
+
+Id                    : 
+Arguments             : -command "cd C:\Users\eagle\AEGENTIX-CYBERNETICS-CORE; node scripts\autonomous-system.js full >> auto-log.txt"
+Execute               : powershell
+WorkingDirectory      : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_TaskExecAction
+CimInstanceProperties : {Id, Arguments, Execute, WorkingDirectory}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+LastRunTime    : 9/13/2026 7:25:10 AM
+LastTaskResult : 2147946720
+NextRunTime    : 9/13/2026 11:00:00 AM
+
+
+------------------------------------------------------------
+TASK: \Microsoft\Windows\Hotpatch\Monitoring STATE=Ready
+
+Id                    : 
+Arguments             : /d /c %systemroot%\system32\hpatchmonTask.cmd
+Execute               : %systemroot%\system32\cmd.exe
+WorkingDirectory      : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_TaskExecAction
+CimInstanceProperties : {Id, Arguments, Execute, WorkingDirectory}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+LastRunTime    : 9/12/2026 9:01:12 PM
+LastTaskResult : 2147943467
+NextRunTime    : 9/14/2026 3:08:26 AM
+
+
+------------------------------------------------------------
+
+[7] WMI EVENT SUBSCRIPTIONS
+CLASS: __EventFilter
+
+CreatorSID            : {1, 2, 0, 0…}
+EventAccess           : 
+EventNamespace        : root\cimv2
+Name                  : SCM Event Log Filter
+Query                 : select * from MSFT_SCMEventLogEvent
+QueryLanguage         : WQL
+PSComputerName        : 
+CimClass              : ROOT/subscription:__EventFilter
+CimInstanceProperties : {CreatorSID, EventAccess, EventNamespace, Name…}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+CLASS: __EventConsumer
+
+CreatorSID               : {1, 2, 0, 0…}
+MachineName              : 
+MaximumQueueSize         : 
+Category                 : 0
+EventID                  : 0
+EventType                : 1
+InsertionStringTemplates : {}
+Name                     : SCM Event Log Consumer
+NameOfRawDataProperty    : 
+NameOfUserSIDProperty    : sid
+NumberOfInsertionStrings : 0
+SourceName               : Service Control Manager
+UNCServerName            : 
+PSComputerName           : 
+CimClass                 : ROOT/subscription:NTEventLogEventConsumer
+CimInstanceProperties    : {CreatorSID, MachineName, MaximumQueueSize, Category…}
+CimSystemProperties      : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+CLASS: __FilterToConsumerBinding
+
+Consumer                : NTEventLogEventConsumer (Name = "SCM Event Log Consumer")
+CreatorSID              : {1, 2, 0, 0…}
+DeliverSynchronously    : False
+DeliveryQoS             : 
+Filter                  : __EventFilter (Name = "SCM Event Log Filter")
+MaintainSecurityContext : False
+SlowDownProviders       : False
+PSComputerName          : 
+CimClass                : ROOT/subscription:__FilterToConsumerBinding
+CimInstanceProperties   : {Consumer, CreatorSID, DeliverSynchronously, DeliveryQoS…}
+CimSystemProperties     : Microsoft.Management.Infrastructure.CimSystemProperties
+
+
+
+[8] CURRENT POWERSHELL / CMD / SCRIPT PROCESSES
+
+Name     ProcessId ParentProcessId CommandLine
+----     --------- --------------- -----------
+pwsh.exe     22080           18352 "C:\Users\eagle\AppData\Local\Microsoft\WindowsApps\Microsoft.PowerShell_8wekyb3d8bbwe\pwsh.exe"
+pwsh.exe     25464           22080 "C:\Program Files\WindowsApps\Microsoft.PowerShell_7.6.6.0_x64__8wekyb3d8bbwe\pwsh.exe" -s
+                                   -NoLogo -NoProfile -wd C:\Aegentix
+
+
+
+[9] RECENTLY CREATED/MODIFIED PS1/BAT/CMD/VBS/JS FILES IN COMMON STARTUP LOCATIONS
+
+ROOT: C:\Users\eagle\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+FullName                                                                                                    Length LastWriteTime
+--------                                                                                                    ------ -------------
+C:\Users\eagle\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\jb-launcher.ps1                   147 9/5/2026 12:47:50…
+C:\Users\eagle\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\AEGENTIX_GaiaNet_Autostart.vbs    302 8/30/2026 9:29:10…
+
+
+
+ROOT: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+
+
+ROOT: C:\Users\eagle
+
+[10] WINDOWS EVENT LOG — RECENT APPLICATION ERRORS
+
+TimeCreated  : 9/13/2026 10:13:59 AM
+ProviderName : Microsoft-Windows-CertificateServicesClient-CertEnroll
+Id           : 87
+Message      : SCEP Certificate enrollment for WORKGROUP\DESKTOP-HRUBG2T$ via https://MSFT-KeyId-b8384a450e5480b7ec5a9ff49495da0309ed7cf6.microsoftaik.azure.net/templates/Aik/scep failed:
+               
+               PkiStatus(11): SCEPDispositionPendingChallenge
+               EnrollStatus(32): EnrollUnknown
+               The operation completed successfully. 0x0 (WIN32: 0)
+               _CreateAikClaim
+               Submit(Request): OK
+               HTTP/1.1 200 OK
+               Date: Sun, 13 Sep 2026 16:14:09 GMT
+               Content-Length: 5690
+               Content-Type: application/x-pki-message
+               X-Content-Type-Options: nosniff
+               Strict-Transport-Security: max-age=31536000;includeSubDomains
+               x-ms-request-id: c26597e5-de5c-4a8b-9dd1-372d91f4ca7a
+               
+               Method: POST(4375ms)
+               Stage: _CreateAikClaim
+               The TPM key is not loaded. 0x8029040f (-2144795633 TPM_E_KEY_NOT_LOADED)
+
+TimeCreated  : 9/13/2026 10:01:43 AM
+ProviderName : Application Hang
+Id           : 1002
+Message      : The program GameBar.exe version 7.326.8061.0 stopped interacting with Windows and was closed. To see if more information about the problem is available, check the problem history in the Security and Maintenance control panel.
+               
+
+TimeCreated  : 9/13/2026 9:43:51 AM
+ProviderName : Microsoft-Windows-CertificateServicesClient-CertEnroll
+Id           : 87
+Message      : SCEP Certificate enrollment for WORKGROUP\DESKTOP-HRUBG2T$ via https://MSFT-KeyId-b8384a450e5480b7ec5a9ff49495da0309ed7cf6.microsoftaik.azure.net/templates/Aik/scep failed:
+               
+               PkiStatus(11): SCEPDispositionPendingChallenge
+               EnrollStatus(32): EnrollUnknown
+               The operation completed successfully. 0x0 (WIN32: 0)
+               _CreateAikClaim
+               Submit(Request): OK
+               HTTP/1.1 200 OK
+               Date: Sun, 13 Sep 2026 15:44:00 GMT
+               Content-Length: 5690
+               Content-Type: application/x-pki-message
+               X-Content-Type-Options: nosniff
+               Strict-Transport-Security: max-age=31536000;includeSubDomains
+               x-ms-request-id: 430d2ea6-1b56-44d2-9235-59624f7b39d3
+               
+               Method: POST(2141ms)
+               Stage: _CreateAikClaim
+               The TPM key is not loaded. 0x8029040f (-2144795633 TPM_E_KEY_NOT_LOADED)
+
+TimeCreated  : 9/13/2026 9:22:26 AM
+ProviderName : Microsoft-Windows-CertificateServicesClient-CertEnroll
+Id           : 87
+Message      : SCEP Certificate enrollment for WORKGROUP\DESKTOP-HRUBG2T$ via https://MSFT-KeyId-b8384a450e5480b7ec5a9ff49495da0309ed7cf6.microsoftaik.azure.net/templates/Aik/scep failed:
+               
+               PkiStatus(11): SCEPDispositionPendingChallenge
+               EnrollStatus(32): EnrollUnknown
+               The operation completed successfully. 0x0 (WIN32: 0)
+               _CreateAikClaim
+               Submit(Request): OK
+               HTTP/1.1 200 OK
+               Date: Sun, 13 Sep 2026 15:22:37 GMT
+               Content-Length: 5690
+               Content-Type: application/x-pki-message
+               X-Content-Type-Options: nosniff
+               Strict-Transport-Security: max-age=31536000;includeSubDomains
+               x-ms-request-id: d072346f-bb03-4e9e-99c1-4cc9275d28ef
+               
+               Method: POST(7297ms)
+               Stage: _CreateAikClaim
+               The TPM key is not loaded. 0x8029040f (-2144795633 TPM_E_KEY_NOT_LOADED)
+
+
+
+[11] WINDOWS EVENT LOG — RECENT SYSTEM ERRORS
+
+TimeCreated  : 9/13/2026 10:13:56 AM
+ProviderName : Microsoft-Windows-DNS-Client
+Id           : 1012
+Message      : There was an error while attempting to read the local hosts file.
+
+TimeCreated  : 9/13/2026 10:12:12 AM
+ProviderName : Service Control Manager
+Id           : 7000
+Message      : The JB-Daemon service failed to start due to the following error: 
+               The service did not respond to the start or control request in a timely fashion.
+
+TimeCreated  : 9/13/2026 10:12:12 AM
+ProviderName : Service Control Manager
+Id           : 7009
+Message      : A timeout was reached (45000 milliseconds) while waiting for the JB-Daemon service to connect.
+
+TimeCreated  : 9/13/2026 10:11:59 AM
+ProviderName : Microsoft-Windows-Kernel-Power
+Id           : 41
+Message      : The system has rebooted without cleanly shutting down first. This error could be caused if the system stopped responding, crashed, or lost power unexpectedly.
+
+TimeCreated  : 9/13/2026 10:11:58 AM
+ProviderName : volmgr
+Id           : 161
+Message      : Dump file creation failed due to error during dump creation. BugCheckProgress was: 0x00000081
+
+TimeCreated  : 9/13/2026 10:11:56 AM
+ProviderName : Microsoft-Windows-BitLocker-Driver
+Id           : 24641
+Message      : An unexpected error was encountered attempting to retrieve the BitLocker volume master key during restart.
+
+TimeCreated  : 9/13/2026 10:11:56 AM
+ProviderName : Microsoft-Windows-BitLocker-Driver
+Id           : 24641
+Message      : An unexpected error was encountered attempting to retrieve the BitLocker volume master key during restart.
+
+TimeCreated  : 9/13/2026 10:12:10 AM
+ProviderName : EventLog
+Id           : 6008
+Message      : The previous system shutdown at 9:43:32 AM on ‎9/‎13/‎2026 was unexpected.
+
+TimeCreated  : 9/13/2026 9:43:34 AM
+ProviderName : Service Control Manager
+Id           : 7000
+Message      : The JB-Daemon service failed to start due to the following error: 
+               The service did not respond to the start or control request in a timely fashion.
+
+TimeCreated  : 9/13/2026 9:43:34 AM
+ProviderName : Service Control Manager
+Id           : 7009
+Message      : A timeout was reached (45000 milliseconds) while waiting for the JB-Daemon service to connect.
+
+TimeCreated  : 9/13/2026 9:43:18 AM
+ProviderName : Microsoft-Windows-BitLocker-Driver
+Id           : 24641
+Message      : An unexpected error was encountered attempting to retrieve the BitLocker volume master key during restart.
+
+TimeCreated  : 9/13/2026 9:43:18 AM
+ProviderName : Microsoft-Windows-BitLocker-Driver
+Id           : 24641
+Message      : An unexpected error was encountered attempting to retrieve the BitLocker volume master key during restart.
+
+TimeCreated  : 9/13/2026 9:35:29 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {2593F8B9-4EAF-457C-B68A-50F6B8EA6B54} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 9:35:23 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10005
+Message      : DCOM got error "1053" attempting to start the service BcastDVRUserService_93ca8 with arguments "Unavailable" in order to run the server:
+               Windows.Media.Capture.Internal.AppCaptureShell
+
+TimeCreated  : 9/13/2026 9:35:23 AM
+ProviderName : Service Control Manager
+Id           : 7000
+Message      : The BcastDVRUserService_93ca8 service failed to start due to the following error: 
+               The service did not respond to the start or control request in a timely fashion.
+
+TimeCreated  : 9/13/2026 9:35:23 AM
+ProviderName : Service Control Manager
+Id           : 7009
+Message      : A timeout was reached (30000 milliseconds) while waiting for the BcastDVRUserService_93ca8 service to connect.
+
+TimeCreated  : 9/13/2026 9:35:20 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 9:35:20 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 9:35:20 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 9:35:20 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 9:23:16 AM
+ProviderName : Microsoft-Windows-DNS-Client
+Id           : 1012
+Message      : There was an error while attempting to read the local hosts file.
+
+TimeCreated  : 9/13/2026 9:22:05 AM
+ProviderName : Service Control Manager
+Id           : 7000
+Message      : The JB-Daemon service failed to start due to the following error: 
+               The service did not respond to the start or control request in a timely fashion.
+
+TimeCreated  : 9/13/2026 9:22:05 AM
+ProviderName : Service Control Manager
+Id           : 7009
+Message      : A timeout was reached (45000 milliseconds) while waiting for the JB-Daemon service to connect.
+
+TimeCreated  : 9/13/2026 9:21:49 AM
+ProviderName : Microsoft-Windows-BitLocker-Driver
+Id           : 24641
+Message      : An unexpected error was encountered attempting to retrieve the BitLocker volume master key during restart.
+
+TimeCreated  : 9/13/2026 9:21:49 AM
+ProviderName : Microsoft-Windows-BitLocker-Driver
+Id           : 24641
+Message      : An unexpected error was encountered attempting to retrieve the BitLocker volume master key during restart.
+
+TimeCreated  : 9/13/2026 8:51:03 AM
+ProviderName : Service Control Manager
+Id           : 7043
+Message      : The Host Network Service service did not shut down properly after receiving a preshutdown control.
+
+TimeCreated  : 9/13/2026 8:50:37 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 8:50:36 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 8:50:36 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+TimeCreated  : 9/13/2026 8:50:36 AM
+ProviderName : Microsoft-Windows-DistributedCOM
+Id           : 10010
+Message      : The server {FD06603A-2BDF-4BB1-B7DF-5DC68F353601} did not register with DCOM within the required timeout.
+
+
+
+[12] DISK / MEMORY SNAPSHOT
+
+RAM_Free_MB      : 3305.3
+RAM_Total_MB     : 15993.9
+RAM_Used_Percent : 79.3
+
+
+
+DriveLetter FileSystemLabel FileSystem FreeGB SizeGB
+----------- --------------- ---------- ------ ------
+          C OS              NTFS       563.00 952.10
+
+
+
+[13] RECENT PROCESS CREATION EVENTS IF AVAILABLE
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x76c
+              	New Process Name:	C:\Windows\System32\lsass.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c4
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x760
+              	New Process Name:	C:\Windows\System32\LsaIso.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c4
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x738
+              	New Process Name:	C:\Windows\System32\services.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c4
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x724
+              	New Process Name:	C:\Windows\System32\winlogon.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6bc
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x6cc
+              	New Process Name:	C:\Windows\System32\csrss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6bc
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x6c4
+              	New Process Name:	C:\Windows\System32\wininit.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x494
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:09 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x6bc
+              	New Process Name:	C:\Windows\System32\smss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x3b8
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:07 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x5f8
+              	New Process Name:	C:\Windows\System32\csrss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x494
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:12:00 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x494
+              	New Process Name:	C:\Windows\System32\smss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x3b8
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:11:59 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x3c8
+              	New Process Name:	C:\Windows\System32\autochk.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x3b8
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:11:59 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x3b8
+              	New Process Name:	C:\Windows\System32\smss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x4
+              	Creator Process Name:	
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:11:59 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x118
+              	New Process Name:	Registry
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x4
+              	Creator Process Name:	
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 10:11:59 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0xec
+              	New Process Name:	
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x4
+              	Creator Process Name:	
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x770
+              	New Process Name:	C:\Windows\System32\lsass.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c8
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x75c
+              	New Process Name:	C:\Windows\System32\LsaIso.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c8
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x73c
+              	New Process Name:	C:\Windows\System32\services.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c8
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x728
+              	New Process Name:	C:\Windows\System32\winlogon.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c0
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x6d0
+              	New Process Name:	C:\Windows\System32\csrss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c0
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x6c8
+              	New Process Name:	C:\Windows\System32\wininit.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x488
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:31 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x6c0
+              	New Process Name:	C:\Windows\System32\smss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x3b8
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:29 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x5f8
+              	New Process Name:	C:\Windows\System32\csrss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x488
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:21 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x488
+              	New Process Name:	C:\Windows\System32\smss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x3b8
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:21 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x3c8
+              	New Process Name:	C:\Windows\System32\autochk.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x3b8
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:20 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x3b8
+              	New Process Name:	C:\Windows\System32\smss.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x4
+              	Creator Process Name:	
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:20 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x118
+              	New Process Name:	Registry
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x4
+              	Creator Process Name:	
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:43:20 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0xec
+              	New Process Name:	
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x4
+              	Creator Process Name:	
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:22:02 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x770
+              	New Process Name:	C:\Windows\System32\lsass.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c8
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:22:02 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x764
+              	New Process Name:	C:\Windows\System32\LsaIso.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c8
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:22:02 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x73c
+              	New Process Name:	C:\Windows\System32\services.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c8
+              	Creator Process Name:	C:\Windows\System32\wininit.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+TimeCreated : 9/13/2026 9:22:02 AM
+Message     : A new process has been created.
+              
+              Creator Subject:
+              	Security ID:		S-1-5-18
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x3E7
+              
+              Target Subject:
+              	Security ID:		S-1-0-0
+              	Account Name:		-
+              	Account Domain:		-
+              	Logon ID:		0x0
+              
+              Process Information:
+              	New Process ID:		0x728
+              	New Process Name:	C:\Windows\System32\winlogon.exe
+              	Token Elevation Type:	TokenElevationTypeDefault (1)
+              	Mandatory Label:		S-1-16-16384
+              	Creator Process ID:	0x6c0
+              	Creator Process Name:	C:\Windows\System32\smss.exe
+              	Process Command Line:	
+              
+              Token Elevation Type indicates the type of token that was assigned to the new process in accordance with User Account Control policy.
+              
+              Type 1 is a full token with no privileges removed or groups disabled.  A full token is only used if User Account Control is disabled or if the user is the built-in Administrator account or a service account.
+              
+              Type 2 is an elevated token with no privileges removed or groups disabled.  An elevated token is used when User Account Control is enabled and the user chooses to start the program using Run as administrator.  An elevated token is also used when an application is configured to always require administrative privilege or to always require maximum privilege, and the user is a member of the Administrators group.
+              
+              Type 3 is a limited token with administrative privileges removed and administrative groups disabled.  The limited token is used when User Account Control is enabled, the application does not require administrative privilege, and the user does not choose to start the program using Run as administrator.
+
+
+
+============================================================
+ END DIAGNOSTIC 2026-09-13 10:20:51
+============================================================

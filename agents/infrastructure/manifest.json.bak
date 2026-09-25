@@ -1,0 +1,8 @@
+﻿{
+  "name": "infrastructure",
+  "role": "infrastructure",
+  "authority": "delegated",
+  "execution": "governed",
+  "requires_evidence": true,
+  "requires_verification": true
+}

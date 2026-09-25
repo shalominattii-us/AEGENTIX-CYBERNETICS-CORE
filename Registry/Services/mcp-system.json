@@ -1,0 +1,10 @@
+{
+    "name":  "mcp-system",
+    "config":  {
+
+               },
+    "registered":  "2026-09-07T07:24:37.144Z",
+    "type":  "system",
+    "endpoint":  "http://localhost:3005",
+    "status":  "active"
+}

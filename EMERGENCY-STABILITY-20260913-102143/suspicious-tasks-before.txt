@@ -1,0 +1,101 @@
+
+State                 : Ready
+Actions               : {MSFT_TaskExecAction}
+Author                : 
+Date                  : 
+Description           : 
+Documentation         : 
+Principal             : MSFT_TaskPrincipal2
+SecurityDescriptor    : 
+Settings              : MSFT_TaskSettings3
+Source                : 
+TaskName              : AegentixStudioDeploy
+TaskPath              : \
+Triggers              : {MSFT_TaskTimeTrigger}
+URI                   : \AegentixStudioDeploy
+Version               : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_ScheduledTask
+CimInstanceProperties : {Actions, Author, Date, Description…}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+State                 : Ready
+Actions               : {MSFT_TaskExecAction}
+Author                : DESKTOP-HRUBG2T\eagle
+Date                  : 2026-08-31T14:25:33
+Description           : 
+Documentation         : 
+Principal             : MSFT_TaskPrincipal2
+SecurityDescriptor    : 
+Settings              : MSFT_TaskSettings3
+Source                : 
+TaskName              : AutoSystem
+TaskPath              : \
+Triggers              : {MSFT_TaskTimeTrigger}
+URI                   : \AutoSystem
+Version               : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_ScheduledTask
+CimInstanceProperties : {Actions, Author, Date, Description…}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+State                 : Ready
+Actions               : {MSFT_TaskExecAction}
+Author                : 
+Date                  : 
+Description           : cua-driver: serve daemon, auto-start at interactive logon, RunLevel=Highest for UWP/AppContainer support
+Documentation         : 
+Principal             : MSFT_TaskPrincipal2
+SecurityDescriptor    : 
+Settings              : MSFT_TaskSettings3
+Source                : 
+TaskName              : cua-driver-serve
+TaskPath              : \
+Triggers              : {MSFT_TaskLogonTrigger}
+URI                   : \cua-driver-serve
+Version               : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_ScheduledTask
+CimInstanceProperties : {Actions, Author, Date, Description…}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+State                 : Ready
+Actions               : {MSFT_TaskExecAction}
+Author                : 
+Date                  : 
+Description           : Hermes Agent Gateway - Messaging Platform Integration
+Documentation         : 
+Principal             : MSFT_TaskPrincipal2
+SecurityDescriptor    : 
+Settings              : MSFT_TaskSettings3
+Source                : 
+TaskName              : Hermes_Gateway
+TaskPath              : \
+Triggers              : {MSFT_TaskLogonTrigger}
+URI                   : \Hermes_Gateway
+Version               : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_ScheduledTask
+CimInstanceProperties : {Actions, Author, Date, Description…}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+
+State                 : Ready
+Actions               : {MSFT_TaskExecAction}
+Author                : DESKTOP-HRUBG2T\eagle
+Date                  : 2026-08-31T15:28:25
+Description           : 
+Documentation         : 
+Principal             : MSFT_TaskPrincipal2
+SecurityDescriptor    : 
+Settings              : MSFT_TaskSettings3
+Source                : 
+TaskName              : SovereignAuto
+TaskPath              : \
+Triggers              : {MSFT_TaskTimeTrigger}
+URI                   : \SovereignAuto
+Version               : 
+PSComputerName        : 
+CimClass              : Root/Microsoft/Windows/TaskScheduler:MSFT_ScheduledTask
+CimInstanceProperties : {Actions, Author, Date, Description…}
+CimSystemProperties   : Microsoft.Management.Infrastructure.CimSystemProperties
+

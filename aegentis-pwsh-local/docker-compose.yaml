@@ -1,0 +1,22 @@
+services:
+  aegentis-router:
+    build: ./router
+    container_name: aegentis-router
+    ports:
+      - "8080:8080"
+
+  aegentis-twin:
+    build: ./twin
+    container_name: aegentis-twin
+    depends_on:
+      - aegentis-router
+
+  skill-registry:
+    build: ./skill-registry
+    container_name: skill-registry
+
+  operator-console:
+    build: ./operator-console
+    container_name: operator-console
+    ports:
+      - "3000:3000"

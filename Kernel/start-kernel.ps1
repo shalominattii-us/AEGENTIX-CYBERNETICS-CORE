@@ -1,0 +1,2 @@
+Start-Process powershell -ArgumentList '-ExecutionPolicy Bypass -File C:/Aegentix/Kernel/Heartbeat/heartbeat.ps1'
+Start-Process powershell -ArgumentList '-ExecutionPolicy Bypass -File C:/Aegentix/Kernel/Watchdogs/watchdog.ps1'

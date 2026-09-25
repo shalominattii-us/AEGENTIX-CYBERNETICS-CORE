@@ -1,0 +1,10 @@
+{
+    "name":  "runtime-agent",
+    "config":  {
+
+               },
+    "registered":  "2026-09-07T07:24:37.094Z",
+    "type":  "agent-service",
+    "endpoint":  "http://localhost:3001",
+    "status":  "active"
+}

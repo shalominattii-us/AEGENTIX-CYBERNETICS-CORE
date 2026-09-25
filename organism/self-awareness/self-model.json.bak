@@ -1,0 +1,121 @@
+﻿{
+    "schema":  "aegentix.self-model.v3",
+    "generated_at":  "2026-09-08T00:29:46.5266608Z",
+    "identity":  {
+                     "organism_id":  null,
+                     "hostname":  "DESKTOP-HRUBG2T",
+                     "platform":  "Windows-11-10.0.26200-SP0",
+                     "root":  "C:\\aegentix",
+                     "organism_root":  "C:\\aegentix\\organism"
+                 },
+    "canonical_metrics":  {
+                              "health":  "HEALTHY",
+                              "runtime":  "PROCESS_RUNNING_AND_STATE_ONLINE",
+                              "opportunities":  0,
+                              "dna":  0,
+                              "completed":  0,
+                              "failed":  0,
+                              "counter_sync":  true
+                          },
+    "opportunities":  {
+                          "discovered":  0,
+                          "unique":  0,
+                          "deduplicated":  0,
+                          "dna_created":  0,
+                          "completed":  0,
+                          "failed":  0
+                      },
+    "dna":  {
+                "total":  0,
+                "completed":  0,
+                "failed":  0,
+                "ready":  0,
+                "running":  0
+            },
+    "runtime":  {
+                    "declared":  null,
+                    "truth":  "PROCESS_RUNNING_BUT_STATE_NOT_ONLINE",
+                    "process_count":  1,
+                    "processes":  [
+                                      {
+                                          "pid":  8780,
+                                          "name":  "python.exe",
+                                          "command":  "\"C:\\Program Files\\Python312\\python.exe\" C:\\aegentix\\organism\\self-awareness\\self-awareness.py"
+                                      }
+                                  ]
+                },
+    "persistence":  {
+                        "state":  {
+                                      "exists":  true,
+                                      "path":  "C:\\aegentix\\organism\\state\\organism-state.json"
+                                  },
+                        "policy":  {
+                                       "exists":  true,
+                                       "path":  "C:\\aegentix\\organism\\control-plane\\organism-policy.json"
+                                   },
+                        "recovery":  {
+                                         "exists":  true,
+                                         "path":  "C:\\aegentix\\organism\\state\\recovery.json"
+                                     },
+                        "heartbeat":  {
+                                          "exists":  true,
+                                          "path":  "C:\\aegentix\\organism\\state\\heartbeat.json"
+                                      },
+                        "opportunity_index":  {
+                                                  "exists":  true,
+                                                  "path":  "C:\\aegentix\\organism\\state\\opportunity-index.json"
+                                              },
+                        "dna_queue":  {
+                                          "exists":  true,
+                                          "path":  "C:\\aegentix\\organism\\queue\\dna.jsonl"
+                                      },
+                        "opportunity_ledger":  {
+                                                   "exists":  true,
+                                                   "path":  "C:\\aegentix\\organism\\ledger\\opportunities.jsonl"
+                                               },
+                        "event_ledger":  {
+                                             "exists":  true,
+                                             "path":  "C:\\aegentix\\organism\\ledger\\organism-events.jsonl"
+                                         },
+                        "command_feed":  {
+                                             "exists":  true,
+                                             "path":  "C:\\aegentix\\organism\\telemetry\\command-center-feed.jsonl"
+                                         },
+                        "persistent_runtime":  {
+                                                   "exists":  true,
+                                                   "path":  "C:\\aegentix\\organism\\start-persistent-organism.ps1"
+                                               }
+                    },
+    "ledger_counts":  {
+                          "events":  0,
+                          "opportunities":  0,
+                          "dna":  0,
+                          "command_feed":  0
+                      },
+    "composition":  {
+                        "organism_files":  1
+                    },
+    "reconciliation":  {
+                           "missing_artifacts":  [
+
+                                                 ],
+                           "counter_sync":  true,
+                           "status":  "ONLINE"
+                       },
+    "governance":  {
+                       "external_actions":  "UNKNOWN",
+                       "ableton_mutation":  "UNKNOWN",
+                       "purchases":  "UNKNOWN",
+                       "publishing":  "UNKNOWN",
+                       "deletion":  "UNKNOWN",
+                       "operator_approval":  "UNKNOWN"
+                   },
+    "self_diagnosis":  {
+                           "overall":  "HEALTHY",
+                           "runtime_truth":  "PROCESS_RUNNING_AND_STATE_ONLINE",
+                           "counter_consistency":  true,
+                           "missing_artifacts":  [
+
+                                                 ]
+                       }
+}

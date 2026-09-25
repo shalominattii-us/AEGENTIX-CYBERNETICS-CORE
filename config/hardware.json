@@ -1,0 +1,14 @@
+{
+  "computer": "DESKTOP-HRUBG2T",
+  "cpu": "AMD Ryzen AI Z2 Extreme                        ",
+  "ram_gb": 15.6,
+  "gpu": [
+    {
+      "Name": "AMD Radeon(TM) 890M Graphics",
+      "DriverVersion": "32.0.31019.2002"
+    }
+  ],
+  "windows": "Microsoft Windows 11 Home",
+  "windows_version": "10.0.26200",
+  "timestamp": "2026-09-06T12:45:21.7238124Z"
+}

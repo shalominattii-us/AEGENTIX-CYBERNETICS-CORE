@@ -1,0 +1,10 @@
+{
+    "version":  "1.0",
+    "name":  "Governance",
+    "config":  {
+                   "enabled":  true
+               },
+    "provider":  "PolicyEngine",
+    "registered":  "2026-09-07T07:24:37.239Z",
+    "status":  "active"
+}

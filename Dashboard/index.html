@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Aegentix Agentic OS</title>
+  <style>
+    body { background:#05060a; color:#e5e5e5; font-family:Segoe UI, sans-serif; margin:0; }
+    header { padding:16px 24px; background:#0b0d14; border-bottom:1px solid #222; display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-weight:600; letter-spacing:0.12em; color:#ffd54f; }
+    .status { font-size:12px; color:#8bc34a; }
+    main { padding:24px; display:grid; grid-template-columns:2fr 1fr; gap:24px; }
+    .panel { background:#0b0d14; border:1px solid #222; border-radius:8px; padding:16px; }
+    .panel h2 { margin-top:0; font-size:14px; text-transform:uppercase; letter-spacing:0.16em; color:#90caf9; }
+    #log { height:260px; overflow-y:auto; font-size:12px; background:#05060a; border-radius:6px; padding:8px; }
+    #input { width:100%; padding:8px; border-radius:4px; border:1px solid #333; background:#05060a; color:#e5e5e5; }
+    button { padding:8px 14px; border-radius:4px; border:none; background:#2196f3; color:#fff; cursor:pointer; font-size:12px; }
+    button:hover { background:#1e88e5; }
+    .pill { display:inline-block; padding:4px 8px; border-radius:999px; font-size:11px; margin-right:6px; background:#1b1f2b; }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">AEGENTIX // AGENTIC OS</div>
+  <div class="status" id="status">SYSTEM: STANDBY</div>
+</header>
+<main>
+  <section class="panel">
+    <h2>Console</h2>
+    <div id="log"></div>
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      <input id="input" placeholder='Type a request for Jarvis / KirkPrime / Antigravity...' />
+      <button onclick="send()">Send</button>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>Agents</h2>
+    <div>
+      <span class="pill">Jarvis Core</span>
+      <span class="pill">KirkPrime Voice</span>
+      <span class="pill">Antigravity 120B</span>
+      <span class="pill">CyberdeckDaemon</span>
+    </div>
+    <div style="margin-top:16px; font-size:12px;">
+      <p>Use the console to issue high-level design, orchestration, or system commands.</p>
+      <p>Backend: PowerShell agent bridge on localhost.</p>
+    </div>
+  </section>
+</main>
+<script>
+  const log = document.getElementById('log');
+  const status = document.getElementById('status');
+  const input = document.getElementById('input');
+
+  function append(msg) {
+    const line = document.createElement('div');
+    line.textContent = msg;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  async function send() {
+    const q = input.value.trim();
+    if (!q) return;
+    append("YOU :: " + q);
+    input.value = "";
+    try {
+      const res = await fetch("http://localhost:8787/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: q })
+      });
+      const text = await res.text();
+      append(text);
+      status.textContent = "SYSTEM: ONLINE";
+    } catch (e) {
+      append("ERROR :: backend not reachable.");
+      status.textContent = "SYSTEM: OFFLINE";
+    }
+  }
+
+  append("AGENTIC OS READY. CONNECTING TO BACKEND...");
+</script>
+</body>
+</html>

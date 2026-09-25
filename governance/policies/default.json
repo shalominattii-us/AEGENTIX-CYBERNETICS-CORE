@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "mode": "development",
+  "external_actions": false,
+  "deployments": false,
+  "contracts": false,
+  "financial_operations": false,
+  "live_trading": false,
+  "withdrawals": false,
+  "require_verification": true,
+  "require_evidence": true,
+  "allow_autonomous_planning": true,
+  "allow_autonomous_execution": false
+}

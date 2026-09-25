@@ -1,0 +1,59 @@
+{
+    "schema": "aegentix.cognitive.runtime.v1",
+    "timestamp": "2026-09-24T00:00:00.0000000+00:00",
+    "architecture": {
+        "kernel": "AEGENTIX PowerShell Kernel",
+        "cognitive_layer": "JARVIS + Infinite Brain + Model Router (Ori Harness bridging OPENROUTER_API_KEY)",
+        "gateway": "C:\\aegentix\\brain\\cognitive_gateway.ps1"
+    },
+    "actual_kernel": {
+        "state_core": "C:\\aegentix\\Kernel\\State\\state-core.ps1",
+        "state_runtime": "C:\\aegentix\\Kernel\\State\\state-runtime.ps1",
+        "state_ops": "C:\\aegentix\\Kernel\\State\\state-ops.ps1",
+        "recovery": "C:\\aegentix\\Kernel\\Recovery\\recovery.ps1",
+        "heartbeat": "C:\\aegentix\\Kernel\\Heartbeat\\heartbeat.ps1",
+        "agent_loop": "C:\\aegentix\\AgentLoop\\agent-loop.ps1"
+    },
+    "cognitive": {
+        "jarvis_manifest": "C:\\aegentix\\brain\\jarvis\\manifest.json",
+        "jarvis_planner": "C:\\aegentix\\brain\\jarvis\\planner.py",
+        "infinite_manifest": "C:\\aegentix\\brain\\infinite\\manifest.json",
+        "router_manifest": "C:\\aegentix\\brain\\router\\manifest.json",
+        "model_registry": "C:\\aegentix\\brain\\router\\model_registry.json",
+        "model_router": "C:\\aegentix\\brain\\router\\model_router.py",
+        "cognitive_bus": "C:\\aegentix\\brain\\cognitive_bus.py",
+        "ori_harness": {
+            "provider": "openrouter",
+            "api_key_env": "OPENROUTER_API_KEY",
+            "base_url": "https://openrouter.ai/api/v1",
+            "status": "registered_as_primary_orchestrator",
+            "verification_required": true
+        }
+    },
+    "authority": {
+        "state_authority": "Kernel\\State",
+        "cognitive_authority": "REQUEST_ONLY",
+        "direct_state_mutation": false,
+        "external_actions": "FAIL_CLOSED"
+    },
+    "invariant": "Event first. State second.",
+    "state_interface": {
+        "mode": "KERNEL_READ",
+        "detected_read_function": "get-state",
+        "detected_write_function": null
+    },
+    "governance": {
+        "external_actions": "FAIL_CLOSED",
+        "deployments": "FAIL_CLOSED",
+        "contracts": "FAIL_CLOSED",
+        "financial_operations": "FAIL_CLOSED",
+        "live_trading": "FAIL_CLOSED",
+        "withdrawals": "FAIL_CLOSED"
+    },
+    "ai_inventory_update": {
+        "action": "deficit_resolution_pending_local_ollama_deployment",
+        "local_backends_registered": ["ollama"],
+        "openrouter_bridged": true,
+        "prefer_local_policy": "maintained_deferred_local_deployment"
+    }
+}

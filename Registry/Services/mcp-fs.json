@@ -1,0 +1,10 @@
+{
+    "name":  "mcp-fs",
+    "config":  {
+
+               },
+    "registered":  "2026-09-07T07:24:37.127Z",
+    "type":  "filesystem",
+    "endpoint":  "http://localhost:3003",
+    "status":  "active"
+}
