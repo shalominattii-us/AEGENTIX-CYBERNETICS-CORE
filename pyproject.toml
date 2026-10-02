@@ -9,3 +9,7 @@ cyberdaw = "cyberdaw.cli:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests/cyberdaw"]
+# Put the repo root on sys.path so `import cyberdaw` resolves without an
+# editable install. CI runs bare `pytest` from the root, where the package
+# is not on the path by default.
+pythonpath = ["."]
