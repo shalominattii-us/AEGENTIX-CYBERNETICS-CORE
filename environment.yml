@@ -1,0 +1,10 @@
+# Conda environment for the "Python Package using Conda" CI workflow.
+#
+# The cyberdaw package itself is stdlib-only (dataclasses/enum/typing/argparse),
+# so this environment only needs to exist to satisfy `conda env update`.
+# The workflow installs flake8 and pytest separately in its own steps.
+name: aegentix
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
