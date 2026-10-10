@@ -21,13 +21,35 @@ volumes:
   treasury-data:
   vector-data:
   worldmonitor-data:
+  cybercore-source:
 
 services:
 
+# ══════════════════════════════════════════════════════════
+  # CYBERCORE — Zero-Storage Deterministic Key Vault
+  # ══════════════════════════════════════════════════════════
+  cybercore:
+    build:
+      context: ../../../AEGENTIX-CYBERNETICS-CORE
+      dockerfile: Dockerfile.cybercore
+    container_name: aegentix-cybercore
+    ports:
+      - "50051:50051"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
+    environment:
+      - CYBERCORE_MASTER_SEED=cybercore-master-seed-2024
+      - CYBERCORE_ENTROPY_PROVIDER=Argon2id
+    networks:
+      - aegentis-net
+    restart: unless-stopped
+    labels:
+      aegentis.division: "CYBERCORE"
+      aegentis.role: "signing-oracle"
+
   # ══════════════════════════════════════════════════════════
   # AEGENTIS KERNEL — Event Bus (WorldMonitor)
-  # The authoritative event store and world state engine.
-  # ══════════════════════════════════════════════════════════
+  # ═════════════════════════════════════════════════════════
   kernel-event-bus:
     build:
       context: ./KERNEL/event-bus
@@ -37,9 +59,11 @@ services:
       - "8080:8080"
     volumes:
       - kernel-data:/app/data
+      - cybercore-source:/app/cybercore:ro
     environment:
       - NODE_ENV=production
       - PORT=8080
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     restart: unless-stopped
@@ -52,6 +76,8 @@ services:
     labels:
       aegentis.division: "KERNEL"
       aegentis.role: "event-bus"
+    depends_on:
+      - cybercore
 
   # KERNEL: Identity OS
   kernel-identity:
@@ -61,15 +87,20 @@ services:
     container_name: aegentis-identity
     ports:
       - "8090:8090"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - PORT=8090
       - SOVEREIGN_JWT_SECRET=${SOVEREIGN_JWT_SECRET:-aegentix-genesis-key}
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "KERNEL"
@@ -81,15 +112,20 @@ services:
       context: ./KERNEL/agent-runtime
       dockerfile: Dockerfile
     container_name: aegentis-jarvis
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - JARVIS_LOOP_INTERVAL=10
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "KERNEL"
@@ -107,14 +143,18 @@ services:
       - "8081:8081"
     volumes:
       - treasury-data:/app/data
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - PORT=8081
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "TREASURY"
@@ -124,14 +164,19 @@ services:
       context: ./TREASURY/autonomous-agents
       dockerfile: Dockerfile
     container_name: aegentis-treasury-agent
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - TREASURY_LOOP_INTERVAL=15
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "TREASURY"
@@ -147,16 +192,21 @@ services:
     container_name: aegentis-ai
     ports:
       - "8082:8082"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
       - OPENAI_API_BASE=${OPENAI_API_BASE:-https://api.openai.com/v1}
       - PORT=8082
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "AI"
@@ -171,15 +221,20 @@ services:
     container_name: aegentis-x
     ports:
       - "7778:7778"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - QUEST_BACKEND_PORT=7778
       - SOVEREIGN_JWT_SECRET=${SOVEREIGN_JWT_SECRET:-aegentix-genesis-key}
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "XR"
@@ -193,15 +248,20 @@ services:
     container_name: aegentis-vr
     ports:
       - "7777:7777"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - VR_PORT=7777
       - SOVEREIGN_JWT_SECRET=${SOVEREIGN_JWT_SECRET:-aegentix-genesis-key}
       - WORLDMONITOR_URL=http://kernel-event-bus:8080
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "XR"
@@ -215,14 +275,19 @@ services:
       context: ./SECURITY/threat-intelligence
       dockerfile: Dockerfile
     container_name: aegentis-security
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - THREAT_LOOP_INTERVAL=5
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "SECURITY"
@@ -235,14 +300,19 @@ services:
     container_name: aegentis-observer
     ports:
       - "9000:9000"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080
       - PORT=9000
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "SECURITY"
@@ -260,15 +330,19 @@ services:
       - "8083:8083"
     volumes:
       - vector-data:/data/aegentis
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - AEGENTIS_VECTOR_DB=/data/aegentis/vectors.jsonl
       - PORT=8083
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "DATA"
@@ -283,14 +357,19 @@ services:
     container_name: aegentis-cloud
     ports:
       - "8084:8084"
+    volumes:
+      - cybercore-source:/app/cybercore:ro
     environment:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - PORT=8084
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
     depends_on:
       kernel-event-bus:
         condition: service_healthy
+      cybercore:
+        condition: service_started
     restart: unless-stopped
     labels:
       aegentis.division: "CLOUD"

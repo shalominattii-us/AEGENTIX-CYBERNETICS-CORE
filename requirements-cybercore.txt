@@ -1,0 +1,45 @@
+# CyberCore Dependencies
+
+# Cryptography
+ecdsa>=0.18.0
+nacl>=1.5.0
+argon2-cffi>=23.1.0
+
+# PKCS#11 / HSM
+python-pkcs11>=1.2.0
+
+# TPM
+tpm2-pytss>=1.0.0
+
+# gRPC
+grpcio>=1.60.0
+grpcio-tools>=1.60.0
+protobuf>=4.25.0
+
+# Blockchain
+web3>=6.0.0
+eth-hash>=0.5.0
+eth-utils>=4.0.0
+base58>=2.1.0
+bech32>=1.2.0
+
+# XRPL
+xrpl-py>=2.0.0
+
+# Solana
+solana>=0.30.0
+solders>=0.18.0
+
+# Cosmos
+cosmjs>=0.1.0
+
+# Shamir Secret Sharing
+# (built-in implementation, no external dep)
+
+# Configuration
+pyyaml>=6.0.0
+python-dotenv>=1.0.0
+
+# Utilities
+requests>=2.31.0
+tqdm>=4.65.0
