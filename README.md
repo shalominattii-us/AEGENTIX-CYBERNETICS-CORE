@@ -90,7 +90,112 @@ curl http://localhost:3000/api/cybercore/rewards/summary
 curl http://localhost:3000/api/cybercore/vault/shards
 ```
 
-## Source Structure
+## C:\ Root Structure (Post-Reorganization)
+
+```
+C:\
+├── .cursor/                    # Cursor IDE config
+├── AEGENTIX-CYBERNETICS-CORE/  # Main cybernetics repo (git)
+│   ├── .github/workflows/      # CI/CD pipelines
+│   ├── cybercore/              # Core vault, oracle, hermes, metrics
+│   ├── sources/sovereign-os/   # Docker Compose orchestration
+│   ├── c-drive-map/            # C:\ drive mapping artifacts
+│   ├── monitoring/             # Prometheus, Grafana, Alertmanager configs
+│   ├── orchestrator/           # Event orchestration logs
+│   ├── start_oracle.py         # gRPC oracle entrypoint
+│   ├── generate_certs.py       # TLS certificate generator
+│   ├── cybercore_cli.py        # CLI for vault operations
+│   ├── cybercore_daemon.py     # Daemon entrypoint
+│   ├── cybercore_parity_test.py # Migration parity tests
+│   ├── requirements-cybercore.txt
+│   ├── Dockerfile.cybercore
+│   ├── docker-entrypoint.sh
+│   └── README.md
+├── AEGENTIX-WORKSPACE/         # Primary workspace (git)
+│   ├── github-repos/           # Git repositories
+│   ├── AE_HUB/                 # AE Hub (moved from AEGENTIS_WORKSPACE)
+│   ├── ASSR/                   # Autonomous System for Sovereign Records
+│   ├── linux-distros/          # Linux ISO acquisition
+│   ├── gdrive_ingest/          # Google Drive ingestion
+│   ├── omnicyberdex/           # OmniCyberDex
+│   ├── logs/                   # Workspace logs
+│   ├── src/                    # Source code
+│   ├── pnpm-store/             # pnpm cache
+│   ├── AE-Hub-v2/              # AE Hub v2 (moved from root)
+│   ├── governor.js             # Governor script
+│   └── server.js               # Server entrypoint
+├── Aegentix/                   # Legacy (archived - contents merged)
+├── AE-Hub-v2/                  # Moved to AEGENTIX-WORKSPACE/AE-Hub-v2
+├── AI_Ingest_Books/            # Moved to data/books/
+├── AE-Hub-v2/                  # Moved to AEGENTIX-WORKSPACE/
+├── archive/                    # Archived staging dirs
+│   └── AEGENTIX_STAGING_20260907.zip
+├── BlockchainData/             # Moved to data/blockchain/
+├── BlockchainData/             # Moved to data/blockchain/
+├── catalog/                    # Moved to data/catalog/
+├── data/                       # Unified data lake
+│   ├── blockchain/             # Blockchain node configs, RPC nodes
+│   ├── books/                  # AI ingested books
+│   ├── catalog/                # Data catalogs (NASA, NSF, etc.)
+│   ├── legacy/                 # Archived legacy dirs
+│   │   ├── hedera-starter/
+│   │   ├── PURE-ISO-UPSTREAM/
+│   │   └── var/
+│   ├── models/                 # ML models
+│   ├── policy/                 # Policy definitions
+│   ├── provenance/             # Provenance tracking
+│   ├── reflection/             # Reflection data
+│   └── schemas/                # Schema definitions
+├── eSupport/                   # Dell support tools
+├── events/                     # Event logs
+├── hedera-starter/             # Moved to data/legacy/
+├── inetpub/                    # IIS web root
+├── Linux_ISOs/                 # Linux ISO storage
+├── LLVM/                       # LLVM compiler infrastructure
+├── manifests/                  # Deployment manifests
+├── MinimalNodes/               # 300-chain minimal node registry
+├── models/                     # Moved to data/models/
+├── policy/                     # Moved to data/policy/
+├── PURE-ISO-UPSTREAM/          # Moved to data/legacy/
+├── provenance/                 # Moved to data/provenance/
+├── production/                 # Production configs
+├── provenance/                 # Moved to data/provenance/
+├── reflection/                 # Moved to data/reflection/
+├── schemas/                    # Moved to data/schemas/
+├── Sovereign/                  # Unified sovereign core (git)
+│   ├── AE-Hub/                 # AE Hub core
+│   ├── Config/                 # Configuration
+│   ├── core/                   # Core sovereign modules
+│   ├── Data/                   # Sovereign data
+│   ├── Deploy/                 # Deployment configs
+│   ├── envs/                   # Environment configs
+│   ├── governance/             # Governance policies
+│   ├── halo-ce-universal/      # HALO CE universal
+│   ├── ledger/                 # Ledger/ledger state
+│   ├── logs/                   # Sovereign logs
+│   ├── OllamaModels/           # Ollama model storage
+│   ├── processed/              # Processed ingestion data
+│   ├── SovereignOS-Portal/     # Portal frontend
+│   ├── workflows/              # Workflow definitions
+│   ├── anythingllm_ingest_queue/
+│   ├── OllamaModels/
+│   ├── workflows/
+│   ├── AnythingLLMSetup.exe
+│   ├── CalibreSetup.msi
+│   ├── INSTALLATION_GUIDE.txt
+│   ├── inventory_manifest.json
+│   └── OllamaSetup.exe
+├── tmp/                        # Temp directory
+├── UWP_Backup/                 # UWP app backups
+├── var/                        # Moved to data/legacy/
+├── vfcompat.dll                # Windows system file
+├── Windows/                    # Windows system directory
+├── XboxGames/                  # Xbox games
+├── xboxsetup/                  # Xbox setup
+└── .cursor/                    # Cursor IDE config
+```
+
+## Source Structure (AEGENTIX-CYBERNETICS-CORE)
 
 ```
 sources/
@@ -112,11 +217,31 @@ sources/
 └── SovereignOS-Memory/
 ```
 
+## Naming Conventions
+
+- **Repositories**: `kebab-case` (e.g., `AEGENTIX-CYBERNETICS-CORE`)
+- **Workspaces**: `kebab-case` with `WORKSPACE` suffix (e.g., `AEGENTIX-WORKSPACE`)
+- **Directories**: `kebab-case` for projects, `PascalCase` for system components
+- **Data directories**: `kebab-case` under `C:\data\`
+- **Legacy/archived**: `data/legacy/` or `archive/`
+- **Git repos**: Standard GitHub naming
+
 ## Status
 
 **Production-ready components:** CyberCore gRPC oracle, Hermes NATS integration, Treasury APIs, Docker Compose orchestration, Prometheus metrics, mTLS certificates.
 
 **In development:** Full on-chain treasury verification, Shamir entropy provider, HSM PKCS#11 integration.
+
+## Post-Reorganization Cleanup Required (Run as Administrator)
+
+```powershell
+# Remove locked root files
+takeown /f C:\WRP6793.tmp /a
+icacls C:\WRP6793.tmp /grant administrators:F
+Remove-Item C:\WRP6793.tmp -Force
+
+Remove-Item C:\release.yml, C:\server.js, C:\governor.js, C:\d, C:\DumpStack.log -Force
+```
 
 ## License
 
