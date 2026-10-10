@@ -12,7 +12,13 @@ from datetime import datetime
 from dataclasses import dataclass
 from web3 import Web3
 from web3.contract import Contract
-from web3.middleware import geth_poa_middleware
+try:
+    from web3.middleware import ExtraDataToPOAMiddleware as geth_poa_middleware
+except ImportError:
+    try:
+        from web3.middleware import geth_poa_middleware
+    except ImportError:
+        geth_poa_middleware = None
 import asyncio
 
 from ..core.base import (

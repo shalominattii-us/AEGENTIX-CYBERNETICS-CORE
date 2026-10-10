@@ -11,7 +11,13 @@ from decimal import Decimal
 from datetime import datetime
 from dataclasses import dataclass, field
 from web3 import Web3
-from web3.middleware import geth_poa_middleware
+try:
+    from web3.middleware import ExtraDataToPOAMiddleware as geth_poa_middleware
+except ImportError:
+    try:
+        from web3.middleware import geth_poa_middleware
+    except ImportError:
+        geth_poa_middleware = None
 
 from ..core.base import (
     BaseEngine, ChainConfig, Opportunity, Position, PnLRecord,

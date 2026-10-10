@@ -22,7 +22,8 @@ from engines.core.base import (
 )
 from engines.mev.engine import MEVArbitrageEngine
 from engines.arbitrage.cross_chain import CrossChainArbitrageEngine
-from engines.yield.engine import YieldFarmingEngine
+import importlib
+YieldFarmingEngine = importlib.import_module("engines.yield.engine").YieldFarmingEngine
 from engines.liquidation.engine import LiquidationEngine
 from engines.marketmaker.engine import MarketMakerEngine
 
