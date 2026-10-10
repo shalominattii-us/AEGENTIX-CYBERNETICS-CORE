@@ -95,6 +95,28 @@ from .audit import (
     initialize_audit_logger,
 )
 
+from .hermes import (
+    HermesClient,
+    SyncHermesClient,
+    HermesIntegratedVault,
+    HermesMessage,
+    HermesSubject,
+    create_hermes_client,
+)
+
+from .metrics import (
+    setup_metrics,
+    start_metrics_server,
+    get_collector,
+    init_collector,
+    REGISTRY,
+    MetricsCollector,
+    track_signing,
+    track_key_derivation,
+    track_grpc_request,
+    track_hermes_publish,
+)
+
 __all__ = [
     # Version
     "__version__",
@@ -163,6 +185,24 @@ __all__ = [
     "AuditEventType",
     "get_audit_logger",
     "initialize_audit_logger",
+    # Hermes
+    "HermesClient",
+    "SyncHermesClient",
+    "HermesIntegratedVault",
+    "HermesMessage",
+    "HermesSubject",
+    "create_hermes_client",
+    # Metrics
+    "setup_metrics",
+    "start_metrics_server",
+    "get_collector",
+    "init_collector",
+    "REGISTRY",
+    "MetricsCollector",
+    "track_signing",
+    "track_key_derivation",
+    "track_grpc_request",
+    "track_hermes_publish",
 ]
 
 

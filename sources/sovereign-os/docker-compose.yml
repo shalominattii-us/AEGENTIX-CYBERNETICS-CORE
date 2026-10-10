@@ -1,5 +1,5 @@
 ##############################################################
-#  AEGENTIX CYBERNETICS — Master Orchestration
+#  AEGENTIX CYBERNETICS — Master Orchestration (Production Hardened)
 #  10 Divisions. One Kernel. One Event Bus.
 #
 #  Usage:
@@ -11,45 +11,166 @@
 #    Copy .env.example to .env and fill in secrets before running.
 ##############################################################
 
+version: '3.8'
 
 networks:
   aegentis-net:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
 
 volumes:
   kernel-data:
+    driver: local
   treasury-data:
+    driver: local
   vector-data:
+    driver: local
   worldmonitor-data:
+    driver: local
   cybercore-source:
+    driver: local
+  cybercore-secrets:
+    driver: local
+  cybercore-logs:
+    driver: local
+  cybercore-certs:
+    driver: local
+  nats-data:
+    driver: local
+  nats-config:
+    driver: local
+
+# Default resource limits (can be overridden per service)
+x-resource-limits: &resource-limits
+  deploy:
+    resources:
+      limits:
+        cpus: '2.0'
+        memory: 2G
+      reservations:
+        cpus: '0.5'
+        memory: 512M
+
+# Common restart policy
+x-restart-policy: &restart-policy
+  restart: unless-stopped
+
+# Common logging
+x-logging: &logging
+  logging:
+    driver: "json-file"
+    options:
+      max-size: "10m"
+      max-file: "5"
+
+# Health check defaults
+x-healthcheck: &healthcheck
+  healthcheck:
+    interval: 30s
+    timeout: 10s
+    retries: 3
+    start_period: 15s
+
+# NATS configuration for Hermes
+x-nats-config: &nats-config
+  environment:
+    - NATS_SERVER_NAME=aegentis-nats
+    - NATS_CLUSTER_NAME=aegentis-cluster
+    - NATS_ROUTES=nats-route://ruser:rpass@aegentis-nats:6222
+    - NATS_JETSTREAM=1
+    - NATS_STORE_DIR=/data/jetstream
+  volumes:
+    - nats-data:/data
+    - nats-config:/etc/nats
+  networks:
+    - aegentis-net
+  <<: *restart-policy
+  <<: *resource-limits
+  <<: *logging
+  <<: *healthcheck
 
 services:
 
-# ══════════════════════════════════════════════════════════
-  # CYBERCORE — Zero-Storage Deterministic Key Vault
-  # ══════════════════════════════════════════════════════════
-  cybercore:
+# ═══════════════════════════════════════════════════════════
+# HERMES MESSAGE BUS (NATS + JetStream)
+# ═══════════════════════════════════════════════════════════
+  nats:
+    image: nats:2.10-alpine
+    container_name: aegentis-nats
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    command:
+      - "-js"
+      - "-m"
+      - "8222"
+      - "-c"
+      - "/etc/nats/nats.conf"
+    <<: *nats-config
+    labels:
+      aegentis.division: "HERMES"
+      aegentis.role: "message-bus"
+      aegentis.version: "2.10"
+    healthcheck:
+      test: ["CMD", "nats", "server", "check"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+# ═══════════════════════════════════════════════════════════
+# CYBERCORE — Zero-Storage Deterministic Key Vault
+# ═══════════════════════════════════════════════════════════
+cybercore:
     build:
       context: ../../../AEGENTIX-CYBERNETICS-CORE
       dockerfile: Dockerfile.cybercore
+      target: runtime
     container_name: aegentix-cybercore
     ports:
       - "50051:50051"
+      - "9090:9090"
     volumes:
       - cybercore-source:/app/cybercore:ro
+      - cybercore-secrets:/app/secrets:ro
+      - cybercore-logs:/app/logs
+      - cybercore-certs:/app/certs:ro
     environment:
-      - CYBERCORE_MASTER_SEED=cybercore-master-seed-2024
+      - CYBERCORE_MASTER_SEED_FILE=/app/secrets/master_seed
       - CYBERCORE_ENTROPY_PROVIDER=Argon2id
+      - CYBERCORE_LOG_LEVEL=INFO
+      - CYBERCORE_GRPC_PORT=50051
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - NATS_URL=nats://aegentis-nats:4222
+      - CYBERCORE_WITH_HERMES=true
+      - CYBERCORE_METRICS_PORT=9090
+      - CYBERCORE_TLS_ENABLED=true
+      - CYBERCORE_CERT_DIR=/app/certs
     networks:
       - aegentis-net
-    restart: unless-stopped
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
+    <<: *healthcheck
+    depends_on:
+      nats:
+        condition: service_healthy
     labels:
       aegentis.division: "CYBERCORE"
       aegentis.role: "signing-oracle"
+      aegentis.version: "1.0.0"
+    secrets:
+      - cybercore_master_seed
+    volumes:
+      - cybercore-certs:/app/certs:ro
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS KERNEL — Event Bus (WorldMonitor)
-  # ═════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS KERNEL — Event Bus (WorldMonitor)
+# ═══════════════════════════════════════════════════════════
   kernel-event-bus:
     build:
       context: ./KERNEL/event-bus
@@ -66,7 +187,9 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
-    restart: unless-stopped
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 10s
@@ -76,8 +199,10 @@ services:
     labels:
       aegentis.division: "KERNEL"
       aegentis.role: "event-bus"
+      aegentis.version: "1.0.0"
     depends_on:
-      - cybercore
+      cybercore:
+        condition: service_healthy
 
   # KERNEL: Identity OS
   kernel-identity:
@@ -96,12 +221,14 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "KERNEL"
       aegentis.role: "identity-os"
@@ -121,19 +248,21 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "KERNEL"
       aegentis.role: "agent-runtime"
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS TREASURY
-  # ══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS TREASURY
+# ═══════════════════════════════════════════════════════════
   treasury:
     build:
       context: ./TREASURY
@@ -148,16 +277,43 @@ services:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - PORT=8081
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
+      # Real RPC endpoints for on-chain verification
+      - ETH_RPC_URL=https://eth.llamarpc.com
+      - BASE_RPC_URL=https://mainnet.base.org
+      - ARBITRUM_RPC_URL=https://arb1.arbitrum.io/rpc
+      - OPTIMISM_RPC_URL=https://mainnet.optimism.io
+      - POLYGON_RPC_URL=https://polygon-rpc.com
+      - XRPL_RPC_URL=https://xrplcluster.com
+      - SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+      - COSMOS_RPC_URL=https://cosmos-rpc.quickapi.com:443
+      - STACKS_RPC_URL=https://stacks-node-api.mainnet.stacks.co
+      # Treasury addresses (from minimal_node_treasury_wallets.json)
+      - EVM_TREASURY_ADDRESS=0x71C865d4fC35E2a188B67B7A98AcB921098A1904
+      - XRPL_TREASURY_ADDRESS=rZamanXRPLMainnetVaultAddr9948271
+      - SOLANA_TREASURY_ADDRESS=SolanaMinimalTreasuryVault111111111111111111
+      - COSMOS_TREASURY_ADDRESS=cosmos1aegentixminimaltreasuryvault99999
+      - BITCOIN_L2_TREASURY_ADDRESS=bc1qaegentixminimalnodebtc2026vault999
+      # AEGENTIX Stablecoin contract addresses
+      - AEGENTIX_STABLECOIN_ETH=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_BASE=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_ARBITRUM=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_XRPL=AEGENTIX
+      - AEGENTIX_STABLECOIN_SOLANA=AEGENTIX...
+      - AEGENTIX_STABLECOIN_COSMOS=ibc/AEGENTIX...
+      - AEGENTIX_STABLECOIN_STACKS=SP...AEGENTIX
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "TREASURY"
+      aegentis.version: "1.0.0"
 
   treasury-agent:
     build:
@@ -170,21 +326,47 @@ services:
       - KERNEL_EVENT_BUS_URL=http://kernel-event-bus:8080/intent
       - TREASURY_LOOP_INTERVAL=15
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
+      # Real RPC endpoints for on-chain verification
+      - ETH_RPC_URL=https://eth.llamarpc.com
+      - BASE_RPC_URL=https://mainnet.base.org
+      - ARBITRUM_RPC_URL=https://arb1.arbitrum.io/rpc
+      - OPTIMISM_RPC_URL=https://mainnet.optimism.io
+      - POLYGON_RPC_URL=https://polygon-rpc.com
+      - XRPL_RPC_URL=https://xrplcluster.com
+      - SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+      - COSMOS_RPC_URL=https://cosmos-rpc.quickapi.com:443
+      - STACKS_RPC_URL=https://stacks-node-api.mainnet.stacks.co
+      # Treasury addresses
+      - EVM_TREASURY_ADDRESS=0x71C865d4fC35E2a188B67B7A98AcB921098A1904
+      - XRPL_TREASURY_ADDRESS=rZamanXRPLMainnetVaultAddr9948271
+      - SOLANA_TREASURY_ADDRESS=SolanaMinimalTreasuryVault111111111111111111
+      - COSMOS_TREASURY_ADDRESS=cosmos1aegentixminimaltreasuryvault99999
+      - BITCOIN_L2_TREASURY_ADDRESS=bc1qaegentixminimalnodebtc2026vault999
+      # AEGENTIX Stablecoin contract addresses
+      - AEGENTIX_STABLECOIN_ETH=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_BASE=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_ARBITRUM=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_XRPL=AEGENTIX
+      - AEGENTIX_STABLECOIN_SOLANA=AEGENTIX...
+      - AEGENTIX_STABLECOIN_COSMOS=ibc/AEGENTIX...
+      - AEGENTIX_STABLECOIN_STACKS=SP...AEGENTIX
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "TREASURY"
       aegentis.role: "autonomous-agent"
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS AI
-  # ══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS AI
+# ══════════════════════════════════════════════════════════
   ai-runtime:
     build:
       context: ./AI/multi-llm-runtime
@@ -202,18 +384,20 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "AI"
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS XR — AEGENTIS-X Quest Backend
-  # ══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS XR — AEGENTIS-X Quest Backend
+# ══════════════════════════════════════════════════════════
   xr-quest-backend:
     build:
       context: ./XR/quest
@@ -230,12 +414,14 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "XR"
       aegentis.role: "aegentis-x"
@@ -257,19 +443,21 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "XR"
       aegentis.role: "vr-backend"
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS SECURITY
-  # ══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS SECURITY
+# ══════════════════════════════════════════════════════════
   security-threat-monitor:
     build:
       context: ./SECURITY/threat-intelligence
@@ -283,12 +471,14 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "SECURITY"
 
@@ -308,19 +498,21 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "SECURITY"
       aegentis.role: "orbital-observer"
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS DATA
-  # ══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS DATA
+# ══════════════════════════════════════════════════════════
   data-vector-memory:
     build:
       context: ./DATA/vector-memory
@@ -338,18 +530,20 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "DATA"
 
-  # ══════════════════════════════════════════════════════════
-  # AEGENTIS CLOUD — Event Streaming
-  # ══════════════════════════════════════════════════════════
+# ═══════════════════════════════════════════════════════════
+# AEGENTIS CLOUD — Event Streaming
+# ══════════════════════════════════════════════════════════
   cloud-event-stream:
     build:
       context: ./CLOUD/event-streaming
@@ -365,11 +559,44 @@ services:
       - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
     networks:
       - aegentis-net
+    <<: *restart-policy
+    <<: *resource-limits
+    <<: *logging
     depends_on:
       kernel-event-bus:
         condition: service_healthy
       cybercore:
         condition: service_started
-    restart: unless-stopped
     labels:
       aegentis.division: "CLOUD"
+
+# Secret definitions
+secrets:
+  cybercore_master_seed:
+    file: ./secrets/cybercore_master_seed.txt
+
+# Network configuration
+networks:
+  aegentis-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
+
+# Volume definitions with local driver
+volumes:
+  kernel-data:
+    driver: local
+  treasury-data:
+    driver: local
+  vector-data:
+    driver: local
+  worldmonitor-data:
+    driver: local
+  cybercore-source:
+    driver: local
+  cybercore-secrets:
+    driver: local
+  cybercore-logs:
+    driver: local
