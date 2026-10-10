@@ -1,0 +1,46 @@
+# AEGENTIX Revenue Engines - Dockerfile
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libffi-dev \
+    libssl-dev \
+    pkg-config \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for better caching
+COPY engines/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy engine source code
+COPY engines/ /app/engines/
+COPY engines/core/ /app/engines/core/
+COPY engines/mev/ /app/engines/mev/
+COPY engines/arbitrage/ /app/engines/arbitrage/
+COPY engines/yield/ /app/engines/yield/
+COPY engines/liquidation/ /app/engines/liquidation/
+COPY engines/marketmaker/ /app/engines/marketmaker/
+
+# Create non-root user
+RUN groupadd -g 1000 aegentix && \
+    useradd -m -u 1000 -g 1000 -s /bin/bash aegentix && \
+    chown -R aegentix:aegentix /app
+
+# Create directories for logs and data
+RUN mkdir -p /app/logs /app/data /app/secrets && \
+    chown -R aegentix:aegentix /app/logs /app/data /app/secrets
+
+USER aegentix
+
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+ENV AEGENTIX_PRODUCTION=0
+
+EXPOSE 9090
+
+# Default command
+CMD ["python", "engines/main.py"]

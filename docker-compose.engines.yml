@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  # Revenue Engines
+  revenue-engines:
+    build:
+      context: ../AEGENTIX-CYBERNETICS-CORE
+      dockerfile: Dockerfile.engines
+    container_name: aegentix-revenue-engines
+    restart: unless-stopped
+    environment:
+      - AEGENTIX_PRODUCTION=${AEGENTIX_PRODUCTION:-0}
+      - NATS_URL=nats://aegentis-nats:4222
+      - ETH_RPC_URL=${ETH_RPC_URL}
+      - BASE_RPC_URL=${BASE_RPC_URL}
+      - ARBITRUM_RPC_URL=${ARBITRUM_RPC_URL}
+      - POLYGON_RPC_URL=${POLYGON_RPC_URL}
+      - XRPL_RPC_URL=${XRPL_RPC_URL}
+      - SOLANA_RPC_URL=${SOLANA_RPC_URL}
+      - COSMOS_RPC_URL=${COSMOS_RPC_URL}
+      - STACKS_RPC_URL=${STACKS_RPC_URL}
+      - EVM_TREASURY_ADDRESS=0x71C865d4fC35E2a188B67B7A98AcB921098A1904
+      - XRPL_TREASURY_ADDRESS=rZamanXRPLMainnetVaultAddr9948271
+      - SOLANA_TREASURY_ADDRESS=SolanaMinimalTreasuryVault111111111111111111
+      - COSMOS_TREASURY_ADDRESS=cosmos1aegentixminimaltreasuryvault99999
+      - BITCOIN_L2_TREASURY_ADDRESS=bc1qaegentixminimalnodebtc2026vault999
+      - AEGENTIX_STABLECOIN_ETH=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_BASE=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_ARBITRUM=0xAEGENTIX...
+      - AEGENTIX_STABLECOIN_XRPL=AEGENTIX
+      - AEGENTIX_STABLECOIN_SOLANA=AEGENTIX...
+      - AEGENTIX_STABLECOIN_COSMOS=ibc/AEGENTIX...
+      - AEGENTIX_STABLECOIN_STACKS=SP...AEGENTIX
+    volumes:
+      - ./engines:/app/engines:ro
+      - revenue-logs:/app/logs
+      - revenue-data:/app/data
+      - ./secrets:/app/secrets:ro
+    ports:
+      - "9091:9090"
+    networks:
+      - aegentis-net
+    depends_on:
+      nats:
+        condition: service_healthy
+    labels:
+      aegentis.division: "REVENUE"
+      aegentis.role: "engines"
+      aegentis.version: "1.0.0"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9090/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  aegentis-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  revenue-logs:
+    driver: local
+  revenue-data:
+    driver: local
