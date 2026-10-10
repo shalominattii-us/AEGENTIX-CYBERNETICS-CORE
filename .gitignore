@@ -7,3 +7,10 @@ gdrive_imports/all_drive_assets/folders/
 
 gdrive_imports/**/*.bin
 
+
+__pycache__/
+*.pyc
+*.pyo
+*.log
+.env*
+

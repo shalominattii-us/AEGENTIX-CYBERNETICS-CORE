@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package cybercore.oracle.v1;
+
+// Signing Oracle Service for CyberCore
+// Provides secure signing for agents without exposing private keys
+
+service SigningOracle {
+  // Sign a message with a derived key
+  rpc Sign(SignRequest) returns (SignResponse);
+  
+  // Get public key info for a derivation path
+  rpc GetPublicKey(PublicKeyRequest) returns (PublicKeyResponse);
+  
+  // Derive address for a path
+  rpc DeriveAddress(AddressRequest) returns (AddressResponse);
+  
+  // Health check
+  rpc Health(HealthRequest) returns (HealthResponse);
+  
+  // Get supported chains
+  rpc ListChains(ListChainsRequest) returns (ListChainsResponse);
+}
+
+// Capability token for authorization
+message CapabilityToken {
+  string token = 1;           // JWT or ed25519 signed capability
+  string agent_id = 2;        // Agent identifier
+  repeated string allowed_paths = 3;  // Allowed derivation paths (glob patterns)
+  repeated string allowed_chains = 4; // Allowed chains
+  int64 expires_at = 5;       // Unix timestamp expiration
+  int64 issued_at = 6;        // Unix timestamp issued
+  string nonce = 7;           // Nonce for replay protection
+}
+
+// Signing request
+message SignRequest {
+  CapabilityToken capability = 1;
+  string path = 2;            // Derivation path (e.g., "m/44'/60'/0'/0/0")
+  bytes message = 3;          // Message to sign
+  string chain = 4;           // Chain name (ethereum, xrpl, solana, etc.)
+  string agent_id = 5;        // Agent identifier
+  int64 nonce = 6;            // Request nonce
+}
+
+// Signing response
+message SignResponse {
+  bytes signature = 1;        // Signature bytes
+  string address = 2;         // Derived address
+  string chain = 3;           // Chain used
+  int64 timestamp = 4;        // Signing timestamp
+  string request_id = 5;      // Unique request ID
+}
+
+// Public key request
+message PublicKeyRequest {
+  CapabilityToken capability = 1;
+  string path = 2;
+  string chain = 3;
+}
+
+// Public key response
+message PublicKeyResponse {
+  bytes public_key = 1;
+  string address = 2;
+  string chain = 3;
+  string curve = 4;           // secp256k1 or ed25519
+  int32 depth = 5;
+}
+
+// Address derivation request
+message AddressRequest {
+  CapabilityToken capability = 1;
+  string path = 2;
+  string chain = 3;
+}
+
+// Address derivation response
+message AddressResponse {
+  string address = 1;
+  string chain = 2;
+}
+
+// Health check request/response
+message HealthRequest {}
+message HealthResponse {
+  bool healthy = 1;
+  string version = 2;
+  int64 uptime_seconds = 3;
+  repeated string entropy_providers = 4;
+  int32 cached_keys = 5;
+}
+
+// List chains request/response
+message ListChainsRequest {}
+message ListChainsResponse {
+  repeated ChainInfo chains = 1;
+}
+
+message ChainInfo {
+  string name = 1;
+  string family = 2;          // EVM, XRPL, SOLANA, COSMOS, BITCOIN_L2
+  string curve = 3;           // secp256k1, ed25519
+  string native_token = 4;
+  int32 chain_id = 5;
+  bool is_testnet = 6;
+}
