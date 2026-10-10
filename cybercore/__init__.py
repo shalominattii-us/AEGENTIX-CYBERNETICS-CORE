@@ -95,27 +95,47 @@ from .audit import (
     initialize_audit_logger,
 )
 
-from .hermes import (
-    HermesClient,
-    SyncHermesClient,
-    HermesIntegratedVault,
-    HermesMessage,
-    HermesSubject,
-    create_hermes_client,
-)
+try:
+    from .hermes import (
+        HermesClient,
+        SyncHermesClient,
+        HermesIntegratedVault,
+        HermesMessage,
+        HermesSubject,
+        create_hermes_client,
+    )
+except ImportError:
+    HermesClient = None
+    SyncHermesClient = None
+    HermesIntegratedVault = None
+    HermesMessage = None
+    HermesSubject = None
+    create_hermes_client = None
 
-from .metrics import (
-    setup_metrics,
-    start_metrics_server,
-    get_collector,
-    init_collector,
-    REGISTRY,
-    MetricsCollector,
-    track_signing,
-    track_key_derivation,
-    track_grpc_request,
-    track_hermes_publish,
-)
+try:
+    from .metrics import (
+        setup_metrics,
+        start_metrics_server,
+        get_collector,
+        init_collector,
+        REGISTRY,
+        MetricsCollector,
+        track_signing,
+        track_key_derivation,
+        track_grpc_request,
+        track_hermes_publish,
+    )
+except ImportError:
+    setup_metrics = None
+    start_metrics_server = None
+    get_collector = None
+    init_collector = None
+    REGISTRY = None
+    MetricsCollector = None
+    track_signing = None
+    track_key_derivation = None
+    track_grpc_request = None
+    track_hermes_publish = None
 
 __all__ = [
     # Version
