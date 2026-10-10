@@ -8,10 +8,12 @@ import signal
 import logging
 import threading
 import time
-from typing: Optional
+from typing import Optional
 
 # Add parent directory to path for imports
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+daemon_dir = os.path.dirname(os.path.abspath(__file__))
+if daemon_dir not in sys.path:
+    sys.path.insert(0, daemon_dir)
 
 from cybercore.entropy import initialize_default_registry
 from cybercore.vault import create_vault
@@ -22,12 +24,13 @@ from cybercore.integration import run_full_migration
 
 
 # Configure logging
+log_path = os.path.join(daemon_dir, 'cybercore_daemon.log')
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(name)s: %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('C:\\Users\\eagle\\AEGENTIX-CYBERNETICS-CORE\\cybercore_daemon.log')
+        logging.FileHandler(log_path)
     ]
 )
 
@@ -87,9 +90,9 @@ class CyberCoreDaemon:
         
         logger.info("All components initialized successfully")
     
-    def run_oracle(self, unix_socket: str = None):
+    def run_oracle(self, host: str = "0.0.0.0", port: int = 50051, unix_socket: str = None):
         """Run the signing oracle server."""
-        if unix_socket:
+        if unix_socket and os.name != 'nt':
             logger.info(f"Starting Unix socket oracle on {unix_socket}")
             run_unix_socket_server(
                 socket_path=unix_socket,
@@ -97,13 +100,13 @@ class CyberCoreDaemon:
                 capability_manager=self.capability_manager
             )
         else:
-            logger.info("Starting TCP oracle on localhost:50051")
-            from cybercore.oracle import run_server
+            logger.info(f"Starting TCP gRPC signing oracle on {host}:{port}")
+            from cybercore.oracle.server import run_server
             run_server(
                 vault=self.vault,
                 capability_manager=self.capability_manager,
-                host="localhost",
-                port=50051
+                host=host,
+                port=port
             )
     
     def run_reward_engine(self):
@@ -177,11 +180,13 @@ def main():
     import argparse
     
     parser = argparse.ArgumentParser(description="CyberCore Daemon")
-    parser.add_argument("command", choices=[
+    parser.add_argument("command", nargs="?", default="start", choices=[
         "start", "oracle", "migrate", "verify", "daemon"
-    ], help="Command to run")
-    parser.add_argument("--unix-socket", default="/tmp/cybercore-oracle.sock",
-                       help="Unix socket path for oracle")
+    ], help="Command to run (default: start)")
+    parser.add_argument("--host", default="0.0.0.0", help="gRPC host (default: 0.0.0.0)")
+    parser.add_argument("--port", type=int, default=50051, help="gRPC port (default: 50051)")
+    parser.add_argument("--unix-socket", default=None,
+                       help="Unix socket path for oracle (optional)")
     parser.add_argument("--migrate", action="store_true",
                        help="Run migration on startup")
     parser.add_argument("--verify", action="store_true",
@@ -212,7 +217,7 @@ def main():
             sys.exit(0 if success else 1)
         
         if args.command == "oracle":
-            daemon.run_oracle(unix_socket=args.unix_socket)
+            daemon.run_oracle(host=args.host, port=args.port, unix_socket=args.unix_socket)
             return
         
         if args.command == "daemon":
@@ -222,7 +227,7 @@ def main():
             # Start oracle in thread
             oracle_thread = threading.Thread(
                 target=daemon.run_oracle,
-                args=(args.unix_socket,),
+                kwargs={"host": args.host, "port": args.port, "unix_socket": args.unix_socket},
                 daemon=True
             )
             oracle_thread.start()
@@ -234,7 +239,7 @@ def main():
             return
         
         # Default: start oracle
-        daemon.run_oracle(unix_socket=args.unix_socket)
+        daemon.run_oracle(host=args.host, port=args.port, unix_socket=args.unix_socket)
         
     except KeyboardInterrupt:
         logger.info("Interrupted")

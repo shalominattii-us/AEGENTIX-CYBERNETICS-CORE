@@ -128,18 +128,21 @@ def get_global_registry() -> EntropyRegistry:
     global _global_registry
     if _global_registry is None:
         _global_registry = EntropyRegistry()
+        initialize_default_registry(_global_registry)
     return _global_registry
 
 
-def initialize_default_registry() -> EntropyRegistry:
+def initialize_default_registry(registry: EntropyRegistry = None) -> EntropyRegistry:
     """Initialize registry with available providers."""
-    registry = get_global_registry()
+    if registry is None:
+        registry = get_global_registry()
     
-    # Try to register each provider type
+    # Try to register each provider type if not already registered
     for provider_class in [TPMProvider, HSMProvider, ShamirProvider, Argon2Provider]:
         try:
             provider = provider_class()
-            registry.register(provider)
+            if provider.name not in registry._providers:
+                registry.register(provider)
         except Exception as e:
             logger.warning(f"Failed to initialize {provider_class.__name__}: {e}")
     

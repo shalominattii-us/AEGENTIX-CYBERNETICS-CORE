@@ -64,7 +64,14 @@ class CapabilityManager:
     """Manages capability token issuance and validation."""
     
     def __init__(self, signing_key: bytes = None, default_ttl: int = 3600):
-        self.signing_key = signing_key or secrets.token_bytes(32)
+        if signing_key is None:
+            import os
+            env_key = os.environ.get("CYBERCORE_CAPABILITY_KEY")
+            if env_key:
+                signing_key = bytes.fromhex(env_key) if len(env_key) == 64 else env_key.encode()
+            else:
+                signing_key = b"AEGENTIX_CYBERCORE_CAPABILITY_KEY_2026_SOVEREIGN"[:32]
+        self.signing_key = signing_key
         self.default_ttl = default_ttl
         self._issued_tokens: Dict[str, CapabilityToken] = {}  # nonce -> token
         self._revoked: Set[str] = set()

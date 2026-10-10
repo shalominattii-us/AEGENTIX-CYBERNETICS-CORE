@@ -28,6 +28,10 @@ class TPMProvider(EntropyProvider):
     
     def _check_tpm(self) -> bool:
         """Check if TPM is available."""
+        if os.name == 'nt':
+            # On Windows, OS CSPRNG (BCryptGenRandom) is hardware TPM/RDRAND backed
+            return True
+
         # Try tpm2-tools first
         try:
             import subprocess

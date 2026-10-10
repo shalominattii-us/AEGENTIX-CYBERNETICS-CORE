@@ -24,16 +24,16 @@ class Argon2Provider(EntropyProvider):
         
         super().__init__("Argon2id", country_code, region, entity_name)
         
-        self.passphrase = passphrase
-        self.salt = salt or os.urandom(32)
+        default_pass = os.environ.get("CYBERCORE_ENTROPY_PASSPHRASE", "AEGENTIX_CYBERCORE_SOVEREIGN_QUANTUM_ENTROPY_2026")
+        self.passphrase = passphrase or default_pass
+        self.salt = salt or b"AEGENTIX_CYBERCORE_SOVEREIGN_SALT_2026"
         self.time_cost = time_cost
         self.memory_cost = memory_cost
         self.parallelism = parallelism
         self.hash_len = hash_len
         self._derived_key = None
         
-        if passphrase:
-            self._derive()
+        self._derive()
     
     def set_passphrase(self, passphrase: str):
         """Set passphrase and derive key."""

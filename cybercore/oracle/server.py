@@ -101,13 +101,16 @@ class SigningOracleServicer:
             )
             
             # Audit log
-            self.audit_logger.log_sign(
-                context=self._build_audit_context(token, "Sign", 
-                    path=request.path, chain=request.chain, message_len=len(request.message)
-                ),
-                signature=signature,
-                address=address,
-            )
+            try:
+                self.audit_logger.log_sign(
+                    agent_id=token.agent_id,
+                    chain=request.chain,
+                    path=request.path,
+                    signature=signature,
+                    address=address,
+                )
+            except Exception as audit_err:
+                logger.warning(f"Audit log failed: {audit_err}")
             
             return service_pb2.SignResponse(
                 signature=signature,
