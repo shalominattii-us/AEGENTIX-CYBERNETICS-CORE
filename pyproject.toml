@@ -7,6 +7,9 @@ requires-python = ">=3.10"
 [project.scripts]
 cyberdaw = "cyberdaw.cli:main"
 
+[tool.setuptools.packages.find]
+include = ["cyberdaw*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests/cyberdaw"]
 # Put the repo root on sys.path so `import cyberdaw` resolves without an
