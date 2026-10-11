@@ -76,3 +76,4 @@ Dockerfile.cybercore
 # gdrive imports
 gdrive_imports/all_drive_assets/folders/
 gdrive_imports/**/*.bin
+brain/

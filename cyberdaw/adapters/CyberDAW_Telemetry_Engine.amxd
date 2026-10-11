@@ -1,0 +1,91 @@
+{
+  "patcher": {
+    "fileversion": 1,
+    "appversion": {
+      "major": 8,
+      "minor": 6,
+      "revision": 0
+    },
+    "description": "AEGENTIX CyberDAW Clip Telemetry Engine v1.0",
+    "author": "AEGENTIX Stack",
+    "boxes": [
+      {
+        "box": {
+          "id": "obj-1",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 1,
+          "outlettype": [""],
+          "patching_rect": [30.0, 50.0, 240.0, 22.0],
+          "text": "live.path live_set view selected_scene"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-2",
+          "maxclass": "newobj",
+          "numinlets": 2,
+          "numoutlets": 2,
+          "outlettype": ["", ""],
+          "patching_rect": [30.0, 90.0, 150.0, 22.0],
+          "text": "live.observer"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-3",
+          "maxclass": "newobj",
+          "numinlets": 1,
+          "numoutlets": 2,
+          "outlettype": ["", ""],
+          "patching_rect": [30.0, 140.0, 180.0, 22.0],
+          "text": "node.script telemetry_router.js"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-4",
+          "maxclass": "message",
+          "numinlets": 2,
+          "numoutlets": 0,
+          "patching_rect": [50.0, 200.0, 200.0, 20.0],
+          "text": "telemetry_router.js loaded — ready"
+        }
+      },
+      {
+        "box": {
+          "id": "obj-5",
+          "maxclass": "comment",
+          "numinlets": 0,
+          "numoutlets": 0,
+          "patching_rect": [30.0, 240.0, 300.0, 18.0],
+          "text": "AEGENTIX CyberDAW — Place on Master Track in Ableton Live"
+        }
+      }
+    ],
+    "lines": [
+      {
+        "patchline": {
+          "destination": ["obj-2", 0],
+          "source": ["obj-1", 0]
+        }
+      },
+      {
+        "patchline": {
+          "destination": ["obj-3", 0],
+          "source": ["obj-2", 0]
+        }
+      }
+    ],
+    "arguments": [],
+    "maxclass": "patcher",
+    "metadata": {
+      "def sanctify_telemetry(event_type, metrics)":
+      {
+        "description": "AEGENTIX CyberDAW Clip Telemetry Engine",
+        "author": "AEGENTIX Stack",
+        "version": "1.0"
+      }
+    }
+  }
+}
