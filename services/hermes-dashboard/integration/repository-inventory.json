@@ -1,0 +1,766 @@
+[
+  {
+    "name": "aegentis-cloudshell-organizer",
+    "source": "sources/aegentis-cloudshell-organizer",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "aegentis-vr-backend",
+    "source": "sources/aegentis-vr-backend",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "node vr-server.js"
+    }
+  },
+  {
+    "name": "Aegentix",
+    "source": "sources/Aegentix",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-AGENT-MESH",
+    "source": "sources/AEGENTIX-AGENT-MESH",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "aegentix-coinbase-trading",
+    "source": "sources/aegentix-coinbase-trading",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-DEVTOOLS",
+    "source": "sources/AEGENTIX-DEVTOOLS",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-FINANCIAL-LEDGER",
+    "source": "sources/AEGENTIX-FINANCIAL-LEDGER",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-LABS-ARCHIVE",
+    "source": "sources/AEGENTIX-LABS-ARCHIVE",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-Linux-PreVerify",
+    "source": "sources/AEGENTIX-Linux-PreVerify",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-MISSION-CONTROL",
+    "source": "sources/AEGENTIX-MISSION-CONTROL",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "aegentix-omnichain-solver",
+    "source": "sources/aegentix-omnichain-solver",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "node orchestrator.js",
+      "dev": "node --watch orchestrator.js",
+      "test": "node --test tests/*.test.js",
+      "lint": "echo 'no linter configured'"
+    }
+  },
+  {
+    "name": "AEGENTIX-SECURITY-INTELLIGENCE",
+    "source": "sources/AEGENTIX-SECURITY-INTELLIGENCE",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AEGENTIX-XR-SPATIAL",
+    "source": "sources/AEGENTIX-XR-SPATIAL",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "agent",
+    "source": "sources/agent",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "agentic-ai-orchestrator",
+    "source": "sources/agentic-ai-orchestrator",
+    "entrypoints": [
+      "package.json",
+      "requirements.txt"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "python main.py"
+    }
+  },
+  {
+    "name": "agentkit",
+    "source": "sources/agentkit",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "agnesai-models",
+    "source": "sources/agnesai-models",
+    "entrypoints": [
+      "pyproject.toml",
+      "requirements.txt"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "antigravity-sdk-python",
+    "source": "sources/antigravity-sdk-python",
+    "entrypoints": [
+      "pyproject.toml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "awesome-claude-fable-5",
+    "source": "sources/awesome-claude-fable-5",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "AWS-Total-Backup",
+    "source": "sources/AWS-Total-Backup",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "cai",
+    "source": "sources/cai",
+    "entrypoints": [
+      "pyproject.toml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "cbdc-mantis-engine",
+    "source": "sources/cbdc-mantis-engine",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "node index.js"
+    }
+  },
+  {
+    "name": "claude-mem",
+    "source": "sources/claude-mem",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "dev": "npm run build-and-sync",
+      "build": "node scripts/sync-plugin-manifests.js && node scripts/build-hooks.js",
+      "build-and-sync": "npm run build && npm run sync-marketplace && sleep 1 && cd ~/.claude/plugins/marketplaces/thedotmack && npm run worker:restart",
+      "sync-marketplace": "node scripts/sync-marketplace.cjs",
+      "sync-marketplace:force": "node scripts/sync-marketplace.cjs --force",
+      "build:binaries": "node scripts/build-worker-binary.js",
+      "worker:logs": "tail -n 50 ~/.claude-mem/logs/worker-$(date +%Y-%m-%d).log",
+      "worker:tail": "tail -f 50 ~/.claude-mem/logs/worker-$(date +%Y-%m-%d).log",
+      "changelog:generate": "node scripts/generate-changelog.js",
+      "discord:notify": "node scripts/discord-release-notify.js",
+      "worker:start": "bun plugin/scripts/worker-service.cjs start",
+      "worker:stop": "bun plugin/scripts/worker-service.cjs stop",
+      "worker:restart": "bun plugin/scripts/worker-service.cjs restart",
+      "worker:status": "bun plugin/scripts/worker-service.cjs status",
+      "queue": "bun scripts/check-pending-queue.ts",
+      "queue:process": "bun scripts/check-pending-queue.ts --process",
+      "queue:clear": "bun scripts/clear-failed-queue.ts --all --force",
+      "claude-md:regenerate": "bun scripts/regenerate-claude-md.ts",
+      "claude-md:dry-run": "bun scripts/regenerate-claude-md.ts --dry-run",
+      "translate-readme": "bun scripts/translate-readme/cli.ts -v -o docs/i18n README.md",
+      "translate:tier1": "npm run translate-readme -- zh zh-tw ja pt-br ko es de fr",
+      "translate:tier2": "npm run translate-readme -- he ar ru pl cs nl tr uk",
+      "translate:tier3": "npm run translate-readme -- vi id th hi bn ro sv",
+      "translate:tier4": "npm run translate-readme -- it el hu fi da no",
+      "translate:all": "npm run translate:tier1 & npm run translate:tier2 & npm run translate:tier3 & npm run translate:tier4 & wait",
+      "bug-report": "npx tsx scripts/bug-report/cli.ts",
+      "cursor:install": "bun plugin/scripts/worker-service.cjs cursor install",
+      "cursor:uninstall": "bun plugin/scripts/worker-service.cjs cursor uninstall",
+      "cursor:status": "bun plugin/scripts/worker-service.cjs cursor status",
+      "cursor:setup": "bun plugin/scripts/worker-service.cjs cursor setup",
+      "test": "bun test",
+      "test:sqlite": "bun test tests/sqlite/",
+      "test:agents": "bun test tests/worker/agents/",
+      "test:search": "bun test tests/worker/search/",
+      "test:context": "bun test tests/context/",
+      "test:infra": "bun test tests/infrastructure/",
+      "test:server": "bun test tests/server/",
+      "prepublishOnly": "npm run build",
+      "release": "np",
+      "release:patch": "np patch --no-cleanup",
+      "release:minor": "np minor --no-cleanup",
+      "release:major": "np major --no-cleanup"
+    }
+  },
+  {
+    "name": "claw",
+    "source": "sources/claw",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "cybergennet-gym",
+    "source": "sources/cybergennet-gym",
+    "entrypoints": [
+      "pyproject.toml",
+      "docker-compose.yml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "cybergym",
+    "source": "sources/cybergym",
+    "entrypoints": [
+      "requirements.txt"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "dashboard",
+    "source": "sources/dashboard",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "destiny-custody-bridge",
+    "source": "sources/destiny-custody-bridge",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "node index.js"
+    }
+  },
+  {
+    "name": "EAGLE-SHIELD",
+    "source": "sources/EAGLE-SHIELD",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "EagleShieldUnity",
+    "source": "sources/EagleShieldUnity",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "elder-plinius.github.io",
+    "source": "sources/elder-plinius.github.io",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "fast-jev-compaction",
+    "source": "sources/fast-jev-compaction",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "build": "tsc",
+      "typecheck": "tsc --noEmit && npm run typecheck:hooks",
+      "test": "vitest run",
+      "demo": "tsx examples/demo.ts",
+      "typecheck:hooks": "tsc -p tsconfig.hooks.json",
+      "validate:plugin": "claude plugin validate .claude-plugin/plugin.json"
+    }
+  },
+  {
+    "name": "genesis-moment-renderer",
+    "source": "sources/genesis-moment-renderer",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "build": "echo Build placeholder"
+    }
+  },
+  {
+    "name": "GitNexus",
+    "source": "sources/GitNexus",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "prepare": "husky",
+      "format": "prettier --write .",
+      "format:check": "prettier --check .",
+      "lint": "eslint .",
+      "lint:fix": "eslint --fix .",
+      "gitnexus:refresh": "gitnexus analyze --embeddings --skills",
+      "gitnexus:full": "gitnexus analyze --force --embeddings --skills"
+    }
+  },
+  {
+    "name": "infinite-brain-harness",
+    "source": "sources/infinite-brain-harness",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "infinite-brain-os",
+    "source": "sources/infinite-brain-os",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "installer",
+    "source": "sources/installer",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "laniakea-mobile-app",
+    "source": "sources/laniakea-mobile-app",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "dev": "concurrently -k \"pnpm dev:server\" \"pnpm dev:metro\"",
+      "dev:server": "cross-env NODE_ENV=development tsx watch server/_core/index.ts",
+      "dev:metro": "cross-env EXPO_USE_METRO_WORKSPACE_ROOT=1 npx expo start --web --port ${EXPO_PORT:-8081}",
+      "build": "esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+      "start": "NODE_ENV=production node dist/index.js",
+      "check": "tsc --noEmit",
+      "lint": "expo lint",
+      "format": "prettier --write .",
+      "test": "vitest run",
+      "db:push": "drizzle-kit generate && drizzle-kit migrate",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "qr": "node scripts/generate_qr.mjs"
+    }
+  },
+  {
+    "name": "LENR",
+    "source": "sources/LENR",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "my-playbook-runbook-and-other-artifacts-repo",
+    "source": "sources/my-playbook-runbook-and-other-artifacts-repo",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "My-project",
+    "source": "sources/My-project",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "OBLITERATUS",
+    "source": "sources/OBLITERATUS",
+    "entrypoints": [
+      "pyproject.toml",
+      "requirements.txt"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "osint",
+    "source": "sources/osint",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "pentestagent",
+    "source": "sources/pentestagent",
+    "entrypoints": [
+      "pyproject.toml",
+      "requirements.txt",
+      "docker-compose.yml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "phoenix-swarm",
+    "source": "sources/phoenix-swarm",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "portr",
+    "source": "sources/portr",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "project-pegaprox",
+    "source": "sources/project-pegaprox",
+    "entrypoints": [
+      "requirements.txt",
+      "docker-compose.yml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "Raccoon",
+    "source": "sources/Raccoon",
+    "entrypoints": [
+      "requirements.txt"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "RuView",
+    "source": "sources/RuView",
+    "entrypoints": [
+      "pyproject.toml",
+      "requirements.txt"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "shared-agentic-layer",
+    "source": "sources/shared-agentic-layer",
+    "entrypoints": [
+      "pyproject.toml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "SLI",
+    "source": "sources/SLI",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SOVEREIGN",
+    "source": "sources/SOVEREIGN",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-agent",
+    "source": "sources/sovereign-agent",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-agent-mesh",
+    "source": "sources/sovereign-agent-mesh",
+    "entrypoints": [
+      "pyproject.toml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-custody",
+    "source": "sources/sovereign-custody",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-dashboard",
+    "source": "sources/sovereign-dashboard",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-dashboard-react",
+    "source": "sources/sovereign-dashboard-react",
+    "entrypoints": [
+      "package.json",
+      "docker-compose.yml"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "node server.js",
+      "build": "echo No build step"
+    }
+  },
+  {
+    "name": "sovereign-eagleshield",
+    "source": "sources/sovereign-eagleshield",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-eoc",
+    "source": "sources/sovereign-eoc",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-escrow",
+    "source": "sources/sovereign-escrow",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-governance",
+    "source": "sources/sovereign-governance",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-installer",
+    "source": "sources/sovereign-installer",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SOVEREIGN-INTERFACE-",
+    "source": "sources/SOVEREIGN-INTERFACE-",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-os",
+    "source": "sources/sovereign-os",
+    "entrypoints": [
+      "docker-compose.yml"
+    ],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-os-9-core",
+    "source": "sources/sovereign-os-9-core",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-osint",
+    "source": "sources/sovereign-osint",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-prime",
+    "source": "sources/sovereign-prime",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "sovereign-recon",
+    "source": "sources/sovereign-recon",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "Sovereign-System",
+    "source": "sources/Sovereign-System",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignArtifact",
+    "source": "sources/SovereignArtifact",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Artifact",
+    "source": "sources/SovereignOS-Artifact",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Core",
+    "source": "sources/SovereignOS-Core",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Memory",
+    "source": "sources/SovereignOS-Memory",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Mesh",
+    "source": "sources/SovereignOS-Mesh",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Portal",
+    "source": "sources/SovereignOS-Portal",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Runtime",
+    "source": "sources/SovereignOS-Runtime",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "SovereignOS-Tools",
+    "source": "sources/SovereignOS-Tools",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "THE-SOVEREIGN-PORTAL",
+    "source": "sources/THE-SOVEREIGN-PORTAL",
+    "entrypoints": [
+      "package.json",
+      "docker-compose.yml"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "build": "vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+      "check": "tsc --noEmit",
+      "db:push": "drizzle-kit generate && drizzle-kit migrate",
+      "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
+      "format": "prettier --write .",
+      "shopify:probe": "tsx scripts/shopify-probe.runner.ts",
+      "start": "NODE_ENV=production node dist/index.js",
+      "test": "vitest run"
+    }
+  },
+  {
+    "name": "tsl-ledger-interface",
+    "source": "sources/tsl-ledger-interface",
+    "entrypoints": [
+      "package.json"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "start": "node index.js"
+    }
+  },
+  {
+    "name": "UNIVERSAL-LIFE-LIBERATION-TOOL",
+    "source": "sources/UNIVERSAL-LIFE-LIBERATION-TOOL",
+    "entrypoints": [],
+    "status": "unverified"
+  },
+  {
+    "name": "worldmonitor",
+    "source": "sources/worldmonitor",
+    "entrypoints": [
+      "package.json",
+      "docker-compose.yml"
+    ],
+    "status": "unverified",
+    "scripts": {
+      "lint": "biome lint ./src ./server ./api ./tests ./e2e ./scripts ./middleware.ts && npm run lint:safe-html",
+      "lint:fix": "biome check ./src ./server ./api ./tests ./e2e ./scripts ./middleware.ts --fix",
+      "lint:boundaries": "node scripts/lint-boundaries.mjs",
+      "lint:api-contract": "node scripts/enforce-sebuf-api-contract.mjs",
+      "lint:safe-html": "node scripts/enforce-safe-html.mjs",
+      "lint:rate-limit-policies": "tsx scripts/enforce-rate-limit-policies.mjs",
+      "lint:premium-fetch": "tsx scripts/enforce-premium-fetch.mjs",
+      "lint:mintlify-slugs": "node scripts/enforce-mintlify-reserved-slugs.mjs",
+      "lint:unicode": "node scripts/check-unicode-safety.mjs",
+      "lint:unicode:staged": "node scripts/check-unicode-safety.mjs --staged",
+      "security:local-env-dumps": "node scripts/check-local-secret-dumps.mjs",
+      "worktree:bootstrap": "node scripts/bootstrap-worktree.mjs",
+      "worktree:bootstrap:test-only": "node scripts/bootstrap-worktree.mjs --ignore-scripts",
+      "worktree:env": "node scripts/bootstrap-worktree.mjs --skip-install",
+      "lint:md": "markdownlint-cli2 '**/*.md' '!**/node_modules/**' '!.agent/**' '!.agents/**' '!.claude/**' '!.factory/**' '!.windsurf/**' '!skills/**' '!docs/internal/**' '!docs/Docs_To_Review/**' '!docs/archive/**' '!todos/**' '!docs/plans/**' '!docs/brainstorms/**' '!docs/ideation/**'",
+      "version:sync": "node scripts/sync-desktop-version.mjs",
+      "version:check": "node scripts/sync-desktop-version.mjs --check",
+      "sync:locales": "node scripts/sync-locale-keys.mjs",
+      "sync:locales:check": "node scripts/sync-locale-keys.mjs --check",
+      "docs:stats": "node scripts/docs-stats.mjs",
+      "docs:check": "node scripts/docs-stats.mjs --check",
+      "dev": "vite",
+      "dev:tech": "cross-env VITE_VARIANT=tech vite",
+      "dev:finance": "cross-env VITE_VARIANT=finance vite",
+      "dev:happy": "cross-env VITE_VARIANT=happy vite",
+      "dev:commodity": "cross-env VITE_VARIANT=commodity vite",
+      "dev:energy": "cross-env VITE_VARIANT=energy vite",
+      "postinstall": "cd blog-site && npm ci --prefer-offline",
+      "build:blog": "cd blog-site && npm run build && rm -rf ../public/blog && mkdir -p ../public/blog && cp -r dist/* ../public/blog/",
+      "build:pro": "cd pro-test && npm ci && npm run build",
+      "build:openapi": "node -e \"require('fs').cpSync('docs/api/worldmonitor.openapi.yaml', 'public/openapi.yaml')\"",
+      "build:agent-skills": "node scripts/build-agent-skills-index.mjs",
+      "prebuild": "npm run build:openapi && npm run build:agent-skills",
+      "build": "npm run build:blog && tsc && vite build",
+      "build:sidecar-sebuf": "node scripts/build-sidecar-sebuf.mjs",
+      "build:desktop": "node scripts/build-sidecar-sebuf.mjs && node scripts/build-sidecar-handlers.mjs && tsc && vite build",
+      "build:full": "npm run build:openapi && npm run build:agent-skills && npm run build:blog && cross-env-shell VITE_VARIANT=full \"tsc && vite build\"",
+      "build:tech": "npm run build:openapi && npm run build:agent-skills && cross-env-shell VITE_VARIANT=tech \"tsc && vite build\"",
+      "build:finance": "npm run build:openapi && npm run build:agent-skills && cross-env-shell VITE_VARIANT=finance \"tsc && vite build\"",
+      "build:happy": "npm run build:openapi && npm run build:agent-skills && cross-env-shell VITE_VARIANT=happy \"tsc && vite build\"",
+      "build:commodity": "npm run build:openapi && npm run build:agent-skills && cross-env-shell VITE_VARIANT=commodity \"tsc && vite build\"",
+      "build:energy": "npm run build:openapi && npm run build:agent-skills && cross-env-shell VITE_VARIANT=energy \"tsc && vite build\"",
+      "typecheck": "tsc --noEmit",
+      "typecheck:api": "tsc --noEmit -p tsconfig.api.json && node scripts/audit-convex-string-calls.cjs",
+      "typecheck:all": "tsc --noEmit && tsc --noEmit -p tsconfig.api.json && node scripts/audit-convex-string-calls.cjs",
+      "audit:convex-string-calls": "node scripts/audit-convex-string-calls.cjs",
+      "audit:dodo-catalog": "node scripts/audit-dodo-catalog.cjs",
+      "tauri": "tauri",
+      "preview": "vite preview",
+      "test:e2e:full": "cross-env VITE_VARIANT=full playwright test",
+      "test:e2e:tech": "cross-env VITE_VARIANT=tech playwright test",
+      "test:e2e:finance": "cross-env VITE_VARIANT=finance playwright test",
+      "test:e2e:commodity": "cross-env VITE_VARIANT=commodity playwright test",
+      "test:e2e:energy": "cross-env VITE_VARIANT=energy playwright test",
+      "test:e2e:happy": "cross-env VITE_VARIANT=happy playwright test",
+      "test:e2e:runtime": "cross-env VITE_VARIANT=full playwright test e2e/runtime-fetch.spec.ts",
+      "test:e2e:variant-smoke:full": "cross-env VITE_VARIANT=full playwright test e2e/variant-live-smoke.spec.ts",
+      "test:e2e:variant-smoke:tech": "cross-env VITE_VARIANT=tech playwright test e2e/variant-live-smoke.spec.ts",
+      "test:e2e:variant-smoke:finance": "cross-env VITE_VARIANT=finance playwright test e2e/variant-live-smoke.spec.ts",
+      "test:e2e:variant-smoke:commodity": "cross-env VITE_VARIANT=commodity playwright test e2e/variant-live-smoke.spec.ts",
+      "test:e2e:variant-smoke:energy": "cross-env VITE_VARIANT=energy playwright test e2e/variant-live-smoke.spec.ts",
+      "test:e2e:variant-smoke:happy": "cross-env VITE_VARIANT=happy playwright test e2e/variant-live-smoke.spec.ts",
+      "test:e2e:variant-smoke": "npm run test:e2e:variant-smoke:full && npm run test:e2e:variant-smoke:tech && npm run test:e2e:variant-smoke:finance && npm run test:e2e:variant-smoke:commodity && npm run test:e2e:variant-smoke:energy && npm run test:e2e:variant-smoke:happy",
+      "test:e2e": "npm run test:e2e:runtime && npm run test:e2e:full && npm run test:e2e:tech && npm run test:e2e:finance && npm run test:e2e:energy",
+      "test:data": "tsx --test --test-concurrency=16 tests/*.test.mjs tests/*.test.mts api/security/report.test.mjs",
+      "test:resilience-validation-smoke": "tsx --test tests/resilience-validation-artifacts-schema.test.mts tests/benchmark-resilience-external.test.mjs tests/backtest-resilience-outcomes.test.mjs tests/resilience-sensitivity-v2.test.mts tests/seed-bundle-resilience-validation.test.mjs",
+      "dryrun:resilience": "node --import tsx/esm scripts/dry-run-resilience-rebalance.mjs",
+      "test:feeds": "node scripts/validate-rss-feeds.mjs",
+      "test:feeds:ci": "node scripts/validate-rss-feeds.mjs --ci",
+      "test:sidecar": "node --test src-tauri/sidecar/local-api-server.test.mjs api/_cors.test.mjs api/_session.test.mjs api/_api-key.test.mjs api/wm-session.test.mjs api/youtube/embed.test.mjs api/cyber-threats.test.mjs api/usni-fleet.test.mjs scripts/ais-relay-rss.test.cjs api/loaders-xml-wms-regression.test.mjs api/security/report.test.mjs",
+      "test:e2e:visual:full": "cross-env VITE_VARIANT=full playwright test -g \"matches golden screenshots per layer and zoom\"",
+      "test:e2e:visual:tech": "cross-env VITE_VARIANT=tech playwright test -g \"matches golden screenshots per layer and zoom\"",
+      "test:e2e:visual": "npm run test:e2e:visual:full && npm run test:e2e:visual:tech",
+      "test:e2e:visual:update:full": "cross-env VITE_VARIANT=full playwright test -g \"matches golden screenshots per layer and zoom\" --update-snapshots",
+      "test:e2e:visual:update:tech": "cross-env VITE_VARIANT=tech playwright test -g \"matches golden screenshots per layer and zoom\" --update-snapshots",
+      "test:e2e:visual:update": "npm run test:e2e:visual:update:full && npm run test:e2e:visual:update:tech",
+      "desktop:dev": "npm run version:sync && cross-env VITE_DESKTOP_RUNTIME=1 tauri dev -f devtools",
+      "desktop:build:full": "npm run version:sync && cross-env VITE_VARIANT=full VITE_DESKTOP_RUNTIME=1 tauri build",
+      "desktop:build:tech": "npm run version:sync && cross-env VITE_VARIANT=tech VITE_DESKTOP_RUNTIME=1 tauri build --config src-tauri/tauri.tech.conf.json",
+      "desktop:build:finance": "npm run version:sync && cross-env VITE_VARIANT=finance VITE_DESKTOP_RUNTIME=1 tauri build --config src-tauri/tauri.finance.conf.json",
+      "desktop:package:macos:full": "node scripts/desktop-package.mjs --os macos --variant full",
+      "desktop:package:macos:tech": "node scripts/desktop-package.mjs --os macos --variant tech",
+      "desktop:package:windows:full": "node scripts/desktop-package.mjs --os windows --variant full",
+      "desktop:package:windows:tech": "node scripts/desktop-package.mjs --os windows --variant tech",
+      "desktop:package:macos:full:sign": "node scripts/desktop-package.mjs --os macos --variant full --sign",
+      "desktop:package:macos:tech:sign": "node scripts/desktop-package.mjs --os macos --variant tech --sign",
+      "desktop:package:windows:full:sign": "node scripts/desktop-package.mjs --os windows --variant full --sign",
+      "desktop:package:windows:tech:sign": "node scripts/desktop-package.mjs --os windows --variant tech --sign",
+      "desktop:package": "node scripts/desktop-package.mjs",
+      "test:convex": "vitest run --config vitest.config.mts",
+      "test:convex:watch": "vitest --config vitest.config.mts"
+    }
+  },
+  {
+    "name": "YouPlot",
+    "source": "sources/YouPlot",
+    "entrypoints": [],
+    "status": "unverified"
+  }
+]

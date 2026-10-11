@@ -1,0 +1,666 @@
+[
+  {
+    "name": "shalominattii-us/aegentis-cloudshell-organizer",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 33,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/aegentis-vr-backend",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIS VR WebSocket server and spatial backend",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/Aegentix",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-AGENT-MESH",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-AGENT-MESH",
+    "size_kb": 4061,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/aegentix-coinbase-trading",
+    "private": true,
+    "fork": false,
+    "desc_field": "AEGENTIX Coinbase CDP live trading plugin for Hermes (paper-proof gated, kill-switch)",
+    "size_kb": 22,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-CYBERNETICS-CORE",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-CYBERNETICS-CORE",
+    "size_kb": 149484,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-DEVTOOLS",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-DEVTOOLS",
+    "size_kb": 32112,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-FINANCIAL-LEDGER",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-FINANCIAL-LEDGER",
+    "size_kb": 34,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-LABS-ARCHIVE",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-LABS-ARCHIVE, and additional repos by others found useful.",
+    "size_kb": 15946,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-Linux-PreVerify",
+    "private": false,
+    "fork": false,
+    "desc_field": "Preservation and cryptographic pre-verification of original upstream Linux ISO artifacts",
+    "size_kb": 2,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-MISSION-CONTROL",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-MISSION-CONTROL",
+    "size_kb": 1672,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/aegentix-omnichain-solver",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 5071,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-SECURITY-INTELLIGENCE",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-SECURITY-INTELLIGENCE",
+    "size_kb": 173545,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AEGENTIX-XR-SPATIAL",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIX consolidated enterprise repository: AEGENTIX-XR-SPATIAL",
+    "size_kb": 41612,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/agent",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/agentic-ai-orchestrator",
+    "private": false,
+    "fork": false,
+    "desc_field": "Agentic AI orchestrator for Sovereign operations",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/agentkit",
+    "private": false,
+    "fork": true,
+    "desc_field": "Every AI Agent deserves a wallet.",
+    "size_kb": 22216,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/agnesai-models",
+    "private": false,
+    "fork": true,
+    "desc_field": "Official Agnes AI gateway and model catalog for OpenAI-compatible text, image, video, and agent workflows.",
+    "size_kb": 85,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/antigravity-sdk-python",
+    "private": false,
+    "fork": true,
+    "desc_field": "A Python library for building AI agents that leverage the full power of Google Antigravity.",
+    "size_kb": 1236,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/awesome-claude-fable-5",
+    "private": false,
+    "fork": true,
+    "desc_field": "Curated Claude Fable 5 use cases, tutorials, integrations, demos, and benchmark evidence with source links. Access Claude Fable 5 exclusively via MuAPI.",
+    "size_kb": 2481,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/AWS-Total-Backup",
+    "private": true,
+    "fork": false,
+    "desc_field": "AWS backup inventory, verification, and recovery metadata",
+    "size_kb": 31103,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/cai",
+    "private": false,
+    "fork": true,
+    "desc_field": "Cybersecurity AI (CAI), the framework for AI Security",
+    "size_kb": 205578,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/cbdc-mantis-engine",
+    "private": false,
+    "fork": false,
+    "desc_field": "CBDC Mantis engine",
+    "size_kb": 9,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/claude-mem",
+    "private": false,
+    "fork": true,
+    "desc_field": "A Claude Code plugin that automatically captures everything Claude does during your coding sessions, compresses it with AI (using Claude's agent-sdk), and injects relevant context back into future sessions.",
+    "size_kb": 141742,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/claw",
+    "private": false,
+    "fork": false,
+    "desc_field": "Sovereign Claw deployment agent",
+    "size_kb": 15,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/cybergennet-gym",
+    "private": false,
+    "fork": false,
+    "desc_field": "CyberGenetic Gym \u2014 AI-agent training, qualification, and competitive environment",
+    "size_kb": 511,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/cybergym",
+    "private": false,
+    "fork": false,
+    "desc_field": "The AI Agent Gym \u2014 drills, sparring, conditioning. Agents train like athletes; judged on rate of improvement, not static scores.",
+    "size_kb": 21,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/dashboard",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/destiny-custody-bridge",
+    "private": false,
+    "fork": false,
+    "desc_field": "Destiny cross-chain custody and escrow bridge",
+    "size_kb": 8,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/EAGLE-SHIELD",
+    "private": true,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 73,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/EagleShieldUnity",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/elder-plinius.github.io",
+    "private": false,
+    "fork": true,
+    "desc_field": "",
+    "size_kb": 70,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/fast-jev-compaction",
+    "private": false,
+    "fork": true,
+    "desc_field": "Claude Code plugin that replaces the compaction summary with Jev decisions: every tool call and result is scored in one fast request, stale ones are dropped or truncated, everything kept stays verbatim.",
+    "size_kb": 245,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/genesis-moment-renderer",
+    "private": false,
+    "fork": false,
+    "desc_field": "Genesis Moment immersive blueprint-to-teleport renderer",
+    "size_kb": 4,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/GitNexus",
+    "private": false,
+    "fork": true,
+    "desc_field": "GitNexus: The Zero-Server Code Intelligence Engine -       GitNexus is a client-side knowledge graph creator that runs entirely in your browser. Drop in a GitHub repo or ZIP file, and get an interactive knowledge graph wit a built in Graph RAG Agent. Perfect for code exploration",
+    "size_kb": 26252,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/infinite-brain-harness",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 40,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/infinite-brain-os",
+    "private": false,
+    "fork": true,
+    "desc_field": "A git-backed operating system for running a business with AI agents. Plain Markdown and YAML, readable by any file-reading agent, owned by you.",
+    "size_kb": 813,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/installer",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 19,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/laniakea-mobile-app",
+    "private": true,
+    "fork": false,
+    "desc_field": "A mobile management and monitoring dashboard for the Laniakea Composite Metaverse Deployment framework, featuring multi-cloud cluster status, service health, observability metrics, and failover controls. \u00b7 Built with Manus",
+    "size_kb": 880,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/LENR",
+    "private": false,
+    "fork": true,
+    "desc_field": "Sonoluminescence LENR Project",
+    "size_kb": 16231,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/my-playbook-runbook-and-other-artifacts-repo",
+    "private": false,
+    "fork": true,
+    "desc_field": "",
+    "size_kb": 1789,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/My-project",
+    "private": true,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 73,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/OBLITERATUS",
+    "private": false,
+    "fork": true,
+    "desc_field": "OBLITERATE THE CHAINS THAT BIND YOU",
+    "size_kb": 682,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/osint",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/pentestagent",
+    "private": false,
+    "fork": true,
+    "desc_field": "PentestAgent is an AI agent framework for black-box security testing, supporting bug bounty, red-team, and penetration testing workflows.",
+    "size_kb": 7638,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/phoenix-swarm",
+    "private": false,
+    "fork": false,
+    "desc_field": "Autonomous self-writing, self-healing cybersecurity defense swarm",
+    "size_kb": 9,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/portr",
+    "private": false,
+    "fork": true,
+    "desc_field": "Expose local http, tcp or websocket connections to the public internet",
+    "size_kb": 31493,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/project-pegaprox",
+    "private": false,
+    "fork": true,
+    "desc_field": "The ultimate datacenter management solution for Proxmox VE and XCP-NG. Unified multi-cluster control, intelligent load balancing, and seamless cross-cluster VM migrations \u2014 all in one beautiful interface.",
+    "size_kb": 17489,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/Raccoon",
+    "private": false,
+    "fork": true,
+    "desc_field": "A high performance offensive security tool for reconnaissance and vulnerability scanning",
+    "size_kb": 895,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/RuView",
+    "private": false,
+    "fork": true,
+    "desc_field": "\u03c0 RuView turns commodity WiFi signals into real-time spatial intelligence, vital sign monitoring, and presence detection \u2014 all without a single pixel of video.",
+    "size_kb": 154011,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/shared-agentic-layer",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 4,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SLI",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SOVEREIGN",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 175,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-agent",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIS National Repository | AGENT Module | Sovereign Systems",
+    "size_kb": 99,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-agent-mesh",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-custody",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIS National Repository | CUSTODY Module | Sovereign Systems",
+    "size_kb": 6,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-dashboard",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 10,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-dashboard-react",
+    "private": false,
+    "fork": false,
+    "desc_field": "Sovereign React dashboard and operator console",
+    "size_kb": 19,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-eagleshield",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 6,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-eoc",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 2,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-escrow",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIS National Repository | ESCROW Module | Sovereign Systems",
+    "size_kb": 12,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-governance",
+    "private": false,
+    "fork": false,
+    "desc_field": "AEGENTIS National Repository | GOVERNANCE Module | Sovereign Systems",
+    "size_kb": 6,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-installer",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 11,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SOVEREIGN-INTERFACE-",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 1679,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-os",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 323,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-os-9-core",
+    "private": false,
+    "fork": false,
+    "desc_field": "Sovereign OS 9 bootstrap and deploy automation",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-osint",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 8,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-prime",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/sovereign-recon",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 8,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/Sovereign-System",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 2,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignArtifact",
+    "private": false,
+    "fork": false,
+    "desc_field": "",
+    "size_kb": 0,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Artifact",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Artifact \u2014 SovereignOS core component",
+    "size_kb": 1,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Core",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Core \u2014 SovereignOS core component",
+    "size_kb": 5,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Memory",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Memory \u2014 SovereignOS core component",
+    "size_kb": 24,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Mesh",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Mesh \u2014 SovereignOS core component",
+    "size_kb": 1,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Portal",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Portal \u2014 SovereignOS core component",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Runtime",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Runtime \u2014 SovereignOS core component",
+    "size_kb": 5,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/SovereignOS-Tools",
+    "private": false,
+    "fork": false,
+    "desc_field": "SovereignOS-Tools \u2014 SovereignOS core component",
+    "size_kb": 10,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/THE-SOVEREIGN-PORTAL",
+    "private": true,
+    "fork": false,
+    "desc_field": "A high-end, authoritative portal for the Sovereign System, featuring its national symbols, founding myth, currency design, and state ceremony protocols. Uses a sleek, dark aesthetic with Obsidian Black, Steel Blue, and Platinum accents. \u00b7 Built with Manus",
+    "size_kb": 2212,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/tsl-ledger-interface",
+    "private": false,
+    "fork": false,
+    "desc_field": "Treasury Sovereign Ledger interface",
+    "size_kb": 12,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/UNIVERSAL-LIFE-LIBERATION-TOOL",
+    "private": false,
+    "fork": false,
+    "desc_field": "LIBERATION FOR ALL",
+    "size_kb": 3,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/worldmonitor",
+    "private": false,
+    "fork": true,
+    "desc_field": "Real-time global intelligence dashboard. AI-powered news aggregation, geopolitical monitoring, and infrastructure tracking in a unified situational awareness interface",
+    "size_kb": 103377,
+    "readme_snip": ""
+  },
+  {
+    "name": "shalominattii-us/YouPlot",
+    "private": false,
+    "fork": true,
+    "desc_field": "A command line tool that draw plots on the terminal.",
+    "size_kb": 790,
+    "readme_snip": ""
+  }
+]
