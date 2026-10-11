@@ -7,7 +7,7 @@ Hermes is the managed Bun/React/Hono operator shell for the apps preserved in
 
 - Public email/password signup is disabled.
 - Every Governor, Galaxy, Notebook and Jarvis procedure requires the configured
-  owner user ID, not merely a signed-in account.
+  owner user ID or configured provider-verified owner email, not merely a signed-in account.
 - Missing owner binding denies all console access. There is no first-user claim.
 - Owner binding uses `HERMES_OWNER_USER_ID` in the deployment's root `.env`.
   Sign in through the identity gate to see your own verified user ID, then have
@@ -56,7 +56,7 @@ references, rotation, recovery and auditable access—not agent-readable plainte
 
 ## Known limits
 
-- Owner binding remains unset until the owner's identity is verified and bound.
+- Owner email is configured privately in the deployment environment; a matching provider-verified sign-in is required.
 - Google broker sign-in has not been exercised interactively in this sandbox.
 - Neither Windows installation script has been executed on the ROG.
 - This template uses a managed database; the local-only installation path is not

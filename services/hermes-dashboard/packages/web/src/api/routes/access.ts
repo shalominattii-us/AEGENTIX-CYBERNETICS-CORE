@@ -1,9 +1,10 @@
 import { withUser } from "../middleware/auth";
+import { isOwner, ownerConfigured } from "../lib/owner";
 
 export const access = {
   status: withUser.handler(({ context }) => ({
-    configured: Boolean(process.env.HERMES_OWNER_USER_ID),
-    authorized: Boolean(context.user && process.env.HERMES_OWNER_USER_ID === context.user.id),
+    configured: ownerConfigured(),
+    authorized: isOwner(context.user),
     identityId: context.user?.id ?? null,
   })),
 };
