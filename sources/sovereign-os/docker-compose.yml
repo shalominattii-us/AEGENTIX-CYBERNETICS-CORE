@@ -1,5 +1,5 @@
 ##############################################################
-#  AEGENTIX CYBERNETICS — Master Orchestration (Production Hardened)
+#  AEGENTIX CYBERNETICS - Master Orchestration (Production Hardened)
 #  10 Divisions. One Kernel. One Event Bus.
 #
 #  Usage:
@@ -93,9 +93,9 @@ x-nats-config: &nats-config
 
 services:
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 # HERMES MESSAGE BUS (NATS + JetStream)
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
   nats:
     image: nats:2.10-alpine
     container_name: aegentis-nats
@@ -121,9 +121,9 @@ services:
       retries: 5
       start_period: 10s
 
-# ═══════════════════════════════════════════════════════════
-# CYBERCORE — Zero-Storage Deterministic Key Vault
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
+# CYBERCORE - Zero-Storage Deterministic Key Vault
+# ===========================================================
 cybercore:
     build:
       context: ../../../AEGENTIX-CYBERNETICS-CORE
@@ -163,14 +163,12 @@ cybercore:
       aegentis.division: "CYBERCORE"
       aegentis.role: "signing-oracle"
       aegentis.version: "1.0.0"
-    secrets:
-      - cybercore_master_seed
     volumes:
       - cybercore-certs:/app/certs:ro
 
-# ═══════════════════════════════════════════════════════════
-# AEGENTIS KERNEL — Event Bus (WorldMonitor)
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
+# AEGENTIS KERNEL - Event Bus (WorldMonitor)
+# ===========================================================
   kernel-event-bus:
     build:
       context: ./KERNEL/event-bus
@@ -260,9 +258,9 @@ cybercore:
       aegentis.division: "KERNEL"
       aegentis.role: "agent-runtime"
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 # AEGENTIS TREASURY
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
   treasury:
     build:
       context: ./TREASURY
@@ -364,9 +362,9 @@ cybercore:
       aegentis.division: "TREASURY"
       aegentis.role: "autonomous-agent"
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 # AEGENTIS AI
-# ══════════════════════════════════════════════════════════
+# ==========================================================
   ai-runtime:
     build:
       context: ./AI/multi-llm-runtime
@@ -395,9 +393,9 @@ cybercore:
     labels:
       aegentis.division: "AI"
 
-# ═══════════════════════════════════════════════════════════
-# AEGENTIS XR — AEGENTIS-X Quest Backend
-# ══════════════════════════════════════════════════════════
+# ===========================================================
+# AEGENTIS XR - AEGENTIS-X Quest Backend
+# ==========================================================
   xr-quest-backend:
     build:
       context: ./XR/quest
@@ -455,9 +453,9 @@ cybercore:
       aegentis.division: "XR"
       aegentis.role: "vr-backend"
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 # AEGENTIS SECURITY
-# ══════════════════════════════════════════════════════════
+# ==========================================================
   security-threat-monitor:
     build:
       context: ./SECURITY/threat-intelligence
@@ -510,9 +508,9 @@ cybercore:
       aegentis.division: "SECURITY"
       aegentis.role: "orbital-observer"
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 # AEGENTIS DATA
-# ══════════════════════════════════════════════════════════
+# ==========================================================
   data-vector-memory:
     build:
       context: ./DATA/vector-memory
@@ -541,9 +539,9 @@ cybercore:
     labels:
       aegentis.division: "DATA"
 
-# ═══════════════════════════════════════════════════════════
-# AEGENTIS CLOUD — Event Streaming
-# ══════════════════════════════════════════════════════════
+# ===========================================================
+# AEGENTIS CLOUD - Event Streaming
+# ==========================================================
   cloud-event-stream:
     build:
       context: ./CLOUD/event-streaming
@@ -570,12 +568,7 @@ cybercore:
     labels:
       aegentis.division: "CLOUD"
 
-# Secret definitions
-secrets:
-  cybercore_master_seed:
-    file: ./secrets/cybercore_master_seed.txt
 
-# Network configuration
 networks:
   aegentis-net:
     driver: bridge
@@ -584,19 +577,3 @@ networks:
         - subnet: 172.28.0.0/16
           gateway: 172.28.0.1
 
-# Volume definitions with local driver
-volumes:
-  kernel-data:
-    driver: local
-  treasury-data:
-    driver: local
-  vector-data:
-    driver: local
-  worldmonitor-data:
-    driver: local
-  cybercore-source:
-    driver: local
-  cybercore-secrets:
-    driver: local
-  cybercore-logs:
-    driver: local

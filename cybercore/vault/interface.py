@@ -310,10 +310,10 @@ class StatelessVault:
 
 
 # Convenience functions for common operations
-def create_vault(config: VaultConfig = None) -> StatelessVault:
-    """Create and initialize a vault with entropy quorum."""
+def create_vault(config: VaultConfig = None, master_seed: bytes = None) -> StatelessVault:
+    """Create and initialize a vault with entropy quorum or master seed."""
     vault = StatelessVault(config)
-    vault.initialize()
+    vault.initialize(master_seed)
     return vault
 
 

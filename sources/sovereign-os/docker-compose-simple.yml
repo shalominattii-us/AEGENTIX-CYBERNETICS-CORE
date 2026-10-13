@@ -1,0 +1,170 @@
+version: '3.8'
+
+networks:
+  aegentis-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  kernel-data:
+    driver: local
+  treasury-data:
+    driver: local
+  vector-data:
+    driver: local
+  worldmonitor-data:
+    driver: local
+  cybercore-logs:
+    driver: local
+  nats-data:
+    driver: local
+  cybercore-secrets-data:
+    external: true
+  cybercore-certs-data:
+    external: true
+
+services:
+  nats:
+    image: nats:2.10-alpine
+    container_name: aegentis-nats
+    ports:
+      - "4222:4222"
+      - "6222:6222"
+      - "8222:8222"
+    command:
+      - "-js"
+      - "-m"
+      - "8222"
+    environment:
+      - NATS_SERVER_NAME=aegentis-nats
+      - NATS_CLUSTER_NAME=aegentis-cluster
+      - NATS_ROUTES=nats-route://ruser:rpass@aegentis-nats:6222
+      - NATS_JETSTREAM=1
+      - NATS_STORE_DIR=/data/jetstream
+    volumes:
+      - nats-data:/data
+    networks:
+      - aegentis-net
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8222/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    labels:
+      aegentis.division: "HERMES"
+      aegentis.role: "message-bus"
+      aegentis.version: "2.10"
+
+  cybercore:
+    build:
+      context: ../../../AEGENTIX-CYBERNETICS-CORE
+      dockerfile: Dockerfile.cybercore
+      target: runtime
+    container_name: aegentix-cybercore
+    ports:
+      - "50051:50051"
+      - "9090:9090"
+    volumes:
+      - cybercore-secrets-data:/app/secrets:ro
+      - cybercore-logs:/app/logs
+      - cybercore-certs-data:/app/certs:ro
+    environment:
+      - CYBERCORE_MASTER_SEED_FILE=/app/secrets/master_seed
+      - CYBERCORE_ENTROPY_PROVIDER=Argon2id
+      - CYBERCORE_LOG_LEVEL=INFO
+      - CYBERCORE_GRPC_PORT=50051
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - NATS_URL=nats://aegentis-nats:4222
+      - CYBERCORE_WITH_HERMES=true
+      - CYBERCORE_METRICS_PORT=9090
+      - CYBERCORE_TLS_ENABLED=true
+      - CYBERCORE_CERT_DIR=/app/certs
+    networks:
+      - aegentis-net
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    depends_on:
+      nats:
+        condition: service_healthy
+    labels:
+      aegentis.division: "CYBERCORE"
+      aegentis.role: "signing-oracle"
+      aegentis.version: "1.0.0"
+
+  kernel-event-bus:
+    build:
+      context: ./KERNEL/event-bus
+      dockerfile: Dockerfile
+    container_name: aegentis-kernel
+    ports:
+      - "8080:8080"
+    volumes:
+      - kernel-data:/app/data
+    environment:
+      - NODE_ENV=production
+      - PORT=8080
+      - CYBERCORE_ORACLE_URL=http://aegentix-cybercore:50051
+    networks:
+      - aegentis-net
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8080/health"]
+      interval: 10s
+      timeout: 8s
+      retries: 10
+      start_period: 30s
+    labels:
+      aegentis.division: "KERNEL"
+      aegentis.role: "event-bus"
+      aegentis.version: "1.0.0"
+    depends_on:
+      cybercore:
+        condition: service_started

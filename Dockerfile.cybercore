@@ -1,0 +1,81 @@
+# CyberCore Dockerfile - Production Hardened
+# Multi-stage build for minimal attack surface
+# Zero-Storage Deterministic Key Vault with gRPC Signing Oracle
+
+# ===========================================
+# Stage 1: Builder - Install dependencies
+# ===========================================
+FROM python:3.12-slim AS builder
+
+WORKDIR /build
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libffi-dev \
+    libssl-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements-cybercore.txt /build/requirements-cybercore.txt
+RUN pip install --no-cache-dir --prefix=/install -r requirements-cybercore.txt
+
+# ===========================================
+# Stage 2: Runtime - Minimal production image
+# ===========================================
+FROM python:3.12-slim AS runtime
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libffi8 \
+    libssl3 \
+    ca-certificates \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+WORKDIR /app
+
+# Copy Python packages from builder
+COPY --from=builder /install /usr/local
+
+# Copy application code
+COPY cybercore/ /app/cybercore/
+COPY start_oracle.py /app/start_oracle.py
+COPY cybercore_cli.py /app/cybercore_cli.py
+COPY healthcheck.py /app/healthcheck.py
+
+# Create non-root user with specific UID/GID
+RUN groupadd -g 1000 cybercore && \
+    useradd -m -u 1000 -g 1000 -s /bin/bash cybercore && \
+    chown -R cybercore:cybercore /app
+
+# Create directories for logs, data, secrets
+RUN mkdir -p /app/logs /app/data /app/secrets && \
+    chown -R cybercore:cybercore /app/logs /app/data /app/secrets
+
+# Copy entrypoint script
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
+
+USER cybercore
+
+# Environment
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app \
+    CYBERCORE_LOG_LEVEL=INFO \
+    CYBERCORE_GRPC_PORT=50051 \
+    CYBERCORE_MASTER_SEED_FILE=/app/secrets/master_seed \
+    CYBERCORE_ENTROPY_PROVIDER=Argon2id \
+    CYBERCORE_HEALTH_CHECK_INTERVAL=30
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=15s --retries=3 \
+    CMD python /app/healthcheck.py
+
+EXPOSE 50051
+
+# Use entrypoint for initialization
+ENTRYPOINT ["/app/docker-entrypoint.sh"]
+CMD ["python", "start_oracle.py"]
