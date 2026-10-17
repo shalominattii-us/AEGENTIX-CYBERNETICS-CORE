@@ -1,0 +1,1407 @@
+{
+  "timestamp": "2026-10-17T14:23:28.400541",
+  "platform": {
+    "node": "DESKTOP-HRUBG2T",
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26300",
+    "machine": "AMD64",
+    "processor": "AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD"
+  },
+  "top_level_directories": [
+    {
+      "name": "$Recycle.Bin",
+      "path": "C:\\$Recycle.Bin",
+      "is_dir": true
+    },
+    {
+      "name": ".GamingRoot",
+      "path": "C:\\.GamingRoot",
+      "is_dir": false
+    },
+    {
+      "name": ".cursor",
+      "path": "C:\\.cursor",
+      "is_dir": true
+    },
+    {
+      "name": "AEGENTIX-CYBERNETICS-CORE",
+      "path": "C:\\AEGENTIX-CYBERNETICS-CORE",
+      "is_dir": true
+    },
+    {
+      "name": "AEGENTIX-WORKSPACE",
+      "path": "C:\\AEGENTIX-WORKSPACE",
+      "is_dir": true
+    },
+    {
+      "name": "Aegentix",
+      "path": "C:\\Aegentix",
+      "is_dir": true
+    },
+    {
+      "name": "Documents and Settings",
+      "path": "C:\\Documents and Settings",
+      "is_dir": true
+    },
+    {
+      "name": "DumpStack.log.tmp",
+      "path": "C:\\DumpStack.log.tmp",
+      "is_dir": false
+    },
+    {
+      "name": "Finish.log",
+      "path": "C:\\Finish.log",
+      "is_dir": false
+    },
+    {
+      "name": "LLVM",
+      "path": "C:\\LLVM",
+      "is_dir": true
+    },
+    {
+      "name": "Linux_ISOs",
+      "path": "C:\\Linux_ISOs",
+      "is_dir": true
+    },
+    {
+      "name": "MinimalNodes",
+      "path": "C:\\MinimalNodes",
+      "is_dir": true
+    },
+    {
+      "name": "OneDriveTemp",
+      "path": "C:\\OneDriveTemp",
+      "is_dir": true
+    },
+    {
+      "name": "PerfLogs",
+      "path": "C:\\PerfLogs",
+      "is_dir": true
+    },
+    {
+      "name": "Program Files",
+      "path": "C:\\Program Files",
+      "is_dir": true
+    },
+    {
+      "name": "Program Files (x86)",
+      "path": "C:\\Program Files (x86)",
+      "is_dir": true
+    },
+    {
+      "name": "ProgramData",
+      "path": "C:\\ProgramData",
+      "is_dir": true
+    },
+    {
+      "name": "Recovery",
+      "path": "C:\\Recovery",
+      "is_dir": true
+    },
+    {
+      "name": "Sovereign",
+      "path": "C:\\Sovereign",
+      "is_dir": true
+    },
+    {
+      "name": "System Volume Information",
+      "path": "C:\\System Volume Information",
+      "is_dir": true
+    },
+    {
+      "name": "TensorAgentOS",
+      "path": "C:\\TensorAgentOS",
+      "is_dir": true
+    },
+    {
+      "name": "UWP_Backup",
+      "path": "C:\\UWP_Backup",
+      "is_dir": true
+    },
+    {
+      "name": "Users",
+      "path": "C:\\Users",
+      "is_dir": true
+    },
+    {
+      "name": "WRP5D14.tmp",
+      "path": "C:\\WRP5D14.tmp",
+      "is_dir": false
+    },
+    {
+      "name": "Windows",
+      "path": "C:\\Windows",
+      "is_dir": true
+    },
+    {
+      "name": "XboxGames",
+      "path": "C:\\XboxGames",
+      "is_dir": true
+    },
+    {
+      "name": "appverifUI.dll",
+      "path": "C:\\appverifUI.dll",
+      "is_dir": false
+    },
+    {
+      "name": "archive",
+      "path": "C:\\archive",
+      "is_dir": true
+    },
+    {
+      "name": "data",
+      "path": "C:\\data",
+      "is_dir": true
+    },
+    {
+      "name": "devlist.txt",
+      "path": "C:\\devlist.txt",
+      "is_dir": false
+    },
+    {
+      "name": "eSupport",
+      "path": "C:\\eSupport",
+      "is_dir": true
+    },
+    {
+      "name": "events",
+      "path": "C:\\events",
+      "is_dir": true
+    },
+    {
+      "name": "inetpub",
+      "path": "C:\\inetpub",
+      "is_dir": true
+    },
+    {
+      "name": "manifests",
+      "path": "C:\\manifests",
+      "is_dir": true
+    },
+    {
+      "name": "pagefile.sys",
+      "path": "C:\\pagefile.sys",
+      "is_dir": false
+    },
+    {
+      "name": "production",
+      "path": "C:\\production",
+      "is_dir": true
+    },
+    {
+      "name": "swapfile.sys",
+      "path": "C:\\swapfile.sys",
+      "is_dir": false
+    },
+    {
+      "name": "temp",
+      "path": "C:\\temp",
+      "is_dir": true
+    },
+    {
+      "name": "tmp",
+      "path": "C:\\tmp",
+      "is_dir": true
+    },
+    {
+      "name": "var",
+      "path": "C:\\var",
+      "is_dir": true
+    },
+    {
+      "name": "vfcompat.dll",
+      "path": "C:\\vfcompat.dll",
+      "is_dir": false
+    },
+    {
+      "name": "xboxsetup",
+      "path": "C:\\xboxsetup",
+      "is_dir": true
+    }
+  ],
+  "git_repositories": [
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\aegentis-cloudshell-organizer",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/aegentis-cloudshell-organizer.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/aegentis-cloudshell-organizer.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\aegentis-vr-backend",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/aegentis-vr-backend.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/aegentis-vr-backend.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\Aegentix",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/Aegentix.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/Aegentix.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-AGENT-MESH",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-AGENT-MESH.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-AGENT-MESH.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-CYBERNETICS-CORE",
+      "remotes": [
+        "mirror\thttps://github.com/shalominattii-us/AEGENTIX-CYBERNETICS-CORE.git (fetch)",
+        "mirror\thttps://github.com/shalominattii-us/AEGENTIX-CYBERNETICS-CORE.git (push)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-CYBERNETICS-CORE.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-CYBERNETICS-CORE.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-DEVTOOLS",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-DEVTOOLS.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-DEVTOOLS.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-FINANCIAL-LEDGER",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-FINANCIAL-LEDGER.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-FINANCIAL-LEDGER.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-LABS-ARCHIVE",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-LABS-ARCHIVE.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-LABS-ARCHIVE.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-Linux-PreVerify",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-Linux-PreVerify.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-Linux-PreVerify.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-MISSION-CONTROL",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-MISSION-CONTROL.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-MISSION-CONTROL.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\aegentix-omnichain-solver",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/aegentix-omnichain-solver.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/aegentix-omnichain-solver.git (push)"
+      ],
+      "current_branch": "master"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-SECURITY-INTELLIGENCE",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-SECURITY-INTELLIGENCE.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-SECURITY-INTELLIGENCE.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\Aegentix-super-agent-wallet-Google-ai-studios",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/Aegentix-super-agent-wallet-Google-ai-studios.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/Aegentix-super-agent-wallet-Google-ai-studios.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\AEGENTIX-XR-SPATIAL",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-XR-SPATIAL.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-XR-SPATIAL.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\agent",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/agent.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/agent.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\agentic-ai-orchestrator",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/agentic-ai-orchestrator.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/agentic-ai-orchestrator.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\agentkit",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/agentkit.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/agentkit.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\agnesai-models",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/agnesai-models.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/agnesai-models.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\antigravity-sdk-python",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/antigravity-sdk-python.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/antigravity-sdk-python.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\awesome-claude-fable-5",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/awesome-claude-fable-5.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/awesome-claude-fable-5.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\cai",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/cai.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/cai.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\cbdc-mantis-engine",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/cbdc-mantis-engine.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/cbdc-mantis-engine.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\claude-mem",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/claude-mem.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/claude-mem.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\claw",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/claw.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/claw.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\CYBERCORE-ai-studio",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/CYBERCORE-ai-studio.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/CYBERCORE-ai-studio.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\cybergennet-gym",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/cybergennet-gym.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/cybergennet-gym.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\cybergym",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/cybergym.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/cybergym.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\dashboard",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/dashboard.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/dashboard.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\destiny-custody-bridge",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/destiny-custody-bridge.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/destiny-custody-bridge.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\EagleShieldUnity",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/EagleShieldUnity.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/EagleShieldUnity.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\elder-plinius.github.io",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/elder-plinius.github.io.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/elder-plinius.github.io.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\genesis-moment-renderer",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/genesis-moment-renderer.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/genesis-moment-renderer.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\GitNexus",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/GitNexus.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/GitNexus.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\infinite-brain-harness",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/infinite-brain-harness.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/infinite-brain-harness.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\infinite-brain-os",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/infinite-brain-os.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/infinite-brain-os.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\installer",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/installer.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/installer.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\LENR",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/LENR.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/LENR.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\my-playbook-runbook-and-other-artifacts-repo",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/my-playbook-runbook-and-other-artifacts-repo.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/my-playbook-runbook-and-other-artifacts-repo.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\OBLITERATUS",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/OBLITERATUS.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/OBLITERATUS.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\osint",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/osint.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/osint.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\pentestagent",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/pentestagent.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/pentestagent.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\phoenix-swarm",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/phoenix-swarm.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/phoenix-swarm.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\portr",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/portr.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/portr.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\project-pegaprox",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/project-pegaprox.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/project-pegaprox.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\Raccoon",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/Raccoon.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/Raccoon.git (push)"
+      ],
+      "current_branch": "master"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\RuView",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/RuView.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/RuView.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\shared-agentic-layer",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/shared-agentic-layer.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/shared-agentic-layer.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SLI",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SLI.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SLI.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SOVEREIGN",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SOVEREIGN.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SOVEREIGN.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-agent",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-agent.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-agent.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-agent-mesh",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-agent-mesh.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-agent-mesh.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-custody",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-custody.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-custody.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-dashboard",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-dashboard.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-dashboard.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-dashboard-react",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-dashboard-react.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-dashboard-react.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-eagleshield",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-eagleshield.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-eagleshield.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-eoc",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-eoc.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-eoc.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-escrow",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-escrow.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-escrow.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-governance",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-governance.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-governance.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-installer",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-installer.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-installer.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SOVEREIGN-INTERFACE-",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SOVEREIGN-INTERFACE-.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SOVEREIGN-INTERFACE-.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-os",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-os.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-os.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-os-9-core",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-os-9-core.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-os-9-core.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-osint",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-osint.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-osint.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-prime",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-prime.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-prime.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\sovereign-recon",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-recon.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-recon.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\Sovereign-System",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/Sovereign-System.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/Sovereign-System.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignArtifact",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignArtifact.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignArtifact.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Artifact",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Artifact.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Artifact.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Core",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Core.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Core.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Memory",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Memory.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Memory.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Mesh",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Mesh.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Mesh.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Portal",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Portal.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Portal.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Runtime",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Runtime.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Runtime.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\SovereignOS-Tools",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Tools.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/SovereignOS-Tools.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\tsl-ledger-interface",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/tsl-ledger-interface.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/tsl-ledger-interface.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\UNIVERSAL-LIFE-LIBERATION-TOOL",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/UNIVERSAL-LIFE-LIBERATION-TOOL.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/UNIVERSAL-LIFE-LIBERATION-TOOL.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\worldmonitor",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/worldmonitor.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/worldmonitor.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\AEGENTIX-WORKSPACE\\github-repos\\YouPlot",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/YouPlot.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/YouPlot.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\AEGENTIX-AGENT-MESH",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-AGENT-MESH.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-AGENT-MESH.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\AEGENTIX-CYBERNETICS-CORE",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-CYBERNETICS-CORE.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-CYBERNETICS-CORE.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\AEGENTIX-MISSION-CONTROL",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-MISSION-CONTROL.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-MISSION-CONTROL.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\aegentix-omnichain-solver",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/aegentix-omnichain-solver.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/aegentix-omnichain-solver.git (push)"
+      ],
+      "current_branch": "master"
+    },
+    {
+      "path": "C:\\Users\\eagle\\AEGENTIX-SECURITY-INTELLIGENCE",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-SECURITY-INTELLIGENCE.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/AEGENTIX-SECURITY-INTELLIGENCE.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\antigravity-sdk-python",
+      "remotes": [
+        "origin\thttps://github.com/google-antigravity/antigravity-sdk-python.git (fetch)",
+        "origin\thttps://github.com/google-antigravity/antigravity-sdk-python.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\Brahma-AI---Lite",
+      "remotes": [
+        "origin\thttps://github.com/titechprabhasolutions/Brahma-AI---Lite.git (fetch)",
+        "origin\thttps://github.com/titechprabhasolutions/Brahma-AI---Lite.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\Captain-Kirk-AI-Voice",
+      "remotes": [
+        "origin\thttps://huggingface.co/spaces/AI-Voice-Generator/Charlie-Kirk-AI-Voice (fetch)",
+        "origin\thttps://huggingface.co/spaces/AI-Voice-Generator/Charlie-Kirk-AI-Voice (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\cline",
+      "remotes": [
+        "origin\thttps://github.com/cline/cline.git (fetch)",
+        "origin\thttps://github.com/cline/cline.git (push)"
+      ]
+    },
+    {
+      "path": "C:\\Users\\eagle\\CYBERCORE-ai-studio",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/CYBERCORE-ai-studio.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/CYBERCORE-ai-studio.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\CyberGym",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/cybergym (fetch)",
+        "origin\thttps://github.com/shalominattii-us/cybergym (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\ECC",
+      "remotes": [
+        "origin\thttps://github.com/affaan-m/ECC.git (fetch)",
+        "origin\thttps://github.com/affaan-m/ECC.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\Foundry",
+      "remotes": [
+        "origin\thttps://github.com/eaglecrat/Foundry.git (fetch)",
+        "origin\thttps://github.com/eaglecrat/Foundry.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\gaia-cookbook",
+      "remotes": [
+        "origin\thttps://github.com/GaiaNet-AI/gaia-cookbook.git (fetch)",
+        "origin\thttps://github.com/GaiaNet-AI/gaia-cookbook.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\infinite-brain-harness",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/infinite-brain-harness.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/infinite-brain-harness.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\J.A.R.V.I.S.2.0",
+      "remotes": [
+        "origin\thttps://github.com/ganeshnikhil/J.A.R.V.I.S.2.0.git (fetch)",
+        "origin\thttps://github.com/ganeshnikhil/J.A.R.V.I.S.2.0.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\laniakea-mobile-app",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/laniakea-mobile-app.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/laniakea-mobile-app.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\laya",
+      "remotes": [
+        "origin\thttps://github.com/NandhaKishorM/laya.git (fetch)",
+        "origin\thttps://github.com/NandhaKishorM/laya.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\openrig",
+      "remotes": [
+        "origin\thttps://github.com/mvschwarz/openrig.git (fetch)",
+        "origin\thttps://github.com/mvschwarz/openrig.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\PersonalJarvis",
+      "remotes": [
+        "origin\thttps://github.com/PersonalJarvis/PersonalJarvis.git (fetch)",
+        "origin\thttps://github.com/PersonalJarvis/PersonalJarvis.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\public-apis",
+      "remotes": [
+        "origin\thttps://github.com/public-apis/public-apis.git (fetch)",
+        "origin\thttps://github.com/public-apis/public-apis.git (push)"
+      ],
+      "current_branch": "master"
+    },
+    {
+      "path": "C:\\Users\\eagle\\sovereign-os",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/sovereign-os.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/sovereign-os.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\SWE-bench",
+      "remotes": [
+        "origin\thttps://github.com/SWE-bench/SWE-bench.git (fetch)",
+        "origin\thttps://github.com/SWE-bench/SWE-bench.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\TradingAgents",
+      "remotes": [
+        "origin\thttps://github.com/TauricResearch/TradingAgents.git (fetch)",
+        "origin\thttps://github.com/TauricResearch/TradingAgents.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Users\\eagle\\worldmonitor",
+      "remotes": [
+        "origin\thttps://github.com/shalominattii-us/worldmonitor.git (fetch)",
+        "origin\thttps://github.com/shalominattii-us/worldmonitor.git (push)",
+        "upstream\thttps://github.com/koala73/worldmonitor.git (fetch)",
+        "upstream\thttps://github.com/koala73/worldmonitor.git (push)"
+      ],
+      "current_branch": "main"
+    },
+    {
+      "path": "C:\\Sovereign\\halo-ce-universal",
+      "remotes": [
+        "origin\thttps://github.com/fqlx/halo-ce-universal.git (fetch)",
+        "origin\thttps://github.com/fqlx/halo-ce-universal.git (push)"
+      ],
+      "current_branch": "master"
+    }
+  ],
+  "aegentix_ecosystem": {
+    "C_aegentix": [
+      {
+        "name": ".qualixar-os",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "Deploy-OriginNode.ps1",
+        "is_dir": false,
+        "size": 9917
+      },
+      {
+        "name": "Install-AgentOrigin.ps1",
+        "is_dir": false,
+        "size": 10247
+      },
+      {
+        "name": "Install-Bastet.ps1",
+        "is_dir": false,
+        "size": 5567
+      },
+      {
+        "name": "LIFECYCLE_GOVERNOR.txt",
+        "is_dir": false,
+        "size": 1433
+      },
+      {
+        "name": "WMON-Enterprise",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "agent-origin.manifest.json",
+        "is_dir": false,
+        "size": 5284
+      },
+      {
+        "name": "agent-origin.manifest.json.bak",
+        "is_dir": false,
+        "size": 5132
+      },
+      {
+        "name": "bastet.bat",
+        "is_dir": false,
+        "size": 96
+      },
+      {
+        "name": "brain",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "c-drive-map",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "cloudflared.exe",
+        "is_dir": false,
+        "size": 55365048
+      },
+      {
+        "name": "core",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "cyber-kill.ps1",
+        "is_dir": false,
+        "size": 1904
+      },
+      {
+        "name": "cybercore_bridge.py",
+        "is_dir": false,
+        "size": 3777
+      },
+      {
+        "name": "cyberdeck",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "deploy.bat",
+        "is_dir": false,
+        "size": 99
+      },
+      {
+        "name": "economy-restart-state.json",
+        "is_dir": false,
+        "size": 2759
+      },
+      {
+        "name": "economy-restart-state.json.bak",
+        "is_dir": false,
+        "size": 2629
+      },
+      {
+        "name": "economy-state.json",
+        "is_dir": false,
+        "size": 711
+      },
+      {
+        "name": "economy-state.json.bak",
+        "is_dir": false,
+        "size": 711
+      },
+      {
+        "name": "find_me.py",
+        "is_dir": false,
+        "size": 286
+      },
+      {
+        "name": "hermes-agent-os",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "inject_bastet_token.py",
+        "is_dir": false,
+        "size": 503
+      },
+      {
+        "name": "inspect_auth.py",
+        "is_dir": false,
+        "size": 334
+      },
+      {
+        "name": "lib",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "lifecycle-governor.ps1",
+        "is_dir": false,
+        "size": 2309
+      },
+      {
+        "name": "management-profile.json",
+        "is_dir": false,
+        "size": 2248
+      },
+      {
+        "name": "management-profile.json.bak",
+        "is_dir": false,
+        "size": 2253
+      },
+      {
+        "name": "medical-recruiting-platform",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "monitoring",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "node_modules",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "orchestrator",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "origin-node.bat",
+        "is_dir": false,
+        "size": 88
+      },
+      {
+        "name": "origin-node.log",
+        "is_dir": false,
+        "size": 408
+      },
+      {
+        "name": "origin-node.manifest.json",
+        "is_dir": false,
+        "size": 2929
+      },
+      {
+        "name": "origin-node.manifest.json.bak",
+        "is_dir": false,
+        "size": 2858
+      },
+      {
+        "name": "origin-node.ps1",
+        "is_dir": false,
+        "size": 6052
+      },
+      {
+        "name": "origin.bat",
+        "is_dir": false,
+        "size": 88
+      },
+      {
+        "name": "package-lock.json",
+        "is_dir": false,
+        "size": 272439
+      },
+      {
+        "name": "package-lock.json.bak",
+        "is_dir": false,
+        "size": 265090
+      },
+      {
+        "name": "package.json",
+        "is_dir": false,
+        "size": 164
+      },
+      {
+        "name": "package.json.bak",
+        "is_dir": false,
+        "size": 164
+      },
+      {
+        "name": "qualixar.bat",
+        "is_dir": false,
+        "size": 100
+      },
+      {
+        "name": "ram-harness",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "repos",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "sample_index.html",
+        "is_dir": false,
+        "size": 6032
+      },
+      {
+        "name": "scripts",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "security",
+        "is_dir": true,
+        "size": null
+      },
+      {
+        "name": "unlock_bastet_auth.py",
+        "is_dir": false,
+        "size": 883
+      },
+      {
+        "name": "verify_python_agents.py",
+        "is_dir": false,
+        "size": 441
+      }
+    ],
+    "github_repos_count": 80,
+    "github_repos": [
+      "AEGENTIX-AGENT-MESH",
+      "AEGENTIX-CYBERNETICS-CORE",
+      "AEGENTIX-DEVTOOLS",
+      "AEGENTIX-FINANCIAL-LEDGER",
+      "AEGENTIX-LABS-ARCHIVE",
+      "AEGENTIX-Linux-PreVerify",
+      "AEGENTIX-MISSION-CONTROL",
+      "AEGENTIX-SECURITY-INTELLIGENCE",
+      "AEGENTIX-XR-SPATIAL",
+      "Aegentix",
+      "Aegentix-super-agent-wallet-Google-ai-studios",
+      "CYBERCORE-ai-studio",
+      "EagleShieldUnity",
+      "GitNexus",
+      "LENR",
+      "OBLITERATUS",
+      "Raccoon",
+      "RuView",
+      "SLI",
+      "SOVEREIGN",
+      "SOVEREIGN-INTERFACE-",
+      "Sovereign-System",
+      "SovereignArtifact",
+      "SovereignOS-Artifact",
+      "SovereignOS-Core",
+      "SovereignOS-Memory",
+      "SovereignOS-Mesh",
+      "SovereignOS-Portal",
+      "SovereignOS-Runtime",
+      "SovereignOS-Tools",
+      "UNIVERSAL-LIFE-LIBERATION-TOOL",
+      "YouPlot",
+      "aegentis-cloudshell-organizer",
+      "aegentis-vr-backend",
+      "aegentix-omnichain-solver",
+      "agent",
+      "agentic-ai-orchestrator",
+      "agentkit",
+      "agnesai-models",
+      "antigravity-sdk-python",
+      "awesome-claude-fable-5",
+      "cai",
+      "cbdc-mantis-engine",
+      "certs",
+      "claude-mem",
+      "claw",
+      "cybergennet-gym",
+      "cybergym",
+      "dashboard",
+      "destiny-custody-bridge",
+      "elder-plinius.github.io",
+      "genesis-moment-renderer",
+      "infinite-brain-harness",
+      "infinite-brain-os",
+      "installer",
+      "my-playbook-runbook-and-other-artifacts-repo",
+      "osint",
+      "pentestagent",
+      "phoenix-swarm",
+      "portr",
+      "project-pegaprox",
+      "secrets",
+      "shared-agentic-layer",
+      "sovereign-agent",
+      "sovereign-agent-mesh",
+      "sovereign-custody",
+      "sovereign-dashboard",
+      "sovereign-dashboard-react",
+      "sovereign-eagleshield",
+      "sovereign-eoc",
+      "sovereign-escrow",
+      "sovereign-governance",
+      "sovereign-installer",
+      "sovereign-os",
+      "sovereign-os-9-core",
+      "sovereign-osint",
+      "sovereign-prime",
+      "sovereign-recon",
+      "tsl-ledger-interface",
+      "worldmonitor"
+    ]
+  },
+  "summary": {
+    "total_top_level_directories": 42,
+    "total_git_repos_detected": 104,
+    "total_workspace_repos": 80
+  }
+}
