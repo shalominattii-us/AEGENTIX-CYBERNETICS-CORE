@@ -9,6 +9,7 @@ from typing import Dict, Any, Optional
 from pathlib import Path
 from datetime import datetime
 
+from cybercore.vault import create_vault
 from .legacy_adapter import LegacyVaultAdapter, create_legacy_adapter
 from .wallet_registry import WalletRegistry, create_wallet_registry
 
