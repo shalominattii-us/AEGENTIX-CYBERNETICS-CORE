@@ -14,7 +14,7 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from decimal import Decimal
 
-from cybercore.vault import StatelessVault
+from cybercore.vault import StatelessVault, create_vault
 from cybercore.oracle import AgentWallet, create_agent_wallet
 from cybercore.audit import AuditLogger, get_audit_logger
 

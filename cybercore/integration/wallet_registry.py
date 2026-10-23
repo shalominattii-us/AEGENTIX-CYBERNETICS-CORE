@@ -10,7 +10,7 @@ from pathlib import Path
 from dataclasses import dataclass, asdict, field
 
 from cybercore.vault import StatelessVault, create_vault
-from cybercore.derivation import get_chain_registry, ChainRegistry
+from cybercore.derivation import get_chain_registry, ChainRegistry, ChainFamily
 
 logger = logging.getLogger(__name__)
 
