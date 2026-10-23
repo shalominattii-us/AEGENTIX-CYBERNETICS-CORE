@@ -1,10 +1,15 @@
 # Conda environment for the "Python Package using Conda" CI workflow.
 #
-# The cyberdaw package itself is stdlib-only (dataclasses/enum/typing/argparse),
-# so this environment only needs to exist to satisfy `conda env update`.
-# The workflow installs flake8 and pytest separately in its own steps.
+# The cyberdaw package itself is mostly stdlib (dataclasses/enum/typing/argparse),
+# but cyberdaw/adapters.py imports psutil at module level, so psutil must be
+# installed or pytest fails at collection. The workflow installs flake8 and
+# pytest separately in its own steps.
+# python=3.11 matches the version the workflow asks setup-python for; the
+# conda base on the runner is 3.10, and `conda env update --name base` is what
+# moves it.
 name: aegentix
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
+  - python=3.11
+  - psutil
