@@ -1,0 +1,16 @@
+name = "aegentix-edge"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+ENVIRONMENT = "production"
+
+# Secrets (set via `wrangler secret put`):
+#   CAPABILITY_SECRET
+#   SOVEREIGN_TOKEN
+#   ORIGIN_API   (e.g. https://your-tunnel-hostname.cfargotunnel.com)
+
+# Optional Cron Trigger (every 5 minutes)
+# [[triggers.crons]]
+# cron = "*/5 * * * *"
