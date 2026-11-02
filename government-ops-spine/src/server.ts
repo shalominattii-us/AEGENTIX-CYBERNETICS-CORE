@@ -7,6 +7,7 @@ import { DockerCapabilityCollector, FilesystemDocumentCollector, GitHubWorkspace
 import { CapabilityIndexingWorker } from './indexing-worker.js';
 import { ControlPlaneRuntime } from './control-plane.js';
 import { PostgresEngineeringProgramService } from './engineering-postgres.js';
+import { getExecutionZones } from './zones.js';
 
 const port=Number(process.env.PORT??8099);
 const pool=new Pool({connectionString:process.env.DATABASE_URL});
@@ -23,7 +24,7 @@ if(process.env.CAPABILITY_INDEX_ENABLED!=='false')indexer.start();
 const server=http.createServer(async(req,res)=>{
   const path=(req.url??'/').split('?')[0];
   if(path==='/health'){
-    try{await pool.query('select 1');res.writeHead(200,{'content-type':'application/json'});return res.end(JSON.stringify({ok:true,service:'government-ops-spine',zones:['OpenClaw','Nemotron','Hermes','Docker','Manus'],indexing:indexer.health,engineeringPrograms:{enabled:true,externalActionsBlocked:true}}));}
+    try{await pool.query('select 1');res.writeHead(200,{'content-type':'application/json'});return res.end(JSON.stringify({ok:true,service:'government-ops-spine',zones:getExecutionZones(),indexing:indexer.health,engineeringPrograms:{enabled:true,externalActionsBlocked:true}}));}
     catch(error){res.writeHead(503,{'content-type':'application/json'});return res.end(JSON.stringify({ok:false,error:error instanceof Error?error.message:String(error)}));}
   }
   const chunks:Buffer[]=[];for await(const chunk of req)chunks.push(Buffer.from(chunk));let body:unknown;

@@ -1,0 +1,84 @@
+# AEGENTIX Agent Configuration
+
+## Agent Definitions
+
+### Opportunity Processor Agent
+```json
+{
+  "id": "opportunity-processor",
+  "name": "Opportunity Processor",
+  "model": "claude-sonnet-4",
+  "role": "government_opportunity_analyst",
+  "description": "Continuously ingests and parses government opportunities",
+  "continuous": true,
+  "zones": ["KERNEL", "TREASURY"],
+  "capabilities": [
+    "parse_opportunities",
+    "extract_requirements", 
+    "classify_opportunities",
+    "generate_analysis"
+  ],
+  "triggers": [
+    { "type": "file_watch", "path": "opportunities/" }
+  ]
+}
+```
+
+### Build Orchestrator Agent
+```json
+{
+  "id": "build-orchestrator",
+  "name": "Build Orchestrator", 
+  "model": "claude-sonnet-4",
+  "role": "build_orchestrator",
+  "description": "Generates specifications and brain plans",
+  "continuous": true,
+  "zones": ["AI", "SECURITY"],
+  "capabilities": [
+    "generate_specifications",
+    "create_brain_plans",
+    "assign_tasks",
+    "optimize_resources"
+  ],
+  "triggers": [
+    { "type": "event", "event": "opportunity_analyzed" }
+  ]
+}
+```
+
+### Zone Executor Agent
+```json
+{
+  "id": "zone-executor",
+  "name": "Zone Executor",
+  "model": "claude-sonnet-4",
+  "role": "zone_executor",
+  "description": "Executes tasks in assigned zones",
+  "continuous": true,
+  "zones": ["KERNEL", "TREASURY", "AI", "SECURITY", "XR", "DATA", "CLOUD", "ORBITAL", "FACTORY", "SOVEREIGN"],
+  "capabilities": [
+    "execute_brain_tasks",
+    "generate_artifacts",
+    "maintain_compliance",
+    "report_progress"
+  ],
+  "triggers": [
+    { "type": "event", "event": "tasks_created" }
+  ]
+}
+```
+
+## Model Configuration
+```json
+{
+  "primary_model": "claude-sonnet-4",
+  "fallback_models": ["claude-haiku-4", "gpt-4o"],
+  "settings": {
+    "temperature": 0.1,
+    "max_tokens": 8192,
+    "reasoning": "high",
+    "continuous": true,
+    "parallel_processing": true
+  }
+}
+```

@@ -1,0 +1,56 @@
+# AEGENTIX Processing Configuration
+
+## Model Configuration
+- **Primary Model**: Claude Sonnet 4 (or equivalent)
+- **Reasoning**: High
+- **Temperature**: 0.1
+- **Max Tokens**: 8192
+
+## Agent Configuration
+```yaml
+agents:
+  opportunity_processor:
+    model: claude-sonnet-4
+    role: government_opportunity_analyst
+    continuous: true
+    zones: [KERNEL, TREASURY, AI]
+    tasks:
+      - parse_opportunities
+      - extract_requirements
+      - classify_opportunities
+  
+  build_orchestrator:
+    model: claude-sonnet-4
+    role: build_orchestrator
+    continuous: true
+    zones: [AI, SECURITY]
+    tasks:
+      - generate_specifications
+      - create_brain_plans
+      - assign_tasks
+  
+  zone_executor:
+    model: claude-sonnet-4
+    role: zone_executor
+    continuous: true
+    zones: [KERNEL, TREASURY, AI, SECURITY, XR, DATA, CLOUD, ORBITAL, FACTORY, SOVEREIGN]
+    tasks:
+      - execute_brain_tasks
+      - generate_artifacts
+      - maintain_compliance
+```
+
+## Processing Pipeline
+1. **Ingestion** - Watch `opportunities/` for new files
+2. **Parsing** - Use government-ops-spine to parse
+3. **Analysis** - Extract requirements and risks
+4. **Classification** - Route to appropriate zones
+5. **Execution** - Continuous agent processing
+6. **Output** - Generate artifacts in `projects/`
+
+## Environment Variables
+```bash
+EXECUTION_ZONES=KERNEL,TREASURY,AI,SECURITY,XR,DATA,CLOUD,ORBITAL,FACTORY,SOVEREIGN
+PROCESSING_MODE=continuous
+AGENTS_ENABLED=true
+```

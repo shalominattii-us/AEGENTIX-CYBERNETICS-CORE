@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": "2026-11-02T07:50:07Z",
+  "registryVersion": "1.0.0",
+  "conclusion": "warning",
+  "summary": {
+    "findingCount": 12,
+    "info": 7,
+    "warning": 5,
+    "error": 0
+  },
+  "findings": [
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "warning",
+      "serviceId": "grove-hedera-orchards",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "docker-compose"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "warning",
+      "serviceId": "coinbase-orchards",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "docker-compose"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "warning",
+      "serviceId": "government-ops-spine",
+      "message": "Declared ECS service was not present in supplied AWS observations.",
+      "details": {
+        "runtimeKind": "ecs-fargate"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "cybercore-monetization-directorate",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "process"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "moltbook-cybercore",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "process"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "aegentix-nexus-registry",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "registry"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "warning",
+      "serviceId": "arbitrage-orchards",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "docker-compose"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "openclaw-zone",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "agent-zone"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "nemotron-zone",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "agent-zone"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "hermes-zone",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "agent-zone"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "warning",
+      "serviceId": "docker-zone",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "docker"
+      }
+    },
+    {
+      "code": "DECLARED_BUT_NOT_OBSERVED",
+      "severity": "info",
+      "serviceId": "manus-zone",
+      "message": "Declared service was not present in supplied runtime observations.",
+      "details": {
+        "runtimeKind": "agent-zone"
+      }
+    }
+  ]
+}

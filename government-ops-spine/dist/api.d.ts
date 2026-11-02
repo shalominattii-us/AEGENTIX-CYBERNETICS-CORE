@@ -25,7 +25,7 @@ export interface AnalyzeOpportunityRequest {
 export type AnalyzeOpportunityResponse = ApiResponse<TreasuryAnalysis>;
 export interface BuildPlanRequest {
     opportunityId: string;
-    requestedZones?: BuildSpecification['executionZones'];
+    requestedZones?: string[];
 }
 export type BuildPlanResponse = ApiResponse<{
     specification: BuildSpecification;

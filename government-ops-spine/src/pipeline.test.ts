@@ -13,7 +13,7 @@ const fixture: PublicOpportunity = {
 };
 
 test('creates an internal build plan while blocking external actions', () => {
-  const result = runInternalPipeline(fixture, [{ id: 'AX-CAP-DIGITAL-TWIN', name: 'AEGENTIX Digital Twin Core', tags: ['digital','twin','sensor','data','interfaces'], maturity: 'TRL-5', evidence: ['repo://AEGENTIX-CYBERNETICS-CORE'], executionZones: ['OpenClaw','Nemotron','Hermes','Docker','Manus'] }]);
+  const result = runInternalPipeline(fixture, [{ id: 'AX-CAP-DIGITAL-TWIN', name: 'AEGENTIX Digital Twin Core', tags: ['digital','twin','sensor','data','interfaces'], maturity: 'TRL-5', evidence: ['repo://AEGENTIX-CYBERNETICS-CORE'], executionZones: ['KERNEL','AI','PLATFORM','SECURITY','GOVERNMENT_OPS'] }]);
   assert.ok(result.analysis.requirements.length >= 3);
   assert.equal(result.specification.approvalState, 'draft');
   assert.equal(result.plan.externalActionsBlocked, true);

@@ -62,7 +62,7 @@ export interface BuildSpecification {
     acceptanceCriteria: string[];
     standards: string[];
     evidenceRequired: string[];
-    executionZones: Array<'OpenClaw' | 'Nemotron' | 'Hermes' | 'Docker' | 'Manus'>;
+    executionZones: string[];
     approvalState: 'draft' | 'technical_review' | 'authorized';
 }
 export interface BrainTask {
@@ -71,7 +71,7 @@ export interface BrainTask {
     kind: 'research' | 'design' | 'software' | 'hardware' | 'simulation' | 'compliance' | 'test' | 'documentation';
     dependsOn: string[];
     acceptanceCriteria: string[];
-    executionZone: BuildSpecification['executionZones'][number];
+    executionZone: string;
 }
 export interface BrainPlan {
     planId: string;
@@ -85,7 +85,7 @@ export interface CapabilityRecord {
     tags: string[];
     maturity: string;
     evidence: string[];
-    executionZones: BuildSpecification['executionZones'];
+    executionZones: string[];
 }
 export interface CapabilityMatch {
     requirementId: string;

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import { matchCapabilities } from './pipeline.js';
-const zones = ['OpenClaw', 'Nemotron', 'Hermes', 'Docker', 'Manus'];
+import { getExecutionZones } from './zones.js';
 const hash = (value) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const tags = (...values) => Array.from(new Set(values.flatMap(v => v.toLowerCase().match(/[a-z0-9][a-z0-9-]{2,}/g) ?? []))).sort();
 export class StaticCapabilitySource {
@@ -15,15 +15,18 @@ export class StaticCapabilitySource {
 export function githubAsset(input) {
     const evidence = [input.url];
     const metadata = { language: input.language, defaultBranch: input.defaultBranch, topics: input.topics ?? [] };
-    return { id: `github:${input.fullName}`, name: input.fullName, tags: tags(input.fullName, input.description ?? '', ...(input.topics ?? []), input.language ?? ''), maturity: 'repository', evidence, executionZones: zones, sourceType: 'github', sourceUri: input.url, description: input.description ?? '', metadata, contentHash: hash({ input, metadata }), discoveredAt: new Date().toISOString() };
+    const zones = getExecutionZones();
+    return { id: `github:${input.fullName}`, name: input.fullName, tags: tags(input.fullName, input.description ?? '', ...(input.topics ?? []), input.language ?? ''), maturity: 'repository', evidence, executionZones: [...zones], sourceType: 'github', sourceUri: input.url, description: input.description ?? '', metadata, contentHash: hash({ input, metadata }), discoveredAt: new Date().toISOString() };
 }
 export function dockerAsset(input) {
     const sourceUri = `docker://${input.image}${input.container ? `/${input.container}` : ''}`;
     const metadata = { container: input.container, status: input.status, ports: input.ports ?? [], labels: input.labels ?? {} };
-    return { id: `docker:${hash(sourceUri).slice(0, 20)}`, name: input.container ?? input.image, tags: tags(input.image, input.container ?? '', input.status ?? '', ...(input.ports ?? []), ...Object.values(input.labels ?? {})), maturity: input.status?.toLowerCase().includes('running') ? 'deployed' : 'image', evidence: [sourceUri], executionZones: zones, sourceType: 'docker', sourceUri, description: `Docker capability from ${input.image}`, metadata, contentHash: hash({ input, metadata }), discoveredAt: new Date().toISOString() };
+    const zones = getExecutionZones();
+    return { id: `docker:${hash(sourceUri).slice(0, 20)}`, name: input.container ?? input.image, tags: tags(input.image, input.container ?? '', input.status ?? '', ...(input.ports ?? []), ...Object.values(input.labels ?? {})), maturity: input.status?.toLowerCase().includes('running') ? 'deployed' : 'image', evidence: [sourceUri], executionZones: [...zones], sourceType: 'docker', sourceUri, description: `Docker capability from ${input.image}`, metadata, contentHash: hash({ input, metadata }), discoveredAt: new Date().toISOString() };
 }
 export function documentAsset(input) {
-    return { id: `document:${hash(input.path).slice(0, 20)}`, name: input.title, tags: tags(input.title, input.text), maturity: 'documented', evidence: [input.path], executionZones: zones, sourceType: input.kind ?? 'document', sourceUri: input.path, description: input.text.slice(0, 500), metadata: { path: input.path }, contentHash: hash(input), discoveredAt: new Date().toISOString() };
+    const zones = getExecutionZones();
+    return { id: `document:${hash(input.path).slice(0, 20)}`, name: input.title, tags: tags(input.title, input.text), maturity: 'documented', evidence: [input.path], executionZones: [...zones], sourceType: input.kind ?? 'document', sourceUri: input.path, description: input.text.slice(0, 500), metadata: { path: input.path }, contentHash: hash(input), discoveredAt: new Date().toISOString() };
 }
 export class CapabilityIndexer {
     registry;

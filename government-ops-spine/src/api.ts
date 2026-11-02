@@ -10,7 +10,7 @@ export type IngestOpportunityResponse = ApiResponse<IntakeReceipt>;
 export interface AnalyzeOpportunityRequest { opportunityId:string; force?:boolean; }
 export type AnalyzeOpportunityResponse = ApiResponse<TreasuryAnalysis>;
 
-export interface BuildPlanRequest { opportunityId:string; requestedZones?:BuildSpecification['executionZones']; }
+export interface BuildPlanRequest { opportunityId:string; requestedZones?:string[]; }
 export type BuildPlanResponse = ApiResponse<{ specification:BuildSpecification; plan:BrainPlan }>;
 
 export interface OpportunityStateResponse {

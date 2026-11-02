@@ -7,6 +7,7 @@ import { DockerCapabilityCollector, FilesystemDocumentCollector, GitHubWorkspace
 import { CapabilityIndexingWorker } from './indexing-worker.js';
 import { ControlPlaneRuntime } from './control-plane.js';
 import { PostgresEngineeringProgramService } from './engineering-postgres.js';
+import { getExecutionZones } from './zones.js';
 const port = Number(process.env.PORT ?? 8099);
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const repository = new PostgresOpportunityRepository(pool);
@@ -25,7 +26,7 @@ const server = http.createServer(async (req, res) => {
         try {
             await pool.query('select 1');
             res.writeHead(200, { 'content-type': 'application/json' });
-            return res.end(JSON.stringify({ ok: true, service: 'government-ops-spine', zones: ['OpenClaw', 'Nemotron', 'Hermes', 'Docker', 'Manus'], indexing: indexer.health, engineeringPrograms: { enabled: true, externalActionsBlocked: true } }));
+            return res.end(JSON.stringify({ ok: true, service: 'government-ops-spine', zones: getExecutionZones(), indexing: indexer.health, engineeringPrograms: { enabled: true, externalActionsBlocked: true } }));
         }
         catch (error) {
             res.writeHead(503, { 'content-type': 'application/json' });
