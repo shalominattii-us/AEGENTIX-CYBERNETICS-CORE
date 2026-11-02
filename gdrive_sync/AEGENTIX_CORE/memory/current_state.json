@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "model": "spark-x2.6-1.7b",
+  "tier": "1",
+  "status": "idle",
+  "active_tasks": [],
+  "last_execution": null,
+  "escalation_flag": false,
+  "memory_index_count": 0,
+  "sync_timestamp": null
+}

@@ -1,0 +1,38 @@
+{
+  "tools": [
+    {
+      "name": "route_inference",
+      "description": "Route inference request to optimal model",
+      "parameters": {
+        "prompt": "string",
+        "security_clearance": "integer",
+        "max_latency_ms": "integer",
+        "offline_mode": "boolean",
+        "prefer_cloud": "boolean"
+      }
+    },
+    {
+      "name": "execute_trade",
+      "description": "Execute a trade on mainnet",
+      "parameters": {
+        "chain": "string",
+        "token_in": "string",
+        "token_out": "string",
+        "amount": "number",
+        "max_gas_usd": "number"
+      }
+    },
+    {
+      "name": "scan_opportunities",
+      "description": "Scan for trading opportunities",
+      "parameters": {
+        "chains": "array",
+        "min_profit_usd": "number"
+      }
+    }
+  ],
+  "permissions": {
+    "sparkx": ["route_inference", "scan_opportunities"],
+    "heavy_models": ["execute_trade", "route_inference", "scan_opportunities"]
+  }
+}
