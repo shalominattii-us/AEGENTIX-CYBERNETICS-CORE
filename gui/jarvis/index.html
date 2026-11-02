@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS - AEGENTIX CYBERNETICS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: radial-gradient(ellipse at center, #001122 0%, #000000 100%);
+            color: #00ffff;
+            font-family: 'Consolas', 'Courier New', monospace;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: linear-gradient(90deg, #001122 0%, #003366 50%, #001122 100%);
+            border-bottom: 2px solid #00ffff;
+            padding: 10px 20px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            letter-spacing: 0.3em;
+            text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
+            to { text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff; }
+        }
+        
+        .main {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 10px;
+            padding: 10px;
+            overflow: hidden;
+        }
+        
+        .panel {
+            background: rgba(0, 20, 40, 0.6);
+            border: 1px solid #0066aa;
+            border-radius: 5px;
+            padding: 10px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 10px rgba(0, 100, 200, 0.3);
+        }
+        
+        .panel h2 {
+            color: #00ff88;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #0066aa;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        
+        .status-item {
+            margin: 5px 0;
+            padding: 5px;
+            background: rgba(0, 50, 100, 0.3);
+            border-left: 2px solid #00ffff;
+        }
+        
+        .status-ok { color: #00ff88; }
+        .status-warn { color: #ffaa00; }
+        .status-err { color: #ff4444; }
+        
+        .center-panel {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .jarvis-display {
+            flex: 1;
+            background: radial-gradient(circle at center, #001133 0%, #000000 100%);
+            border: 2px solid #00ffff;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .jarvis-core {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #00ffff 0%, #0066aa 50%, #001122 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 40px #00ffff;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+        
+        .jarvis-core-text {
+            color: #000000;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #ffffff;
+        }
+        
+        .command-input {
+            background: rgba(0, 20, 40, 0.8);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            padding: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9em;
+            width: 100%;
+            border-radius: 5px;
+        }
+        
+        .command-input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+        
+        .log {
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 0.8em;
+        }
+        
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 5px;
+            border-left: 1px solid #0066aa;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>J.A.R.V.I.S.</h1>
+        <div style="font-size: 0.7em; margin-top: 5px; letter-spacing: 0.2em;">JUST A RATHER VERY INTELLIGENT SYSTEM</div>
+        <div style="font-size: 0.6em; margin-top: 2px;">AEGENTIX CYBERNETICS - KERNEL DIVISION</div>
+    </div>
+    
+    <div class="main">
+        <div class="panel">
+            <h2>System Status</h2>
+            <div class="status-item">
+                <span class="status-ok">●</span> WorldMonitor Kernel
+            </div>
+            <div class="status-item">
+                <span class="status-ok">●</span> Event Bus
+            </div>
+            <div class="status-item">
+                <span class="status-ok">●</span> Jarvis Orchestrator
+            </div>
+            <div class="status-item">
+                <span class="status-warn">●</span> Neural Network
+            </div>
+            <div class="status-item">
+                <span class="status-ok">●</span> Security Protocols
+            </div>
+            
+            <h2 style="margin-top: 20px;">Zones</h2>
+            <div class="status-item">KERNEL</div>
+            <div class="status-item">TREASURY</div>
+            <div class="status-item">AI</div>
+            <div class="status-item">SECURITY</div>
+            <div class="status-item">XR</div>
+            <div class="status-item">DATA</div>
+            <div class="status-item">CLOUD</div>
+            <div class="status-item">ORBITAL</div>
+            <div class="status-item">FACTORY</div>
+            <div class="status-item">SOVEREIGN</div>
+        </div>
+        
+        <div class="center-panel">
+            <div class="jarvis-display">
+                <div class="jarvis-core">
+                    <div class="jarvis-core-text">JARVIS</div>
+                </div>
+            </div>
+            <input type="text" class="command-input" placeholder="Enter command for JARVIS..." id="commandInput">
+        </div>
+        
+        <div class="panel">
+            <h2>Event Log</h2>
+            <div class="log" id="eventLog">
+                <div class="log-entry">[INIT] JARVIS Online - All systems nominal</div>
+                <div class="log-entry">[KERNEL] WorldMonitor connected</div>
+                <div class="log-entry">[ORCHESTRATOR] Cycle 1 complete</div>
+                <div class="log-entry">[AI] Neural pathways active</div>
+                <div class="log-entry">[SECURITY] All protocols engaged</div>
+            </div>
+            
+            <h2 style="margin-top: 20px;">Metrics</h2>
+            <div class="status-item">
+                <strong>Cycles:</strong> <span id="cycles">1</span>
+            </div>
+            <div class="status-item">
+                <strong>Events:</strong> <span id="events">42</span>
+            </div>
+            <div class="status-item">
+                <strong>Uptime:</strong> <span id="uptime">00:00:00</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const commandInput = document.getElementById('commandInput');
+        const eventLog = document.getElementById('eventLog');
+        const cyclesEl = document.getElementById('cycles');
+        const eventsEl = document.getElementById('events');
+        const uptimeEl = document.getElementById('uptime');
+        
+        let cycles = 1;
+        let events = 42;
+        let startTime = Date.now();
+        
+        setInterval(() => {
+            const uptime = Math.floor((Date.now() - startTime) / 1000);
+            const hours = Math.floor(uptime / 3600).toString().padStart(2, '0');
+            const mins = Math.floor((uptime % 3600) / 60).toString().padStart(2, '0');
+            const secs = (uptime % 60).toString().padStart(2, '0');
+            uptimeEl.textContent = hours + ':' + mins + ':' + secs;
+        }, 1000);
+        
+        setInterval(() => {
+            cycles++;
+            events += Math.floor(Math.random() * 5) + 1;
+            cyclesEl.textContent = cycles;
+            eventsEl.textContent = events;
+            
+            const messages = [
+                `[ORCHESTRATOR] Cycle ${cycles} complete`,
+                `[AI] Processing request`,
+                `[SECURITY] Threat scan complete`,
+                `[KERNEL] Event processed`,
+                `[TREASURY] Transaction logged`,
+                `[DATA] Memory updated`
+            ];
+            const msg = messages[Math.floor(Math.random() * messages.length)];
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = msg;
+            eventLog.prepend(entry);
+            if (eventLog.children.length > 20) {
+                eventLog.removeChild(eventLog.lastChild);
+            }
+        }, 3000);
+        
+        commandInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const cmd = commandInput.value;
+                if (cmd.trim()) {
+                    const entry = document.createElement('div');
+                    entry.className = 'log-entry';
+                    entry.textContent = '[USER] ' + cmd;
+                    eventLog.prepend(entry);
+                    
+                    setTimeout(() => {
+                        const resp = document.createElement('div');
+                        resp.className = 'log-entry';
+                        resp.textContent = '[JARVIS] Command received. Processing...';
+                        resp.style.color = '#00ff88';
+                        eventLog.prepend(resp);
+                    }, 500);
+                    
+                    commandInput.value = '';
+                    if (eventLog.children.length > 25) {
+                        eventLog.removeChild(eventLog.lastChild);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

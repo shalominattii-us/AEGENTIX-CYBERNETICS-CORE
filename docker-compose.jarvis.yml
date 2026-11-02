@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  jarvis-gui:
+    build:
+      context: ./services/jarvis-gui
+      dockerfile: Dockerfile
+    container_name: aegentis-jarvis-gui
+    ports:
+      - "3000:3000"
+    environment:
+      - JARVIS_GUI_PORT=3000
+      - WORLDMONITOR_URL=http://kernel-event-bus:8080
+    networks:
+      - aegentis-net
+    restart: unless-stopped
+    labels:
+      aegentis.division: "KERNEL"
+      aegentis.role: "jarvis-gui"
+  
+  jarvis-core:
+    build:
+      context: ./sources/sovereign-os/KERNEL/agent-runtime
+      dockerfile: Dockerfile
+    container_name: aegentis-jarvis-core
+    environment:
+      - WORLDMONITOR_URL=http://kernel-event-bus:8080
+      - JARVIS_LOOP_INTERVAL=5
+      - JARVIS_ENTITY_ID=jarvis-prime
+    networks:
+      - aegentis-net
+    depends_on:
+      - kernel-event-bus
+    restart: unless-stopped
+    labels:
+      aegentis.division: "KERNEL"
+      aegentis.role: "agent-runtime"
+
+networks:
+  aegentis-net:
+    external: true
