@@ -1,0 +1,16 @@
+{
+  "$schema": "https://app.kilo.ai/config.json",
+  "mcp": {
+    "anaconda": {
+      "type": "remote",
+      "url": "https://anaconda.com/api/mcp"
+    }
+  },
+  "provider": {
+    "openrouter": {
+      "options": {
+        "baseURL": "https://openrouter.ai/api/v1"
+      }
+    }
+  }
+}

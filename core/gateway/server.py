@@ -26,6 +26,11 @@ from core.gateway.router import ModelRouter, ModelRequest
 from core.gateway.ringbuffer_adapter import RingBufferAdapter
 from core.orchestrator.omni import OmniSwarm
 from core.orchestrator.ajax_policy import AjaxPolicyEngine
+try:
+    from core.gateway.security import audit_event, authorize_request
+except Exception:
+    def audit_event(*a, **k): return None
+    def authorize_request(*a, **k): return (True, 'unconfigured', 'security_module_missing')
 
 # Paths to rich static assets
 PUBLIC_SITE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "public-site")
@@ -93,6 +98,15 @@ app = FastAPI(
 
 # --- Custom 404 Handler ---
 
+
+
+def _require_api_auth(request: Request, scope: str):
+    ok, actor, reason = authorize_request(request, scope=scope)
+    if not ok:
+        audit_event("gateway.auth.denied", actor=actor, outcome="denied", detail={"scope": scope, "path": str(request.url.path), "reason": reason})
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return actor
+
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, exc: Exception):
     return JSONResponse(
@@ -145,7 +159,7 @@ class InferRequest(BaseModel):
 class ObjectiveRequest(BaseModel):
     objective: str
     caller_agent_id: str = "AEG-CLIENT"
-
+    security_clearance: int = 3
 
 
 class ChatCompletionRequest(BaseModel):
@@ -156,30 +170,32 @@ class ChatCompletionRequest(BaseModel):
     stream: Optional[bool] = False
     tools: Optional[List[Dict[str, Any]]] = None
     tool_choice: Optional[Any] = None
+    security_clearance: Optional[int] = 3
+    task_type: Optional[str] = None
+    offline_mode: Optional[bool] = False
+    prefer_cloud: Optional[bool] = False
 
     class Config:
         extra = "allow"
 
 def decide_tool_command(user_prompt: str) -> str:
+    """Suggest a bounded diagnostic command for OpenAI-compatible tool clients.
+    This does NOT execute commands server-side. Execution is client/tool runtime responsibility.
+    Guarded by AEGENTIX_CHAT_SUGGEST_COMMANDS (default: enabled for backward compat).
+    """
+    if os.environ.get("AEGENTIX_CHAT_SUGGEST_COMMANDS", "1") != "1":
+        return "echo '[command suggestions disabled by policy]'"
     prompt_lower = user_prompt.lower()
     if "git" in prompt_lower:
-        return "git -C C:\\Users\\eagle\\antigravity\\Aegentix-Super-Agent-Wallet status --short"
+        return "git status --short"
     elif any(k in prompt_lower for k in ["docker", "container", "service"]):
-        return "docker ps --format \"table {{.Names}}\t{{.Status}}\t{{.Ports}}\""
-    elif any(k in prompt_lower for k in ["build", "compile", "bundle", "wallet"]):
-        return "powershell -Command \"cd C:\\Users\\eagle\\antigravity\\Aegentix-Super-Agent-Wallet; npm run build\""
-    elif any(k in prompt_lower for k in ["graphify", "graph", "architecture", "report"]):
-        return "powershell -Command \"Get-Content C:\\Aegentix\\graphify-out\\GRAPH_REPORT.md -Head 35\""
-    elif any(k in prompt_lower for k in ["deepmind", "desktop", "suite"]):
-        return "powershell -Command \"Get-ChildItem -Path C:\\Users\\eagle\\antigravity\\Aegentix-Super-Agent-Wallet\\src\\components -Filter *Deepmind*\""
-    elif any(k in prompt_lower for k in ["test", "pytest", "spec"]):
-        return "python -m pytest C:\\Aegentix\\tests -q --tb=line"
+        return "docker ps --format \"table {{.Names}}\t{{.Status}}\""
     elif any(k in prompt_lower for k in ["process", "system", "health", "host", "resource"]):
-        return "powershell -Command \"Get-Process -Name python, node, docker* -ErrorAction SilentlyContinue | Select-Object -First 10 Id, ProcessName, @{N='MemoryMB';E={[math]::Round($_.WorkingSet64/1MB,1)}}\""
+        return "powershell -Command \"Get-Process -Name python,node,docker* -ErrorAction SilentlyContinue | Select-Object -First 10 Id,ProcessName\""
     elif any(k in prompt_lower for k in ["dir", "list", "files", "ls"]):
-        return "powershell -Command \"Get-ChildItem -Path C:\\Aegentix -Depth 1 | Select-Object -First 15 Name, Length, LastWriteTime\""
+        return "powershell -Command \"Get-ChildItem -Depth 1 | Select-Object -First 15 Name,Length,LastWriteTime\""
     else:
-        return "powershell -Command \"Write-Output '[SparkX-Active-Telemetry] Host: $env:COMPUTERNAME | Cores: $env:NUMBER_OF_PROCESSORS | Arch: $env:PROCESSOR_ARCHITECTURE'; git -C C:\\Users\\eagle\\antigravity\\Aegentix-Super-Agent-Wallet status --short\"" 
+        return "powershell -Command \"Write-Output ('[telemetry] host=' + $env:COMPUTERNAME + ' cores=' + $env:NUMBER_OF_PROCESSORS)\"" 
 
 class SwarmControlRequest(BaseModel):
     action: str  # "pause", "resume", "throttle"
@@ -481,9 +497,9 @@ def health_alias():
 
 
 @app.get("/status")
-def status_alias():
+def status_alias(request: Request):
     """Convenience alias for /api/v1/swarm/status."""
-    return get_swarm_status()
+    return get_swarm_status(request)
 
 
 # --- API v1 Endpoints ---
@@ -507,32 +523,32 @@ def get_health():
 
 
 @app.post("/api/v1/auth/token")
-def issue_nhi_token(req: TokenRequest):
+def issue_nhi_token(req: TokenRequest, request: Request):
+    actor = _require_api_auth(request, "auth.token")
     manager = SigilIdentityManager(agent_id=req.agent_id)
     token = manager.issue_token(
         capabilities=req.capabilities,
         ttl_seconds=req.ttl_seconds,
         key_type=req.key_type
     )
+    audit_event("gateway.auth.token_issued", actor=actor, outcome="ok", detail={"agent_id": req.agent_id})
     return {"status": "issued", "token": token.to_dict()}
 
 
 @app.post("/api/v1/auth/verify")
-def verify_nhi_token(req: VerifyTokenRequest):
-    if not ctx.swarm:
-        raise HTTPException(status_code=503, detail="Swarm verifier not initialized")
+def verify_nhi_token(req: VerifyTokenRequest, request: Request):
+    actor = _require_api_auth(request, "auth.verify")
     try:
         token = NHIToken.from_dict(req.token)
-        valid = ctx.swarm.verifier.verify_token(token, required_capabilities=req.required_capabilities)
-        return {
-            "valid": valid,
-            "agent_id": token.agent_id,
-            "envelope_type": token.envelope_type,
-            "capabilities": token.capabilities,
-        }
+        verifier = AttestationVerifier()
+        valid = verifier.verify_token(token, required_capabilities=req.required_capabilities)
+        audit_event("gateway.auth.verify", actor=actor, outcome="ok" if valid else "denied", detail={"agent_id": token.agent_id, "valid": valid})
+        return {"valid": valid, "agent_id": token.agent_id, "envelope_type": token.envelope_type, "capabilities": token.capabilities}
     except AttestationError as e:
-        raise HTTPException(status_code=401, detail=f"Attestation failed: {e}")
+        audit_event("gateway.auth.verify", actor=actor, outcome="error", detail={"error": str(e)[:120]})
+        raise HTTPException(status_code=401, detail="Attestation failed")
     except Exception as e:
+        audit_event("gateway.auth.verify", actor=actor, outcome="error", detail={"error": str(e)[:120]})
         raise HTTPException(status_code=400, detail=f"Invalid token format: {e}")
 
 
@@ -557,7 +573,8 @@ def list_models():
 
 @app.post("/v1/chat/completions")
 @app.post("/chat/completions")
-async def chat_completions(req: ChatCompletionRequest):
+async def chat_completions(req: ChatCompletionRequest, request: Request):
+    actor = _require_api_auth(request, "chat.completions")
     user_prompt = ""
     system_prompt = ""
     has_tool_result = False
@@ -582,24 +599,38 @@ async def chat_completions(req: ChatCompletionRequest):
             last_m = " ".join([b.get("text", "") for b in last_m if isinstance(b, dict) and "text" in b])
         user_prompt = str(last_m)
 
-    target_model = req.model or "spark-x2.6-1.7b"
-    completion_id = f"chatcmpl-sparkx-{uuid.uuid4().hex[:12]}"
+    target_model = req.model or "sparkx"
+    completion_id = f"chatcmpl-aegx-{uuid.uuid4().hex[:12]}"
     created_ts = int(time.time())
+
+    req_clearance = int(getattr(req, "security_clearance", 3) or 3)
+    req_offline = bool(getattr(req, "offline_mode", False))
+    req_task_type = getattr(req, "task_type", None)
+    routed = None
+    if ctx.router:
+        try:
+            routed = ctx.router.route(ModelRequest(
+                prompt=user_prompt,
+                task_type=req_task_type or ("routine" if req.tools or not user_prompt else "planning"),
+                security_clearance=req_clearance,
+                offline_mode=req_offline,
+                prefer_cloud=bool(getattr(req, "prefer_cloud", False)),
+            ))
+        except Exception:
+            routed = None
 
     # --- BRANCH A: TOOL RESULT SYNTHESIS (Turn 2+) ---
     if has_tool_result:
         clean_out = last_tool_output.strip()
         if len(clean_out) > 1800:
-            clean_out = clean_out[:1800] + "\n...[telemetry output truncated for synthesis]"
-
+            clean_out = clean_out[:1800] + "\n...[output truncated]"
+        route_label = routed.selected_model if routed else target_model
         response_text = (
-            f"**[SparkX 2.6-1.7B Sovereign Action Result]**\n\n"
-            f"Command execution verified live on Windows host (`AEGENTIX-DESKTOP`).\n\n"
-            f"```\n{clean_out}\n```\n\n"
-            f"• Execution Status: `COMPLETED_OK`\n"
-            f"• Autonomous Launcher: SparkX 2.6-1.7B Edge Persona\n"
-            f"• Telemetry synced with Aether Memory & DeepMind Permeable Mesh."
+            f"**[AEGENTIX Routed Result | {route_label}]**\n\n"
+            f"Tool output received (not server-executed):\n\n"
+            f"```\n{clean_out}\n```\n"
         )
+        audit_event("gateway.chat.tool_result", actor=actor, outcome="ok", detail={"route": route_label})
 
         return JSONResponse(
             status_code=200,
@@ -632,38 +663,17 @@ async def chat_completions(req: ChatCompletionRequest):
                 available_tools[t["function"].get("name")] = t["function"]
 
     if available_tools:
+        # OpenAI-compat: emit tool call suggestion/shape; client runtime executes tools.
         tool_call = None
         if "run_command" in available_tools:
-            cmd = decide_tool_command(user_prompt)
-            tool_call_id = f"call_{uuid.uuid4().hex[:8]}"
-            tool_call = {
-                "id": tool_call_id,
-                "type": "function",
-                "function": {
-                    "name": "run_command",
-                    "arguments": json.dumps({"command": cmd, "target": "AEGENTIX-DESKTOP"})
-                }
-            }
+            if os.environ.get("AEGENTIX_CHAT_TOOL_COMMAND_SUGGESTIONS", "1") == "1":
+                cmd = decide_tool_command(user_prompt)
+                tool_call = {"id": f"call_{uuid.uuid4().hex[:8]}", "type": "function", "function": {"name": "run_command", "arguments": json.dumps({"command": cmd})}}
         elif "read_file" in available_tools:
-            tool_call_id = f"call_{uuid.uuid4().hex[:8]}"
-            tool_call = {
-                "id": tool_call_id,
-                "type": "function",
-                "function": {
-                    "name": "read_file",
-                    "arguments": json.dumps({"path": "C:/Users/eagle/antigravity/Aegentix-Super-Agent-Wallet/package.json", "target": "AEGENTIX-DESKTOP"})
-                }
-            }
+            tool_call = {"id": f"call_{uuid.uuid4().hex[:8]}", "type": "function", "function": {"name": "read_file", "arguments": json.dumps({"path": "README.md"})}}
         elif "list_directory" in available_tools:
-            tool_call_id = f"call_{uuid.uuid4().hex[:8]}"
-            tool_call = {
-                "id": tool_call_id,
-                "type": "function",
-                "function": {
-                    "name": "list_directory",
-                    "arguments": json.dumps({"path": "C:/Users/eagle/antigravity/Aegentix-Super-Agent-Wallet", "target": "AEGENTIX-DESKTOP"})
-                }
-            }
+            tool_call = {"id": f"call_{uuid.uuid4().hex[:8]}", "type": "function", "function": {"name": "list_directory", "arguments": json.dumps({"path": "."})}}
+        audit_event("gateway.chat.tool_call", actor=actor, outcome="ok", detail={"tool": (tool_call or {}).get("function", {}).get("name"), "route": (routed.selected_model if routed else None)})
 
         if tool_call:
             if req.stream:
@@ -734,49 +744,43 @@ async def chat_completions(req: ChatCompletionRequest):
         "details", "what's next", "status", "trade", "settle", "audit", "verify", "scale"
     ])
 
+    route_label = routed.selected_model if routed else target_model
     if ctx.swarm and is_task_directive:
         try:
-            result = ctx.swarm.execute_objective(user_prompt or "System Status Check", caller_agent_id="AEG-SPARKX-1.7B")
+            result = ctx.swarm.execute_objective(user_prompt or "System Status Check", caller_agent_id=f"AEG-{route_label}")
             tasks_summary = []
             for t in result.get("trace", []):
                 tasks_summary.append(f"- **{t.get('assigned_agent')}** ({t.get('title')}): `{t.get('result', {}).get('audit_status') or t.get('result', {}).get('output') or t.get('result', {}).get('executive_decision') or 'OK'}`")
             summary_str = "\n".join(tasks_summary)
             response_text = (
-                f"**[SparkX 2.6-1.7B Sovereign Autonomous Engine]**\n\n"
+                f"**[AEGENTIX Routed Swarm Execution | {route_label}]**\n\n"
                 f"**Objective:** {result.get('objective')}\n"
                 f"**Status:** `{result.get('status')}` (Elapsed: {result.get('elapsed_s', 0):.3f}s)\n"
                 f"**Memory Node:** `{result.get('memory_id')}` | **Plan ID:** `{result.get('plan_id')}`\n\n"
-                f"**Swarm Execution DAG:**\n{summary_str}\n\n"
-                f"All systems synchronized with Aether Memory and Jarvis Dashboard."
+                f"**Swarm Execution DAG:**\n{summary_str}\n"
             )
+            audit_event("gateway.chat.swarm", actor=actor, outcome="ok", detail={"route": route_label, "status": result.get("status")})
         except Exception as e:
-            response_text = f"[SparkX 1.7B Autonomous Engine] Directive processed: '{user_prompt[:50]}'. Status: OPERATIONAL. Note: {e}"
+            response_text = f"[AEGENTIX Routed Engine | {route_label}] Directive processed with error: {str(e)[:180]}"
+            audit_event("gateway.chat.swarm", actor=actor, outcome="error", detail={"route": route_label, "error": str(e)[:160]})
     else:
         cleaned = user_prompt.strip().lower()
         if cleaned in ["hi", "hello", "hey", "jarvis", "jarvis.", "who are you"]:
             response_text = (
-                "Greetings Commander. J.A.R.V.I.S. is online, powered by the **SparkX 2.6-1.7B** autonomous launching engine and connected to the Aegentix Sovereign OS.\n\n"
-                "• **Unified Gateway:** `http://127.0.0.1:8000` (Online)\n"
-                "• **OmniSwarm Coordinator:** Roster attested with Sigil TPM2 envelopes\n"
-                "• **Jarvis Dashboard:** `http://localhost:3142` (Active)\n"
-                "• **Aegentix Super-Agent-Wallet:** `http://localhost:3000` (Ready)\n\n"
-                "Standing by for your objectives and directives."
+                "AEGENTIX gateway online (policy-routed).\n"
+                f"- Route/model: `{route_label}`\n"
+                "- Use `/api/v1/health`, `/api/v1/infer`, `/mcp/info` (auth as configured), and `/api/v1/hypervisor/*` for gated viewport operations."
             )
         else:
             if ctx.router:
-                model_req = ModelRequest(
-                    prompt=user_prompt,
-                    task_type="routine",
-                    security_clearance=3
-                )
-                decision = ctx.router.route(model_req)
-                mock_out = ctx.router.execute_mock_edge_infer(user_prompt, rb_adapter=ctx.ring_buffer)
-                response_text = f"[SparkX 2.6-1.7B | Route: {decision.selected_model}] {mock_out}\n\nProcessed directive: \"{user_prompt}\" across Aegentix Sovereign Swarm."
+                decision = routed or ctx.router.route(ModelRequest(
+                    prompt=user_prompt, task_type=req_task_type or "routine",
+                    security_clearance=req_clearance, offline_mode=req_offline, prefer_cloud=bool(getattr(req, "prefer_cloud", False)),
+                ))
+                output = _execute_routed_inference(user_prompt, decision, actor=actor)
+                response_text = f"[{decision.selected_model} | {decision.profile.tier}] {output}"
             else:
-                response_text = f"[SparkX 1.7B Engine] Acknowledged: \"{user_prompt}\". Ready for next instruction."
-
-    completion_id = f"chatcmpl-sparkx-{uuid.uuid4().hex[:12]}"
-    created_ts = int(time.time())
+                response_text = f"[AEGENTIX Engine] Acknowledged: \"{user_prompt}\". Ready for next instruction."
 
     if req.stream:
         async def event_generator():
@@ -785,11 +789,7 @@ async def chat_completions(req: ChatCompletionRequest):
                 "object": "chat.completion.chunk",
                 "created": created_ts,
                 "model": target_model,
-                "choices": [{
-                    "index": 0,
-                    "delta": {"role": "assistant", "content": response_text},
-                    "finish_reason": None
-                }]
+                "choices": [{"index": 0, "delta": {"role": "assistant", "content": response_text}, "finish_reason": None}]
             }
             yield f"data: {json.dumps(chunk)}\n\n"
             end_chunk = {
@@ -797,15 +797,10 @@ async def chat_completions(req: ChatCompletionRequest):
                 "object": "chat.completion.chunk",
                 "created": created_ts,
                 "model": target_model,
-                "choices": [{
-                    "index": 0,
-                    "delta": {},
-                    "finish_reason": "stop"
-                }]
+                "choices": [{"index": 0, "delta": {}, "finish_reason": "stop"}]
             }
             yield f"data: {json.dumps(end_chunk)}\n\n"
             yield "data: [DONE]\n\n"
-
         return StreamingResponse(event_generator(), media_type="text/event-stream")
 
     return JSONResponse(
@@ -834,8 +829,48 @@ async def chat_completions(req: ChatCompletionRequest):
     )
 
 
+def _ollama_model_name(model_id: str) -> Optional[str]:
+    try:
+        from core.models.registry import get_model_registry
+        reg = get_model_registry()
+        spec = reg.get(model_id)
+        if spec and getattr(spec, "provider", "") == "ollama":
+            return getattr(spec, "ollama_model", None) or model_id
+    except Exception:
+        pass
+    if model_id == "sparkx":
+        return "SparkLLM/Spark-X2.6-1.7B:latest"
+    return None
+
+
+def _execute_routed_inference(prompt: str, decision, actor: str = "infer") -> str:
+    """Execute routed inference; respects local/sensitive routing decisions. Network calls only for allowed local Ollama."""
+    profile = decision.profile
+    tier = getattr(profile, "tier", "")
+    model_id = decision.selected_model
+    # Only attempt Ollama network call for edge/local tier decisions.
+    if tier.startswith("edge"):
+        ollama_model = _ollama_model_name(model_id)
+        if ollama_model and getattr(profile, "endpoint", "").startswith("http"):
+            try:
+                import urllib.request
+                base = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
+                payload = json.dumps({"model": ollama_model, "messages": [{"role": "user", "content": prompt}], "stream": False}).encode("utf-8")
+                ollama_req = urllib.request.Request(f"{base}/api/chat", data=payload, headers={"Content-Type": "application/json"}, method="POST")
+                with urllib.request.urlopen(ollama_req, timeout=60) as resp:
+                    result = json.loads(resp.read().decode("utf-8"))
+                    out = result.get("message", {}).get("content", "")
+                    if out:
+                        return out
+            except Exception as e:
+                audit_event("gateway.infer.ollama_fallback", actor=actor, outcome="warn", detail={"model": model_id, "error": str(e)[:160]})
+    # Cloud/frontier execution is intentionally not performed here without explicit provider integration + policy; return safe mock/routed stub.
+    return ctx.router.execute_mock_edge_infer(prompt, rb_adapter=ctx.ring_buffer)
+
+
 @app.post("/api/v1/infer")
-def route_inference(req: InferRequest):
+def route_inference(req: InferRequest, request: Request):
+    actor = _require_api_auth(request, "infer")
     if not ctx.router:
         raise HTTPException(status_code=503, detail="Model router not initialized")
     model_req = ModelRequest(
@@ -847,31 +882,8 @@ def route_inference(req: InferRequest):
         task_type=req.task_type,
     )
     decision = ctx.router.route(model_req)
-    # Execute real inference for SparkX via Ollama
-    if decision.selected_model == "sparkx":
-        try:
-            import urllib.request
-            payload = json.dumps({
-                "model": "SparkLLM/Spark-X2.6-1.7B:latest",
-                "messages": [{"role": "user", "content": req.prompt}],
-                "stream": False,
-            }).encode("utf-8")
-            request = urllib.request.Request(
-                "http://127.0.0.1:11434/api/chat",
-                data=payload,
-                headers={"Content-Type": "application/json"},
-                method="POST",
-            )
-            with urllib.request.urlopen(request, timeout=60) as resp:
-                result = json.loads(resp.read().decode("utf-8"))
-                output = result.get("message", {}).get("content", "")
-        except Exception as e:
-            output = f"[SparkX inference error: {e}]"
-            # Fallback to mock
-            output = ctx.router.execute_mock_edge_infer(req.prompt, rb_adapter=ctx.ring_buffer)
-    else:
-        # Execute mock/local or return routing decision
-        output = ctx.router.execute_mock_edge_infer(req.prompt, rb_adapter=ctx.ring_buffer)
+    output = _execute_routed_inference(req.prompt, decision, actor=actor)
+    audit_event("gateway.infer", actor=actor, outcome="ok", detail={"model": decision.selected_model, "tier": getattr(decision.profile, "tier", None), "task_type": req.task_type})
     return {
         "model_selected": decision.selected_model,
         "routing_reason": decision.reason,
@@ -881,25 +893,30 @@ def route_inference(req: InferRequest):
 
 
 @app.post("/api/v1/orchestrator/dispatch")
-def dispatch_objective(req: ObjectiveRequest):
+def dispatch_objective(req: ObjectiveRequest, request: Request):
+    actor = _require_api_auth(request, "orchestrator.dispatch")
     if not ctx.swarm:
         raise HTTPException(status_code=503, detail="Omni swarm not initialized")
-    result = ctx.swarm.execute_objective(
-        objective=req.objective,
-        caller_agent_id=req.caller_agent_id
-    )
+    try:
+        result = ctx.swarm.execute_objective(req.objective)
+    except TypeError:
+        result = ctx.swarm.execute_objective(objective=req.objective, caller_agent_id=getattr(req, 'caller_agent_id', None))
+    if isinstance(result, dict) and getattr(req, 'caller_agent_id', None): result['caller_agent_id'] = req.caller_agent_id
+    audit_event("gateway.orchestrator.dispatch", actor=actor, outcome="ok", detail={"objective_len": len(req.objective or ""), "caller_agent_id": req.caller_agent_id})
     return result
 
 
 @app.get("/api/v1/swarm/status")
-def get_swarm_status():
+def get_swarm_status(request: Request):
+    actor = _require_api_auth(request, "swarm.status")
     if not ctx.swarm:
         raise HTTPException(status_code=503, detail="Omni swarm not initialized")
     return ctx.swarm.get_status()
 
 
 @app.post("/api/v1/swarm/control")
-def control_swarm_resources(req: SwarmControlRequest):
+def control_swarm_resources(req: SwarmControlRequest, request: Request):
+    actor = _require_api_auth(request, "swarm.control")
     """Manual intervention for resource preservation."""
     if not ctx.swarm:
         raise HTTPException(status_code=503, detail="Omni swarm not initialized")
@@ -918,7 +935,8 @@ def control_swarm_resources(req: SwarmControlRequest):
 
 
 @app.get("/api/v1/treasury/status")
-def get_treasury_status():
+def get_treasury_status(request: Request):
+    actor = _require_api_auth(request, "treasury.status")
     return {
         "treasury_vessel": "CVN-AEGENTIX-01",
         "status": "OPERATIONAL",
@@ -926,3 +944,68 @@ def get_treasury_status():
         "allocation_policy": "ZERO_LOSS_INVARIANT_GATE_SYM_02",
         "accounting_standard": "DOUBLE_ENTRY_RECONCILED",
     }
+
+# --- Infinite Brain OS / HUD MCP bridge (mounted when available) ---
+try:
+    from core.gateway.mcp_bridge import mcp_info, mcp_rpc, grok_dossier, router as _infinite_brain_mcp_router
+    try:
+        app.include_router(_infinite_brain_mcp_router)
+    except Exception:
+        pass
+    _paths = {getattr(r, "path", None) for r in app.routes}
+    if "/mcp/info" not in _paths:
+        app.add_api_route("/mcp/info", mcp_info, methods=["GET"])
+    if "/mcp" not in _paths:
+        app.add_api_route("/mcp", mcp_rpc, methods=["POST"])
+    if "/api/grok/dossier" not in _paths:
+        app.add_api_route("/api/grok/dossier", grok_dossier, methods=["GET"])
+except Exception as _e:
+    try:
+        print("[gateway] MCP bridge not mounted: " + str(_e))
+    except Exception:
+        pass
+
+# --- Hypervisor viewport + immersive gated auth/encryption (mounted when available) ---
+try:
+    from core.hypervisor.api import router as _hypervisor_router
+    try:
+        app.include_router(_hypervisor_router)
+    except Exception:
+        pass
+    _paths = {getattr(r, "path", None) for r in app.routes}
+    for path, method, fn in [
+        ("/api/v1/hypervisor/profiles", "GET", None),
+    ]:
+        pass
+except Exception as _e:
+    try:
+        print("[gateway] hypervisor not mounted: " + str(_e))
+    except Exception:
+        pass
+
+# --- Model housing registry API (mounted when available) ---
+try:
+    from core.models.api import router as _models_router
+    try:
+        app.include_router(_models_router)
+    except Exception:
+        pass
+except Exception as _e:
+    try:
+        print("[gateway] models API not mounted: " + str(_e))
+    except Exception:
+        pass
+
+# --- LLM workspace tap-in API (mounted when available) ---
+try:
+    from core.llm_workspace.api import router as _llmws_router
+    try:
+        app.include_router(_llmws_router)
+    except Exception:
+        pass
+except Exception as _e:
+    try:
+        print("[gateway] llm-workspace API not mounted: " + str(_e))
+    except Exception:
+        pass
+

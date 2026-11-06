@@ -1,0 +1,48 @@
+{
+  "version": "1.0.0",
+  "name": "immersive-gates",
+  "notes": "Architecture complete; filings/certification applied at validity points. Do not withhold engineering.",
+  "default_immersive_version": 1,
+  "allow_local_noauth_dev": true,
+  "profiles": {
+    "0": {
+      "name": "observe",
+      "requires_token": false,
+      "encrypted": false,
+      "steps": 0
+    },
+    "1": {
+      "name": "operator",
+      "requires_token": true,
+      "encrypted": false,
+      "steps": 1
+    },
+    "2": {
+      "name": "engineer",
+      "requires_token": true,
+      "encrypted": true,
+      "steps": 2
+    },
+    "3": {
+      "name": "hypervisor",
+      "requires_token": true,
+      "encrypted": true,
+      "steps": 3
+    },
+    "4": {
+      "name": "sovereign",
+      "requires_token": true,
+      "encrypted": true,
+      "steps": 4
+    }
+  },
+  "env": {
+    "token": [
+      "AEGENTIX_API_TOKEN",
+      "AEGENTIX_MCP_TOKEN"
+    ],
+    "master_secret": "AEGENTIX_GATE_MASTER_SECRET",
+    "local_noauth": "AEGENTIX_ALLOW_LOCAL_NOAUTH",
+    "debug": "AEGENTIX_DEBUG"
+  }
+}

@@ -93,3 +93,26 @@ MODEL_PROFILES: Dict[str, ModelProfile] = {
 
 # Legacy mapping for backwards compatibility
 AVAILABLE_MODELS = {k: v.endpoint for k, v in MODEL_PROFILES.items()}
+
+
+# --- AEGENTIX model housing registry merge (backward compatible) ---
+try:
+    from core.models.registry import get_model_registry
+    _reg = get_model_registry()
+    for _mid, _d in _reg.to_profiles_dict().items():
+        try:
+            _existing = MODEL_PROFILES.get(_mid)
+            _name = _d.get('name') or _mid
+            _ep = _d.get('endpoint') or (_existing.endpoint if _existing else '')
+            _tier = _d.get('tier') or (_existing.tier if _existing else 'edge_local')
+            _lat = int(_d.get('max_latency_ms') or (_existing.max_latency_ms if _existing else 500))
+            _clr = int(_d.get('security_clearance_min') or (_existing.security_clearance_min if _existing else 1))
+            _stream = bool(_d.get('supports_streaming', _existing.supports_streaming if _existing else True))
+            _ctx = int(_d.get('context_window') or (_existing.context_window if _existing else 4096))
+            _cost = float(_d.get('cost_per_million_tokens') if _d.get('cost_per_million_tokens') is not None else (_existing.cost_per_million_tokens if _existing else 0.0))
+            MODEL_PROFILES[_mid] = ModelProfile(name=_name, endpoint=_ep, tier=_tier, max_latency_ms=_lat, security_clearance_min=_clr, supports_streaming=_stream, context_window=_ctx, cost_per_million_tokens=_cost)
+        except Exception:
+            pass
+    AVAILABLE_MODELS = {k: v.endpoint for k, v in MODEL_PROFILES.items()}
+except Exception:
+    pass

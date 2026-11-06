@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "aegentix-live-avatar-kilo",
+  "display_name": "AEGENTIX Live Avatar / Kilo + OpenRouter",
+  "source_of_truth": "C:\\AEGENTIX-CYBERNETICS-CORE\\config\\kilo\\live_avatar.json",
+  "description": "Kilo/OpenRouter/free-tier configuration for the live avatar/HUD and AEGENTIX chat surfaces. No secrets stored; keys come from environment.",
+  "providers": {
+    "kilo": {
+      "enabled": true,
+      "kind": "managed",
+      "notes": "Use Kilo model picker (`/models`) and provider settings in Kilo config. Free-tier models available via kilo/* IDs."
+    },
+    "openrouter": {
+      "enabled": true,
+      "kind": "openai_compat",
+      "base_url": "https://openrouter.ai/api/v1",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "notes": "Set OPENROUTER_API_KEY in user environment/secrets. Prefer free/open models for non-sensitive avatar chat."
+    },
+    "ollama_local": {
+      "enabled": true,
+      "kind": "local",
+      "base_url_env": "OLLAMA_BASE_URL",
+      "base_url_default": "http://127.0.0.1:11434",
+      "notes": "Preferred for sensitive/local/offline avatar operations."
+    }
+  },
+  "kilo_defaults": {
+    "global_config": "C:\\Users\\eagle\\.config\\kilo\\kilo.json",
+    "project_config": "C:\\AEGENTIX-CYBERNETICS-CORE\\.kilo\\kilo.jsonc",
+    "recommended_free_models": [
+      "kilo/nvidia/nemotron-3-ultra-550b-a55b:free",
+      "kilo/google/gemma-3-27b-it:free",
+      "kilo/meta-llama/llama-3.3-70b-instruct:free",
+      "kilo/qwen/qwen3-32b:free",
+      "openrouter/meta-llama/llama-3.3-8b-instruct:free",
+      "openrouter/google/gemma-3-12b-it:free",
+      "openrouter/qwen/qwen-2.5-7b-instruct:free"
+    ],
+    "notes": "Model availability/pricing/free-tier status can change. Verify in Kilo/OpenRouter before relying on a specific free ID."
+  },
+  "live_avatar": {
+    "enabled": true,
+    "hud_assets": [
+      "public-site/avatar_hud.html",
+      "public-site/avatar_hud_procedural.html"
+    ],
+    "gateway_routes": [
+      "/avatar-hud",
+      "/avatar-hud-procedural",
+      "/v1/chat/completions",
+      "/api/v1/infer",
+      "/mcp"
+    ],
+    "default_security_clearance": 3,
+    "sensitive_security_clearance_min": 4,
+    "prefer_local_for_sensitive": true,
+    "allow_cloud_for_non_sensitive_avatar_chat": true,
+    "default_task_routing": {
+      "avatar_chat": "sparkx",
+      "routine": "sparkx",
+      "planning": "sparkx",
+      "tool_routing": "sparkx"
+    }
+  }
+}

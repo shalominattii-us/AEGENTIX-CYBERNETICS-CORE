@@ -27,7 +27,19 @@ MSG_TYPE_EOS       = 0x0004
 MSG_TYPE_ERROR     = 0x0005
 
 
+try:
+    from core.native_fast import checksum32 as _native_checksum32
+except Exception:
+    _native_checksum32 = None
+
 def _calculate_checksum(data: bytes) -> int:
+    if _native_checksum32 is not None:
+        try:
+            n = _native_checksum32(data)
+            if n is not None:
+                return int(n) & 0xFFFFFFFF
+        except Exception:
+            pass
     s = 0
     for b in data:
         s = ((s * 31) + b) & 0xFFFFFFFF

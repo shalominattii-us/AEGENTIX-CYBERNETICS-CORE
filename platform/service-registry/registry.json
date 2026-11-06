@@ -3,7 +3,14 @@
   "registryVersion": "1.0.0",
   "generatedAt": "2026-07-22T18:15:00Z",
   "authority": "AEGENTIX-CYBERNETICS-CORE",
-  "activeExecutionZones": ["OpenClaw", "Nemotron", "Hermes", "Docker", "Manus", "AWS"],
+  "activeExecutionZones": [
+    "OpenClaw",
+    "Nemotron",
+    "Hermes",
+    "Docker",
+    "Manus",
+    "AWS"
+  ],
   "services": [
     {
       "serviceId": "grove-hedera-orchards",
@@ -11,21 +18,72 @@
       "description": "Hedera orchard event and agent-action service.",
       "version": "1.0.0",
       "lifecycle": "deployed",
-      "health": {"status": "healthy", "reason": "Previously verified online on the local Docker estate.", "lastCheck": null},
-      "executionZones": ["Docker", "OpenClaw", "Nemotron", "Hermes", "Manus", "LocalWindows"],
-      "runtime": {"kind": "docker-compose", "host": "localhost", "port": 8087, "container": null, "repository": null},
-      "endpoints": [
-        {"name": "health", "url": "http://localhost:8087/health", "access": "local"},
-        {"name": "orchards", "url": "http://localhost:8087/orchards", "access": "local"},
-        {"name": "events", "url": "http://localhost:8087/events", "access": "local"},
-        {"name": "agent-actions", "url": "http://localhost:8087/agents/actions", "access": "local"}
+      "health": {
+        "status": "healthy",
+        "reason": "Previously verified online on the local Docker estate.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Manus",
+        "LocalWindows"
       ],
-      "dependencies": ["docker"],
-      "capabilities": ["event-ingestion", "orchard-registry", "agent-action-recording", "hedera-integration"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Operational registry entry only; no external commitments are authorized."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "runtime": {
+        "kind": "docker-compose",
+        "host": "localhost",
+        "port": 8087,
+        "container": null,
+        "repository": null
+      },
+      "endpoints": [
+        {
+          "name": "health",
+          "url": "http://localhost:8087/health",
+          "access": "local"
+        },
+        {
+          "name": "orchards",
+          "url": "http://localhost:8087/orchards",
+          "access": "local"
+        },
+        {
+          "name": "events",
+          "url": "http://localhost:8087/events",
+          "access": "local"
+        },
+        {
+          "name": "agent-actions",
+          "url": "http://localhost:8087/agents/actions",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "docker"
+      ],
+      "capabilities": [
+        "event-ingestion",
+        "orchard-registry",
+        "agent-action-recording",
+        "hedera-integration"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Operational registry entry only; no external commitments are authorized."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
-      "notes": ["Docker network grove-hedera-net uses 10.87.0.0/24."]
+      "notes": [
+        "Docker network grove-hedera-net uses 10.87.0.0/24."
+      ]
     },
     {
       "serviceId": "coinbase-orchards",
@@ -33,21 +91,73 @@
       "description": "Read-only Coinbase market-data orchard service.",
       "version": "1.0.0",
       "lifecycle": "deployed",
-      "health": {"status": "healthy", "reason": "Previously verified online in read-only mode.", "lastCheck": null},
-      "executionZones": ["Docker", "OpenClaw", "Nemotron", "Hermes", "Manus", "LocalWindows"],
-      "runtime": {"kind": "docker-compose", "host": "localhost", "port": 8097, "container": null, "repository": null},
-      "endpoints": [
-        {"name": "health", "url": "http://localhost:8097/health", "access": "local"},
-        {"name": "orchards", "url": "http://localhost:8097/orchards", "access": "local"},
-        {"name": "events", "url": "http://localhost:8097/events", "access": "local"},
-        {"name": "watchlist", "url": "http://localhost:8097/coinbase/watchlist", "access": "local"}
+      "health": {
+        "status": "healthy",
+        "reason": "Previously verified online in read-only mode.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Manus",
+        "LocalWindows"
       ],
-      "dependencies": ["docker", "coinbase-public-api"],
-      "capabilities": ["market-data", "watchlist", "event-ingestion", "agent-action-recording"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Read-only; order placement and withdrawals are disabled."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "runtime": {
+        "kind": "docker-compose",
+        "host": "localhost",
+        "port": 8097,
+        "container": null,
+        "repository": null
+      },
+      "endpoints": [
+        {
+          "name": "health",
+          "url": "http://localhost:8097/health",
+          "access": "local"
+        },
+        {
+          "name": "orchards",
+          "url": "http://localhost:8097/orchards",
+          "access": "local"
+        },
+        {
+          "name": "events",
+          "url": "http://localhost:8097/events",
+          "access": "local"
+        },
+        {
+          "name": "watchlist",
+          "url": "http://localhost:8097/coinbase/watchlist",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "docker",
+        "coinbase-public-api"
+      ],
+      "capabilities": [
+        "market-data",
+        "watchlist",
+        "event-ingestion",
+        "agent-action-recording"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Read-only; order placement and withdrawals are disabled."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
-      "notes": ["Docker network coinbase-orchards-net uses 10.88.0.0/24."]
+      "notes": [
+        "Docker network coinbase-orchards-net uses 10.88.0.0/24."
+      ]
     },
     {
       "serviceId": "government-ops-spine",
@@ -55,18 +165,64 @@
       "description": "Government opportunity intake, Treasury Labs analysis, and Infinite Brain planning service.",
       "version": "1.0.0",
       "lifecycle": "deployed",
-      "health": {"status": "degraded", "reason": "HTTP runtime is public and reachable; PostgreSQL is still configured at 127.0.0.1:5432 and is unavailable.", "lastCheck": "2026-07-22T18:04:32Z"},
-      "executionZones": ["AWS", "OpenClaw", "Nemotron", "Hermes", "Docker", "Manus"],
-      "runtime": {"kind": "ecs-fargate", "host": "54.241.188.37", "port": 8099, "region": "us-west-1", "cluster": "AEGENTIX-Cluster", "service": "aegentix-govops", "container": "government-ops-spine", "repository": "shalominattii-us/AEGENTIX-CYBERNETICS-CORE"},
-      "endpoints": [
-        {"name": "health", "url": "http://54.241.188.37:8099/health", "access": "public"}
+      "health": {
+        "status": "degraded",
+        "reason": "HTTP runtime is public and reachable; PostgreSQL is still configured at 127.0.0.1:5432 and is unavailable.",
+        "lastCheck": "2026-07-22T18:04:32Z"
+      },
+      "executionZones": [
+        "AWS",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Docker",
+        "Manus"
       ],
-      "dependencies": ["postgresql", "cybercore-event-bus"],
-      "capabilities": ["opportunity-ingestion", "requirements-analysis", "build-specification", "patent-package-planning", "review-routing", "controlled-correspondence"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "No filings, bids, financial commitments, submissions, or external representations without explicit authorization."},
-      "source": {"repository": "shalominattii-us/AEGENTIX-CYBERNETICS-CORE", "branch": "feature/government-ops-spine", "commit": "6ac2bdb61b199d22ec4190cfb505aad0f4721153"},
+      "runtime": {
+        "kind": "ecs-fargate",
+        "host": "54.241.188.37",
+        "port": 8099,
+        "region": "us-west-1",
+        "cluster": "AEGENTIX-Cluster",
+        "service": "aegentix-govops",
+        "container": "government-ops-spine",
+        "repository": "shalominattii-us/AEGENTIX-CYBERNETICS-CORE"
+      },
+      "endpoints": [
+        {
+          "name": "health",
+          "url": "http://54.241.188.37:8099/health",
+          "access": "public"
+        }
+      ],
+      "dependencies": [
+        "postgresql",
+        "cybercore-event-bus"
+      ],
+      "capabilities": [
+        "opportunity-ingestion",
+        "requirements-analysis",
+        "build-specification",
+        "patent-package-planning",
+        "review-routing",
+        "controlled-correspondence"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "No filings, bids, financial commitments, submissions, or external representations without explicit authorization."
+      },
+      "source": {
+        "repository": "shalominattii-us/AEGENTIX-CYBERNETICS-CORE",
+        "branch": "feature/government-ops-spine",
+        "commit": "6ac2bdb61b199d22ec4190cfb505aad0f4721153"
+      },
       "observedAt": "2026-07-22T18:04:32Z",
-      "notes": ["Deployment pipeline and public networking are validated.", "Deferred action: make Government Ops Spine talk to PostgreSQL."]
+      "notes": [
+        "Deployment pipeline and public networking are validated.",
+        "Deferred action: make Government Ops Spine talk to PostgreSQL."
+      ]
     },
     {
       "serviceId": "cybercore-monetization-directorate",
@@ -74,20 +230,67 @@
       "description": "Paper-safe revenue product, funding directive, and commerce-tier preparation service.",
       "version": "1.0.0",
       "lifecycle": "deployed",
-      "health": {"status": "healthy", "reason": "Directorate endpoints were previously verified on 127.0.0.1:8098.", "lastCheck": null},
-      "executionZones": ["Docker", "OpenClaw", "Nemotron", "Hermes", "Manus", "LocalWindows"],
-      "runtime": {"kind": "process", "host": "127.0.0.1", "port": 8098, "container": null, "repository": null},
-      "endpoints": [
-        {"name": "health", "url": "http://127.0.0.1:8098/health", "access": "local"},
-        {"name": "funding-status", "url": "http://127.0.0.1:8098/api/cybercore/funding/status", "access": "local"},
-        {"name": "launch-packet", "url": "http://127.0.0.1:8098/api/revenue/launch-packet", "access": "local"}
+      "health": {
+        "status": "healthy",
+        "reason": "Directorate endpoints were previously verified on 127.0.0.1:8098.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Manus",
+        "LocalWindows"
       ],
-      "dependencies": ["cybercore"],
-      "capabilities": ["funding-directives", "commerce-tier-design", "revenue-product-preparation", "launch-packet-generation"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Can prepare directives and products but cannot move money."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "runtime": {
+        "kind": "process",
+        "host": "127.0.0.1",
+        "port": 8098,
+        "container": null,
+        "repository": null
+      },
+      "endpoints": [
+        {
+          "name": "health",
+          "url": "http://127.0.0.1:8098/health",
+          "access": "local"
+        },
+        {
+          "name": "funding-status",
+          "url": "http://127.0.0.1:8098/api/cybercore/funding/status",
+          "access": "local"
+        },
+        {
+          "name": "launch-packet",
+          "url": "http://127.0.0.1:8098/api/revenue/launch-packet",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "cybercore"
+      ],
+      "capabilities": [
+        "funding-directives",
+        "commerce-tier-design",
+        "revenue-product-preparation",
+        "launch-packet-generation"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Can prepare directives and products but cannot move money."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
-      "notes": ["Prefer 127.0.0.1 over localhost for loopback stability."]
+      "notes": [
+        "Prefer 127.0.0.1 over localhost for loopback stability."
+      ]
     },
     {
       "serviceId": "moltbook-cybercore",
@@ -95,22 +298,79 @@
       "description": "Materialized network graph, manifest, bus, and dashboard runtime.",
       "version": "1.2.0",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Last known state included both successful repair and a later degraded base; live reconciliation is pending.", "lastCheck": null},
-      "executionZones": ["Docker", "OpenClaw", "Nemotron", "Hermes", "Manus", "LocalWindows"],
-      "runtime": {"kind": "process", "host": "localhost", "port": 8000, "container": null, "repository": null},
-      "endpoints": [
-        {"name": "health", "url": "http://localhost:8000/health", "access": "local"},
-        {"name": "network", "url": "http://localhost:8000/api/network", "access": "local"},
-        {"name": "manifest", "url": "http://localhost:8000/api/manifest", "access": "local"},
-        {"name": "bus", "url": "http://localhost:8000/api/bus", "access": "local"},
-        {"name": "dashboard", "url": "http://localhost:4173", "access": "local"}
+      "health": {
+        "status": "unknown",
+        "reason": "Last known state included both successful repair and a later degraded base; live reconciliation is pending.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Manus",
+        "LocalWindows"
       ],
-      "dependencies": ["python", "worldmonitor"],
-      "capabilities": ["network-graph", "manifest", "read-only-event-bus", "dashboard", "agent-registration"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Moltbook live activation remains guarded by its single-purpose officer agent."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "runtime": {
+        "kind": "process",
+        "host": "localhost",
+        "port": 8000,
+        "container": null,
+        "repository": null
+      },
+      "endpoints": [
+        {
+          "name": "health",
+          "url": "http://localhost:8000/health",
+          "access": "local"
+        },
+        {
+          "name": "network",
+          "url": "http://localhost:8000/api/network",
+          "access": "local"
+        },
+        {
+          "name": "manifest",
+          "url": "http://localhost:8000/api/manifest",
+          "access": "local"
+        },
+        {
+          "name": "bus",
+          "url": "http://localhost:8000/api/bus",
+          "access": "local"
+        },
+        {
+          "name": "dashboard",
+          "url": "http://localhost:4173",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "python",
+        "worldmonitor"
+      ],
+      "capabilities": [
+        "network-graph",
+        "manifest",
+        "read-only-event-bus",
+        "dashboard",
+        "agent-registration"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Moltbook live activation remains guarded by its single-purpose officer agent."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
-      "notes": ["Requires live health reconciliation from the Windows host."]
+      "notes": [
+        "Requires live health reconciliation from the Windows host."
+      ]
     },
     {
       "serviceId": "aegentix-nexus-registry",
@@ -118,18 +378,53 @@
       "description": "Docker/Nexus image registry for the AEGENTIX namespace.",
       "version": "1.0.0",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Registry baseline is locked; current reachability requires live verification.", "lastCheck": null},
-      "executionZones": ["Docker", "AWS", "LocalWindows"],
-      "runtime": {"kind": "registry", "host": "52.53.168.177", "port": 5000, "container": null, "repository": "52.53.168.177:5000/aegentix"},
-      "endpoints": [
-        {"name": "registry", "url": "http://52.53.168.177:5000/v2/", "access": "public"}
+      "health": {
+        "status": "unknown",
+        "reason": "Registry baseline is locked; current reachability requires live verification.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "AWS",
+        "LocalWindows"
       ],
-      "dependencies": ["nexus", "docker"],
-      "capabilities": ["container-image-storage", "deployment-artifact-distribution"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "No authentication was required at the recorded baseline; hardening remains a future task."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "runtime": {
+        "kind": "registry",
+        "host": "52.53.168.177",
+        "port": 5000,
+        "container": null,
+        "repository": "52.53.168.177:5000/aegentix"
+      },
+      "endpoints": [
+        {
+          "name": "registry",
+          "url": "http://52.53.168.177:5000/v2/",
+          "access": "public"
+        }
+      ],
+      "dependencies": [
+        "nexus",
+        "docker"
+      ],
+      "capabilities": [
+        "container-image-storage",
+        "deployment-artifact-distribution"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "No authentication was required at the recorded baseline; hardening remains a future task."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
-      "notes": ["Namespace: 52.53.168.177:5000/aegentix."]
+      "notes": [
+        "Namespace: 52.53.168.177:5000/aegentix."
+      ]
     },
     {
       "serviceId": "arbitrage-orchards",
@@ -137,18 +432,60 @@
       "description": "Paper-safe, read-only multi-venue arbitrage observation service.",
       "version": "1.0.0",
       "lifecycle": "deployed",
-      "health": {"status": "healthy", "reason": "CloudShell verification baseline was locked with paper-safe controls.", "lastCheck": null},
-      "executionZones": ["Docker", "OpenClaw", "Nemotron", "Hermes", "Manus", "LocalWindows"],
-      "runtime": {"kind": "docker-compose", "host": "localhost", "port": 8098, "container": null, "repository": null},
-      "endpoints": [
-        {"name": "events", "url": "http://localhost:8098/events", "access": "local"}
+      "health": {
+        "status": "healthy",
+        "reason": "CloudShell verification baseline was locked with paper-safe controls.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Manus",
+        "LocalWindows"
       ],
-      "dependencies": ["docker", "coinbase", "kraken", "binance-us"],
-      "capabilities": ["market-observation", "paper-arbitrage-analysis", "event-ingestion"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "liveTradingEnabled=false, orderPlacementEnabled=false, withdrawalsEnabled=false."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "runtime": {
+        "kind": "docker-compose",
+        "host": "localhost",
+        "port": 8098,
+        "container": null,
+        "repository": null
+      },
+      "endpoints": [
+        {
+          "name": "events",
+          "url": "http://localhost:8098/events",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "docker",
+        "coinbase",
+        "kraken",
+        "binance-us"
+      ],
+      "capabilities": [
+        "market-observation",
+        "paper-arbitrage-analysis",
+        "event-ingestion"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "liveTradingEnabled=false, orderPlacementEnabled=false, withdrawalsEnabled=false."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
-      "notes": ["Products: BTC-USD, ETH-USD, SOL-USD, HBAR-USD.", "Venues: Coinbase, Kraken, Binance US."]
+      "notes": [
+        "Products: BTC-USD, ETH-USD, SOL-USD, HBAR-USD.",
+        "Venues: Coinbase, Kraken, Binance US."
+      ]
     },
     {
       "serviceId": "openclaw-zone",
@@ -156,14 +493,36 @@
       "description": "Active AEGENTIX agent execution zone.",
       "version": "active",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Declared active; automated heartbeat adapter pending.", "lastCheck": null},
-      "executionZones": ["OpenClaw"],
-      "runtime": {"kind": "agent-zone", "host": null, "port": null},
+      "health": {
+        "status": "unknown",
+        "reason": "Declared active; automated heartbeat adapter pending.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "OpenClaw"
+      ],
+      "runtime": {
+        "kind": "agent-zone",
+        "host": null,
+        "port": null
+      },
       "endpoints": [],
       "dependencies": [],
-      "capabilities": ["agent-execution", "task-routing"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Authority remains scoped by workflow policy."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "capabilities": [
+        "agent-execution",
+        "task-routing"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Authority remains scoped by workflow policy."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
       "notes": []
     },
@@ -173,14 +532,37 @@
       "description": "Active AEGENTIX reasoning and agent execution zone.",
       "version": "active",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Declared active; automated heartbeat adapter pending.", "lastCheck": null},
-      "executionZones": ["Nemotron"],
-      "runtime": {"kind": "agent-zone", "host": null, "port": null},
+      "health": {
+        "status": "unknown",
+        "reason": "Declared active; automated heartbeat adapter pending.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Nemotron"
+      ],
+      "runtime": {
+        "kind": "agent-zone",
+        "host": null,
+        "port": null
+      },
       "endpoints": [],
       "dependencies": [],
-      "capabilities": ["reasoning", "agent-execution", "task-routing"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Authority remains scoped by workflow policy."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "capabilities": [
+        "reasoning",
+        "agent-execution",
+        "task-routing"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Authority remains scoped by workflow policy."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
       "notes": []
     },
@@ -190,14 +572,38 @@
       "description": "Active AEGENTIX routing, orchestration, and handoff zone.",
       "version": "active",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Declared active; automated heartbeat adapter pending.", "lastCheck": null},
-      "executionZones": ["Hermes"],
-      "runtime": {"kind": "agent-zone", "host": null, "port": null},
+      "health": {
+        "status": "unknown",
+        "reason": "Declared active; automated heartbeat adapter pending.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Hermes"
+      ],
+      "runtime": {
+        "kind": "agent-zone",
+        "host": null,
+        "port": null
+      },
       "endpoints": [],
       "dependencies": [],
-      "capabilities": ["orchestration", "routing", "handoffs", "task-supervision"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Authority remains scoped by workflow policy."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "capabilities": [
+        "orchestration",
+        "routing",
+        "handoffs",
+        "task-supervision"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Authority remains scoped by workflow policy."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
       "notes": []
     },
@@ -207,14 +613,39 @@
       "description": "Active local container execution and service-discovery zone.",
       "version": "active",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Declared active; inventory reconciliation pending.", "lastCheck": null},
-      "executionZones": ["Docker", "LocalWindows"],
-      "runtime": {"kind": "docker", "host": "localhost", "port": null},
+      "health": {
+        "status": "unknown",
+        "reason": "Declared active; inventory reconciliation pending.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Docker",
+        "LocalWindows"
+      ],
+      "runtime": {
+        "kind": "docker",
+        "host": "localhost",
+        "port": null
+      },
       "endpoints": [],
       "dependencies": [],
-      "capabilities": ["container-runtime", "networking", "service-discovery", "image-management"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Destructive container operations require explicit authorization."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "capabilities": [
+        "container-runtime",
+        "networking",
+        "service-discovery",
+        "image-management"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Destructive container operations require explicit authorization."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
       "notes": []
     },
@@ -224,16 +655,163 @@
       "description": "Active AEGENTIX agent execution and production zone.",
       "version": "active",
       "lifecycle": "deployed",
-      "health": {"status": "unknown", "reason": "Declared active; automated heartbeat adapter pending.", "lastCheck": null},
-      "executionZones": ["Manus"],
-      "runtime": {"kind": "agent-zone", "host": null, "port": null},
+      "health": {
+        "status": "unknown",
+        "reason": "Declared active; automated heartbeat adapter pending.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "Manus"
+      ],
+      "runtime": {
+        "kind": "agent-zone",
+        "host": null,
+        "port": null
+      },
       "endpoints": [],
       "dependencies": [],
-      "capabilities": ["agent-execution", "artifact-production", "task-routing"],
-      "governance": {"externalActionsBlocked": true, "financialActionsBlocked": true, "destructiveActionsBlocked": true, "notes": "Authority remains scoped by workflow policy."},
-      "source": {"repository": null, "branch": null, "commit": null},
+      "capabilities": [
+        "agent-execution",
+        "artifact-production",
+        "task-routing"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Authority remains scoped by workflow policy."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null
+      },
       "observedAt": "2026-07-22T18:15:00Z",
       "notes": []
+    },
+    {
+      "serviceId": "mark-lv-holographic-hud",
+      "displayName": "Mark-LV JARVIS Holographic HUD",
+      "description": "Local holographic HUD (Mark-LV). Wired via core resolver/harness for Infinite Brain OS and sovereign status.",
+      "version": "55+",
+      "lifecycle": "local-component",
+      "health": {
+        "status": "unknown",
+        "reason": "Launched on-demand via core resolver; no persistent health endpoint.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "LocalWindows",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Docker",
+        "Manus"
+      ],
+      "runtime": {
+        "kind": "desktop-process",
+        "host": "localhost",
+        "port": null,
+        "resolver": "core/jarvis/hud_resolver.json",
+        "launcher": "core/jarvis/launch_hud.ps1"
+      },
+      "endpoints": [
+        {
+          "name": "aegentix-mcp",
+          "url": "http://127.0.0.1:3000/mcp",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "aegentix-core-mcp"
+      ],
+      "capabilities": [
+        "holographic-hud",
+        "voice-ui",
+        "sovereign-status-display",
+        "infinite-brain-os-client"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "HUD is a local UI/control surface; core policy governs actions."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null,
+        "path": "C:/Users/eagle/antigravity/Mark-LV"
+      },
+      "observedAt": null,
+      "notes": [
+        "Canonical resolve/launch via C:/AEGENTIX-CYBERNETICS-CORE/core/jarvis/resolve_hud.py and launch_hud.ps1."
+      ]
+    },
+    {
+      "serviceId": "llm-development-workspace",
+      "displayName": "LLM Development Workspace",
+      "description": "Local LLM training/development workspace (JarvisProjects) integrated with AEGENTIX model housing and gateway/MCP.",
+      "version": "1.0.0",
+      "lifecycle": "available",
+      "health": {
+        "status": "unknown",
+        "reason": "Local workspace; tap-in via resolver/control plane, no persistent health endpoint.",
+        "lastCheck": null
+      },
+      "executionZones": [
+        "LocalWindows",
+        "OpenClaw",
+        "Nemotron",
+        "Hermes",
+        "Docker",
+        "Manus"
+      ],
+      "runtime": {
+        "kind": "workspace",
+        "host": "localhost",
+        "port": null,
+        "resolver_manifest": "config/llm_workspace.json",
+        "workspace_root": "C:\\Users\\eagle\\Desktop\\JarvisProjects\\LLM_Development_Workspace"
+      },
+      "endpoints": [
+        {
+          "name": "aegentix-gateway",
+          "url": "http://127.0.0.1:8000",
+          "access": "local"
+        },
+        {
+          "name": "aegentix-mcp",
+          "url": "http://127.0.0.1:8000/mcp",
+          "access": "local"
+        }
+      ],
+      "dependencies": [
+        "aegentix-core-model-housing",
+        "ollama"
+      ],
+      "capabilities": [
+        "llm-training",
+        "checkpoint-management",
+        "local-model-development",
+        "model-housing-tap-in"
+      ],
+      "governance": {
+        "externalActionsBlocked": true,
+        "financialActionsBlocked": true,
+        "destructiveActionsBlocked": true,
+        "notes": "Execution/training actions must be explicitly gated, audited, and scoped to workspace paths."
+      },
+      "source": {
+        "repository": null,
+        "branch": null,
+        "commit": null,
+        "path": "C:\\Users\\eagle\\Desktop\\JarvisProjects\\LLM_Development_Workspace"
+      },
+      "observedAt": null,
+      "notes": [
+        "Source of truth: C:\\AEGENTIX-CYBERNETICS-CORE\\config\\llm_workspace.json; model registry C:\\AEGENTIX-CYBERNETICS-CORE\\config\\models.registry.json."
+      ]
     }
   ]
 }

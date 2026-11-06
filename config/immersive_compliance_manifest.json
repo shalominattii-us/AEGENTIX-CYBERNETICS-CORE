@@ -1,0 +1,19 @@
+﻿{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AEGENTIX Immersive Gated Compliance Manifest",
+  "version": "1.0.0",
+  "status": "architecture-complete/pending-external-validity-filings",
+  "policy": "Do not withhold architecture for external controls/compliance/regulatory filings; engineering proceeds and filings occur at validity points.",
+  "trust_services_criteria_mapping": {
+    "CC6_access": ["core/gateway/security.py","core/gateway/server.py","core/gateway/mcp_bridge.py","core/hypervisor/gates.py"],
+    "CC7_monitoring": ["core/gateway/security.py audit_event","data/security_audit.jsonl (runtime)"],
+    "CC8_change": [".github/workflows/*.yml",".gitignore","git history/process controls (operational)"],
+    "C1_confidentiality": ["core/hypervisor/gates.py encrypt_envelope","MCP info minimization","redacted audit logs"]
+  },
+  "hypervisor_viewport": {
+    "endpoints": ["/api/v1/hypervisor/profiles","/api/v1/hypervisor/viewport","/api/v1/hypervisor/gate/issue","/api/v1/hypervisor/gate/advance"],
+    "mcp_tools": ["hypervisor_viewport","hypervisor_gate_issue","hypervisor_gate_advance"],
+    "gates": "procedural + token + encrypted envelope by immersive version",
+    "local_control_plane_override": "AEGENTIX_ALLOW_LOCAL_NOAUTH=1 (loopback dev/ROG); AEGENTIX_IMMERSIVE_LOCAL_UNLOCK caps version"
+  }
+}

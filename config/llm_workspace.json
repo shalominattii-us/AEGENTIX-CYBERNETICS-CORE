@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "llm-development-workspace",
+  "display_name": "LLM Development Workspace (JarvisProjects)",
+  "source_of_truth": "C:\\AEGENTIX-CYBERNETICS-CORE\\config\\llm_workspace.json",
+  "workspace": {
+    "root_candidates": [
+      "C:\\Users\\eagle\\Desktop\\JarvisProjects\\LLM_Development_Workspace"
+    ],
+    "type": "python-llm-training",
+    "entrypoints": {
+      "train": "src/main.py",
+      "module_root": "src"
+    },
+    "paths": {
+      "data": "data",
+      "checkpoints": "checkpoints",
+      "logs": "logs"
+    },
+    "python_candidates": [
+      "C:\\Users\\eagle\\Desktop\\JarvisProjects\\LLM_Development_Workspace\\.venv\\Scripts\\python.exe",
+      "C:\\AEGENTIX-CYBERNETICS-CORE\\.venv\\Scripts\\python.exe",
+      "python.exe"
+    ],
+    "notes": "Project open in user IDE (reported as Visual Basic/VS context). Core integration is path/config + model-housing aware; no secrets stored."
+  },
+  "related": {
+    "llm_cybercore_config": "C:\\Users\\eagle\\LLM_CYBERCORE\\sovereign_cybercore.json",
+    "agentic_orchestrator": "C:\\Users\\eagle\\Projects\\agentic-ai-orchestrator",
+    "projects_root": "C:\\Users\\eagle\\Projects"
+  },
+  "integration": {
+    "aegentix_core_root": "C:\\AEGENTIX-CYBERNETICS-CORE",
+    "gateway_base_url_default": "http://127.0.0.1:8000",
+    "mcp_base_url_default": "http://127.0.0.1:8000/mcp",
+    "ollama_base_url_default": "http://127.0.0.1:11434",
+    "model_registry": "C:\\AEGENTIX-CYBERNETICS-CORE\\config\\models.registry.json",
+    "env": {
+      "workspace_root": "AEGENTIX_LLM_WORKSPACE_ROOT",
+      "python": "AEGENTIX_LLM_WORKSPACE_PYTHON"
+    }
+  },
+  "updated_utc": "2026-11-06T04:09:13Z"
+}

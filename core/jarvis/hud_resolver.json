@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "component_id": "mark-lv-holographic-hud",
+  "display_name": "JARVIS Holographic HUD (Mark-LV)",
+  "source_of_truth": "C:\\AEGENTIX-CYBERNETICS-CORE\\core\\jarvis\\hud_resolver.json",
+  "hud": {
+    "root_candidates": [
+      "C:\\Users\\eagle\\antigravity\\Mark-LV"
+    ],
+    "entrypoint": "main.py",
+    "python_candidates": [
+      ".venv\\Scripts\\python.exe",
+      "venv\\Scripts\\python.exe",
+      "python.exe"
+    ],
+    "args": [],
+    "cwd_relative_to_root": true
+  },
+  "aegentix_core": {
+    "mcp_base_url_env": "AEGENTIX_MCP_BASE_URL",
+    "mcp_base_url_default": "http://127.0.0.1:8000/mcp",
+    "token_env": "AEGENTIX_MCP_TOKEN",
+    "token_default": "",
+    "timeout_seconds": 10,
+    "note": "Default aligned to core gateway MCP bridge; override with AEGENTIX_MCP_BASE_URL. Set AEGENTIX_MCP_TOKEN only if auth is required."
+  },
+  "sovereign": {
+    "gateway_base_url_env": "AEGENTIX_GATEWAY_URL",
+    "gateway_base_url_default": "http://127.0.0.1:8000"
+  }
+}

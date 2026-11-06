@@ -1,0 +1,310 @@
+{
+  "schema_version": "1.0.0",
+  "name": "AEGENTIX Model Housing Registry",
+  "defaults": {
+    "local_noauth_loopback": true,
+    "prefer_local_for_sensitive": true
+  },
+  "providers": {
+    "ollama": {
+      "kind": "openai_compat_or_native",
+      "base_url_env": "OLLAMA_BASE_URL",
+      "base_url_default": "http://127.0.0.1:11434",
+      "enabled": true
+    },
+    "openai_compat": {
+      "kind": "openai_compat",
+      "base_url_env": "AEGENTIX_OPENAI_COMPAT_URL",
+      "base_url_default": "",
+      "api_key_env": "AEGENTIX_OPENAI_COMPAT_API_KEY",
+      "enabled": false
+    },
+    "openrouter": {
+      "kind": "openai_compat",
+      "base_url_env": "OPENROUTER_BASE_URL",
+      "base_url_default": "https://openrouter.ai/api/v1",
+      "api_key_env": "OPENROUTER_API_KEY",
+      "enabled": true,
+      "notes": "Key via OPENROUTER_API_KEY. Free-tier availability varies; verify model IDs in OpenRouter/Kilo."
+    },
+    "kilo": {
+      "kind": "managed",
+      "enabled": true,
+      "notes": "Kilo-managed/provider-routed models; configure in Kilo CLI/UI config."
+    },
+    "gemini": {
+      "kind": "cloud",
+      "env_key": "GEMINI_API_KEY",
+      "enabled": true
+    },
+    "claude": {
+      "kind": "cloud",
+      "env_key": "ANTHROPIC_API_KEY",
+      "enabled": true
+    },
+    "native_edge": {
+      "kind": "shm",
+      "endpoint": "shm://aegentix_ipc_ringbuf",
+      "enabled": true
+    }
+  },
+  "models": [
+    {
+      "id": "titan-c-native",
+      "provider": "native_edge",
+      "tier": "edge_native",
+      "max_latency_ms": 25,
+      "security_clearance_min": 4,
+      "supports_streaming": true,
+      "context_window": 4096,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "shm://aegentix_ipc_ringbuf",
+      "enabled": true,
+      "tags": [
+        "sovereign",
+        "ultra-low-latency",
+        "bare-metal"
+      ]
+    },
+    {
+      "id": "titan-local",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 150,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 8192,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "local-radeon-890m",
+      "enabled": true,
+      "tags": [
+        "local",
+        "private"
+      ]
+    },
+    {
+      "id": "sparkx",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 50,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 262144,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434",
+      "ollama_model": "SparkLLM/Spark-X2.6-1.7B:latest",
+      "enabled": true,
+      "tags": [
+        "fast",
+        "routine",
+        "local",
+        "tool-routing"
+      ]
+    },
+    {
+      "id": "spark-x2.6-1.7b",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 50,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 262144,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434",
+      "ollama_model": "SparkLLM/Spark-X2.6-1.7B:latest",
+      "enabled": true,
+      "tags": [
+        "fast",
+        "routine",
+        "local"
+      ]
+    },
+    {
+      "id": "laya",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 300,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 16384,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434/v1/chat/completions",
+      "enabled": true,
+      "tags": [
+        "local"
+      ]
+    },
+    {
+      "id": "gemini",
+      "provider": "gemini",
+      "tier": "cloud_frontier",
+      "max_latency_ms": 1200,
+      "security_clearance_min": 1,
+      "supports_streaming": true,
+      "context_window": 1000000,
+      "cost_per_million_tokens": 0.15,
+      "endpoint": "gemini-2.5-flash",
+      "enabled": true,
+      "tags": [
+        "cloud",
+        "frontier"
+      ]
+    },
+    {
+      "id": "claude",
+      "provider": "claude",
+      "tier": "cloud_frontier",
+      "max_latency_ms": 2000,
+      "security_clearance_min": 1,
+      "supports_streaming": true,
+      "context_window": 200000,
+      "cost_per_million_tokens": 3.0,
+      "endpoint": "claude-3-5-sonnet",
+      "enabled": true,
+      "tags": [
+        "cloud",
+        "frontier"
+      ]
+    },
+    {
+      "id": "qwen2.5:7b",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 800,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 32768,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434",
+      "ollama_model": "qwen2.5:7b",
+      "enabled": true,
+      "tags": [
+        "local",
+        "ollama",
+        "general"
+      ]
+    },
+    {
+      "id": "qwen2.5-7b-jarvis-04c5d3f6:latest",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 800,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 32768,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434",
+      "ollama_model": "qwen2.5-7b-jarvis-04c5d3f6:latest",
+      "enabled": true,
+      "tags": [
+        "local",
+        "ollama",
+        "jarvis"
+      ]
+    },
+    {
+      "id": "qwen2.5:1.5b",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 300,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 32768,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434",
+      "ollama_model": "qwen2.5:1.5b",
+      "enabled": true,
+      "tags": [
+        "local",
+        "ollama",
+        "fast"
+      ]
+    },
+    {
+      "id": "SparkLLM-Spark-X2.6-1.7B-latest-jarvis-0c5fc6b4:latest",
+      "provider": "ollama",
+      "tier": "edge_local",
+      "max_latency_ms": 120,
+      "security_clearance_min": 3,
+      "supports_streaming": true,
+      "context_window": 1048576,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "http://127.0.0.1:11434",
+      "ollama_model": "SparkLLM-Spark-X2.6-1.7B-latest-jarvis-0c5fc6b4:latest",
+      "enabled": true,
+      "tags": [
+        "local",
+        "ollama",
+        "jarvis",
+        "sparkx",
+        "fast"
+      ]
+    },
+    {
+      "id": "openrouter/meta-llama/llama-3.3-8b-instruct:free",
+      "provider": "openrouter",
+      "tier": "cloud_frontier",
+      "max_latency_ms": 2500,
+      "security_clearance_min": 1,
+      "supports_streaming": true,
+      "context_window": 131072,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "openrouter:meta-llama/llama-3.3-8b-instruct:free",
+      "enabled": false,
+      "tags": ["cloud", "openrouter", "free-tier-candidate", "avatar-chat", "non-sensitive-only"]
+    },
+    {
+      "id": "openrouter/google/gemma-3-12b-it:free",
+      "provider": "openrouter",
+      "tier": "cloud_frontier",
+      "max_latency_ms": 2500,
+      "security_clearance_min": 1,
+      "supports_streaming": true,
+      "context_window": 96000,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "openrouter:google/gemma-3-12b-it:free",
+      "enabled": false,
+      "tags": ["cloud", "openrouter", "free-tier-candidate", "avatar-chat", "non-sensitive-only"]
+    },
+    {
+      "id": "kilo/nvidia/nemotron-3-ultra-550b-a55b:free",
+      "provider": "kilo",
+      "tier": "cloud_frontier",
+      "max_latency_ms": 3000,
+      "security_clearance_min": 1,
+      "supports_streaming": true,
+      "context_window": 131072,
+      "cost_per_million_tokens": 0.0,
+      "endpoint": "kilo:nvidia/nemotron-3-ultra-550b-a55b:free",
+      "enabled": false,
+      "tags": ["cloud", "kilo", "free-tier-candidate", "avatar-chat", "non-sensitive-only"]
+    }
+  ],
+  "routing": {
+    "sensitive_clearance_min": 4,
+    "fast_latency_ms": 50,
+    "task_fast_models": {
+      "routine": "sparkx",
+      "extraction": "sparkx",
+      "sorting": "sparkx",
+      "planning": "sparkx",
+      "tool_routing": "sparkx"
+    }
+  },
+  "workspaces": [
+    {
+      "id": "llm-development-workspace",
+      "type": "training_workspace",
+      "path": "C:\\Users\\eagle\\Desktop\\JarvisProjects\\LLM_Development_Workspace",
+      "config_ref": "config/llm_workspace.json",
+      "entrypoint": "src/main.py",
+      "enabled": true,
+      "tags": [
+        "jarvis",
+        "llm",
+        "training",
+        "local"
+      ]
+    }
+  ]
+}

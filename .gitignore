@@ -1,0 +1,25 @@
+﻿# --- Compliance/SOC2 controls ---
+# Secrets and local env files (keep examples tracked)
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+!**/.env.test.example
+# Python/runtime artifacts
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+# Local runtime data (generated)
+data/*.jsonl
+data/**/*.jsonl
+data/hypervisor_gates.jsonl
+data/security_audit.jsonl
+*.log
+# Node
+**/node_modules/
+# OS/editor
+.DS_Store
+Thumbs.db
