@@ -110,4 +110,8 @@ export declare function foundryRequestFromEnv(env: NodeJS.ProcessEnv, options?: 
     now?: () => Date;
     fetchImpl?: typeof fetch;
 }): FoundryIngestRequest;
+export declare function recordsFromFoundryDocument(json: unknown, options?: {
+    sourceRunId?: string;
+    receivedAt?: string;
+}): FoundryLoadBatch;
 export declare function extractNaicsCodes(value: unknown): string[];

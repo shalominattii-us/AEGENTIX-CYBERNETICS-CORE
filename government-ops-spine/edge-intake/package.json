@@ -1,0 +1,15 @@
+{
+  "name": "@aegentix/opportunity-intake-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "types": "wrangler types worker-configuration.d.ts --include-runtime false",
+    "deploy:dry-run": "wrangler deploy --dry-run --outdir ../dist/edge-worker",
+    "d1:migrate:local": "wrangler d1 migrations apply opportunity-intake --local"
+  },
+  "devDependencies": {
+    "wrangler": "^4.45.0"
+  }
+}
