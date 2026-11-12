@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "opportunity-intake",
+  "main": "../src/edge/index.ts",
+  "compatibility_date": "2026-11-12",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "logs": { "enabled": true, "head_sampling_rate": 1 },
+    "traces": { "enabled": true, "head_sampling_rate": 0.01 }
+  },
+  "secrets": {
+    "required": ["SAM_GOV_API_KEY", "INGEST_TOKEN"]
+  },
+  "vars": {
+    "FOUNDRY_INGEST_NAICS": "541512,541715",
+    "FOUNDRY_INGEST_DISPOSITIONS": "HUMAN_REVIEW",
+    "FOUNDRY_INGEST_LOOKBACK_DAYS": "1",
+    "FOUNDRY_INGEST_LIMIT": "100",
+    "SAM_GOV_MAX_PAGES": "5"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "opportunity-intake",
+      "database_id": "00000000-0000-4000-8000-000000000001",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "triggers": {
+    "crons": ["0 * * * *"]
+  }
+}

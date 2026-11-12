@@ -42,6 +42,18 @@ jobs:
       - name: Run regression tests
         run: npm test
 
+      - name: Install opportunity intake worker tooling
+        working-directory: government-ops-spine/edge-intake
+        run: npm install --no-audit --no-fund
+
+      - name: Check intake worker types
+        working-directory: government-ops-spine/edge-intake
+        run: npx wrangler types --check worker-configuration.d.ts --include-runtime false
+
+      - name: Bundle opportunity intake worker
+        working-directory: government-ops-spine/edge-intake
+        run: npx wrangler deploy --dry-run --outdir /tmp/opportunity-intake-worker
+
       - name: Validate Docker Compose
         run: docker compose config --quiet
 

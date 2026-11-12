@@ -399,17 +399,22 @@ async function loadFile(file: string): Promise<FoundryLoadBatch> {
   if (isRecord(json) && json.schema_version === 'universal-opportunity-run-manifest-v2' && await isRunDirectory(path.dirname(file))) {
     return loadRunDirectory(path.dirname(file));
   }
+  return recordsFromFoundryDocument(json, { sourceRunId: path.basename(file, '.json') });
+}
+
+export function recordsFromFoundryDocument(json: unknown, options: { sourceRunId?: string; receivedAt?: string } = {}): FoundryLoadBatch {
+  const sourceRunId = options.sourceRunId ?? 'foundry-document';
   if (isRecord(json) && Array.isArray(json.opportunitiesData)) {
-    return recordsBatch(path.basename(file), 'sam-api', json.opportunitiesData, receivedAtFrom(json));
+    return recordsBatch(sourceRunId, 'foundry-report', json.opportunitiesData, options.receivedAt ?? receivedAtFrom(json));
   }
-  if (Array.isArray(json)) return recordsBatch(path.basename(file, '.json'), 'foundry-report', json);
+  if (Array.isArray(json)) return recordsBatch(sourceRunId, 'foundry-report', json, options.receivedAt);
   if (isRecord(json) && Array.isArray(json.opportunities) && !json.opportunity_id) {
-    return recordsBatch(path.basename(file, '.json'), 'foundry-report', json.opportunities, receivedAtFrom(json));
+    return recordsBatch(sourceRunId, 'foundry-report', json.opportunities, options.receivedAt ?? receivedAtFrom(json));
   }
   if (isRecord(json) && Array.isArray(json.records)) {
-    return recordsBatch(path.basename(file, '.json'), 'foundry-report', json.records, receivedAtFrom(json));
+    return recordsBatch(sourceRunId, 'foundry-report', json.records, options.receivedAt ?? receivedAtFrom(json));
   }
-  return recordsBatch(path.basename(file, '.json'), 'foundry-report', [json]);
+  return recordsBatch(sourceRunId, 'foundry-report', [json], options.receivedAt);
 }
 
 async function loadRunDirectory(runDir: string): Promise<FoundryLoadBatch> {
@@ -455,8 +460,7 @@ function recordsBatch(sourceRunId: string, origin: FoundryOrigin, items: unknown
   const errors: FoundryIngestError[] = [];
   items.forEach((item, index) => {
     try {
-      const itemOrigin = origin === 'foundry-report' && isRawSamNotice(item) ? 'sam-api' : origin;
-      records.push(opportunityFromFoundry(item, { origin: itemOrigin, retrievedAt: receivedAt }));
+      records.push(opportunityFromFoundry(item, { origin, retrievedAt: receivedAt }));
     } catch (error) {
       errors.push({ message: `record ${index + 1}: ${error instanceof Error ? error.message : String(error)}` });
     }

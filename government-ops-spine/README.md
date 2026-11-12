@@ -87,6 +87,8 @@ npm run ingest:foundry:schedule
 
 `npm run ingest:foundry:schedule` repeats that ingest in its own process. It needs `DATABASE_URL` and uses `FOUNDRY_INGEST_INTERVAL_MS` (default one hour). Set `FOUNDRY_INGEST_ENABLED=true` to run the same loop inside `server.js` instead. Direct pulls read `SAM_GOV_API_KEY` from the environment. Each NAICS query stops after `SAM_GOV_MAX_PAGES` pages (default 5, 100 notices per page) so a broad window cannot page without a bound. Raise it with `--max-pages` or `SAM_GOV_MAX_PAGES` when a window is larger than that. The key is not written to source, fixtures, or logs. If neither `DATABASE_URL` nor `SPINE_INGEST_URL` is set, the CLI says so and posts to `http://127.0.0.1:8099/api/opportunities/ingest`.
 
+Live intake does not need that local process. The standalone Worker in `edge-intake/` pulls SAM.gov on a Cloudflare cron and stores notices in D1. The spine pulls the outbox outbound with `npm run ingest:edge`. See DEPLOYMENT.md for the network boundary and deploy steps. Leave the local scheduler off once the Worker is deployed.
+
 ## Next
 
 - Bind handlers to the deployed Cybercore HTTP framework
