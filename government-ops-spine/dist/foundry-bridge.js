@@ -288,7 +288,7 @@ async function loadFile(file) {
 export function recordsFromFoundryDocument(json, options = {}) {
     const sourceRunId = options.sourceRunId ?? 'foundry-document';
     if (isRecord(json) && Array.isArray(json.opportunitiesData)) {
-        return recordsBatch(sourceRunId, 'sam-api', json.opportunitiesData, options.receivedAt ?? receivedAtFrom(json));
+        return recordsBatch(sourceRunId, 'foundry-report', json.opportunitiesData, options.receivedAt ?? receivedAtFrom(json));
     }
     if (Array.isArray(json))
         return recordsBatch(sourceRunId, 'foundry-report', json, options.receivedAt);
@@ -344,8 +344,7 @@ function recordsBatch(sourceRunId, origin, items, receivedAt) {
     const errors = [];
     items.forEach((item, index) => {
         try {
-            const itemOrigin = origin === 'foundry-report' && isRawSamNotice(item) ? 'sam-api' : origin;
-            records.push(opportunityFromFoundry(item, { origin: itemOrigin, retrievedAt: receivedAt }));
+            records.push(opportunityFromFoundry(item, { origin, retrievedAt: receivedAt }));
         }
         catch (error) {
             errors.push({ message: `record ${index + 1}: ${error instanceof Error ? error.message : String(error)}` });

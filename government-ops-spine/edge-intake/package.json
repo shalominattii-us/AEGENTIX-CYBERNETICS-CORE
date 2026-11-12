@@ -7,6 +7,7 @@
     "dev": "wrangler dev",
     "types": "wrangler types worker-configuration.d.ts --include-runtime false",
     "deploy:dry-run": "wrangler deploy --dry-run --outdir ../dist/edge-worker",
+    "deploy": "node scripts/require-database-id.mjs && wrangler deploy",
     "d1:migrate:local": "wrangler d1 migrations apply opportunity-intake --local"
   },
   "devDependencies": {

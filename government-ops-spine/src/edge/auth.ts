@@ -12,5 +12,5 @@ export async function ingestAuthorized(request: Request, token: string | undefin
     crypto.subtle.digest('SHA-256', encoder.encode(provided)),
     crypto.subtle.digest('SHA-256', encoder.encode(expected))
   ]);
-  return timingSafeEqual(Buffer.from(providedHash), Buffer.from(expectedHash));
+  return timingSafeEqual(new Uint8Array(providedHash), new Uint8Array(expectedHash));
 }
