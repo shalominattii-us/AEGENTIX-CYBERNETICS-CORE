@@ -1,0 +1,17 @@
+{
+  "schema_version": "cybercore-opportunity-intelligence-output-v1",
+  "opportunity_id": "opp_closed_541512",
+  "maturity": {
+    "stage": "CLOSED",
+    "order": 90,
+    "disposition": "NO_ACTION_HISTORICAL",
+    "human_decision_required": false,
+    "actionable": false,
+    "reason": "Fixture maturity label. No external action is authorized."
+  },
+  "safety": {
+    "automatic_dispatches": 0,
+    "external_actions_executed": 0,
+    "treasury_labs_handoffs_executed": 0
+  }
+}

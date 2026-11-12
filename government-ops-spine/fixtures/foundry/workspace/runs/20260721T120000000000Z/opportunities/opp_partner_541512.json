@@ -1,0 +1,44 @@
+{
+  "amount_max": null,
+  "amount_min": null,
+  "attachments": [],
+  "currency": "USD",
+  "deadline": "2099-01-01",
+  "eligibility": [
+    "State agencies"
+  ],
+  "external_id": "PARTNER-1",
+  "issuer": "State Innovation Office",
+  "jurisdiction": "United States",
+  "metadata": {
+    "external_id": "PARTNER-1",
+    "title": "State research software notice",
+    "source": "State procurement bulletin",
+    "source_url": "https://example.gov/notices/PARTNER-1",
+    "issuer": "State Innovation Office",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "naics": [
+      "541512"
+    ],
+    "description": "The vendor shall deliver a research software prototype for state review."
+  },
+  "opportunity_id": "opp_partner_541512",
+  "opportunity_type": "Solicitation",
+  "provenance": {
+    "content_hash": null,
+    "retrieved_at": "2026-07-21T12:00:00+00:00",
+    "source_name": "State procurement bulletin",
+    "source_record_id": "PARTNER-1",
+    "source_url": "https://example.gov/notices/PARTNER-1"
+  },
+  "published_date": "2026-07-21",
+  "sectors": [
+    "541512"
+  ],
+  "source": "State procurement bulletin",
+  "status": "open",
+  "submission_path": "https://example.gov/notices/PARTNER-1",
+  "title": "State research software notice",
+  "version": 1
+}

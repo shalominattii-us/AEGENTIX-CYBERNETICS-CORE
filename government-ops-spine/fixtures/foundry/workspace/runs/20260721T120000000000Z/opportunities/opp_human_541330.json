@@ -1,0 +1,44 @@
+{
+  "amount_max": null,
+  "amount_min": null,
+  "attachments": [],
+  "currency": "USD",
+  "deadline": "2099-01-01",
+  "eligibility": [
+    "Small business"
+  ],
+  "external_id": "NOTICE-HUMAN-541330",
+  "issuer": "DEPARTMENT OF VETERANS AFFAIRS",
+  "jurisdiction": "United States",
+  "metadata": {
+    "external_id": "NOTICE-HUMAN-541330",
+    "title": "Facilities engineering support",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-HUMAN-541330/view",
+    "issuer": "DEPARTMENT OF VETERANS AFFAIRS",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "naics": [
+      "541330"
+    ],
+    "description": "The contractor shall provide facilities engineering support."
+  },
+  "opportunity_id": "opp_human_541330",
+  "opportunity_type": "Solicitation",
+  "provenance": {
+    "content_hash": null,
+    "retrieved_at": "2026-07-21T12:00:00+00:00",
+    "source_name": "SAM.gov",
+    "source_record_id": "NOTICE-HUMAN-541330",
+    "source_url": "https://sam.gov/opp/NOTICE-HUMAN-541330/view"
+  },
+  "published_date": "2026-07-21",
+  "sectors": [
+    "541330"
+  ],
+  "source": "SAM.gov",
+  "status": "open",
+  "submission_path": "https://sam.gov/opp/NOTICE-HUMAN-541330/view",
+  "title": "Facilities engineering support",
+  "version": 1
+}
