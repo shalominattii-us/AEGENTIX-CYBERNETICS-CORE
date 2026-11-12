@@ -147,7 +147,7 @@ curl -X POST http://127.0.0.1:8787/api/opportunities/ingest \
   --data @../fixtures/foundry/workspace/latest-report.json
 ```
 
-Foundry, or any webhook, posts a run directory's JSON (a canonical record, an array, or `latest-report.json`) to `POST /api/opportunities/ingest` with `Authorization: Bearer <INGEST_TOKEN>`. Optional header `x-source-run-id` labels the batch.
+Foundry, or any webhook, posts a run directory's JSON (a canonical record, an array, or `latest-report.json`) to `POST /api/opportunities/ingest` with `Authorization: Bearer <INGEST_TOKEN>`. Optional header `x-source-run-id` labels the batch. `npm run deploy` refuses to run while `database_id` is still the placeholder `00000000-0000-4000-8000-000000000001`. A posted SAM.gov `opportunitiesData` dump is not a live API pull: without a Foundry intelligence label it is skipped by the `HUMAN_REVIEW` filter. The cron pull is the path that ingests official API notices without that label.
 
 ### Hand off to the Node spine
 

@@ -22,7 +22,11 @@ export async function pullEdgeOutbox(options) {
     const summary = { claimed: rows.length, published: 0, results: [], errors: [] };
     for (const row of rows) {
         try {
-            const envelope = JSON.parse(row.payload_json);
+            const envelope = parseEnvelope(row.payload_json);
+            if (!envelope) {
+                summary.errors.push({ id: row.id, message: 'Outbox payload is not an intake envelope' });
+                continue;
+            }
             const receipt = await options.sink.ingest(envelope);
             await d1Query(fetchImpl, accountId, databaseId, apiToken, `update intake_outbox set published_at = ? where id = ? and published_at is null`, [publishedAt, row.id]);
             summary.published += 1;
@@ -67,7 +71,31 @@ async function d1Query(fetchImpl, accountId, databaseId, apiToken, sql, params) 
 }
 function redactToken(text, token) {
     const trimmed = token.trim();
-    return trimmed.length >= 8 ? text.split(trimmed).join('[redacted]') : text;
+    const withoutToken = trimmed.length >= 8 ? text.split(trimmed).join('[redacted]') : text;
+    return withoutToken.replace(/bearer\s+\S+/gi, 'Bearer [redacted]');
+}
+function parseEnvelope(payload) {
+    let parsed;
+    try {
+        parsed = JSON.parse(payload);
+    }
+    catch {
+        return undefined;
+    }
+    if (!isRecord(parsed) || !isRecord(parsed.opportunity))
+        return undefined;
+    const opportunity = parsed.opportunity;
+    if (opportunity.schemaVersion !== '1.0.0')
+        return undefined;
+    if (typeof opportunity.eventId !== 'string' || !opportunity.eventId.trim())
+        return undefined;
+    if (typeof opportunity.externalId !== 'string' || !opportunity.externalId.trim())
+        return undefined;
+    if (!Array.isArray(opportunity.provenance) || opportunity.provenance.length === 0)
+        return undefined;
+    if (typeof parsed.sourceRunId !== 'string' || typeof parsed.receivedAt !== 'string')
+        return undefined;
+    return parsed;
 }
 function isRecord(value) {
     return Boolean(value) && typeof value === 'object' && !Array.isArray(value);

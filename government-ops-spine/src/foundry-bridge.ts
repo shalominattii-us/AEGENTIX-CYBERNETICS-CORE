@@ -405,7 +405,7 @@ async function loadFile(file: string): Promise<FoundryLoadBatch> {
 export function recordsFromFoundryDocument(json: unknown, options: { sourceRunId?: string; receivedAt?: string } = {}): FoundryLoadBatch {
   const sourceRunId = options.sourceRunId ?? 'foundry-document';
   if (isRecord(json) && Array.isArray(json.opportunitiesData)) {
-    return recordsBatch(sourceRunId, 'sam-api', json.opportunitiesData, options.receivedAt ?? receivedAtFrom(json));
+    return recordsBatch(sourceRunId, 'foundry-report', json.opportunitiesData, options.receivedAt ?? receivedAtFrom(json));
   }
   if (Array.isArray(json)) return recordsBatch(sourceRunId, 'foundry-report', json, options.receivedAt);
   if (isRecord(json) && Array.isArray(json.opportunities) && !json.opportunity_id) {
@@ -460,8 +460,7 @@ function recordsBatch(sourceRunId: string, origin: FoundryOrigin, items: unknown
   const errors: FoundryIngestError[] = [];
   items.forEach((item, index) => {
     try {
-      const itemOrigin = origin === 'foundry-report' && isRawSamNotice(item) ? 'sam-api' : origin;
-      records.push(opportunityFromFoundry(item, { origin: itemOrigin, retrievedAt: receivedAt }));
+      records.push(opportunityFromFoundry(item, { origin, retrievedAt: receivedAt }));
     } catch (error) {
       errors.push({ message: `record ${index + 1}: ${error instanceof Error ? error.message : String(error)}` });
     }

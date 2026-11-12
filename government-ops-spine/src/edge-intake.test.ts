@@ -17,6 +17,7 @@ const apiKey = 'unit-test-sam-key';
 
 function database(): { sql: IntakeSql; raw: DatabaseSync } {
   const raw = new DatabaseSync(':memory:');
+  raw.exec('PRAGMA foreign_keys = ON');
   raw.exec(migration);
   const sql: IntakeSql = {
     prepare(query: string) {
@@ -52,6 +53,21 @@ function database(): { sql: IntakeSql; raw: DatabaseSync } {
 function env(sql: IntakeSql, extra: Partial<IntakeBindings> = {}): IntakeBindings {
   return { DB: sql, INGEST_TOKEN: token, FOUNDRY_INGEST_NAICS: '541512,541715', FOUNDRY_INGEST_DISPOSITIONS: 'HUMAN_REVIEW', ...extra };
 }
+
+const foundryRecord = {
+  external_id: 'NOTICE-EDGE-541512',
+  title: 'Edge software solicitation',
+  source: 'SAM.gov',
+  source_url: 'https://sam.gov/opp/NOTICE-EDGE-541512/view',
+  issuer: 'GENERAL SERVICES ADMINISTRATION.FAS',
+  jurisdiction: 'United States',
+  type: 'Solicitation',
+  naics: ['541512'],
+  description: 'The contractor shall deliver software.',
+  deadline: '2099-06-01T17:00:00Z',
+  published_date: '2026-07-21',
+  intelligence_output: { maturity: { stage: 'HUMAN_REVIEW', disposition: 'REQUIRES_HUMAN_DECISION' } }
+};
 
 const notice = {
   noticeId: 'NOTICE-EDGE-541512',
@@ -93,7 +109,7 @@ test('ingest requires the bearer token, maps SAM.gov as official, and dedupes by
     body: JSON.stringify([notice])
   }), bindings);
   assert.equal(denied.status, 401);
-  const first = await handleIntakeRequest(authorized(JSON.stringify([notice])), bindings);
+  const first = await handleIntakeRequest(authorized(JSON.stringify([foundryRecord])), bindings);
   assert.equal(first.status, 200);
   const created = await first.json() as { results: Array<{ disposition: string; canonicalHash: string; eventId: string }> };
   const createdResult = created.results[0];
@@ -109,7 +125,7 @@ test('ingest requires the bearer token, maps SAM.gov as official, and dedupes by
   assert.equal(opportunity.provenance[0]?.url, 'https://sam.gov/opp/NOTICE-EDGE-541512/view');
   assert.equal(countOf(raw, 'intake_outbox'), 1);
 
-  const second = await handleIntakeRequest(authorized(JSON.stringify([{ ...notice, description: notice.description }])), bindings);
+  const second = await handleIntakeRequest(authorized(JSON.stringify([foundryRecord])), bindings);
   const unchanged = await second.json() as { results: Array<{ disposition: string; revision: number; canonicalHash: string }> };
   const unchangedResult = unchanged.results[0];
   assert.ok(unchangedResult);
@@ -119,7 +135,7 @@ test('ingest requires the bearer token, maps SAM.gov as official, and dedupes by
   assert.equal(countOf(raw, 'intake_outbox'), 1);
   assert.equal(countOf(raw, 'opportunity_revisions'), 1);
 
-  const amendedBody = JSON.stringify([{ ...notice, responseDeadLine: '2099-07-01T17:00:00Z' }]);
+  const amendedBody = JSON.stringify([{ ...foundryRecord, deadline: '2099-07-01T17:00:00Z' }]);
   const third = await handleIntakeRequest(authorized(amendedBody), bindings);
   const amended = await third.json() as { results: Array<{ disposition: string; revision: number }> };
   const amendedResult = amended.results[0];
@@ -128,6 +144,11 @@ test('ingest requires the bearer token, maps SAM.gov as official, and dedupes by
   assert.equal(amendedResult.revision, 2);
   assert.equal(countOf(raw, 'intake_outbox'), 2);
   assert.equal(JSON.stringify(created).includes(token), false);
+
+  const uploaded = await handleIntakeRequest(authorized(JSON.stringify({ opportunitiesData: [notice] })), env(database().sql));
+  const uploadedBody = await uploaded.json() as { results: unknown[]; skipped: Array<{ reason: string }> };
+  assert.equal(uploadedBody.results.length, 0);
+  assert.equal(uploadedBody.skipped[0]?.reason, 'disposition_missing');
 });
 
 test('scheduled pull calls only api.sam.gov and does not log the key', async () => {
