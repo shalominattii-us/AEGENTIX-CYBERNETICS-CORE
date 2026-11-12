@@ -10,31 +10,45 @@ import { foundryRequestFromEnv, runFoundryIngest, runtimeSink, type FoundryInges
 export class FoundryIngestScheduler {
   private timer?: ReturnType<typeof setInterval>;
   private running = false;
+  private pending: Promise<void> = Promise.resolve();
   constructor(private readonly intervalMs: number, private readonly task: () => Promise<void>) {}
 
-  async runOnce(): Promise<void> {
-    if (this.running) return;
+  runOnce(): Promise<void> {
+    if (this.running) return this.pending;
     this.running = true;
-    try {
-      await this.task();
-    } finally {
-      this.running = false;
-    }
+    this.pending = (async () => {
+      try {
+        await this.task();
+      } finally {
+        this.running = false;
+      }
+    })();
+    return this.pending;
   }
 
   start(): void {
     if (this.timer) return;
-    void this.runOnce();
-    this.timer = setInterval(() => { void this.runOnce(); }, this.intervalMs);
+    const launch = () => { void this.runOnce().catch((error) => this.reportFailure(error)); };
+    launch();
+    this.timer = setInterval(launch, this.intervalMs);
   }
 
   stop(): void {
     if (this.timer) clearInterval(this.timer);
     this.timer = undefined;
   }
+
+  whenSettled(): Promise<void> {
+    return this.pending;
+  }
+
+  private reportFailure(error: unknown): void {
+    const message = error instanceof Error ? error.message : String(error);
+    console.error(JSON.stringify({ event: 'foundry_ingest.scheduler_error', error: message }));
+  }
 }
 
-export function startEmbeddedFoundryIngest(repository: OpportunityRepository, env: NodeJS.ProcessEnv = process.env): { stop: () => void } | undefined {
+export function startEmbeddedFoundryIngest(repository: OpportunityRepository, env: NodeJS.ProcessEnv = process.env): { stop: () => void; whenSettled: () => Promise<void> } | undefined {
   if (env.FOUNDRY_INGEST_ENABLED !== 'true') return undefined;
   const pathValue = env.FOUNDRY_INGEST_PATH?.trim();
   const apiKey = env.SAM_GOV_API_KEY?.trim();
@@ -60,7 +74,7 @@ export function startEmbeddedFoundryIngest(repository: OpportunityRepository, en
     }
   });
   scheduler.start();
-  return scheduler;
+  return { stop: () => scheduler.stop(), whenSettled: () => scheduler.whenSettled() };
 }
 
 export function publicIngestCounts(summary: FoundryIngestSummary): Record<string, unknown> {

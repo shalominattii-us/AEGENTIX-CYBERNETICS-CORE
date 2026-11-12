@@ -46,6 +46,7 @@ export async function runFoundryIngestCli(argv: string[], io: FoundryCliIO = {})
         'posted-to': { type: 'string' },
         'lookback-days': { type: 'string' },
         limit: { type: 'string' },
+        'max-pages': { type: 'string' },
         'notice-type': { type: 'string' },
         title: { type: 'string' },
         organization: { type: 'string' },
@@ -95,6 +96,7 @@ export async function runFoundryIngestCli(argv: string[], io: FoundryCliIO = {})
         postedTo: optionString(values['posted-to']) ?? env.SAM_GOV_POSTED_TO,
         lookbackDays: numberOption(optionString(values['lookback-days']) ?? env.FOUNDRY_INGEST_LOOKBACK_DAYS, 1),
         limit: numberOption(optionString(values.limit) ?? env.FOUNDRY_INGEST_LIMIT, 100),
+        maxPages: numberOption(optionString(values['max-pages']) ?? env.SAM_GOV_MAX_PAGES, 5),
         noticeType: optionString(values['notice-type']) ?? env.SAM_GOV_NOTICE_TYPE,
         title: optionString(values.title) ?? env.SAM_GOV_TITLE,
         organization: optionString(values.organization) ?? env.SAM_GOV_ORGANIZATION,
@@ -107,6 +109,9 @@ export async function runFoundryIngestCli(argv: string[], io: FoundryCliIO = {})
   } catch (error) {
     stderr(error instanceof Error ? error.message : String(error));
     return 2;
+  }
+  if (!io.sink && !optionString(values.endpoint) && !env.SPINE_INGEST_URL && !env.DATABASE_URL) {
+    stderr('No DATABASE_URL or SPINE_INGEST_URL set; posting to http://127.0.0.1:8099/api/opportunities/ingest');
   }
   const opened = io.sink ? undefined : await openSink(env, optionString(values.endpoint), io.fetchImpl, apiKey ? [apiKey] : []);
   const sink = io.sink ?? opened?.sink;
@@ -164,6 +169,7 @@ Options:
   --posted-to <MM/dd/yyyy>   SAM.gov postedTo
   --lookback-days <n>        Window when posted dates are omitted (default 1)
   --limit <n>                SAM.gov page size (default 100, max 1000)
+  --max-pages <n>            SAM.gov pages per query (default 5, max 50)
   --notice-type <ptype>      SAM.gov ptype filter
   --title <text>             SAM.gov title filter
   --organization <name>      SAM.gov organizationName filter

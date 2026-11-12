@@ -10,31 +10,43 @@ export class FoundryIngestScheduler {
     task;
     timer;
     running = false;
+    pending = Promise.resolve();
     constructor(intervalMs, task) {
         this.intervalMs = intervalMs;
         this.task = task;
     }
-    async runOnce() {
+    runOnce() {
         if (this.running)
-            return;
+            return this.pending;
         this.running = true;
-        try {
-            await this.task();
-        }
-        finally {
-            this.running = false;
-        }
+        this.pending = (async () => {
+            try {
+                await this.task();
+            }
+            finally {
+                this.running = false;
+            }
+        })();
+        return this.pending;
     }
     start() {
         if (this.timer)
             return;
-        void this.runOnce();
-        this.timer = setInterval(() => { void this.runOnce(); }, this.intervalMs);
+        const launch = () => { void this.runOnce().catch((error) => this.reportFailure(error)); };
+        launch();
+        this.timer = setInterval(launch, this.intervalMs);
     }
     stop() {
         if (this.timer)
             clearInterval(this.timer);
         this.timer = undefined;
+    }
+    whenSettled() {
+        return this.pending;
+    }
+    reportFailure(error) {
+        const message = error instanceof Error ? error.message : String(error);
+        console.error(JSON.stringify({ event: 'foundry_ingest.scheduler_error', error: message }));
     }
 }
 export function startEmbeddedFoundryIngest(repository, env = process.env) {
@@ -66,7 +78,7 @@ export function startEmbeddedFoundryIngest(repository, env = process.env) {
         }
     });
     scheduler.start();
-    return scheduler;
+    return { stop: () => scheduler.stop(), whenSettled: () => scheduler.whenSettled() };
 }
 export function publicIngestCounts(summary) {
     const dispositions = {};

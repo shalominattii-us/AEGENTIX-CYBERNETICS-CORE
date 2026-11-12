@@ -382,11 +382,19 @@ test('scheduler runs one ingest at a time and can be disabled', async () => {
     FOUNDRY_INGEST_DISPOSITIONS: 'HUMAN_REVIEW'
   });
   assert.ok(embedded);
-  let stored = await repository.getByEventId('sam:NOTICE-HUMAN-541512');
-  for (let attempt = 0; !stored && attempt < 50; attempt += 1) {
-    await new Promise((resolve) => setTimeout(resolve, 20));
-    stored = await repository.getByEventId('sam:NOTICE-HUMAN-541512');
-  }
+  await embedded.whenSettled();
   embedded.stop();
+  const stored = await repository.getByEventId('sam:NOTICE-HUMAN-541512');
   assert.equal(stored?.opportunity.provenance[0]?.authority, 'official');
+});
+
+test('CLI warns before posting to the local spine when no database or endpoint is configured', async () => {
+  const errors: string[] = [];
+  const code = await runFoundryIngestCli([runDir, '--dry-run'], {
+    env: {},
+    stdout: () => {},
+    stderr: (line) => errors.push(line)
+  });
+  assert.equal(code, 0);
+  assert.match(errors.join('\n'), /http:\/\/127\.0\.0\.1:8099\/api\/opportunities\/ingest/);
 });

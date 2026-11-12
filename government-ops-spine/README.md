@@ -85,7 +85,7 @@ npm run ingest:foundry -- --pull --naics 541512,541715
 npm run ingest:foundry:schedule
 ```
 
-`npm run ingest:foundry:schedule` repeats that ingest in its own process. It needs `DATABASE_URL` and uses `FOUNDRY_INGEST_INTERVAL_MS` (default one hour). Set `FOUNDRY_INGEST_ENABLED=true` to run the same loop inside `server.js` instead. Direct pulls read `SAM_GOV_API_KEY` from the environment. The key is not written to source, fixtures, or logs.
+`npm run ingest:foundry:schedule` repeats that ingest in its own process. It needs `DATABASE_URL` and uses `FOUNDRY_INGEST_INTERVAL_MS` (default one hour). Set `FOUNDRY_INGEST_ENABLED=true` to run the same loop inside `server.js` instead. Direct pulls read `SAM_GOV_API_KEY` from the environment. Each NAICS query stops after `SAM_GOV_MAX_PAGES` pages (default 5, 100 notices per page) so a broad window cannot page without a bound. Raise it with `--max-pages` or `SAM_GOV_MAX_PAGES` when a window is larger than that. The key is not written to source, fixtures, or logs. If neither `DATABASE_URL` nor `SPINE_INGEST_URL` is set, the CLI says so and posts to `http://127.0.0.1:8099/api/opportunities/ingest`.
 
 ## Next
 

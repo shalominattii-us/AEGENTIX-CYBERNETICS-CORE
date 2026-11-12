@@ -187,7 +187,8 @@ export function foundryRequestFromEnv(env, options = {}) {
         endpoint: env.SAM_GOV_ENDPOINT?.trim() || undefined,
         fetchImpl: options.fetchImpl,
         now: options.now,
-        naics: parseNaicsList(env.FOUNDRY_INGEST_NAICS)
+        naics: parseNaicsList(env.FOUNDRY_INGEST_NAICS),
+        maxPages: integerEnv(env.SAM_GOV_MAX_PAGES, 5)
     } : undefined;
     if (options.pull && !apiKey)
         throw new Error('SAM_GOV_API_KEY is required');
@@ -207,18 +208,18 @@ async function loadSamPull(options, secrets) {
     from.setUTCDate(from.getUTCDate() - (options.lookbackDays ?? 1));
     const postedFrom = options.postedFrom ?? formatSamDate(from);
     const retrievedAt = now.toISOString();
-    const codes = options.naics.length ? options.naics : [undefined];
     const records = [];
     const errors = [];
     const seen = new Set();
-    for (const code of codes) {
+    const pullQuery = async (naics) => {
         try {
             const notices = await searchSamGov({
                 apiKey: options.apiKey,
                 postedFrom,
                 postedTo,
                 limit: options.limit,
-                naics: code,
+                maxPages: options.maxPages,
+                naics,
                 title: options.title,
                 noticeType: options.noticeType,
                 organization: options.organization,
@@ -239,9 +240,14 @@ async function loadSamPull(options, secrets) {
             }
         }
         catch (error) {
-            errors.push({ message: redactSecrets(`SAM.gov NAICS ${code ?? 'all'}: ${error instanceof Error ? error.message : String(error)}`, secrets) });
+            errors.push({ message: redactSecrets(`SAM.gov NAICS ${naics ?? 'all'}: ${error instanceof Error ? error.message : String(error)}`, secrets) });
         }
-    }
+    };
+    if (!options.naics.length)
+        await pullQuery();
+    else
+        for (const code of options.naics)
+            await pullQuery(code);
     return {
         batch: { sourceRunId: `sam-api:${postedFrom}_to_${postedTo}`, receivedAt: retrievedAt, records, errors: [] },
         errors
@@ -350,9 +356,9 @@ function toPublicOpportunity(input, retrievedAtFallback) {
     const externalId = input.externalId.trim();
     const title = collapse(input.title);
     if (!externalId)
-        throw new Error('Missing notice id');
+        throw new Error(title ? `Missing notice id for "${title}"` : 'Missing notice id');
     if (!title)
-        throw new Error('Missing title');
+        throw new Error(externalId ? `Missing title for ${externalId}` : 'Missing title');
     const url = input.sourceUrl?.trim() || (official ? `https://sam.gov/opp/${encodeURIComponent(externalId)}/view` : '');
     if (!url)
         throw new Error(`Missing source URL for ${externalId}`);
@@ -701,7 +707,7 @@ function collectNaics(value, into) {
 }
 function addNaics(value, into) {
     const trimmed = value.trim();
-    if (/^\d{2,6}$/.test(trimmed)) {
+    if (/^\d{6}$/.test(trimmed)) {
         into.add(trimmed);
         return;
     }

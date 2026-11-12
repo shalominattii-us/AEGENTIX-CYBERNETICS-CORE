@@ -66,6 +66,7 @@ export interface SamPullOptions {
     fetchImpl?: typeof fetch;
     now?: () => Date;
     naics: string[];
+    maxPages?: number;
 }
 export interface FoundryIngestRequest {
     path?: string;
