@@ -46,6 +46,32 @@ services:
       timeout: 5s
       retries: 5
 
+  foundry-ingest:
+    profiles: ["foundry"]
+    build: .
+    restart: unless-stopped
+    command: ["node", "dist/foundry-ingest-worker.js"]
+    environment:
+      DATABASE_URL: postgresql://aegentix:${POSTGRES_PASSWORD:-change-me}@postgres:5432/aegentix
+      FOUNDRY_INGEST_ENABLED: "true"
+      FOUNDRY_INGEST_PATH: ${FOUNDRY_INGEST_PATH:-}
+      FOUNDRY_INGEST_INTERVAL_MS: ${FOUNDRY_INGEST_INTERVAL_MS:-3600000}
+      FOUNDRY_INGEST_NAICS: ${FOUNDRY_INGEST_NAICS:-541512,541715}
+      FOUNDRY_INGEST_DISPOSITIONS: ${FOUNDRY_INGEST_DISPOSITIONS:-HUMAN_REVIEW}
+      FOUNDRY_INGEST_LOOKBACK_DAYS: ${FOUNDRY_INGEST_LOOKBACK_DAYS:-1}
+      FOUNDRY_INGEST_LIMIT: ${FOUNDRY_INGEST_LIMIT:-100}
+      SAM_GOV_API_KEY: ${SAM_GOV_API_KEY:-}
+      SAM_GOV_POSTED_FROM: ${SAM_GOV_POSTED_FROM:-}
+      SAM_GOV_POSTED_TO: ${SAM_GOV_POSTED_TO:-}
+      SAM_GOV_NOTICE_TYPE: ${SAM_GOV_NOTICE_TYPE:-}
+      SAM_GOV_TITLE: ${SAM_GOV_TITLE:-}
+      SAM_GOV_ORGANIZATION: ${SAM_GOV_ORGANIZATION:-}
+    volumes:
+      - ${FOUNDRY_DATA_DIR:-./foundry-data}:/foundry:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   outbox-worker:
     build: .
     restart: unless-stopped
