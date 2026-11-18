@@ -1,0 +1,39 @@
+{
+  "worker_name": "gov-opportunity-intake",
+  "main_module": "index.js",
+  "compatibility_date": "2026-11-12",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "limits": {
+    "cpu_ms": 120000
+  },
+  "triggers": {
+    "crons": [
+      "0 * * * *"
+    ]
+  },
+  "bindings": [
+    {
+      "type": "d1",
+      "name": "DB",
+      "database_name": "opportunity-intake",
+      "migration": "0001_intake.sql"
+    }
+  ],
+  "vars": {
+    "FOUNDRY_INGEST_NAICS": "541512,541715",
+    "FOUNDRY_INGEST_DISPOSITIONS": "HUMAN_REVIEW",
+    "FOUNDRY_INGEST_LOOKBACK_DAYS": "2",
+    "FOUNDRY_INGEST_LIMIT": "100",
+    "SAM_GOV_MAX_PAGES": "5",
+    "PUBLIC_EXTRACT_MAX_BYTES": "8000000"
+  },
+  "secrets": [
+    "INGEST_TOKEN"
+  ],
+  "optional_secrets": [
+    "SAM_GOV_API_KEY"
+  ],
+  "notes": "Do not attach this worker to aegentix-edge. SAM_GOV_API_KEY is optional; cron uses the public Contract Opportunities CSV when it is absent."
+}

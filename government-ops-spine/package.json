@@ -10,6 +10,7 @@
     "worker": "node dist/worker.js",
     "ingest:foundry": "node dist/foundry-ingest-cli.js",
     "ingest:foundry:schedule": "node dist/foundry-ingest-worker.js",
+    "ingest:edge": "node dist/edge-pull.js",
     "deploy": "docker compose up -d --build",
     "deploy:status": "docker compose ps"
   },
