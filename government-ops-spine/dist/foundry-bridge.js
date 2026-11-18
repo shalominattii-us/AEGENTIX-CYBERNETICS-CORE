@@ -496,7 +496,7 @@ function intermediateFromRawSam(record) {
     });
 }
 function dispositionDecision(record, allow) {
-    if (!allow.length || record.origin === 'sam-api')
+    if (!allow.length || record.origin === 'sam-api' || record.origin === 'sam-public')
         return { ok: true };
     if (!record.intelligence)
         return { ok: false, reason: 'disposition_missing' };

@@ -9,7 +9,7 @@ import { formatSamDate, redactSecrets, searchSamGov } from './sam-gov.js';
 export const DEFAULT_FOUNDRY_DISPOSITIONS = ['HUMAN_REVIEW'] as const;
 export const DEFAULT_FOUNDRY_NAICS = ['541512', '541715'] as const;
 
-export type FoundryOrigin = 'foundry-run' | 'foundry-report' | 'sam-api';
+export type FoundryOrigin = 'foundry-run' | 'foundry-report' | 'sam-api' | 'sam-public';
 
 export interface FoundryIntelligenceLabel {
   stage: string;
@@ -607,7 +607,7 @@ function intermediateFromRawSam(record: Record<string, unknown>): IntermediateOp
 }
 
 function dispositionDecision(record: LoadedFoundryRecord, allow: string[]): { ok: true } | { ok: false; reason: 'disposition' | 'disposition_missing' } {
-  if (!allow.length || record.origin === 'sam-api') return { ok: true };
+  if (!allow.length || record.origin === 'sam-api' || record.origin === 'sam-public') return { ok: true };
   if (!record.intelligence) return { ok: false, reason: 'disposition_missing' };
   const stage = record.intelligence.stage.toUpperCase();
   const disposition = record.intelligence.disposition.toUpperCase();

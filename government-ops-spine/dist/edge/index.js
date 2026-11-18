@@ -1,6 +1,7 @@
 import { recordsFromFoundryDocument, parseDispositionList, parseNaicsList, selectFoundryRecords, opportunityFromFoundry } from '../foundry-bridge.js';
 import { formatSamDate, redactSecrets, searchSamGov } from '../sam-gov.js';
 import { ingestAuthorized } from './auth.js';
+import { SAM_PUBLIC_OPPORTUNITIES_CSV, pullSamPublicExtract } from './public-extract.js';
 import { persistOpportunity } from './store.js';
 const MAX_BODY_BYTES = 1_048_576;
 export default {
@@ -46,10 +47,6 @@ export async function handleScheduledIntake(env, options = {}) {
     const apiKey = env.SAM_GOV_API_KEY?.trim() ?? '';
     const now = options.now ?? new Date();
     const receivedAt = now.toISOString();
-    if (!apiKey) {
-        console.error(JSON.stringify({ event: 'intake.cron.skipped', reason: 'SAM_GOV_API_KEY is not set' }));
-        return { sourceRunId: 'sam-api', loaded: 0, selected: 0, skipped: [], results: [], errors: [{ message: 'SAM_GOV_API_KEY is not set' }] };
-    }
     const lookback = positive(env.FOUNDRY_INGEST_LOOKBACK_DAYS, 1);
     const to = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
     const from = new Date(to);
@@ -61,41 +58,68 @@ export async function handleScheduledIntake(env, options = {}) {
     const records = [];
     const errors = [];
     const seen = new Set();
-    const pull = async (code) => {
-        try {
-            const notices = await searchSamGov({
-                apiKey,
-                postedFrom,
-                postedTo,
-                limit: positive(env.FOUNDRY_INGEST_LIMIT, 100),
-                maxPages: positive(env.SAM_GOV_MAX_PAGES, 5),
-                naics: code,
-                fetchImpl: options.fetchImpl
-            });
-            for (const notice of notices) {
-                try {
-                    const loaded = opportunityFromFoundry(notice, { origin: 'sam-api', retrievedAt: receivedAt });
-                    if (seen.has(loaded.externalId))
-                        continue;
-                    seen.add(loaded.externalId);
-                    records.push(loaded);
-                }
-                catch (error) {
-                    errors.push({ message: redactSecrets(error instanceof Error ? error.message : String(error), [apiKey]) });
+    try {
+        const extracted = await pullSamPublicExtract({
+            naics,
+            windowStartMs: from.getTime(),
+            limit: positive(env.FOUNDRY_INGEST_LIMIT, 100),
+            maxBytes: positive(env.PUBLIC_EXTRACT_MAX_BYTES, 8_000_000),
+            retrievedAt: receivedAt,
+            fetchImpl: options.fetchImpl,
+            csvText: options.csvText,
+            url: env.SAM_PUBLIC_CSV_URL || SAM_PUBLIC_OPPORTUNITIES_CSV
+        });
+        for (const record of extracted.records) {
+            if (seen.has(record.externalId))
+                continue;
+            seen.add(record.externalId);
+            records.push(record);
+        }
+        console.log(JSON.stringify({ event: 'intake.public_extract', scannedRows: extracted.scannedRows, matched: extracted.matched, bytes: extracted.bytes, stopped: extracted.stopped }));
+    }
+    catch (error) {
+        errors.push({ message: `SAM public extract: ${error instanceof Error ? error.message : String(error)}` });
+    }
+    if (!apiKey) {
+        console.log(JSON.stringify({ event: 'intake.sam_api.skipped', reason: 'SAM_GOV_API_KEY is not set' }));
+    }
+    else {
+        const pull = async (code) => {
+            try {
+                const notices = await searchSamGov({
+                    apiKey,
+                    postedFrom,
+                    postedTo,
+                    limit: positive(env.FOUNDRY_INGEST_LIMIT, 100),
+                    maxPages: positive(env.SAM_GOV_MAX_PAGES, 5),
+                    naics: code,
+                    fetchImpl: options.fetchImpl
+                });
+                for (const notice of notices) {
+                    try {
+                        const loaded = opportunityFromFoundry(notice, { origin: 'sam-api', retrievedAt: receivedAt });
+                        if (seen.has(loaded.externalId))
+                            continue;
+                        seen.add(loaded.externalId);
+                        records.push(loaded);
+                    }
+                    catch (error) {
+                        errors.push({ message: redactSecrets(error instanceof Error ? error.message : String(error), [apiKey]) });
+                    }
                 }
             }
-        }
-        catch (error) {
-            errors.push({ message: redactSecrets(`SAM.gov NAICS ${code ?? 'all'}: ${error instanceof Error ? error.message : String(error)}`, [apiKey]) });
-        }
-    };
-    if (!naics.length)
-        await pull();
-    else
-        for (const code of naics)
-            await pull(code);
+            catch (error) {
+                errors.push({ message: redactSecrets(`SAM.gov NAICS ${code ?? 'all'}: ${error instanceof Error ? error.message : String(error)}`, [apiKey]) });
+            }
+        };
+        if (!naics.length)
+            await pull();
+        else
+            for (const code of naics)
+                await pull(code);
+    }
     const summary = await persistLoaded(env, records, errors, {
-        sourceRunId: `sam-api:${postedFrom}_to_${postedTo}`,
+        sourceRunId: apiKey ? `sam-api:${postedFrom}_to_${postedTo}` : `sam-public:${postedFrom}_to_${postedTo}`,
         receivedAt,
         secrets: [apiKey],
         dispositions,

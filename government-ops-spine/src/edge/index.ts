@@ -1,6 +1,7 @@
 import { recordsFromFoundryDocument, parseDispositionList, parseNaicsList, selectFoundryRecords, opportunityFromFoundry, type LoadedFoundryRecord } from '../foundry-bridge.js';
 import { formatSamDate, redactSecrets, searchSamGov } from '../sam-gov.js';
 import { ingestAuthorized } from './auth.js';
+import { SAM_PUBLIC_OPPORTUNITIES_CSV, pullSamPublicExtract } from './public-extract.js';
 import { persistOpportunity, type IntakeSql, type PersistReceipt } from './store.js';
 
 const MAX_BODY_BYTES = 1_048_576;
@@ -14,6 +15,8 @@ export interface IntakeBindings {
   FOUNDRY_INGEST_LOOKBACK_DAYS?: string;
   FOUNDRY_INGEST_LIMIT?: string;
   SAM_GOV_MAX_PAGES?: string;
+  PUBLIC_EXTRACT_MAX_BYTES?: string;
+  SAM_PUBLIC_CSV_URL?: string;
 }
 
 export interface IntakeSummary {
@@ -58,14 +61,10 @@ export async function handleIntakeRequest(request: Request, env: IntakeBindings)
   return json(summary, summary.errors.length && !summary.results.length ? 400 : 200);
 }
 
-export async function handleScheduledIntake(env: IntakeBindings, options: { fetchImpl?: typeof fetch; now?: Date } = {}): Promise<IntakeSummary> {
+export async function handleScheduledIntake(env: IntakeBindings, options: { fetchImpl?: typeof fetch; now?: Date; csvText?: string } = {}): Promise<IntakeSummary> {
   const apiKey = env.SAM_GOV_API_KEY?.trim() ?? '';
   const now = options.now ?? new Date();
   const receivedAt = now.toISOString();
-  if (!apiKey) {
-    console.error(JSON.stringify({ event: 'intake.cron.skipped', reason: 'SAM_GOV_API_KEY is not set' }));
-    return { sourceRunId: 'sam-api', loaded: 0, selected: 0, skipped: [], results: [], errors: [{ message: 'SAM_GOV_API_KEY is not set' }] };
-  }
   const lookback = positive(env.FOUNDRY_INGEST_LOOKBACK_DAYS, 1);
   const to = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   const from = new Date(to);
@@ -77,6 +76,29 @@ export async function handleScheduledIntake(env: IntakeBindings, options: { fetc
   const records: LoadedFoundryRecord[] = [];
   const errors: Array<{ message: string }> = [];
   const seen = new Set<string>();
+  try {
+    const extracted = await pullSamPublicExtract({
+      naics,
+      windowStartMs: from.getTime(),
+      limit: positive(env.FOUNDRY_INGEST_LIMIT, 100),
+      maxBytes: positive(env.PUBLIC_EXTRACT_MAX_BYTES, 8_000_000),
+      retrievedAt: receivedAt,
+      fetchImpl: options.fetchImpl,
+      csvText: options.csvText,
+      url: env.SAM_PUBLIC_CSV_URL || SAM_PUBLIC_OPPORTUNITIES_CSV
+    });
+    for (const record of extracted.records) {
+      if (seen.has(record.externalId)) continue;
+      seen.add(record.externalId);
+      records.push(record);
+    }
+    console.log(JSON.stringify({ event: 'intake.public_extract', scannedRows: extracted.scannedRows, matched: extracted.matched, bytes: extracted.bytes, stopped: extracted.stopped }));
+  } catch (error) {
+    errors.push({ message: `SAM public extract: ${error instanceof Error ? error.message : String(error)}` });
+  }
+  if (!apiKey) {
+    console.log(JSON.stringify({ event: 'intake.sam_api.skipped', reason: 'SAM_GOV_API_KEY is not set' }));
+  } else {
   const pull = async (code?: string) => {
     try {
       const notices = await searchSamGov({
@@ -104,8 +126,9 @@ export async function handleScheduledIntake(env: IntakeBindings, options: { fetc
   };
   if (!naics.length) await pull();
   else for (const code of naics) await pull(code);
+  }
   const summary = await persistLoaded(env, records, errors, {
-    sourceRunId: `sam-api:${postedFrom}_to_${postedTo}`,
+    sourceRunId: apiKey ? `sam-api:${postedFrom}_to_${postedTo}` : `sam-public:${postedFrom}_to_${postedTo}`,
     receivedAt,
     secrets: [apiKey],
     dispositions,

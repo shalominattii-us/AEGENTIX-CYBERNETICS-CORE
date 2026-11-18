@@ -8,6 +8,8 @@ export interface IntakeBindings {
     FOUNDRY_INGEST_LOOKBACK_DAYS?: string;
     FOUNDRY_INGEST_LIMIT?: string;
     SAM_GOV_MAX_PAGES?: string;
+    PUBLIC_EXTRACT_MAX_BYTES?: string;
+    SAM_PUBLIC_CSV_URL?: string;
 }
 export interface IntakeSummary {
     sourceRunId: string;
@@ -35,4 +37,5 @@ export declare function handleIntakeRequest(request: Request, env: IntakeBinding
 export declare function handleScheduledIntake(env: IntakeBindings, options?: {
     fetchImpl?: typeof fetch;
     now?: Date;
+    csvText?: string;
 }): Promise<IntakeSummary>;

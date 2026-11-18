@@ -139,6 +139,26 @@ test('ingest requires the bearer token, maps SAM.gov as official, and dedupes by
     assert.equal(uploadedBody.results.length, 0);
     assert.equal(uploadedBody.skipped[0]?.reason, 'disposition_missing');
 });
+test('keyless public extract ingests official SAM.gov notices and skips the API', async () => {
+    const { sql, raw } = database();
+    const csv = readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../fixtures/sam/contract-opportunities-sample.csv'), 'utf8');
+    const summary = await handleScheduledIntake(env(sql, { SAM_GOV_API_KEY: '', FOUNDRY_INGEST_LOOKBACK_DAYS: '2', FOUNDRY_INGEST_NAICS: '541512,541715' }), {
+        now: new Date('2026-11-17T12:00:00.000Z'),
+        csvText: csv
+    });
+    assert.equal(summary.errors.length, 0);
+    assert.equal(summary.results.length, 1);
+    assert.equal(summary.results[0]?.externalId, 'aaa111');
+    assert.equal(summary.results[0]?.disposition, 'created');
+    const stored = raw.prepare('select opportunity_json from opportunity_records').get();
+    const opportunity = JSON.parse(stored.opportunity_json);
+    assert.equal(opportunity.provenance[0]?.system, 'SAM.gov');
+    assert.equal(opportunity.provenance[0]?.authority, 'official');
+    assert.equal(opportunity.provenance[0]?.url, 'https://sam.gov/workspace/contract/opp/aaa111/view');
+    assert.equal(opportunity.title, 'Software, prototype');
+    const repeat = await handleScheduledIntake(env(sql, { SAM_GOV_API_KEY: '', FOUNDRY_INGEST_LOOKBACK_DAYS: '2' }), { now: new Date('2026-11-17T18:00:00.000Z'), csvText: csv });
+    assert.equal(repeat.results[0]?.disposition, 'unchanged');
+});
 test('scheduled pull calls only api.sam.gov and does not log the key', async () => {
     const { sql, raw } = database();
     const urls = [];
@@ -155,7 +175,8 @@ test('scheduled pull calls only api.sam.gov and does not log the key', async () 
     const cronResult = summary.results[0];
     assert.ok(cronResult);
     assert.equal(cronResult.disposition, 'created');
-    assert.ok(urls.every((url) => new URL(url).hostname === 'api.sam.gov'));
+    assert.ok(urls.some((url) => new URL(url).hostname === 'api.sam.gov'));
+    assert.ok(urls.every((url) => ['api.sam.gov', 'sam.gov'].includes(new URL(url).hostname)));
     assert.equal(JSON.stringify(summary).includes(apiKey), false);
     assert.equal(countOf(raw, 'opportunity_records'), 1);
     const repeat = await handleScheduledIntake(env(sql, { SAM_GOV_API_KEY: apiKey, FOUNDRY_INGEST_NAICS: '541512' }), {

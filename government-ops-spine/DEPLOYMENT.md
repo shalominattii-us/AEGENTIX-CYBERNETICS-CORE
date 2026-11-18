@@ -87,7 +87,7 @@ What stays blocked:
 
 ## Edge intake worker
 
-Live SAM.gov intake runs in a standalone Cloudflare Worker, `government-ops-spine/edge-intake`. Nothing on the user's machine has to stay up for the pull. The Worker is TypeScript, not Rust. The mapping, NAICS filter, provenance rules, and canonical hash are the same modules the Node bridge uses (`foundry-bridge.ts`, `sam-gov.ts`, `intake.ts`). A second Rust port would drift from those tests. Workers TypeScript also has the supported D1, Cron Trigger, and Wrangler test path.
+Live intake runs in its own Worker, `gov-opportunity-intake` (`government-ops-spine/edge-intake`). Leave the existing `aegentix-edge` worker unchanged. The hourly cron reads the public SAM.gov Contract Opportunities CSV and does not need `SAM_GOV_API_KEY`. That key only enables the optional Opportunities API. The deploy bundle is `edge-intake/dist` (`index.js`, `0001_intake.sql`, `deploy-metadata.json`). Nothing on the user's machine has to stay up for the pull. The Worker is TypeScript, not Rust. The mapping, NAICS filter, provenance rules, and canonical hash are the same modules the Node bridge uses (`foundry-bridge.ts`, `sam-gov.ts`, `intake.ts`). A second Rust port would drift from those tests. Workers TypeScript also has the supported D1, Cron Trigger, and Wrangler test path.
 
 ### Network boundary
 

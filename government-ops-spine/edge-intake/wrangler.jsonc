@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "opportunity-intake",
+  "name": "gov-opportunity-intake",
+  "limits": { "cpu_ms": 120000 },
   "main": "../src/edge/index.ts",
   "compatibility_date": "2026-11-12",
   "compatibility_flags": ["nodejs_compat"],
@@ -12,14 +13,15 @@
     "traces": { "enabled": true, "head_sampling_rate": 0.01 }
   },
   "secrets": {
-    "required": ["SAM_GOV_API_KEY", "INGEST_TOKEN"]
+    "required": ["INGEST_TOKEN"]
   },
   "vars": {
     "FOUNDRY_INGEST_NAICS": "541512,541715",
     "FOUNDRY_INGEST_DISPOSITIONS": "HUMAN_REVIEW",
-    "FOUNDRY_INGEST_LOOKBACK_DAYS": "1",
+    "FOUNDRY_INGEST_LOOKBACK_DAYS": "2",
     "FOUNDRY_INGEST_LIMIT": "100",
-    "SAM_GOV_MAX_PAGES": "5"
+    "SAM_GOV_MAX_PAGES": "5",
+    "PUBLIC_EXTRACT_MAX_BYTES": "8000000"
   },
   "d1_databases": [
     {

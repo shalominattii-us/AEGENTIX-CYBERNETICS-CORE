@@ -4,7 +4,7 @@ import type { IngestDisposition } from './repository.js';
 import type { PublicOpportunity } from './types.js';
 export declare const DEFAULT_FOUNDRY_DISPOSITIONS: readonly ["HUMAN_REVIEW"];
 export declare const DEFAULT_FOUNDRY_NAICS: readonly ["541512", "541715"];
-export type FoundryOrigin = 'foundry-run' | 'foundry-report' | 'sam-api';
+export type FoundryOrigin = 'foundry-run' | 'foundry-report' | 'sam-api' | 'sam-public';
 export interface FoundryIntelligenceLabel {
     stage: string;
     disposition: string;
