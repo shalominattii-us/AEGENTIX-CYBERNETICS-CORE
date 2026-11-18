@@ -1,0 +1,17 @@
+{
+  "schema_version": "cybercore-opportunity-intelligence-output-v1",
+  "opportunity_id": "opp_human_541512",
+  "maturity": {
+    "stage": "HUMAN_REVIEW",
+    "order": 50,
+    "disposition": "REQUIRES_HUMAN_DECISION",
+    "human_decision_required": true,
+    "actionable": true,
+    "reason": "Fixture maturity label. No external action is authorized."
+  },
+  "safety": {
+    "automatic_dispatches": 0,
+    "external_actions_executed": 0,
+    "treasury_labs_handoffs_executed": 0
+  }
+}

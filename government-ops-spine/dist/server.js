@@ -8,6 +8,7 @@ import { CapabilityIndexingWorker } from './indexing-worker.js';
 import { ControlPlaneRuntime } from './control-plane.js';
 import { PostgresEngineeringProgramService } from './engineering-postgres.js';
 import { getExecutionZones } from './zones.js';
+import { startEmbeddedFoundryIngest } from './foundry-ingest-worker.js';
 const port = Number(process.env.PORT ?? 8099);
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const repository = new PostgresOpportunityRepository(pool);
@@ -20,6 +21,7 @@ const engineeringPrograms = new PostgresEngineeringProgramService(pool);
 const controls = new ControlPlaneRuntime(pool, capabilityRegistry, indexer, engineeringPrograms);
 if (process.env.CAPABILITY_INDEX_ENABLED !== 'false')
     indexer.start();
+const foundryIngest = startEmbeddedFoundryIngest(repository);
 const server = http.createServer(async (req, res) => {
     const path = (req.url ?? '/').split('?')[0];
     if (path === '/health') {
@@ -57,7 +59,7 @@ const server = http.createServer(async (req, res) => {
         res.end(JSON.stringify({ error: error instanceof Error ? error.message : String(error) }));
     }
 });
-const shutdown = async () => { indexer.stop(); server.close(); await pool.end(); process.exit(0); };
+const shutdown = async () => { indexer.stop(); foundryIngest?.stop(); server.close(); await pool.end(); process.exit(0); };
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);
-server.listen(port, '0.0.0.0', () => console.log(JSON.stringify({ event: 'government_ops_spine.started', port, indexingEnabled: process.env.CAPABILITY_INDEX_ENABLED !== 'false', engineeringProgramsEnabled: true, roots })));
+server.listen(port, '0.0.0.0', () => console.log(JSON.stringify({ event: 'government_ops_spine.started', port, indexingEnabled: process.env.CAPABILITY_INDEX_ENABLED !== 'false', engineeringProgramsEnabled: true, foundryIngestEnabled: Boolean(foundryIngest), roots })));

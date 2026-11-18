@@ -1,0 +1,17 @@
+{
+  "schema_version": "cybercore-opportunity-intelligence-output-v1",
+  "opportunity_id": "opp_forecast_541715",
+  "maturity": {
+    "stage": "FORECAST_MONITOR",
+    "order": 45,
+    "disposition": "MONITOR_FORECAST",
+    "human_decision_required": false,
+    "actionable": false,
+    "reason": "Fixture maturity label. No external action is authorized."
+  },
+  "safety": {
+    "automatic_dispatches": 0,
+    "external_actions_executed": 0,
+    "treasury_labs_handoffs_executed": 0
+  }
+}

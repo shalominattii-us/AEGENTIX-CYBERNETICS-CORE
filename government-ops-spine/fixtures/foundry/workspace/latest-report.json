@@ -1,0 +1,61 @@
+[
+  {
+    "external_id": "NOTICE-REPORT-541512",
+    "title": "Report-only software solicitation",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-REPORT-541512/view",
+    "issuer": "GENERAL SERVICES ADMINISTRATION.FAS",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "status": "open",
+    "published_date": "2026-07-21",
+    "deadline": "2099-02-01",
+    "naics": [
+      "541512"
+    ],
+    "psc": "D399",
+    "set_aside": "8(a)",
+    "description": "The vendor shall provide a software system."
+  },
+  {
+    "external_id": "NOTICE-REPORT-SCORED",
+    "title": "Scored report solicitation",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-REPORT-SCORED/view",
+    "issuer": "DEPARTMENT OF ENERGY",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "status": "open",
+    "published_date": "2026-07-22",
+    "deadline": "2099-03-01",
+    "naics": [
+      "541715"
+    ],
+    "description": "The contractor must demonstrate a research prototype.",
+    "intelligence_output": {
+      "maturity": {
+        "stage": "HUMAN_REVIEW",
+        "disposition": "REQUIRES_HUMAN_DECISION"
+      }
+    }
+  },
+  {
+    "external_id": "NOTICE-REPORT-FORECAST",
+    "title": "Forecast listed in the daily report",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-REPORT-FORECAST/view",
+    "issuer": "DEPARTMENT OF ENERGY",
+    "jurisdiction": "United States",
+    "type": "Presolicitation",
+    "naics": [
+      "541715"
+    ],
+    "description": "This presolicitation is a forecast.",
+    "intelligence_output": {
+      "maturity": {
+        "stage": "FORECAST_MONITOR",
+        "disposition": "MONITOR_FORECAST"
+      }
+    }
+  }
+]

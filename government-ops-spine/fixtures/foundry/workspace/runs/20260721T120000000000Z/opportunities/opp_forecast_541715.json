@@ -1,0 +1,44 @@
+{
+  "amount_max": null,
+  "amount_min": null,
+  "attachments": [],
+  "currency": "USD",
+  "deadline": "2099-01-01",
+  "eligibility": [
+    "Small business"
+  ],
+  "external_id": "NOTICE-FORECAST-541715",
+  "issuer": "DEPARTMENT OF ENERGY.ARPA-E",
+  "jurisdiction": "United States",
+  "metadata": {
+    "external_id": "NOTICE-FORECAST-541715",
+    "title": "Upcoming research forecast",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-FORECAST-541715/view",
+    "issuer": "DEPARTMENT OF ENERGY.ARPA-E",
+    "jurisdiction": "United States",
+    "type": "Presolicitation",
+    "naics": [
+      "541715"
+    ],
+    "description": "A forecast of a future research notice. No response is requested yet."
+  },
+  "opportunity_id": "opp_forecast_541715",
+  "opportunity_type": "Presolicitation",
+  "provenance": {
+    "content_hash": null,
+    "retrieved_at": "2026-07-21T12:00:00+00:00",
+    "source_name": "SAM.gov",
+    "source_record_id": "NOTICE-FORECAST-541715",
+    "source_url": "https://sam.gov/opp/NOTICE-FORECAST-541715/view"
+  },
+  "published_date": "2026-07-21",
+  "sectors": [
+    "541715"
+  ],
+  "source": "SAM.gov",
+  "status": "open",
+  "submission_path": "https://sam.gov/opp/NOTICE-FORECAST-541715/view",
+  "title": "Upcoming research forecast",
+  "version": 1
+}

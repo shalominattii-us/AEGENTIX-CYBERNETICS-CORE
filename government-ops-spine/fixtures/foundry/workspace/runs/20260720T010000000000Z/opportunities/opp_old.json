@@ -1,0 +1,44 @@
+{
+  "amount_max": null,
+  "amount_min": null,
+  "attachments": [],
+  "currency": "USD",
+  "deadline": "2099-01-01",
+  "eligibility": [
+    "Small business"
+  ],
+  "external_id": "OLD-NOTICE-541512",
+  "issuer": "GENERAL SERVICES ADMINISTRATION",
+  "jurisdiction": "United States",
+  "metadata": {
+    "external_id": "OLD-NOTICE-541512",
+    "title": "Older software notice",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/OLD-NOTICE-541512/view",
+    "issuer": "GENERAL SERVICES ADMINISTRATION",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "naics": [
+      "541512"
+    ],
+    "description": "The contractor shall maintain an older software system."
+  },
+  "opportunity_id": "opp_old",
+  "opportunity_type": "Solicitation",
+  "provenance": {
+    "content_hash": null,
+    "retrieved_at": "2026-07-21T12:00:00+00:00",
+    "source_name": "SAM.gov",
+    "source_record_id": "OLD-NOTICE-541512",
+    "source_url": "https://sam.gov/opp/OLD-NOTICE-541512/view"
+  },
+  "published_date": "2026-07-21",
+  "sectors": [
+    "541512"
+  ],
+  "source": "SAM.gov",
+  "status": "open",
+  "submission_path": "https://sam.gov/opp/OLD-NOTICE-541512/view",
+  "title": "Older software notice",
+  "version": 1
+}

@@ -1,0 +1,44 @@
+{
+  "amount_max": null,
+  "amount_min": null,
+  "attachments": [],
+  "currency": "USD",
+  "deadline": "2099-01-01",
+  "eligibility": [
+    "Small business"
+  ],
+  "external_id": "NOTICE-CLOSED-541512",
+  "issuer": "DEPARTMENT OF COMMERCE",
+  "jurisdiction": "United States",
+  "metadata": {
+    "external_id": "NOTICE-CLOSED-541512",
+    "title": "Historical software notice",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-CLOSED-541512/view",
+    "issuer": "DEPARTMENT OF COMMERCE",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "naics": [
+      "541512"
+    ],
+    "description": "The response window has closed."
+  },
+  "opportunity_id": "opp_closed_541512",
+  "opportunity_type": "Solicitation",
+  "provenance": {
+    "content_hash": null,
+    "retrieved_at": "2026-07-21T12:00:00+00:00",
+    "source_name": "SAM.gov",
+    "source_record_id": "NOTICE-CLOSED-541512",
+    "source_url": "https://sam.gov/opp/NOTICE-CLOSED-541512/view"
+  },
+  "published_date": "2026-07-21",
+  "sectors": [
+    "541512"
+  ],
+  "source": "SAM.gov",
+  "status": "open",
+  "submission_path": "https://sam.gov/opp/NOTICE-CLOSED-541512/view",
+  "title": "Historical software notice",
+  "version": 1
+}

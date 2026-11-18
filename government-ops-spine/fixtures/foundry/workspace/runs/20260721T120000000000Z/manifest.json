@@ -1,0 +1,9 @@
+{
+  "schema_version": "universal-opportunity-run-manifest-v2",
+  "generated_at": "2026-07-21T12:00:00+00:00",
+  "artifact_count": 5,
+  "intelligence_count": 5,
+  "automatic_dispatches": 0,
+  "external_actions_executed": 0,
+  "treasury_labs_handoffs_executed": 0
+}

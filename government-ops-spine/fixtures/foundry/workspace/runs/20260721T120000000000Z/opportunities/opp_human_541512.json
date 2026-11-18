@@ -1,0 +1,80 @@
+{
+  "amount_max": null,
+  "amount_min": null,
+  "attachments": [
+    "https://sam.gov/files/statement.pdf"
+  ],
+  "currency": "USD",
+  "deadline": "2099-01-01",
+  "eligibility": [
+    "Small business"
+  ],
+  "external_id": "NOTICE-HUMAN-541512",
+  "issuer": "DEPARTMENT OF DEFENSE.DEPT OF THE NAVY.NAVAL RESEARCH LAB",
+  "jurisdiction": "United States",
+  "metadata": {
+    "external_id": "NOTICE-HUMAN-541512",
+    "title": "Cybersecurity research software prototype",
+    "source": "SAM.gov",
+    "source_url": "https://sam.gov/opp/NOTICE-HUMAN-541512/view",
+    "issuer": "DEPARTMENT OF DEFENSE.DEPT OF THE NAVY.NAVAL RESEARCH LAB",
+    "jurisdiction": "United States",
+    "type": "Solicitation",
+    "naics": [
+      "541512"
+    ],
+    "description": "The contractor shall deliver a cybersecurity software prototype. The system must demonstrate open interfaces.",
+    "set_aside": "Total Small Business Set-Aside (FAR 19.5)",
+    "psc": "D307",
+    "location": {
+      "city": "Washington",
+      "state": "DC",
+      "country": "USA",
+      "postal_code": "20375"
+    },
+    "contact": {
+      "name": "Alex Example",
+      "email": "alex.example@example.com",
+      "phone": "202-555-0100",
+      "type": "primary"
+    },
+    "attachments": [
+      "https://sam.gov/files/statement.pdf"
+    ],
+    "solicitation_number": "N00173-27-R-0001",
+    "office": "Naval Research Laboratory",
+    "sam_raw": {
+      "noticeId": "NOTICE-HUMAN-541512",
+      "title": "Cybersecurity research software prototype",
+      "uiLink": "https://sam.gov/opp/NOTICE-HUMAN-541512/view",
+      "postedDate": "2026-07-21",
+      "responseDeadLine": "2099-01-01T17:00:00-05:00",
+      "type": "Solicitation",
+      "naicsCode": "541512",
+      "classificationCode": "D307",
+      "fullParentPathName": "DEPARTMENT OF DEFENSE.DEPT OF THE NAVY.NAVAL RESEARCH LAB",
+      "resourceLinks": [
+        "https://sam.gov/files/statement.pdf"
+      ],
+      "active": "Yes"
+    }
+  },
+  "opportunity_id": "opp_human_541512",
+  "opportunity_type": "Solicitation",
+  "provenance": {
+    "content_hash": null,
+    "retrieved_at": "2026-07-21T12:00:00+00:00",
+    "source_name": "SAM.gov",
+    "source_record_id": "NOTICE-HUMAN-541512",
+    "source_url": "https://sam.gov/opp/NOTICE-HUMAN-541512/view"
+  },
+  "published_date": "2026-07-21",
+  "sectors": [
+    "541512"
+  ],
+  "source": "SAM.gov",
+  "status": "open",
+  "submission_path": "https://sam.gov/opp/NOTICE-HUMAN-541512/view",
+  "title": "Cybersecurity research software prototype",
+  "version": 1
+}
