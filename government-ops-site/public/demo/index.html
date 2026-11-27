@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sample demo — Government Ops Spine</title>
+  <meta name="description" content="Run the Government Ops Spine parser on fictional solicitation text. Nothing is stored or submitted.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="mast">
+    <a class="mark" href="/"><strong>Government Ops Spine</strong><span>Public field guide</span></a>
+    <nav aria-label="Primary">
+      <a href="/">Pipeline</a>
+      <a href="/demo/" aria-current="page">Demo</a>
+      <a href="/opportunities/">Opportunities</a>
+      <a href="/boundary/">Boundary</a>
+    </nav>
+  </header>
+  <p class="banner">Public read-only. Sample data only. No path into internal systems.</p>
+  <main id="main" class="wrap">
+    <header class="page-intro">
+      <p class="kicker">In-worker demo</p>
+      <h1>Parse a sample solicitation.</h1>
+      <p class="lede">The Worker imports <code>parseOpportunity</code>, <code>generateBuildSpecification</code>, <code>matchCapabilities</code>, and <code>createBrainPlan</code> from the spine package. Text is not written to a database. The capability rows are a fictional catalog.</p>
+    </header>
+    <div class="demo-grid">
+      <form id="demo-form" class="sheet" action="/api/demo/analyze" method="post">
+        <fieldset>
+          <legend class="kicker">Input</legend>
+          <div id="sample-choices"></div>
+        </fieldset>
+        <p><label for="solicitation">Solicitation text</label></p>
+        <textarea id="solicitation" name="text" maxlength="12000" required spellcheck="true"></textarea>
+        <p class="hint">Limit 12,000 characters. The request is rate limited. Do not paste live controlled or personal data; this is a public demo.</p>
+        <button id="demo-submit" type="submit">Extract requirements</button>
+        <p id="demo-status" role="status">Loading sample solicitations…</p>
+        <noscript><p>This demo needs JavaScript. The pipeline description on the home page works without it.</p></noscript>
+      </form>
+      <div id="demo-results" class="results" aria-live="polite">
+        <p class="empty">Results appear here after you run the extraction. They include mandatory and optional flags, a match disposition, the five-task plan, a SHA-256 of the result JSON, and the closed gate.</p>
+      </div>
+    </div>
+  </main>
+  <footer class="wrap colophon">
+    <p>This organization has no verified SAM.gov registration, UEI, CAGE code, FedRAMP authorization, ATO, certification, past performance, or named personnel on this site. The pages describe software behavior and fictional sample data.</p>
+  </footer>
+  <script src="/js/demo.js"></script>
+</body>
+</html>

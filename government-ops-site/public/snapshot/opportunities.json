@@ -1,0 +1,108 @@
+{
+  "kind": "sanitized-public-snapshot",
+  "fictional": true,
+  "snapshotId": "sample-public-snapshot-2026-11-27",
+  "publishedAt": "2026-11-27T00:00:00Z",
+  "label": "SAMPLE DATA",
+  "disclaimer": "Every record in this file is fictional sample data shipped with the public site. A separate process may replace this file with another sanitized snapshot before a deploy. This file is not a query result from an agency API, Foundry, a database, or an intake worker.",
+  "source": "static-file",
+  "readOnly": true,
+  "records": [
+    {
+      "id": "SAMPLE-WATER",
+      "title": "Water-network sensor prototype (sample)",
+      "issuer": "Northline Municipal Utilities (fictional)",
+      "jurisdiction": "Fictional US city",
+      "opportunityType": "RFP",
+      "status": "sample-open",
+      "publicationDate": "2026-10-02",
+      "deadline": "2026-12-18T17:00:00-05:00",
+      "summary": "A fictional city utility asks for a planning prototype that ingests sensor readings and documents an open interface. This text was written for the public site.",
+      "setAside": null,
+      "provenance": {
+        "system": "sample-snapshot",
+        "note": "Written for this site. Not retrieved from an agency feed, Foundry, or the spine database."
+      }
+    },
+    {
+      "id": "SAMPLE-PORT",
+      "title": "Port spare-parts schedule sources sought (sample)",
+      "issuer": "Harborline Port Authority (fictional)",
+      "jurisdiction": "Fictional US port",
+      "opportunityType": "SOURCES_SOUGHT",
+      "status": "sample-open",
+      "publicationDate": "2026-09-14",
+      "deadline": "2026-11-30T15:00:00-05:00",
+      "summary": "A fictional port authority is collecting sources for a spare-parts logistics schedule. No offer is requested by this sample row.",
+      "setAside": null,
+      "provenance": {
+        "system": "sample-snapshot",
+        "note": "Written for this site. Not retrieved from an agency feed, Foundry, or the spine database."
+      }
+    },
+    {
+      "id": "SAMPLE-BAA",
+      "title": "Coastal simulation broad agency announcement (sample)",
+      "issuer": "Fictional Maritime Research Office (fictional)",
+      "jurisdiction": "Fictional US research office",
+      "opportunityType": "BAA",
+      "status": "sample-open",
+      "publicationDate": "2026-08-20",
+      "deadline": "2027-01-15T17:00:00-05:00",
+      "summary": "A fictional research office describes a coastal simulation topic. This row is not an award and not a request to submit a proposal.",
+      "setAside": null,
+      "provenance": {
+        "system": "sample-snapshot",
+        "note": "Written for this site. Not retrieved from an agency feed, Foundry, or the spine database."
+      }
+    },
+    {
+      "id": "SAMPLE-GRANT",
+      "title": "Clinic scheduling grant notice (sample)",
+      "issuer": "Redcedar State Health Agency (fictional)",
+      "jurisdiction": "Fictional US state",
+      "opportunityType": "GRANT",
+      "status": "sample-closed",
+      "publicationDate": "2026-04-01",
+      "deadline": "2026-06-01T17:00:00-04:00",
+      "summary": "A fictional state agency describes scheduling software for rural clinics. The sample status is closed so the ledger can show a past deadline.",
+      "setAside": null,
+      "provenance": {
+        "system": "sample-snapshot",
+        "note": "Written for this site. Not retrieved from an agency feed, Foundry, or the spine database."
+      }
+    },
+    {
+      "id": "SAMPLE-FORECAST",
+      "title": "Bridge inspection forecast (sample)",
+      "issuer": "Fictional State Transportation Office (fictional)",
+      "jurisdiction": "Fictional US state",
+      "opportunityType": "FORECAST",
+      "status": "sample-open",
+      "publicationDate": "2026-11-01",
+      "deadline": null,
+      "summary": "A fictional transportation office lists a possible future inspection topic. No deadline was written into this sample.",
+      "setAside": null,
+      "provenance": {
+        "system": "sample-snapshot",
+        "note": "Written for this site. Not retrieved from an agency feed, Foundry, or the spine database."
+      }
+    },
+    {
+      "id": "SAMPLE-CANCELLED",
+      "title": "Cancelled: levee sensor pilot (sample)",
+      "issuer": "Lowland Flood District (fictional)",
+      "jurisdiction": "Fictional US district",
+      "opportunityType": "RFP",
+      "status": "sample-cancelled",
+      "publicationDate": "2026-07-07",
+      "deadline": "2026-08-15T17:00:00-05:00",
+      "summary": "This fictional notice is marked cancelled so the public ledger can show a non-active row. No cancellation was retrieved from an agency.",
+      "setAside": null,
+      "provenance": {
+        "system": "sample-snapshot",
+        "note": "Written for this site. Not retrieved from an agency feed, Foundry, or the spine database."
+      }
+    }
+  ]
+}

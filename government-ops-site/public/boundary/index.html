@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Network boundary — Government Ops Spine</title>
+  <meta name="description" content="What the public Government Ops Spine site can reach, and what it cannot.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="mast">
+    <a class="mark" href="/"><strong>Government Ops Spine</strong><span>Public field guide</span></a>
+    <nav aria-label="Primary">
+      <a href="/">Pipeline</a>
+      <a href="/demo/">Demo</a>
+      <a href="/opportunities/">Opportunities</a>
+      <a href="/boundary/" aria-current="page">Boundary</a>
+    </nav>
+  </header>
+  <p class="banner">Public read-only. Sample data only. No path into internal systems.</p>
+  <main id="main" class="wrap">
+    <header class="page-intro">
+      <p class="kicker">Isolation</p>
+      <h1>One public Worker. No internal route.</h1>
+      <p class="lede">A browser talks only to this Worker. The Worker serves its own static files, validates the sample snapshot bundled with those files, and runs the spine’s pure parsing functions in process. It has no binding and no HTTPS client path to the systems below.</p>
+    </header>
+    <table class="boundary-table">
+      <thead>
+        <tr><th>System</th><th>From this site</th><th>Why</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>This Worker and its static assets</td><td>Allowed</td><td>HTML, CSS, JavaScript, and the sample snapshot live in the asset bundle.</td></tr>
+        <tr><td>Spine parser functions</td><td>In process</td><td><code>pipeline.ts</code> is bundled at deploy time. The running spine server is not called.</td></tr>
+        <tr><td>Postgres and the spine HTTP server</td><td class="no">No route</td><td>No database URL, no Hyperdrive, no request to the spine port.</td></tr>
+        <tr><td>SAM.gov public extract and Grants.gov</td><td class="no">No route</td><td>Described for the intake stage. This Worker does not fetch agency feeds.</td></tr>
+        <tr><td>Foundry and the edge intake worker</td><td class="no">No route</td><td>No service binding and no private bucket. Intake storage stays private.</td></tr>
+        <tr><td>Submission, outbox, and email tooling</td><td class="no">No route</td><td>No send endpoint, no mailbox form, and the authorization gate is called with no token.</td></tr>
+      </tbody>
+    </table>
+    <h2>Response headers</h2>
+    <p>Every response sets a Content-Security-Policy that allows scripts, styles, images, fonts, and fetches only from this origin. Form navigation and framing are disabled. HTTPS responses also send Strict-Transport-Security and upgrade insecure requests. Other headers: <code>X-Content-Type-Options: nosniff</code>, <code>Referrer-Policy: no-referrer</code>, <code>X-Frame-Options: DENY</code>, same-origin opener and resource policies, and a locked-down Permissions-Policy.</p>
+    <h2>Demo rate limit</h2>
+    <p><code>POST /api/demo/analyze</code> allows 20 requests per 60 seconds for a client address, counted again inside each isolate and by the Worker rate-limit binding for each Cloudflare location. The platform limit is approximate. If the binding errors, the demo fails closed instead of running anyway. Other routes are read-only.</p>
+    <h2>What a snapshot update is</h2>
+    <p>Replace <code>public/snapshot/opportunities.json</code> with another file that passes the same validator, then deploy a new asset bundle. Do not add a binding that reads the spine database, Foundry’s ledger, or the intake worker’s private storage. The validator rejects email-like values, identifier assignments, and contact fields.</p>
+    <p>The public Foundry source is at <a href="https://github.com/eaglecrat/Foundry" rel="noreferrer">github.com/eaglecrat/Foundry</a>. Following that link is a normal browser navigation. This Worker does not fetch it.</p>
+  </main>
+  <footer class="wrap colophon">
+    <p>This organization has no verified SAM.gov registration, UEI, CAGE code, FedRAMP authorization, ATO, certification, past performance, or named personnel on this site. The pages describe software behavior and fictional sample data.</p>
+  </footer>
+</body>
+</html>

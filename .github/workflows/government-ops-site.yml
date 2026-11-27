@@ -1,0 +1,57 @@
+name: Government Ops Site CI
+
+on:
+  push:
+    paths:
+      - 'government-ops-site/**'
+      - 'government-ops-spine/src/pipeline.ts'
+      - 'government-ops-spine/src/types.ts'
+      - 'government-ops-spine/src/zones.ts'
+      - '.github/workflows/government-ops-site.yml'
+  pull_request:
+    paths:
+      - 'government-ops-site/**'
+      - 'government-ops-spine/src/pipeline.ts'
+      - 'government-ops-spine/src/types.ts'
+      - 'government-ops-spine/src/zones.ts'
+      - '.github/workflows/government-ops-site.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: government-ops-site-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: government-ops-site
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: government-ops-site/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check generated Worker types
+        run: npx wrangler types --check
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Bundle without deploying
+        run: npm run deploy:dry-run

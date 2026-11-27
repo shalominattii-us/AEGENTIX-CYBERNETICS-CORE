@@ -1,0 +1,46 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "government-ops-site",
+  // Public explainer only. Do not add KV, R2, D1, Hyperdrive, service bindings,
+  // routes, or secrets. Those would open a path this site is not allowed to have.
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-27",
+  // The bundled spine helper reads process.env.EXECUTION_ZONES and otherwise
+  // uses the default zone list. This worker does not set that variable.
+  "compatibility_flags": ["nodejs_compat"],
+  "upload_source_maps": true,
+  "workers_dev": true,
+  "preview_urls": true,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    },
+    "traces": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "vars": {
+    "SITE_MODE": "public-read-only"
+  },
+  "ratelimits": [
+    {
+      "name": "DEMO_RATE_LIMITER",
+      // Identifier defined by this config. Not a database, bucket, or API key.
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 20,
+        "period": 60
+      }
+    }
+  ],
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": true
+  }
+}

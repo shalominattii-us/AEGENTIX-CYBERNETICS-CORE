@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sample opportunities — Government Ops Spine</title>
+  <meta name="description" content="A fictional, read-only opportunity snapshot shipped as a static JSON file.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="mast">
+    <a class="mark" href="/"><strong>Government Ops Spine</strong><span>Public field guide</span></a>
+    <nav aria-label="Primary">
+      <a href="/">Pipeline</a>
+      <a href="/demo/">Demo</a>
+      <a href="/opportunities/" aria-current="page">Opportunities</a>
+      <a href="/boundary/">Boundary</a>
+    </nav>
+  </header>
+  <p class="banner">Public read-only. Sample data only. No path into internal systems.</p>
+  <main id="main" class="wrap">
+    <header class="page-intro">
+      <p class="kicker">Static snapshot</p>
+      <h1>Sample opportunity ledger.</h1>
+      <p class="lede">These rows are fictional and ship in <a href="/snapshot/opportunities.json">snapshot/opportunities.json</a>. The Worker validates that file and returns it. It does not query SAM.gov, Grants.gov, Foundry, Postgres, or the intake worker. A separate publishing process can replace the file before a later deploy; this Worker will still only read the file in its own asset bundle.</p>
+      <p id="opportunity-status" role="status">Loading the sample snapshot…</p>
+    </header>
+    <div class="filters">
+      <label>Search sample rows
+        <input id="opportunity-search" type="search" placeholder="Title, issuer, or summary">
+      </label>
+      <label>Type
+        <select id="opportunity-type">
+          <option value="">All types</option>
+        </select>
+      </label>
+    </div>
+    <p id="opportunity-count" class="hint"></p>
+    <div class="ledger">
+      <ul id="opportunity-list" class="ledger-list" aria-label="Sample opportunities"></ul>
+      <article id="opportunity-detail" class="detail" aria-live="polite">
+        <p class="empty">Select a sample row. Without JavaScript, open the raw snapshot file linked above.</p>
+      </article>
+    </div>
+  </main>
+  <footer class="wrap colophon">
+    <p>This organization has no verified SAM.gov registration, UEI, CAGE code, FedRAMP authorization, ATO, certification, past performance, or named personnel on this site. The pages describe software behavior and fictional sample data.</p>
+  </footer>
+  <script src="/js/opportunities.js"></script>
+</body>
+</html>
