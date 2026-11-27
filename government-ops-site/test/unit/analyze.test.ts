@@ -57,6 +57,12 @@ describe("demo analysis", () => {
     expect(result.plan.tasks).toHaveLength(5);
   });
 
+  it("uses solicitation wording as the specification objective", async () => {
+    const result = await analyzeDemo({ sampleId: "water" });
+    expect(result.specification.objective).toContain("Northline Municipal Utilities");
+    expect(result.specification.objective).not.toBe("Fictional sample wrapped for the public demo parser.");
+  });
+
   it("does not import storage, mail, or agency clients", () => {
     const banned = [/from\s+["']pg["']/, /postgres/i, /api\.sam\.gov/i, /googleapis/i, /nodemailer/i, /DATABASE_URL/, /\b8099\b/, /child_process/, /gmail/i, /hyperdrive/i];
     for (const file of readdirSync(path.join(root, "src"))) {

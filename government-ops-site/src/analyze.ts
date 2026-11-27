@@ -128,7 +128,9 @@ export function demoOpportunity(input: {
     deadline: input.deadline,
     eligibility: [],
     requiredRegistrations: [],
-    summary: "Fictional sample wrapped for the public demo parser.",
+    // The spine copies summary into missionProblem and specification.objective.
+    // Use the visitor's solicitation wording here; rawText still carries the full text.
+    summary: summaryFromText(input.text),
     rawText: input.text,
     provenance: [
       {
@@ -157,6 +159,12 @@ function closedGate(): DemoAnalysis["gate"] {
 function firstLine(text: string): string {
   const line = text.split(/\n+/).map((part) => part.trim()).find(Boolean);
   return line && line.length >= 12 ? line.slice(0, 180) : "Pasted sample solicitation";
+}
+
+function summaryFromText(text: string): string {
+  const compact = text.replace(/\s+/g, " ").trim();
+  if (!compact) return "Fictional sample wrapped for the public demo parser.";
+  return compact.slice(0, 240);
 }
 
 export async function sha256Hex(value: string): Promise<string> {

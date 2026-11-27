@@ -67,6 +67,19 @@ describe("public routes", () => {
     expect(bridge.calls).toEqual([]);
   });
 
+  it("accepts a near-limit solicitation body without a false 413", async () => {
+    const text = `${"The contractor shall deliver software. ".repeat(300)}End.`;
+    expect(text.length).toBeLessThanOrEqual(12_000);
+    const response = await route(new Request("https://example.test/api/demo/analyze", {
+      method: "POST",
+      headers: { "content-type": "application/json", "cf-connecting-ip": "203.0.113.40" },
+      body: JSON.stringify({ text }),
+    }), deps());
+    expect(response.status).toBe(200);
+    const body = await response.json();
+    expect(body.specification.objective.length).toBeGreaterThan(20);
+  });
+
   it("rejects an empty demo body and an oversized body", async () => {
     const empty = await route(new Request("https://example.test/api/demo/analyze", {
       method: "POST",

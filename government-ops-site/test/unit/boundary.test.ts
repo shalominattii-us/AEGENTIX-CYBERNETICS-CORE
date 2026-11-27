@@ -66,4 +66,10 @@ describe("public boundary", () => {
     expect(home).toContain("does not depend on a SAM.gov API key");
     expect(home).not.toMatch(/requires an API key/i);
   });
+
+  it("rejects markup in snapshot strings", () => {
+    const snapshot = JSON.parse(readFileSync(path.join(root, "public/snapshot/opportunities.json"), "utf8"));
+    snapshot.records[0].summary = "Hello <script>alert(1)</script>";
+    expect(() => validateSnapshot(snapshot)).toThrow(/Markup-like/);
+  });
 });

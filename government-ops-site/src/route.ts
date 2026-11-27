@@ -90,11 +90,7 @@ async function dispatchApi(request: Request, deps: SiteDeps, path: string): Prom
 
 async function analyze(request: Request, deps: SiteDeps): Promise<Response> {
   const key = clientKey(request);
-  if (!allowDemoRequest(key, deps.now())) {
-    throw new HttpError(429, { error: "Too many demo requests from this network. Wait and try again." }, {
-      "retry-after": String(Math.ceil(DEMO_WINDOW_MS / 1000)),
-    });
-  }
+  // Durable limit first (Cloudflare rate-limit binding). In-isolate Map is a soft extra gate.
   let allowed = false;
   try {
     allowed = await deps.limitDemo(key);
@@ -105,7 +101,7 @@ async function analyze(request: Request, deps: SiteDeps): Promise<Response> {
     }));
     throw new HttpError(503, { error: "The demo is temporarily unavailable." });
   }
-  if (!allowed) {
+  if (!allowed || !allowDemoRequest(key, deps.now())) {
     throw new HttpError(429, { error: "Too many demo requests from this network. Wait and try again." }, {
       "retry-after": String(Math.ceil(DEMO_WINDOW_MS / 1000)),
     });
@@ -148,7 +144,9 @@ async function readBoundedBody(request: Request): Promise<string> {
     throw new HttpError(413, { error: "Demo request body is too large." });
   }
   const raw = await request.text();
-  if (raw.length > MAX_BODY_BYTES) throw new HttpError(413, { error: "Demo request body is too large." });
+  if (new TextEncoder().encode(raw).byteLength > MAX_BODY_BYTES) {
+    throw new HttpError(413, { error: "Demo request body is too large." });
+  }
   return raw;
 }
 

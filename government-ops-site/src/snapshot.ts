@@ -118,7 +118,14 @@ function validateRecord(value: unknown, seen: Set<string>): PublicSnapshotRecord
 function stringField(record: Record<string, unknown>, key: string): string {
   const value = record[key];
   if (typeof value !== "string" || !value.trim() || value.length > 2000) throw new Error(`Snapshot field ${key} is invalid.`);
-  return value.trim();
+  const trimmed = value.trim();
+  assertPlainText(trimmed, key);
+  return trimmed;
+}
+
+function assertPlainText(value: string, path: string): void {
+  // Snapshot fields are plain prose. Reject markup so a mistaken file cannot ship HTML.
+  if (/[<>`]|javascript:|on\w+=/i.test(value)) throw new Error(`Markup-like snapshot value at ${path}`);
 }
 
 function walk(value: unknown, path: string): void {
@@ -137,6 +144,7 @@ function walk(value: unknown, path: string): void {
   if (typeof value === "string") {
     if (EMAIL.test(value)) throw new Error(`Email-like snapshot value at ${path}`);
     if (IDENTIFIER_ASSIGNMENT.test(value)) throw new Error(`Identifier-like snapshot value at ${path}`);
+    assertPlainText(value, path);
   }
 }
 

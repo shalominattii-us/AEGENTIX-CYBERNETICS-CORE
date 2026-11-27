@@ -25,6 +25,8 @@ export function json(request: Request, status: number, body: unknown, extra?: Re
 }
 
 export function clientKey(request: Request): string {
+  // Cloudflare sets CF-Connecting-IP. Do not trust X-Forwarded-For from clients.
+  // Missing header shares the "unknown" bucket, which is stricter than inventing keys.
   const value = request.headers.get("CF-Connecting-IP") ?? "";
   if (/^[0-9A-Fa-f:.]{3,64}$/.test(value)) return `ip:${value}`;
   return "ip:unknown";
