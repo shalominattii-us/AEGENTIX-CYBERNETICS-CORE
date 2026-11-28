@@ -63,6 +63,27 @@ describe("demo analysis", () => {
     expect(result.specification.objective).not.toBe("Fictional sample wrapped for the public demo parser.");
   });
 
+  it("does not duplicate requirements that already appear in rawText", async () => {
+    const text = DEMO_SAMPLES[0].text;
+    const opportunity = demoOpportunity({
+      externalId: "SAMPLE-WATER",
+      title: "Water-network sensor prototype (sample)",
+      opportunityType: "RFP",
+      deadline: "2026-12-18T17:00:00-05:00",
+      text,
+    });
+    expect(opportunity.summary).not.toMatch(/\b(must|shall|required)\b/i);
+    const result = await analyzeDemo({ sampleId: "water" });
+    const statements = result.analysis.requirements.map((item) => item.statement);
+    expect(new Set(statements).size).toBe(statements.length);
+    const rawOnly = runInternalPipeline(
+      { ...opportunity, summary: "Northline Municipal Utilities is asking for a planning prototype." },
+      SAMPLE_CAPABILITIES,
+    );
+    expect(result.analysis.requirements).toEqual(rawOnly.analysis.requirements);
+    expect(result.matches).toEqual(rawOnly.matches);
+  });
+
   it("does not import storage, mail, or agency clients", () => {
     const banned = [/from\s+["']pg["']/, /postgres/i, /api\.sam\.gov/i, /googleapis/i, /nodemailer/i, /DATABASE_URL/, /\b8099\b/, /child_process/, /gmail/i, /hyperdrive/i];
     for (const file of readdirSync(path.join(root, "src"))) {

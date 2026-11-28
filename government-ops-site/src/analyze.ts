@@ -161,10 +161,29 @@ function firstLine(text: string): string {
   return line && line.length >= 12 ? line.slice(0, 180) : "Pasted sample solicitation";
 }
 
+// Spine parseOpportunity joins summary + rawText before extracting shall/must
+// lines. Keep summary free of those triggers so the same sentence is not
+// counted twice when rawText already carries the full solicitation.
+const SUMMARY_REQUIREMENT_HINT =
+  /\b(must|shall|required|requires|minimum|maximum|eligible|deliver|demonstrat|comply|capable)\b/i;
+
 function summaryFromText(text: string): string {
   const compact = text.replace(/\s+/g, " ").trim();
   if (!compact) return "Fictional sample wrapped for the public demo parser.";
-  return compact.slice(0, 240);
+  const sentences = compact
+    .split(/(?<=[.!?])\s+/)
+    .map((part) => part.trim())
+    .filter((part) => part.length >= 12);
+  const preferred = sentences.filter((part) => !SUMMARY_REQUIREMENT_HINT.test(part));
+  const pool = preferred.length > 0 ? preferred : sentences;
+  let summary = "";
+  for (const part of pool) {
+    const next = summary ? `${summary} ${part}` : part;
+    if (next.length > 240) break;
+    summary = next;
+  }
+  if (!summary) return compact.slice(0, 240);
+  return summary.slice(0, 240);
 }
 
 export async function sha256Hex(value: string): Promise<string> {
