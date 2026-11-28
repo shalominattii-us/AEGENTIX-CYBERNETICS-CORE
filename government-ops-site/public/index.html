@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Government Ops Spine — public field guide</title>
+  <meta name="description" content="A public read-only guide to the Government Ops Spine pipeline, with a sample demo and a fictional opportunity snapshot.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="mast">
+    <a class="mark" href="/"><strong>Government Ops Spine</strong><span>Public field guide</span></a>
+    <nav aria-label="Primary">
+      <a href="/" aria-current="page">Pipeline</a>
+      <a href="/demo/">Demo</a>
+      <a href="/opportunities/">Opportunities</a>
+      <a href="/boundary/">Boundary</a>
+    </nav>
+  </header>
+  <p class="banner">Public read-only. Sample data only. No path into internal systems.</p>
+  <main id="main" class="wrap">
+    <section class="hero">
+      <div>
+        <p class="kicker">Package government-ops-spine</p>
+        <h1>From a solicitation sentence to a closed gate.</h1>
+        <p class="lede">This site explains the internal pipeline that turns a public opportunity record into a draft specification, a capability match, and a five-task plan. The demo runs the spine’s own parsing and matching functions on sample text. It cannot file, send, or look anything up.</p>
+        <div class="hero-actions">
+          <a class="button" href="/demo/">Run the sample demo</a>
+          <a class="button button-quiet" href="/opportunities/">Browse the sample snapshot</a>
+        </div>
+      </div>
+      <p class="stamp">Sample data<br>External actions blocked</p>
+    </section>
+
+    <section class="explorer" aria-labelledby="explorer-title">
+      <div>
+        <h2 id="explorer-title">Stage explorer</h2>
+        <p>Select a stage. Copy matches the code in <code>government-ops-spine</code> and the companion Foundry intake path. “Described only” means this site does not call that system.</p>
+        <div class="rail" role="tablist" aria-label="Pipeline stages">
+          <button type="button" role="tab" id="tab-intake" data-stage="intake" aria-controls="panel-intake" aria-selected="true">
+            <span class="num">01</span><span>Intake</span><small>Described only</small>
+          </button>
+          <button type="button" role="tab" id="tab-extract" data-stage="extract" aria-controls="panel-extract" aria-selected="false" tabindex="-1">
+            <span class="num">02</span><span>Requirements</span><small>Runs on sample text</small>
+          </button>
+          <button type="button" role="tab" id="tab-specification" data-stage="specification" aria-controls="panel-specification" aria-selected="false" tabindex="-1">
+            <span class="num">03</span><span>Specification</span><small>Runs on sample text</small>
+          </button>
+          <button type="button" role="tab" id="tab-match" data-stage="match" aria-controls="panel-match" aria-selected="false" tabindex="-1">
+            <span class="num">04</span><span>Capability match</span><small>Sample catalog</small>
+          </button>
+          <button type="button" role="tab" id="tab-plan" data-stage="plan" aria-controls="panel-plan" aria-selected="false" tabindex="-1">
+            <span class="num">05</span><span>Plan</span><small>TASK-001 to 005</small>
+          </button>
+          <button type="button" role="tab" id="tab-render" data-stage="render" aria-controls="panel-render" aria-selected="false" tabindex="-1">
+            <span class="num">06</span><span>Rendering</span><small>Hash illustrated</small>
+          </button>
+          <button type="button" role="tab" id="tab-gate" data-stage="gate" aria-controls="panel-gate" aria-selected="false" tabindex="-1">
+            <span class="num">07</span><span>Hard gate</span><small>Always closed here</small>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <article id="panel-intake" role="tabpanel" data-panel="intake" aria-labelledby="tab-intake">
+          <p class="chip chip-off">Described only</p>
+          <h2>Public opportunity intake</h2>
+          <p>Live intake does not depend on a SAM.gov API key. The edge intake worker pulls SAM.gov’s public Contract Opportunities CSV extract (<code>pullSamPublicExtract</code> in <code>government-ops-spine/src/edge/public-extract.ts</code>) and reads Grants.gov for grant notices. Foundry remains the companion opportunity-intelligence and execution platform. A SAM.gov Opportunities API key is optional and is not required for that public-extract path.</p>
+          <p>When a record reaches the spine, <code>OpportunityIntakeService</code> checks schema <code>1.0.0</code>, compacts text, sorts provenance, and SHA-256 hashes a canonical JSON form that ignores retrieval timestamps. The repository classifies the write as created, unchanged, amended, or cancelled. An unchanged hash does not start a new revision. Active new or changed records can be analyzed inside the spine process, which stores them in Postgres.</p>
+          <p>None of that storage is reachable from these pages. The opportunities view reads a static sample file that ships with this site.</p>
+        </article>
+
+        <article id="panel-extract" role="tabpanel" data-panel="extract" aria-labelledby="tab-extract" hidden>
+          <p class="chip chip-live">Runs on sample text</p>
+          <h2>Requirement extraction</h2>
+          <p><code>parseOpportunity</code> joins the summary and raw text, then splits on sentence boundaries and newlines. Fragments shorter than 24 characters are dropped. A sentence is kept when it contains must, shall, required, requires, minimum, maximum, eligible, deliver, demonstrat, comply, or capable.</p>
+          <p>It is marked mandatory when it contains must, shall, required, minimum, or maximum. Otherwise it is optional. Category is the first matching rule: security, compliance, validation, delivery, interface, data-rights, performance, otherwise functional.</p>
+          <p>Standards lines mention ISO, NIST, FAR, DFARS, NDAA, ASTM, IEEE, OSHA, standard, or regulation. Confidence starts at 0.45, adds 0.04 per extracted requirement, subtracts 0.15 when review is required, and is clamped between 0.20 and 0.95. Review is required when any provenance authority is not <code>official</code>, or when no requirements were extracted. This is a keyword heuristic, not a language model. The demo marks its own wrapper as aggregator provenance, so review is required.</p>
+        </article>
+
+        <article id="panel-specification" role="tabpanel" data-panel="specification" aria-labelledby="tab-specification" hidden>
+          <p class="chip chip-live">Runs on sample text</p>
+          <h2>Build specification</h2>
+          <p><code>generateBuildSpecification</code> copies the mission summary into the objective and sets <code>approvalState</code> to <code>draft</code>. This site cannot move that state to technical review or authorized.</p>
+          <p>Components come from fit tags, plus one component name per mandatory requirement. Interfaces are the statements categorized as interface. Tests are the validation statements, plus an acceptance test named for each mandatory requirement. The evidence list is fixed: a requirements traceability matrix, architecture and interface documentation, a test plan and test results, compliance evidence, and a configuration and provenance manifest.</p>
+          <p>Execution zones are the active list from <code>zones.ts</code> unless the spine process sets <code>EXECUTION_ZONES</code>. This Worker does not set that variable, so the default list is used: KERNEL, TREASURY, AI, SECURITY, XR, DATA, CLOUD, GOVERNMENT_OPS, PLATFORM, MONITORING.</p>
+        </article>
+
+        <article id="panel-match" role="tabpanel" data-panel="match" aria-labelledby="tab-match" hidden>
+          <p class="chip chip-live">Runs on the sample catalog</p>
+          <h2>Capability matching</h2>
+          <p><code>matchCapabilities</code> tokenizes each requirement into lowercase tokens of length 4 or more. A capability’s score is how many of its tags appear in those tokens, divided by its tag count. The highest score wins. At least 0.70 is <code>reuse</code>, at least 0.35 is <code>adapt</code>, and anything lower is <code>build</code>.</p>
+          <p>The TypeScript union also allows <code>partner</code>. This function does not return it. A zero score says a build or partner analysis is required, and the disposition is still <code>build</code>.</p>
+          <p>The catalog in the demo is fictional and exists only to exercise that function. It is not the spine’s GitHub, Docker, or filesystem index, and it is not a record of delivery.</p>
+        </article>
+
+        <article id="panel-plan" role="tabpanel" data-panel="plan" aria-labelledby="tab-plan" hidden>
+          <p class="chip chip-live">Runs on sample text</p>
+          <h2>Plan</h2>
+          <p><code>createBrainPlan</code> always emits five tasks, and <code>externalActionsBlocked</code> is always true:</p>
+          <ul>
+            <li>TASK-001 research, no dependencies</li>
+            <li>TASK-002 design, depends on TASK-001</li>
+            <li>TASK-003 software, depends on TASK-002</li>
+            <li>TASK-004 simulation, depends on TASK-003</li>
+            <li>TASK-005 documentation, depends on TASK-004</li>
+          </ul>
+          <p>Each task takes an execution zone by index from the active list. With the default list, those zones are KERNEL, TREASURY, AI, SECURITY, and XR. This site does not set <code>EXECUTION_ZONES</code>.</p>
+        </article>
+
+        <article id="panel-render" role="tabpanel" data-panel="render" aria-labelledby="tab-render" hidden>
+          <p class="chip chip-off">Described only · hash illustrated</p>
+          <h2>Controlled PDF and DOCX rendering</h2>
+          <p><code>ControlledDocumentRenderer</code> loads an engineering artifact from Postgres, draws a PDF with pdf-lib or a DOCX with the docx package, and SHA-256 hashes the file bytes. The stored package sets <code>externalActionBlocked</code> to true. Its release state is <code>release_candidate</code> only when the artifact’s approval state is already <code>technical_review</code>. Otherwise it is <code>internal_review</code>.</p>
+          <p>This site does not render PDF or DOCX files and does not open Postgres. The demo hashes the JSON of the analysis, specification, matches, and plan with SHA-256, using the same algorithm on a different subject. That digest is not a document export.</p>
+        </article>
+
+        <article id="panel-gate" role="tabpanel" data-panel="gate" aria-labelledby="tab-gate" hidden>
+          <p class="chip chip-shut">Runs here, always closed</p>
+          <h2>Hard gate</h2>
+          <p><code>assertExternalActionAuthorized</code> throws unless a token starts with <code>AEGENTIX-AUTH-</code>. The checked actions are <code>submit_offer</code>, <code>file_patent</code>, <code>commit_funds</code>, and <code>external_representation</code>. The demo calls the function with no token and shows the error. This site has no token field. A token sent by a client is ignored and is not stored.</p>
+          <p>Foundry’s current submission transport is local and simulated. It does not send email, call a portal, or submit to an external API. The spine’s correspondence approval stores only a SHA-256 of a token and does not expose a send endpoint. None of those paths are mounted on this Worker.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="facts" aria-label="What this site will and will not do">
+      <article>
+        <h2>Runs here</h2>
+        <p>Requirement parsing, the draft specification, matching against the sample catalog, the five-task plan, a SHA-256 of that JSON, and the authorization check with no token.</p>
+      </article>
+      <article>
+        <h2>Described only</h2>
+        <p>SAM.gov public extract, Grants.gov, Foundry, the edge intake worker, Postgres, and the PDF and DOCX renderer.</p>
+      </article>
+      <article>
+        <h2>Refused</h2>
+        <p>Submissions, email, filings, funding commitments, external representations, admin pages, and any credential form.</p>
+      </article>
+    </section>
+  </main>
+  <footer class="wrap colophon">
+    <p>This organization has no verified SAM.gov registration, UEI, CAGE code, FedRAMP authorization, ATO, certification, past performance, or named personnel on this site. The pages describe software behavior and fictional sample data.</p>
+    <p>Worker <code>government-ops-site</code>. Parser imported from <code>government-ops-spine/src/pipeline.ts</code>.</p>
+  </footer>
+  <script src="/js/explorer.js"></script>
+</body>
+</html>
