@@ -1,0 +1,26 @@
+{
+  "name": "government-ops-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Public read-only explainer and sample demo for the Government Ops Spine. No database and no path into internal systems.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "test": "vitest run --config vitest.unit.config.ts && vitest run --config vitest.worker.config.ts",
+    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:worker": "vitest run --config vitest.worker.config.ts",
+    "typecheck": "tsc --noEmit",
+    "types": "wrangler types",
+    "deploy:dry-run": "wrangler deploy --dry-run --outdir dist"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-plugin": "1.10.0",
+    "@types/node": "22.20.7",
+    "typescript": "5.9.3",
+    "vitest": "4.1.12",
+    "wrangler": "4.169.0"
+  },
+  "overrides": {
+    "vitest": "4.1.12"
+  }
+}
